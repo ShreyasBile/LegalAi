@@ -16,7 +16,7 @@ Real and tested:
 - Case-law catalogue and search over **19,319,963** records (Supreme Court 38,366; High Courts 19,281,597), loaded from the
   public AWS Open Data archive. Exact lookup by CNR, neutral citation and S.C.R. citation; full-text and typo-tolerant search;
   PDF links to the archive (no PDFs are stored).
-- The eCourts service's architecture and its **80 tests**.
+- The eCourts service's architecture and its **83 tests**.
 - All research code and results in `paper/`.
 
 **Sample or simulated, not real:**
@@ -119,7 +119,8 @@ Not included (too large, rebuilt by the scripts above): the downloaded text, the
 
 - Default credentials: the eCourts service falls back to demo API keys (`demo-key-firm-a`, `demo-admin-key`) and the workspace
   ships a demo key in the browser. Change them before exposing anything beyond localhost.
-- All three Node servers listen on `127.0.0.1` only. Set `HOST=0.0.0.0` to share one on your network, and then change the keys.
+- All three Node servers listen on `127.0.0.1` only. Set `HOST=0.0.0.0` to share one on your network. The eCourts service then refuses to
+  start while it still accepts a published demo key (set `API_KEYS` and `ADMIN_KEY`); the other two have no keys, so do not expose them.
 - The archive's `year` for a Supreme Court judgment is its law-report year, so 5,179 of 38,366 differ from the decision year. A search
   restricted to the Supreme Court filters by decision date and shows the decision year; a search over all courts still filters on
   `year` (an OR across the two rules defeats the index and takes minutes on 19 M rows), so Supreme Court rows can be off by one year at

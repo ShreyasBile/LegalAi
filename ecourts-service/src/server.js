@@ -1,5 +1,5 @@
 import { createServer } from 'node:http';
-import { config } from './config.js';
+import { config, exposureProblem } from './config.js';
 import { logger } from './logger.js';
 import { createSource } from './sources/index.js';
 import { TtlCache } from './cache.js';
@@ -19,6 +19,8 @@ export function buildServer(overrides = {}) {
 /* Start only when run directly (not when imported by tests). */
 const isMain = process.argv[1] && import.meta.url === new URL(`file://${process.argv[1].replace(/\\/g, '/')}`).href;
 if (isMain) {
+  const problem = exposureProblem(config);
+  if (problem) { logger.alert(problem); process.exit(1); }
   const { server, source } = buildServer();
 
   // Startup self-check: fail fast & loud if the source can't parse a known case.

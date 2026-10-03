@@ -45,6 +45,18 @@ function parseApiKeys(raw) {
   return map;
 }
 
+/* The keys that ship in the README, .env.example and the sample workspace. */
+const DEMO_KEYS = new Set(['demo-key-firm-a', 'demo-key-firm-b', 'demo-admin-key']);
+const LOOPBACK_HOSTS = new Set(['127.0.0.1', '::1', 'localhost']);
+
+/* Returns a message when the service would listen beyond this machine while still accepting a published demo key, else null. */
+export function exposureProblem(cfg) {
+  if (LOOPBACK_HOSTS.has(cfg.host)) return null;
+  const demo = [...cfg.apiKeys.keys(), cfg.adminKey].filter(k => DEMO_KEYS.has(k));
+  if (!demo.length) return null;
+  return `refusing to listen on ${cfg.host} with the published demo key(s) ${[...new Set(demo)].join(', ')}: set API_KEYS and ADMIN_KEY, or leave HOST at 127.0.0.1`;
+}
+
 export const config = {
   root,
   port: num(process.env.PORT, 8080),
