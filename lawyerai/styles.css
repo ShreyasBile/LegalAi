@@ -172,6 +172,8 @@ p{margin:0}
 .chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:20px}
 .chip-navy{background:var(--bg-2);color:var(--ink-soft)}
 .chip-teal{background:var(--teal-pale);color:var(--teal-ink)}
+.demo-badge{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--amber-pale,#fdf0d5);color:var(--amber-ink,#7a4b00);white-space:nowrap}
+@media (max-width:640px){.demo-badge{display:none}}
 .chip-amber{background:var(--amber-pale);color:var(--amber-ink)}
 .chip-red{background:var(--red-pale);color:var(--red-ink)}
 .chip-violet{background:var(--violet-pale);color:var(--violet)}

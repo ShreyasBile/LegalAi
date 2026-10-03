@@ -581,6 +581,7 @@ function shell({ activeKey, crumb, content, flush, matterCtx, matterTab, pageCla
           : `<svg class="ic"><use href="#i-chevron"/></svg><span>${esc(crumb)}</span>`}</div>
         <button class="topbar-search" id="openCmdk"><svg class="ic"><use href="#i-research"/></svg><span>Search or jump to anything…</span><kbd>⌘K</kbd></button>
         <div class="top-actions">
+          <span class="demo-badge" title="Sample data. Nothing here is sent to a court, a client or a model.">Demo · sample data</span>
           <button class="icon-btn has-dot" data-action="open-reminders" aria-label="Notifications"><svg class="ic"><use href="#i-bell"/></svg><i></i></button>
         </div>
       </header>
@@ -1035,7 +1036,7 @@ function composer() {
         <button class="composer-send" id="askSend" type="submit" aria-label="Send"><svg class="ic"><use href="#i-send"/></svg></button>
       </div>
     </form>
-    <p class="ask-disclaimer">LegalAI cites its sources but can make mistakes. Verify before relying on any answer.</p>
+    <p class="ask-disclaimer">Demo: these answers are scripted examples, not model output. Verify any real answer before relying on it.</p>
   </div>`;
 }
 
@@ -1416,7 +1417,7 @@ function tabStatus(m) {
       <div class="settings-row" style="margin-top:14px"><div class="settings-copy"><strong>Bench</strong><small>${esc(e.bench)}</small></div></div>
       <a class="btn btn-ghost btn-block" style="margin-top:10px" href="#/calendar/${e.nextDate}"><svg class="ic"><use href="#i-calendar"/></svg>View on calendar</a>
       <button class="btn btn-teal btn-block" style="margin-top:10px" data-action="sync-case" data-matter="${m.id}"><svg class="ic"><use href="#i-sync"/></svg>Re-sync now</button>
-      <p class="hint" style="margin-top:10px;font-size:11px">${e.live ? 'Synced live from the eCourts service' + (e.syncedAt ? ' · ' + esc(e.syncedAt) : '') + '.' : 'Showing last-known data — hit Re-sync to fetch live from eCourts.'}</p>
+      <p class="hint" style="margin-top:10px;font-size:11px">${e.live ? 'Synced live from the eCourts service' + (e.syncedAt ? ' · ' + esc(e.syncedAt) : '') + '.' : e.sample ? 'Sample record from the eCourts service’s fixture source, not live court data.' : 'Built-in sample data — hit Re-sync to ask the eCourts service.'}</p>
     </div>
   </div>`;
 }
@@ -1516,7 +1517,7 @@ function pageCalendar(dateParam) {
   return `
   <div class="cal-head">
     <h1>Calendar</h1>
-    <div class="cal-sync-note"><svg class="ic"><use href="#i-refresh"/></svg>Cause lists last synced 6 min ago · 3 courts monitored</div>
+    <div class="cal-sync-note"><svg class="ic"><use href="#i-refresh"/></svg>Sample cause lists · demo data, not synced from any court</div>
   </div>
   <div id="calWrap">${calendarBody()}</div>`;
 }
@@ -1826,7 +1827,7 @@ function adaptServiceRecord(r) {
     bench: s.courtAndJudge || '—',
     status: s.disposed ? 'Disposed' : (s.nextHearingDateIso ? 'Listed' : 'Pending'),
     orders: (r.orders || []).map(o => ({ date: o.dateIso || o.date, text: o.details || '' })),
-    live: true, syncedAt: 'Just now'
+    live: r.meta?.source === 'live', sample: r.meta?.source === 'fixture', syncedAt: 'Just now'
   };
 }
 
@@ -1857,7 +1858,7 @@ async function syncCaseStatusFromService(matterId) {
   if (r.status === 'offline') { showToast('eCourts service offline — showing last-known data.'); return 'offline'; }
   ECOURTS[matterId] = { ...existing, ...adaptServiceRecord(r.data) };
   if (location.hash.includes('/status') || location.hash.startsWith('#/ecourts')) route();
-  showToast(`Synced live from eCourts · ${cnr}`);
+  showToast(r.data.meta?.source === 'live' ? `Synced live from eCourts · ${cnr}` : `Synced from the eCourts service (sample data) · ${cnr}`);
   return 'ok';
 }
 
@@ -2546,9 +2547,9 @@ function pageReminders() {
   const rem = buildReminders();
   const next = rem[0];
   return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Court &amp; clients</p><h1>Reminders</h1><p class="lede">Automatic WhatsApp reminders for hearings and deadlines — for you and your clients. Nothing goes out that isn’t scheduled here.</p></div><button class="btn btn-primary" data-action="new-reminder"><svg class="ic"><use href="#i-plus"/></svg>New reminder</button></div>
+  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Court &amp; clients</p><h1>Reminders</h1><p class="lede">Planned WhatsApp reminders for hearings and deadlines, for you and your clients. This is a demo: no message is ever sent.</p></div><button class="btn btn-primary" data-action="new-reminder"><svg class="ic"><use href="#i-plus"/></svg>New reminder</button></div>
 
-  <div class="wa-banner section"><div class="wa-banner-icon"><svg class="ic"><use href="#i-whatsapp"/></svg></div><div class="wa-banner-copy"><strong>WhatsApp Business connected</strong><small>Kamat &amp; Partners · +91 22••• ••00 · verified sender</small></div><span class="chip chip-teal">Active</span></div>
+  <div class="wa-banner section"><div class="wa-banner-icon"><svg class="ic"><use href="#i-whatsapp"/></svg></div><div class="wa-banner-copy"><strong>WhatsApp reminders (demo)</strong><small>Nothing is connected or sent. This page shows what the reminders would look like.</small></div><span class="chip chip-amber">Demo</span></div>
 
   <div class="dash-grid">
     <div class="card card-pad">
@@ -2572,7 +2573,7 @@ function pageReminders() {
 }
 
 function bindReminders() {
-  $$('[data-action="send-test"]').forEach(b => b.addEventListener('click', () => showToast('Test reminder sent to your WhatsApp.')));
+  $$('[data-action="send-test"]').forEach(b => b.addEventListener('click', () => showToast('Demo only: no WhatsApp message was sent.')));
   $$('[data-action="new-reminder"]').forEach(b => b.addEventListener('click', () => showToast('Custom reminder scheduling opens here.')));
 }
 
