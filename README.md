@@ -106,9 +106,11 @@ The verifier, search protocol, reference answers and retrieval code are frozen w
 
 [`paper/experiment/graph/edges.jsonl`](paper/experiment/graph/edges.jsonl): one line per resolved citation
 (`src` cites `dst`, how it was resolved, which kind of citation). 153,382 lines give 109,370 distinct links.
-**Limitation:** `src` and `dst` are row ids of the author's PostgreSQL table, not stable identifiers, so they map to
-judgments only if you load the data yourself in the same order. A table mapping ids to citations and PDF paths is not
-included yet.
+`src` and `dst` are row ids of the author's PostgreSQL table, so on their own they mean nothing.
+[`paper/experiment/graph/node_ids.csv.gz`](paper/experiment/graph/node_ids.csv.gz) maps every Supreme Court row id (38,366 rows, 29,498 of
+them in the graph) to the archive's record id and CNR, the neutral citation, the S.C.R. citation, the title, the decision date and
+the PDF path in the AWS bucket `s3://indian-supreme-court-judgments/`. Joining the two files reproduces the paper's most cited judgments
+(*Maneka Gandhi*, 261 citing judgments). Regenerate it with `python graph/export_ids.py` (needs the database).
 
 Not included (too large, rebuilt by the scripts above): the downloaded text, the headnote embeddings, and
 `graph/units.jsonl` (every resolved and unresolved citation, 51 MB).
