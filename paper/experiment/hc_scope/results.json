@@ -1,0 +1,14 @@
+{
+  "note": "Values printed by hc_size.py, hc_fields.py and hc_snip.py (seeded samples, HEAD requests only) on 2026-09-30; see RESULTS.md.",
+  "high_court_records_with_link": 19281597,
+  "pdf_size_sample_n": 300,
+  "pdf_size_mean_kb": 86,
+  "pdf_size_median_kb": 53,
+  "estimated_total_pdf_tb": 1.67,
+  "estimated_total_pdf_tb_low": 1.34,
+  "estimated_total_pdf_tb_high": 2.00,
+  "metadata_sample_n": 5592,
+  "citation_field_nonempty": 0,
+  "neutral_citation_field_nonempty": 0,
+  "snippet_max_chars": 150
+}

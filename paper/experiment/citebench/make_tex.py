@@ -300,6 +300,21 @@ def graph_retrieval_macros(M, S, main_models):
     M["GraphAgreePct"], M["GraphAgreeN"] = pct(a, n), num(n)
     a, n = gs["name_precision"]
     M["GraphNamePrecPct"], M["GraphNamePrecN"], M["GraphNamePrecOK"] = pct(a, n), num(n), num(a)
+    # strict split of that check, straight from units.jsonl: the name reaches the SAME record as the number, a DIFFERENT record
+    # with matching parties (e.g. another order of the same case), or a record with different parties
+    same = loose = wrong = 0
+    for l in (ROOT / "graph" / "units.jsonl").read_text(encoding="utf-8").splitlines():
+        u = json.loads(l)
+        if u.get("num") and u.get("by_name") is not None:
+            if u["by_name"] in u["num"]:
+                same += 1
+            elif u["agree"]:
+                loose += 1
+            else:
+                wrong += 1
+    assert same + loose == a and same + loose + wrong == n, (same, loose, wrong, a, n)      # consistent with stats.json
+    M["GraphNameSamePct"], M["GraphNameLoosePct"], M["GraphNameWrongPct"] = pct(same, n), pct(loose, n), pct(wrong, n)
+    M["GraphNameSameN"] = num(same)
     v, n = gs["violations"]["all"]
     M["GraphLater"], M["GraphLaterPct"] = num(v), pct(v, n, 2)
     for tier in ("exact", "parallel", "name"):
@@ -316,6 +331,15 @@ def graph_retrieval_macros(M, S, main_models):
     for k, (word, (title, year, n)) in enumerate(zip(expect, top[:5])):
         assert word in title.upper(), (word, title)
         M[f"GraphTop{['One', 'Two', 'Three', 'Four', 'Five'][k]}N"] = num(n)
+    hc_f = ROOT / "hc_scope" / "results.json"
+    if hc_f.exists():
+        hc = json.loads(hc_f.read_text(encoding="utf-8"))
+        M["HCRecords"] = num(hc["high_court_records_with_link"])
+        M["HCMeanKB"], M["HCSampleN"] = str(hc["pdf_size_mean_kb"]), num(hc["pdf_size_sample_n"])
+        M["HCTotalTB"] = f"{hc['estimated_total_pdf_tb']:.1f}"
+        M["HCTotalTBLow"], M["HCTotalTBHigh"] = f"{hc['estimated_total_pdf_tb_low']:.1f}", f"{hc['estimated_total_pdf_tb_high']:.1f}"
+        M["HCMetaN"] = num(hc["metadata_sample_n"])
+        assert hc["citation_field_nonempty"] == 0 and hc["neutral_citation_field_nonempty"] == 0     # the text says "no citation numbers"
     chk_f = ROOT / "graph" / "check_labels.json"
     if chk_f.exists():
         chk = json.loads(chk_f.read_text(encoding="utf-8"))["labels"]
@@ -454,6 +478,32 @@ def graph_retrieval_macros(M, S, main_models):
             p = min(1.0, 2 * sum(math.comb(n_d, i) for i in range(k_d + 1)) / 2 ** n_d) if n_d else 1.0
             M[f"Pair{tag}Lost"], M[f"Pair{tag}Gained"] = str(lost), str(gained)
             M[f"Pair{tag}P"] = f"{p:.3f}" if p >= 0.001 else "$<$0.001"
+        # the four models answer the SAME 40 questions, so model-question pairs are not independent: also test per question
+        # (each question's number of models naming a deciding judgment, compared between two conditions; exact sign test)
+        def per_q(suffix):
+            out = {}
+            for m in have:
+                f = RES / f"scored_{m.replace(':', '_')}{suffix}.jsonl"
+                for r in map(json.loads, f.read_text(encoding="utf-8").splitlines()):
+                    if r["task"] == "T4":
+                        out[r["key"]] = out.get(r["key"], 0) + bool(any(c["reference_id"] for c in r["cases"]))
+            return out
+        pq = {"Closed": per_q(""), "Name": per_q("_search"), "Topic": per_q("_retrieval"), "TopicPrior": per_q("_retrievalprior")}
+        for tag, (a_, b_) in {"ClosedTopicPrior": ("Closed", "TopicPrior"), "TopicTopicPrior": ("Topic", "TopicPrior"), "ClosedName": ("Closed", "Name")}.items():
+            up = sum(1 for k in pq[a_] if pq[b_][k] > pq[a_][k])
+            down = sum(1 for k in pq[a_] if pq[b_][k] < pq[a_][k])
+            n_d, k_d = up + down, min(up, down)
+            p = min(1.0, 2 * sum(math.comb(n_d, i) for i in range(k_d + 1)) / 2 ** n_d) if n_d else 1.0
+            M[f"Sign{tag}Better"], M[f"Sign{tag}Worse"] = str(up), str(down)
+            M[f"Sign{tag}P"] = f"{p:.3f}" if p >= 0.001 else "$<$0.001"
+            M[f"Sign{tag}N"] = str(len(pq[a_]))
+        # how many topic-search answers were cut off by Ollama's repetition limit (counted as empty lists)
+        ab = 0
+        for m in have:
+            for suffix in ("_retrieval", "_retrievalprior"):
+                f = RES / f"{m.replace(':', '_')}{suffix}.jsonl"
+                ab += sum(1 for r in map(json.loads, f.read_text(encoding="utf-8").splitlines()) if r.get("done_reason") == "aborted_repetition")
+        M["TopicAborted"] = str(ab)
         for c, T in zip([c for c, _ in conds], ("Closed", "Feedback", "Name", "Topic", "TopicPrior")):
             M[f"RefAll{T}"], M[f"NFAll{T}"], M[f"VerAll{T}"] = str(tot[c][0]), str(tot[c][1]), str(tot[c][2])
             M[f"CasesAll{T}"] = str(tot[c][3])
