@@ -1,5 +1,10 @@
 # Keep line endings identical on every machine: the frozen SHA-256 hashes in paper/experiment/data/ are computed on LF files.
 * text=auto eol=lf
+# These three files carry Windows (CRLF) line endings and their recorded hashes were computed on exactly those bytes,
+# so Git must store and check them out unchanged.
+paper/experiment/citebench/verifier.py -text
+paper/experiment/retrieval/engine.py -text
+paper/experiment/retrieval/results_recommend.json -text
 *.pdf binary
 *.png binary
 *.jpg binary
