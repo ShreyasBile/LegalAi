@@ -11,7 +11,7 @@ export const CASE_INDEX = [
     state: 'Maharashtra', district: 'Mumbai', courtComplex: 'Bombay High Court', status: 'pending',
     petitioners: [{ name: 'Rohan Sharma', advocate: 'S. Kamat' }],
     respondents: [{ name: 'State of Maharashtra', advocate: 'Public Prosecutor' }],
-    acts: ['Section 438, Code of Criminal Procedure, 1973'],
+    acts: ['Section 482, Bharatiya Nagarik Suraksha Sanhita, 2023'],
     fir: { number: '211/2026', year: 2026, policeStation: 'Andheri Police Station' }
   },
   {

@@ -78,6 +78,19 @@ export function classifyQuery(raw) {
   return { kind: 'text', value: t };
 }
 
+/* Year filter. The `year` column of a High Court row is its decision year, so High Court and all-court searches keep the
+   plain predicate that the (court, year, date) and (year, date) indexes serve. For the Supreme Court it is the law-report
+   year: 5,179 of its 38,366 judgments (mostly December decisions reported the next year) differ from their decision year,
+   so a Supreme Court search filters by decision date. A search over all courts keeps the plain predicate too: a rule that
+   treats the Supreme Court differently there is an OR across two ranges, which defeats the year index (a 19M-row scan,
+   minutes), so Supreme Court rows can be off by one year at the edges of an all-court year range. */
+function yearConditions(p, add) {
+  const { yearFrom: a, yearTo: b } = p;
+  if (p.court === 'SC') return [a != null && `cl.decision_date >= ${add(`${a}-01-01`)}::date`,
+                                b != null && `cl.decision_date < ${add(`${b + 1}-01-01`)}::date`].filter(Boolean);
+  return [a != null && `cl.year >= ${add(a)}`, b != null && `cl.year <= ${add(b)}`].filter(Boolean);
+}
+
 /* ── build the search SQL. Returns the page query and a capped-count query. ── */
 const SELECT = `
   cl.id, cl.source, cl.source_id, cl.court_code, c.name as court_name, cl.year, cl.decision_date,
@@ -102,8 +115,7 @@ export function buildSearch(p) {
   const exact = ['cnr', 'neutral', 'citation'].includes(kind.kind);
   if (!exact) {
     if (p.court) where.push(`cl.court_code = ${add(p.court)}`);
-    if (p.yearFrom != null) where.push(`cl.year >= ${add(p.yearFrom)}`);
-    if (p.yearTo != null) where.push(`cl.year <= ${add(p.yearTo)}`);
+    where.push(...yearConditions(p, add));
     if (p.caseType) where.push(`cl.case_type = ${add(p.caseType)}`);
     if (p.outcome) where.push(`cl.disposal_nature = ${add(p.outcome)}`);
   }
@@ -113,8 +125,9 @@ export function buildSearch(p) {
   if (sort === 'relevance' && !tsq) sort = 'newest';
   // With a year filter, order by (year, date): that is the order of the (court, year, date) and
   // (year, date) indexes, so "Bombay 2019-2021, newest first" starts at 2021 instead of wading
-  // through 2022-2026 first. year is the decision year, so the visible order is the same.
-  const hasYear = !exact && (p.yearFrom != null || p.yearTo != null);
+  // through 2022-2026 first. That year is the decision year for High Courts, so the visible order is the same;
+  // a Supreme Court-only search orders by date alone because its `year` is the report year.
+  const hasYear = !exact && p.court !== 'SC' && (p.yearFrom != null || p.yearTo != null);
   const NEWEST = hasYear ? 'cl.year desc, cl.decision_date desc nulls last, cl.id desc' : 'cl.decision_date desc nulls last, cl.id desc';
   const OLDEST = hasYear ? 'cl.year asc, cl.decision_date asc nulls first, cl.id asc' : 'cl.decision_date asc nulls last, cl.id asc';
   const order = {
@@ -158,8 +171,7 @@ export function buildFuzzy(q, pageSize = PAGE_SIZE_DEFAULT, p = {}) {
   const add = v => { values.push(v); return `$${values.length}`; };
   // the user's filters still apply: "similar names" must not leak in from other courts / years
   if (p.court) where.push(`cl.court_code = ${add(p.court)}`);
-  if (p.yearFrom != null) where.push(`cl.year >= ${add(p.yearFrom)}`);
-  if (p.yearTo != null) where.push(`cl.year <= ${add(p.yearTo)}`);
+  where.push(...yearConditions(p, add));
   if (p.caseType) where.push(`cl.case_type = ${add(p.caseType)}`);
   if (p.outcome) where.push(`cl.disposal_nature = ${add(p.outcome)}`);
   return {
@@ -206,7 +218,7 @@ export function groupOrders(rows, pageSize) {
       source: r.source,
       courtCode: r.court_code,
       courtName: r.court_name,
-      year: r.year,
+      year: r.court_code === 'SC' && r.decision_date ? Number(isoDate(r.decision_date).slice(0, 4)) : r.year,     // SC rows: decision year, not report year
       title: r.title,
       caseNumber: r.case_number || null,
       caseType: r.case_type || null,

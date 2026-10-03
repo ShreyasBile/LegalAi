@@ -215,3 +215,26 @@ test('groupOrders tolerates a missing date and a missing pdf ref', () => {
 test('groupOrders cleans judges on the card', () => {
   assert.equal(groupOrders([row({ judges: "HON'BLE MR. JUSTICE ABC DEF" })], 20)[0].judges, 'Abc Def');
 });
+
+/* ── Supreme Court year filter: its `year` is the law-report year, so filter by decision date ── */
+test('buildSearch: a Supreme Court year range filters by decision date, not the report year', () => {
+  const s = buildSearch(normalizeParams(sp({ court: 'SC', yearFrom: '2020', yearTo: '2021' })));
+  assert.deepEqual(s.countValues, ['SC', '2020-01-01', '2022-01-01']);
+  assert.match(s.pageSql, /cl\.court_code = \$1 and cl\.decision_date >= \$2::date and cl\.decision_date < \$3::date/);
+  assert.doesNotMatch(s.pageSql, /cl\.year [<>]=/);
+  // ordered by date alone: for these rows (year, date) would sort by the report year
+  assert.match(s.pageSql, /order by cl\.decision_date desc nulls last, cl\.id desc limit/);
+});
+test('buildSearch: a one-sided Supreme Court year range adds one bound', () => {
+  assert.deepEqual(buildSearch(normalizeParams(sp({ court: 'SC', yearFrom: '2020' }))).countValues, ['SC', '2020-01-01']);
+  assert.deepEqual(buildSearch(normalizeParams(sp({ court: 'SC', yearTo: '2020' }))).countValues, ['SC', '2021-01-01']);
+});
+test('buildFuzzy: the Supreme Court year filter uses decision dates there too', () => {
+  const f = buildFuzzy('dowri', 20, normalizeParams(sp({ q: 'dowri', court: 'SC', yearFrom: '2020' })));
+  assert.match(f.sql, /cl\.court_code = \$3 and cl\.decision_date >= \$4::date/);
+});
+test('groupOrders: a Supreme Court card shows the decision year, not the report year', () => {
+  const sc = row({ source: 'aws-sc', court_code: 'SC', year: 2021, decision_date: new Date('2020-12-17'), pdf_ref: 'data/pdf/year=2021/english/x_EN.pdf' });
+  assert.equal(groupOrders([sc], 20)[0].year, 2020);
+  assert.equal(groupOrders([row({ year: 2019, decision_date: new Date('2019-01-01') })], 20)[0].year, 2019);   // High Courts unchanged
+});

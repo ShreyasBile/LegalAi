@@ -120,8 +120,12 @@ Not included (too large, rebuilt by the scripts above): the downloaded text, the
 - Default credentials: the eCourts service falls back to demo API keys (`demo-key-firm-a`, `demo-admin-key`) and the workspace
   ships a demo key in the browser. Change them before exposing anything beyond localhost.
 - All three Node servers listen on `127.0.0.1` only. Set `HOST=0.0.0.0` to share one on your network, and then change the keys.
-- Supreme Court year filters use the law-report year, so 5,179 judgments appear under the wrong year.
-- The demo anticipatory-bail matter cites CrPC s.438; that law was replaced by BNSS s.482 in July 2024.
+- The archive's `year` for a Supreme Court judgment is its law-report year, so 5,179 of 38,366 differ from the decision year. A search
+  restricted to the Supreme Court filters by decision date and shows the decision year; a search over all courts still filters on
+  `year` (an OR across the two rules defeats the index and takes minutes on 19 M rows), so Supreme Court rows can be off by one year at
+  the edges of a year range there.
+- The workspace is a demo with a fixed "today" (`TODAY_ISO` in `lawyerai/app.js`, 11 September 2026) so that its sample hearings and deadlines stay
+  consistent. The anticipatory-bail matter now cites BNSS s.482 (formerly CrPC s.438), as the sample FIR is from 2026.
 
 ## Data and licence
 

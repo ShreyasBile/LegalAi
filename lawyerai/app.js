@@ -33,13 +33,13 @@ const MATTERS = [
     tags: ['Economic offence', 'Bail', 'High priority'],
     facts: {
       objective: 'Secure interim protection for the applicant and place the documented cooperation record before the court.',
-      relief: 'Anticipatory bail under Section 438, Code of Criminal Procedure, 1973.',
+      relief: 'Anticipatory bail under Section 482, Bharatiya Nagarik Suraksha Sanhita, 2023 (formerly Section 438, CrPC).',
       issue: 'Whether custodial interrogation is necessary given the applicant’s complete cooperation and the commercial (not violent) nature of the alleged offence.'
     },
     authorities: [
       { key: 'sushila', title: 'Sushila Aggarwal v. State (NCT of Delhi)', meta: '2020 · 5 SCC 1 · Supreme Court' },
       { key: 'siddharam', title: 'Siddharam Satlingappa Mhetre v. State of Maharashtra', meta: '2011 · 1 SCC 694 · Supreme Court' },
-      { key: 's438', title: 'Section 438, Code of Criminal Procedure, 1973', meta: 'Statute · Bare Act' }
+      { key: 's438', title: 'Section 482, Bharatiya Nagarik Suraksha Sanhita, 2023 (formerly CrPC s.438)', meta: 'Statute · Bare Act' }
     ],
     arguments: [
       { point: 'The applicant has cooperated at every stage of the investigation.', support: 'Supported by the cooperation email chain and two recorded statements before the investigating officer.', strength: 84,
@@ -231,7 +231,7 @@ const AUDIT_LOG = [
   { time: '10 Sep · 17:03', agent: 'Evidence Agent', action: 'Flagged an 11-day timeline inconsistency between FIR and bank record.', matter: 'Sharma v. State', status: 'warn',
     trace: ['Cross-referenced dates mentioned in the FIR against the bank transaction summary.', 'Found the FIR’s alleged first-contact date is 11 days after the transaction it describes.', 'Flagged this as a potential inconsistency rather than resolving it automatically.', 'Surfaced the flag on the Evidence tab for the lawyer to assess.'] },
   { time: '10 Sep · 14:20', agent: 'Shreyas A. (lawyer)', action: 'Approved research findings for use in drafting.', matter: 'Sharma v. State', status: 'approve' },
-  { time: '10 Sep · 11:47', agent: 'Research Agent', action: 'Retrieved 14 judgments and 2 statutes for Section 438 query; self-assessed as sufficient.', matter: 'Sharma v. State', status: 'ok',
+  { time: '10 Sep · 11:47', agent: 'Research Agent', action: 'Retrieved 14 judgments and 2 statutes for Section 482 BNSS query; self-assessed as sufficient.', matter: 'Sharma v. State', status: 'ok',
     trace: ['Classified the query as anticipatory bail · criminal law.', 'Ran dense retrieval over the vector store and traversed the knowledge graph.', 'Retrieved 14 judgments and 2 statutes; checked coverage against the query.', 'Self-assessed retrieval as sufficient and stopped iterating.'] },
   { time: '09 Sep · 16:05', agent: 'Intake Agent', action: 'Structured client narrative into facts, parties and relief sought.', matter: 'Sharma v. State', status: 'ok' }
 ];
@@ -244,7 +244,7 @@ const GRAPH_INTERPRETS = [
 
 const KNOWLEDGE = {
   statutes: [
-    { key: 's438', title: 'Section 438 — Code of Criminal Procedure, 1973', body: 'Direction for grant of bail to person apprehending arrest.', used: 6 },
+    { key: 's438', title: 'Section 482 — Bharatiya Nagarik Suraksha Sanhita, 2023 (formerly CrPC s.438)', body: 'Direction for grant of bail to person apprehending arrest.', used: 6 },
     { key: 's55', title: 'Section 55 — Indian Contract Act, 1872', body: 'Effect of failure to perform at fixed time, in contract in which time is essential.', used: 2 },
     { key: 's25f', title: 'Section 25-F — Industrial Disputes Act, 1947', body: 'Conditions precedent to retrenchment of workmen.', used: 1 },
     { key: 'art113', title: 'Article 113 — Limitation Act, 1963', body: 'Limitation period for suits with no specific provision: three years.', used: 1 }
@@ -351,16 +351,16 @@ const CLIENTS = {
    ------------------------------------------------------------------------- */
 const CONVERSATIONS = [
   {
-    id: 'c1', title: 'Anticipatory bail — Section 438 considerations', matterId: 'm1', updated: '18 min ago',
+    id: 'c1', title: 'Anticipatory bail — Section 482 BNSS considerations', matterId: 'm1', updated: '18 min ago',
     messages: [
-      { role: 'user', text: 'What are the key considerations for anticipatory bail under Section 438 in a case alleging breach of trust?' },
+      { role: 'user', text: 'What are the key considerations for anticipatory bail under Section 482 BNSS (formerly Section 438 CrPC) in a case alleging breach of trust?' },
       {
         role: 'ai',
-        text: 'Section 438 asks the court to balance personal liberty against the needs of the investigation.<p>Courts weigh the nature and gravity of the allegation, the applicant’s prior conduct, the likelihood of cooperation, and whether custodial interrogation is genuinely necessary <cite>1</cite><cite>2</cite>. In economic-offence matters such as this one, a clear, documented record of cooperation and a focused, point-by-point response to the FIR are especially persuasive <cite>3</cite>.</p>',
+        text: 'Section 482 BNSS (formerly Section 438 CrPC) asks the court to balance personal liberty against the needs of the investigation.<p>Courts weigh the nature and gravity of the allegation, the applicant’s prior conduct, the likelihood of cooperation, and whether custodial interrogation is genuinely necessary <cite>1</cite><cite>2</cite>. In economic-offence matters such as this one, a clear, documented record of cooperation and a focused, point-by-point response to the FIR are especially persuasive <cite>3</cite>.</p>',
         citations: [
           { n: 1, title: 'Sushila Aggarwal v. State (NCT of Delhi)', meta: '2020 · 5 SCC 1 · Supreme Court' },
           { n: 2, title: 'Siddharam Satlingappa Mhetre v. State of Maharashtra', meta: '2011 · 1 SCC 694 · Supreme Court' },
-          { n: 3, title: 'Section 438, Code of Criminal Procedure, 1973', meta: 'Statute · Bare Act' }
+          { n: 3, title: 'Section 482, Bharatiya Nagarik Suraksha Sanhita, 2023 (formerly CrPC s.438)', meta: 'Statute · Bare Act' }
         ]
       }
     ]
@@ -398,9 +398,9 @@ const CONVERSATIONS = [
 function generateResponse(text, matter) {
   const t = text.toLowerCase();
   const who = matter ? matter.title : 'your query';
-  if (/bail|438|custody|arrest/.test(t)) {
+  if (/bail|438|482|custody|arrest/.test(t)) {
     return {
-      text: 'Courts assessing anticipatory bail weigh four factors together.<p>The nature and gravity of the accusation, the applicant’s antecedents, the likelihood of the applicant fleeing, and whether the accusation appears intended to injure or humiliate <cite>1</cite>. The Supreme Court has clarified that protection under Section 438 need not be time-limited and can continue until the end of trial, absent special circumstances <cite>2</cite>.</p>',
+      text: 'Courts assessing anticipatory bail weigh four factors together.<p>The nature and gravity of the accusation, the applicant’s antecedents, the likelihood of the applicant fleeing, and whether the accusation appears intended to injure or humiliate <cite>1</cite>. The Supreme Court has clarified that protection under the former Section 438 CrPC, now Section 482 BNSS, need not be time-limited and can continue until the end of trial, absent special circumstances <cite>2</cite>.</p>',
       citations: [
         { n: 1, title: 'Siddharam Satlingappa Mhetre v. State of Maharashtra', meta: '2011 · 1 SCC 694 · Supreme Court' },
         { n: 2, title: 'Sushila Aggarwal v. State (NCT of Delhi)', meta: '2020 · 5 SCC 1 · Supreme Court' }
@@ -920,7 +920,7 @@ function askMainHtml(convo, basePath) {
 }
 
 const ASK_PROMPT_CARDS = `
-  <button class="prompt-card" data-action="use-prompt" data-prompt="What are the key considerations for anticipatory bail under Section 438?"><svg class="ic"><use href="#i-scale"/></svg><strong>Research a legal question</strong><small>Get a cited answer from statutes &amp; precedent</small></button>
+  <button class="prompt-card" data-action="use-prompt" data-prompt="What are the key considerations for anticipatory bail under Section 482 BNSS?"><svg class="ic"><use href="#i-scale"/></svg><strong>Research a legal question</strong><small>Get a cited answer from statutes &amp; precedent</small></button>
   <button class="prompt-card" data-action="use-prompt" data-prompt="Summarise the FIR and flag anything unusual."><svg class="ic"><use href="#i-docs"/></svg><strong>Summarise a document</strong><small>Pull the key facts out of a filing</small></button>
   <button class="prompt-card" data-action="use-prompt" data-prompt="Draft a reply to the legal notice we received."><svg class="ic"><use href="#i-draft"/></svg><strong>Draft a first version</strong><small>Court-format drafts, citing verified sources</small></button>
   <button class="prompt-card" data-action="use-prompt" data-prompt="What is the limitation period for a suit with no specific limitation clause?"><svg class="ic"><use href="#i-clock"/></svg><strong>Check a deadline</strong><small>Limitation periods &amp; procedural timelines</small></button>`;
