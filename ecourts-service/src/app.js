@@ -123,7 +123,11 @@ export function createApp({ config, source, cache, usage }) {
     if (path === '/api/search') return handleSearch(req, res, url);
 
     const caseMatch = path.match(/^\/api\/case-status\/([^/]+)$/);
-    if (caseMatch) return handleCaseStatus(req, res, decodeURIComponent(caseMatch[1]));
+    if (caseMatch) {
+      let cnr;
+      try { cnr = decodeURIComponent(caseMatch[1]); } catch { return sendJson(res, 400, { error: 'bad url' }); }   // e.g. /%E0%A4
+      return handleCaseStatus(req, res, cnr);
+    }
 
     if (path === '/admin/usage') {
       const admin = authenticateAdmin(req, config);

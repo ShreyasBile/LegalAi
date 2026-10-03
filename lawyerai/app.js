@@ -221,7 +221,7 @@ function to24h(t) {
   if (m[3].toUpperCase() === 'PM') h += 12;
   return `${pad2(h)}:${m[2]}`;
 }
-function fmtDate(iso, short = false) { const d = parseISODateStr(iso); return d.toLocaleDateString('en-IN', { day: 'numeric', month: short ? 'short' : 'long', year: 'numeric' }); }
+function fmtDate(iso, short = false) { if (!iso) return '—'; const d = parseISODateStr(iso); return d.toLocaleDateString('en-IN', { day: 'numeric', month: short ? 'short' : 'long', year: 'numeric' }); }
 
 const AUDIT_LOG = [
   { time: '11 Sep · 09:42', agent: 'Review & Critique Agent', action: 'Re-verified 18 citations in anticipatory bail draft against the knowledge graph — 0 unresolved.', matter: 'Sharma v. State', status: 'ok',
@@ -2618,7 +2618,7 @@ function pageSettings() {
    Page-level binder dispatch
    ------------------------------------------------------------------------- */
 function bindPage(key, parts, query) {
-  $$('[data-action="open-new-matter"]').forEach(b => b.addEventListener('click', () => { resetIntake(); openModal('#matterModal'); }));
+  $$('[data-action="open-new-matter"]').forEach(b => b.addEventListener('click', () => { resetIntake(); refreshIntake(); openModal('#matterModal'); }));
   $$('[data-action="toggle-switch"]').forEach(b => b.addEventListener('click', () => { b.classList.toggle('on'); showToast(b.classList.contains('on') ? 'Setting enabled.' : 'Setting disabled.'); }));
   $$('[data-action="toggle-audit"]').forEach(b => b.addEventListener('click', () => {
     const trace = $(`#auditTrace${b.dataset.idx}`), chevron = $(`#auditChevron${b.dataset.idx}`);

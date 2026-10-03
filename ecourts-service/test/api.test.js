@@ -127,3 +127,11 @@ test('CORS preflight is answered', async () => {
   assert.equal(res.status, 204);
   assert.equal(res.headers.get('access-control-allow-origin'), '*');
 });
+
+test('a malformed percent-escape in the URL returns 400 and does not crash the server', async () => {
+  const r = await srv.get('/api/case-status/%E0%A4');
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'bad url');
+  const alive = await srv.get('/health');           // the process is still serving requests
+  assert.equal(alive.status, 200);
+});

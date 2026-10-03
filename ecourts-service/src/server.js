@@ -26,7 +26,7 @@ if (isMain) {
     .then(() => logger.info('source self-check passed', { source: source.name }))
     .catch(err => logger.alert('source self-check FAILED at startup', { source: source.name, err: err.message }));
 
-  server.listen(config.port, () => {
+  server.listen(config.port, config.host, () => {
     logger.info('ecourts-service listening', { port: config.port, source: config.source, tenants: [...config.apiKeys.values()].map(v => v.tenant) });
   });
 

@@ -10,6 +10,7 @@ import {
 pg.types.setTypeParser(pg.types.builtins.DATE, v => v);
 
 const PORT = Number(process.env.PORT || 8090);
+const HOST = process.env.HOST || '127.0.0.1';       // this machine only; set HOST=0.0.0.0 to expose the API on your network
 // No password in the source: set PGPASSWORD (node-postgres reads it), or override the whole DSN with CASELAW_DB.
 const DSN = process.env.CASELAW_DB || 'postgres://postgres@localhost:5433/caselaw';
 const SEARCH_TIMEOUT_MS = Number(process.env.SEARCH_TIMEOUT_MS || 10000);
@@ -180,7 +181,7 @@ export function createApp() {
 const isMain = process.argv[1] && import.meta.url === new URL(`file://${process.argv[1].replace(/\\/g, '/')}`).href;
 if (isMain) {
   const server = createApp();
-  server.listen(PORT, () => log('info', 'caselaw-api listening', { port: PORT }));
+  server.listen(PORT, HOST, () => log('info', 'caselaw-api listening', { host: HOST, port: PORT }));
   loadFacets().catch(e => log('error', 'facets init failed', { err: e.message }));
   const stop = sig => { log('info', 'shutting down', { sig }); server.close(() => pool.end().then(() => process.exit(0))); setTimeout(() => process.exit(0), 3000).unref(); };
   process.on('SIGINT', () => stop('SIGINT')); process.on('SIGTERM', () => stop('SIGTERM'));

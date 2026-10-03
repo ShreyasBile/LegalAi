@@ -16,7 +16,7 @@ Real and tested:
 - Case-law catalogue and search over **19,319,963** records (Supreme Court 38,366; High Courts 19,281,597), loaded from the
   public AWS Open Data archive. Exact lookup by CNR, neutral citation and S.C.R. citation; full-text and typo-tolerant search;
   PDF links to the archive (no PDFs are stored).
-- The eCourts service's architecture and its **79 tests**.
+- The eCourts service's architecture and its **80 tests**.
 - All research code and results in `paper/`.
 
 **Sample or simulated, not real:**
@@ -117,9 +117,8 @@ Not included (too large, rebuilt by the scripts above): the downloaded text, the
 
 - Default credentials: the eCourts service falls back to demo API keys (`demo-key-firm-a`, `demo-admin-key`) and the workspace
   ships a demo key in the browser. Change them before exposing anything beyond localhost.
-- A malformed URL (for example `/%E0%A4`) crashes `ecourts-service` and `lawyerai/server.mjs`.
+- All three Node servers listen on `127.0.0.1` only. Set `HOST=0.0.0.0` to share one on your network, and then change the keys.
 - Supreme Court year filters use the law-report year, so 5,179 judgments appear under the wrong year.
-- The eCourts page fails on a case with no next-hearing date, and reopening "New matter" shows the previous answers.
 - The demo anticipatory-bail matter cites CrPC s.438; that law was replaced by BNSS s.482 in July 2024.
 
 ## Data and licence

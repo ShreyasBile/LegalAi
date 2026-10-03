@@ -48,6 +48,7 @@ function parseApiKeys(raw) {
 export const config = {
   root,
   port: num(process.env.PORT, 8080),
+  host: process.env.HOST || '127.0.0.1',            // this machine only; set HOST=0.0.0.0 to expose the service on your network
   logLevel: process.env.LOG_LEVEL || 'info',
   source: process.env.ECOURTS_SOURCE || 'fixture',
   apiKeys: parseApiKeys(process.env.API_KEYS || 'demo-key-firm-a:Kamat & Partners'),

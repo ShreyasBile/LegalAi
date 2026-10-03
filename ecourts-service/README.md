@@ -52,7 +52,7 @@ Response codes: `200` found · `404` valid CNR but no record · `400` malformed 
 ## Testing
 
 ```bash
-npm test           # 45 unit + end-to-end tests (node:test, no deps)
+npm test           # 80 unit + end-to-end tests (node:test, no deps)
 npm run smoke      # human-readable end-to-end walkthrough over real HTTP
 npm run drift-check# CI tripwire: fail if a real-case fixture stops parsing
 ```
