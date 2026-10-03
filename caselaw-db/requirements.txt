@@ -1,0 +1,4 @@
+# Only the loader scripts (load_metadata.py, repair_mobile_rows.py, resolve_mobile_pdfs.py) are Python.
+# The API (api/server.js) needs only `npm install` (it depends on pg).
+pyarrow==22.0.0
+psycopg2-binary==2.9.13

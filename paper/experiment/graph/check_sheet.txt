@@ -1,0 +1,500 @@
+#1 [NAME_EDGE] citing 27569 (2007-03-07) M/S. WYAWAHARE & SONS AND ORS. versus MADHUKAR RAGHUNATH BHAVE
+   context: ...pa/, [2004] 10 SCC 676, Smt. Ram Sakhi Devi v. Chhatra Devi & Ors., JT (2005) 6 SC 167, Sasikumar & Ors. v. Kunnath Che/lappan Nair & Ors., (2005] 12 SCC 588, Gian Dass v. The Gram Panchayat Village Sunner Kalan & Ors., (2006] 6 SCC 27
+   extracted name: Gian Dass v. The Gram Panchayat Village Sunner Kalan & Ors | citation (2006] 6 SCC 27 (2006)
+   resolved to: 26163 GIAN DASS versus THE GRAM PANCHAYAT, VILLAGE SUNNER KALAN AND ORS. (2006-07-21, [2006] SUPP. 3 S.C.R. 781)
+
+#2 [NAME_EDGE] citing 16718 (1994-07-22) ORGANON (INDIA) LTD. (NOW KNOWN AS INFER (INDIA) LTD.) AND ANR. versus
+   context: ...ied under Rule 3- read with Rule 8 of the M.P. Poppy Husks Rules, 1959 on the ground that it Is one single movement commencing in Mandsaur and terminating in Holland. (64- , , 66- ] Mohd. Serajjuddin v. State of Orissa, (1975] 2 SCC 4
+   extracted name: Mohd. Serajjuddin v. State of Orissa | citation (1975] 2 SCC 4 (1975)
+   resolved to: 9173 MOHD. SERAJUDDIN ETC. versus STATE OF ORISSA (1975-04-16, [1975] SUPP. 1 S.C.R. 169)
+
+#3 [NAME_EDGE] citing 40505 (2022-03-16) NAHAR SINGH versus THE STATE OF UTTAR PRADESH & ANR.
+   context: ...or such purpose.Turning to the facts of the present case, there is no error in the order of the Magistrate, which was affirmed by the High Court. [Paras 21 & 22][812- - ; 813- - ] SWIL Ltd. v. State of Delhi and Another (2001) 6 SCC 670
+   extracted name: SWIL Ltd. v. State of Delhi and Another | citation (2001) 6 SCC 670 (2001)
+   resolved to: 22573 M/S. SWIL LTD. versus STATE OF DELHI AND ANR. (2001-08-14, [2001] SUPP. 1 S.C.R. 527)
+
+#4 [NAME_EDGE] citing 26637 (2007-02-26) ALPESH NAVINCHANDRA SHAH versus STATE OF MAHARASHTRA AND ORS.
+   context: ...TR 461 (SC); R.K. Garg v. Union of India, [1981) 4 SCC 675; Additional Secretary to Government of India & Ors. v. Smt. Alka Subhash Gadia & Anr., [1992) SCC Supp. 1 496; Subbash Muljimal Gandhi v. L. Himingliana & Anr., [1994) 6 SCC 14
+   extracted name: Subbash Muljimal Gandhi v. L. Himingliana & Anr | citation [1994) 6 SCC 14 (1994)
+   resolved to: 16757 SUBHASH MULJIMAL GANDHI versus L. HIMINGLIANA AND ANR . (1994-08-26, [1994] SUPP. 2 S.C.R. 785)
+
+#5 [NAME_EDGE] citing 21052 (1999-10-26) KRISHNA MOHINI versus MOHINDER NATH SOFAT
+   context: ...Judge made a review of the law available on the point and referred to the observations made by this Court in J. Chandrasekhra Rao v. Jagapathi Rao and Ors., [1993] Supp. 2 SCC 229 and Chhedi Ram v. Jhilmit Ram and Ors., [ 1984] 2 SCC 281
+   extracted name: Chhedi Ram v. Jhilmit Ram and Ors | citation [ 1984] 2 SCC 281 (1984)
+   resolved to: 12555 CHHEDI RAM versus JHILMIT RAM & OTHERS (1983-12-05, [1984] 1 S.C.R. 966)
+
+#6 [NAME_EDGE] citing 16114 (1993-10-01) MANAGING DIRECTOR, ECIL, HYDERABAD ETC. ETC. versus B. KARUNAKAR AND O
+   context: ... S.C.R. 354; Union of India & Anr. v. Tulsiram Patel & Ors., (1985] Supp. 2 S.C.R. 131; Secretary, Central Board of Excise & Customs & Ors. v. K.S. MahalinF gam, [1986] 3 S.C.R. 35; Ram Chander v. Union of India & Ors., (1986] 3 S.C.R. 103
+   extracted name: Ram Chander v. Union of India & Ors | citation (1986] 3 S.C.R. 103 (1986)
+   resolved to: 13381 RAM CHANDER versus UNION OF INDIA & ORS. (1986-05-02, [1986] 2 S.C.R. 980)
+
+#7 [NAME_EDGE] citing 40589 (2022-10-14) THE STATE OF MADHYA PRADESH AND ANOTHER versus M/S COMMERCIAL ENGINEER
+   context: ... Government spokesmen by themselves do not form basis to grant any relief to a person in a public law remedy to which he is not otherwise entitled to in law.” 991 53. In Raj Kumar Shivhare v. Directorate of Enforcement [(2010) 4 SCC 772
+   extracted name: Raj Kumar Shivhare v. Directorate of Enforcement | citation (2010) 4 SCC 772 (2010)
+   resolved to: 31381 RAJ KUMAR SHIVHARE versus ASSISTANT DIRECTOR, DIRECTORATE OF ENFORCEMENT & ANOTH (2010-04-12, [2010] 4 S.C.R. 608)
+
+#8 [NAME_EDGE] citing 17160 (1995-03-07) STATE OF MAHARASHTRA AND ANR. AW. DHOPE AND ORS versus SHRI SANJAY THA
+   context: ...case about which is could be said that the quota rule had broken down. In this connection it would be apposite to refer to Keshav Chandra Joshi v. Union of India, [1992) Supp. 1 SCC 272 and A.N. Shehgal v. R.R. Sheoram, [1992] Supp. 1 SCC 304
+   extracted name: A.N. Shehgal v. R.R. Sheoram | citation [1992] Supp. 1 SCC 304 (1992)
+   resolved to: 15644 A.N. SEHGAL AND ORS. versus RAJE RAM SHEORAN AND OR.S (1991-04-05, [1991] 2 S.C.R. 198)
+
+#9 [NAME_EDGE] citing 23188 (2002-04-15) KRISHNA MOCHI AND ORS. versus STATE OF BIHAR ETC.
+   context: ...nd Ors. v. The State of Bihar, AIR (1965) St 277; Zwinglee Ariel v. State of Madhya Pradesh, AIR (1954) SC 15; Ba/aka Singh and Ors. v. The State of Punjab, AIR (1975) SC 1962; State of Rajasthan v. Smt. Kalki and Anr., AIR (1981) SC 1390
+   extracted name: Rajasthan v. Smt. Kalki and Anr | citation AIR (1981) SC 1390 (1981)
+   resolved to: 11879 STATE OF RAJASTHAN versus SMT. KALKI & ANR. (1981-04-15, [1981] 3 S.C.R. 504)
+
+#10 [NAME_EDGE] citing 23616 (2003-11-18) K. ANBAZHAGAN versus THE SUPERINTENDENT OF POLICE AND ORS. ETC.
+   context: ...vidence Act even though the witnesses have resiled from their earlier testimony. In such a situation the ~ubsequent testimony of the witnesses remains uncontroverted. [629- - ; 630- - ) Gura Singh v. State of Rajasthan, (2001) 2 SCC 205
+   extracted name: Gura Singh v. State of Rajasthan | citation (2001) 2 SCC 205 (2001)
+   resolved to: 21961 GURA SINGH versus THE STATE OF RAJASTHAN (2000-12-06, [2000] SUPP. 5 S.C.R. 408)
+
+#11 [NAME_EDGE] citing 31850 (2011-09-23) KANWAR SINGH SAINI versus HIGH COURT OF DELHI
+   context: ...SC 2765; State of Punjab & Ors. v. Mohinder Singh Randhawa & Anr. AIR 1992 SC 473; Niaz Mohammad & Ors. v. State of Haryana & Ors. (1994) 6 SCC 332: 1994 (3) Suppl. SCR 720; Bank of Baroda v. Sadruddin Hasan Daya & Anr. AIR 2004 SC 942
+   extracted name: Baroda v. Sadruddin Hasan Daya & Anr | citation AIR 2004 SC 942 (2004)
+   resolved to: 23656 BANK OF BARODA versus SADRUDDIN HASAN DAYA AND ANR. (2003-12-12, [2003] SUPP. 6 S.C.R. 764)
+
+#12 [NAME_EDGE] citing 24751 (2005-04-21) MUKHTIAR AHMED ANSARI versus STATE (N.C.T. OF DELHI)
+   context: ...s were, therefore, vitiated. Hence, conviction of the appellant under TADA must be set aside. (811- , - ] Anirudhsinhji Karansinhji Jadeja and Anr. v. State of Gujarat, [1995) 5 SCC 302; Mohd. Yunus v. State of Gujarat, (1997) 8 SCC 459
+   extracted name: Mohd. Yunus v. State of Gujarat | citation (1997) 8 SCC 459 (1997)
+   resolved to: 20159 MOHD. YUNUS versus STATE OF GUJARAT (1997-10-15, [1997] SUPP. 4 S.C.R. 494)
+
+#13 [NAME_EDGE] citing 39021 (2020-02-25) PUNJAB AND SIND BANK AND ORS. versus MRS. DURGESH KUWAR
+   context: ...pendently in accordance with law keeping in view the relevant rules and regulations of the bank, in the interest of fair treatment to the officer. [Paras 24, 26][221- - ; 222- - , - ] Bank of India v. Jagjit Singh Mehta (1992) 1 SCC 306
+   extracted name: India v. Jagjit Singh Mehta | citation (1992) 1 SCC 306 (1992)
+   resolved to: 15362 BANK OF INDIA versus JAGJIT SINGH MEHTA (1991-11-22, [1991] SUPP. 2 S.C.R. 492)
+
+#14 [NAME_EDGE] citing 25711 (2006-03-24) NATIONAL INSURANCE CO. LTD. versus SMT. KUSUM RAI AND ORS.
+   context: ...cence. It was the obligation on the part of the owner to take adequate care to see that the driver had an appropriate licence to drive the vehicle. [393- ; 394- ) .. National Insurance Co. Ltd. v. Swaran Singh and Ors., [2004) 3 SCC 297
+   extracted name: National Insurance Co. Ltd. v. Swaran Singh and Ors | citation [2004) 3 SCC 297 (2004)
+   resolved to: 24345 NATIONAL INSURANCE CO. LTD. versus SWARAN SINGH AND ORS. (2004-01-05, [2004] 1 S.C.R. 180)
+
+#15 [NAME_EDGE] citing 40847 (2023-08-07) V. SENTHIL BALAJI versus THE STATE REPRESENTED BY DEPUTY DIRECTOR AND 
+   context: ...rotech (India) Ltd. (2013) 15 SCC 1: [2013] 17 SCR 395; Sundeep Kumar Bafna v. State of Maharashtra (2014) 16 SCC 623: [2014] 4 SCR 486; Bharat Damodar Kale v. State of A.P. (2003) 8 SCC 559; Satender Kumar Antil v. CBI (2022) 10 SCC 51
+   extracted name: Satender Kumar Antil v. CBI | citation (2022) 10 SCC 51 (2022)
+   resolved to: 40226 SATENDER KUMAR ANTIL versus CENTRAL BUREAU OF INVESTIGATION & ANR. (2022-07-11, [2022] 10 S.C.R. 351)
+
+#16 [NAME_EDGE] citing 22697 (2002-10-31) WARYAM SINGH versus BALDEV SINGH
+   context: ... utility of the shop, High Court was right in concluding that no decree for eviction could be passed and therefore, there is no reason to interfere with the judgment of the High Court. [16- - ) Om Prakash v. Amar Singh, [1987) 1 SCC 458
+   extracted name: Om Prakash v. Amar Singh | citation [1987) 1 SCC 458 (1987)
+   resolved to: 13671 OM PRAKASH versus AMAR SINGH & ANR. (1987-01-09, [1987] 1 S.C.R. 968)
+
+#17 [NAME_EDGE] citing 38813 (2020-03-02) ASSISTANT GENERAL MANAGER, STATE BANK OF INDIA & ORS. versus RADHEY SH
+   context: ...hen consent is obtained by coercion, fraud, or ‘misrepresentation,’ the agreement is voidable at the option of the aggrieved party. In Central Inland Water Transport Corporation Ltd. & Anr. v. Brojo Nath Ganguly & Anr., (1986) 3 SCC 156
+   extracted name: Central Inland Water Transport Corporation Ltd. & Anr. v. Brojo Nath Ganguly & Anr | citation (1986) 3 SCC 156 (1986)
+   resolved to: 13466 CENTRAL INLAND WATER TRANSPORT CORPORATION LTD. & ANR. ETC. versus BROJO NATH GA (1986-04-06, [1986] 2 S.C.R. 278)
+
+#18 [NAME_EDGE] citing 25303 (2005-12-07) STATE OF ORISSA AND ANR. versus SAROJ KUMAR SAHOO
+   context: ...o cases in which the High Court will p exercise its extraordinary jurisdiction of quashing the proceeding at any stage. [558-8, , DJ Janata Dal v. Chowdhary, [ 1992) 4 SCC 305 and Raghubir Saran (Dr.) v. State of Bihar, AIR (1964) SC 1
+   extracted name: Raghubir Saran (Dr.) v. State of Bihar | citation AIR (1964) SC 1 (1964)
+   resolved to: 3358 DR. RAGHUBIR SHARAN versus THE STATE OF BIHAR (1963-03-14, [1964] 2 S.C.R. 336)
+
+#19 [NAME_EDGE] citing 26240 (2006-04-05) GURSEWAK SINGH versus AVTAR SINGH AND ORS.
+   context: ... go into the said question and arrive at a positive finding on analyzing the evidence on record. [924- , CJ Chandrika Prasad Yadav v. State of Bihar and Ors., [2004) 6 SCC 331; M. Chinnasamy v. K.C. Palanisamy and Ors., [2004) 6 SCC 341
+   extracted name: M. Chinnasamy v. K.C. Palanisamy and Ors | citation [2004) 6 SCC 341 (2004)
+   resolved to: 23815 M. CHINNASAMY versus K.C. PALANISAMY AND ORS. (2003-11-21, [2003] SUPP. 6 S.C.R. 17)
+
+#20 [NAME_EDGE] citing 31655 (2011-05-05) TRISHALA JAIN AND ANR. versus STATE OF UTTARANCHAL AND ANR.
+   context: ...C 334: 2003 (6) Suppl. SCR 67; Bhagwathula Samanna & Ors v. Special Tahsildar & Land Acquisition Officer (1991) 4 SCC 506: 1991(1) Suppl. SCR 172; K.S. Shivadevamma v. Assistant Commissioner· and Land Acqusition Officer (1996) 2 SCC 62
+   extracted name: K.S. Shivadevamma v. Assistant and Land Acqusition Officer | citation (1996) 2 SCC 62 (1996)
+   resolved to: 17732 K. S. SHIVADEVAMMA AND ORS. ETC. versus ASSISTANT COMMISSIONER AND LAND ACQUISIT (1995-12-08, [1995] SUPP. 6 S.C.R. 364)
+
+#21 [NAME_EDGE] citing 39466 (2021-03-26) SURESH KUMAR versus THE STATE OF HARYANA & ORS.
+   context: ....P. Jain v. Krishna Mohan Gupta [(1987) 1 SCC 191 : AIR 1987 SC 222] , RBI v. Peerless General Finance and Investment Co. Ltd. [(1987) 1 SCC 424 : AIR 1987 SC 1023], Tinsukhia Electric Supply Co. Ltd. v. State of Assam [(1989) 3 SCC 709
+   extracted name: Tinsukhia Electric Supply Co. Ltd. v. State of Assam | citation (1989) 3 SCC 709 (1989)
+   resolved to: 14862 TINSUKHIA ELECTRIC SUPPLY CO. LTD. versus STATE OF ASSAM AND ORS. (1989-04-13, [1989] 2 S.C.R. 544)
+
+#22 [NAME_EDGE] citing 36818 (2018-02-23) S. SUKUMAR versus THE SECRETARY, INSTITUTE OF CHARTERED ACCOUNTANTS OF
+   context: ...ate level as far as possible within three months and take such further steps as may be considered necessary. [Para 53] [497- - ; 498- ] State of Rajasthan vs. Gotan Lime Stone Khanji Udyog Pvt. Ltd. [2016] (1) SCR 216 : (2016) 4 SCC 469
+   extracted name: Rajasthan v. Gotan Lime Stone Khanji Udyog Pvt. Ltd | citation (2016) 4 SCC 469 (2016)
+   resolved to: 35525 STATE OF RAJASTHAN AND ORS. versus GOTAN LIME STONE KHANJI UDYOG PVT. LTD. AND A (2016-01-20, [2016] 1 S.C.R. 216)
+
+#23 [NAME_EDGE] citing 33769 (2013-11-22) C.B.I. versus ASHOK KUMAR AGGARWAL & ANR.
+   context: ...Bihar AIR 1983 SC 911: 1983 (2) SCR 312; Niranjan Singh vs. State of Punjab AIR 1996 SC 3254; State of Tamil Nadu vs. Suresh and Anr. AIR 1998 SC 1044: 1997 (6) Suppl. SCR 203; Bhiva Doulu Patil vs. State of Maharashtra AIR 1963 SC 599
+   extracted name: Bhiva Doulu Patil v. State of Maharashtra | citation AIR 1963 SC 599 (1963)
+   resolved to: 2882 BHIVA DOULU PATIL versus STATE OF MAHARASHTA (1962-08-29, [1963] 3 S.C.R. 830)
+
+#24 [NAME_EDGE] citing 38312 (2019-09-17) MUNICIPAL COUNCIL NEEMUCH versus MAHADEO REAL ESTATE AND ORS.
+   context: ... the Municipal Council is directed to refund the amount deposited by respondent No.1 herein along with interest at the rate of 6% per annum forthwith. [Paras 25-27] [547- - ; - ; 548- - ] Tata Cellular v. Union of India (1994) 6 SCC 651
+   extracted name: Tata Cellular v. Union of India | citation (1994) 6 SCC 651 (1994)
+   resolved to: 16710 TATA CELLULAR versus UNION OF INDIA (1994-07-26, [1994] SUPP. 2 S.C.R. 122)
+
+#25 [NAME_EDGE] citing 14452 (1988-08-22) ATMA RAM MITTAL versus ISHWAR SINGH PUNIA
+   context: ...\ Vineet Kumar v. Mangat Sain Wadhera, [1984] 3 S.C.C. 3S2; Nand Kishore Marwah and Ors. v. Spmundri Devi, [1987] 4 S.C.C. 382; Om Prakash Gupta v. Dig. Vijendrapal Gupta, [1982] 3 S.C.R. 491; Ram Saroop Raiv. Lilavati, [1980] 3 S.C.C. 452
+   extracted name: Ram Saroop Rai v. .. Lilavati | citation [1980] 3 S.C.C. 452 (1980)
+   resolved to: 11518 RAM SWAROOP RAI versus LILAVATHI (1980-05-07, [1980] 3 S.C.R. 1034)
+
+#26 [NAME_EDGE] citing 25264 (2005-09-23) ANIGLASE YOHANNAN versus RAMLATHA AND ORS.
+   context: ...table conclusion is that the judgments of the Single Judge and the Full Bench of High Court do not suffer from any infirmity to warrant interference. [444- - ; 445- - ; 448- ] Syed Dastagir v. T.R. Gopalakrishna Settty, [1999] 6 SCC 337
+   extracted name: Syed Dastagir v. T.R. Gopalakrishna Settty | citation [1999] 6 SCC 337 (1999)
+   resolved to: 21139 SYED DASTAGIR versus T.R. GOPALAKRISHNA SETTY (1999-08-11, [1999] SUPP. 1 S.C.R. 351)
+
+#27 [NAME_EDGE] citing 36347 (2017-10-09) STATE OF KERALA AND OTHERS versus FR. WILLIAM FERNANDEZ ETC. ETC.
+   context: ... appellant urged that since the words "custom duty" do not find place in Rule 17, they could not be included for determining valuation under the rule. Reliance was also placed on Goodyear India Ltd. v. State of Haryana, (1990) 2 SCC 71
+   extracted name: Goodyear India Ltd. v. State of Haryana | citation (1990) 2 SCC 71 (1990)
+   resolved to: 14901 GOODYEAR INDIA LTD. ETC. ETC. versus STATE OF HARYANA & ANR. ETC. ETC. (1989-10-19, [1989] SUPP. 1 S.C.R. 510)
+
+#28 [NAME_EDGE] citing 25476 (2006-09-29) KAILASH versus ST ATE OF M.P.
+   context: ... v. State of Harvana, (2006) 6 SCJ 330, another Division Bench of this Court upon analyzing. the provisions of Section 300 of the Indian Penal Code and referring to the celebrated case of Virsa Singh v. State of Punjab, AIR (1958) SC 465
+   extracted name: Virsa Singh v. State of Punjab | citation AIR (1958) SC 465 (1958)
+   resolved to: 935 VIRSA SINGH versus THE STATE OF PUNJAB (1958-03-11, [1958] 1 S.C.R. 1495)
+
+#29 [NAME_EDGE] citing 25623 (2006-09-13) M. GURUDAS AND ORS. versus RASARANJAN AND ORS.
+   context: ...ty, apart from balance of convenience. Point 4 is decided accordingly." The said decisions were noticed yet again in a case involving infringement of trade mark in Cadi/a Health Care Ltd. v. Cadila Pharmaceuticals Ltd., [2001] 5 SCC 73
+   extracted name: Health Care Ltd. v. Cadila Pharmaceuticals Ltd | citation [2001] 5 SCC 73 (2001)
+   resolved to: 22634 CADILA HEALTH CARE LTD. versus CADILA PHARMACEUTICALS LTD. (2001-03-26, [2001] 2 S.C.R. 743)
+
+#30 [NAME_EDGE] citing 27550 (2007-05-18) M/S. KAMAKSHI BUILDERS versus M/.S. AMBEDKAR EDUCATIONAL SOCIETY AND O
+   context: ...ondent No.1 failed to discharge the same, and therefore, the Trial Judge has committed no error in passing a decree in favour of the 344 plaintiff. [Para 30) [353- , ) Smt. Shakunta/a S. Tiwari v. Hem Chand M Singhania, (1987) 3 SCC 211
+   extracted name: Smt. S. Tiwari v. Hem Chand M Singhania | citation (1987) 3 SCC 211 (1987)
+   resolved to: 13616 SMT. SHAKUNTALA S. TIWARI versus HEM CHAND M. SINGHANIA (1987-05-06, [1987] 3 S.C.R. 306)
+
+#31 [NAME_EDGE] citing 41066 (2023-03-02) ANOOP BARANWAL versus UNION OF INDIA
+   context: ...and others (2017) 2 SCC 629: [2017] 1 SCR 158; Shri Sadiq Ali and another v. Election Commission of India, New Delhi and others (1972) 4 SCC 664 : [1972] 2 SCR 318; Janata Dal (Samajwadi) v. Election Commission of India (1996) 1 SCC 235
+   extracted name: Janata Dal (Samajwadi) v. Election Commission of India | citation (1996) 1 SCC 235 (1996)
+   resolved to: 17970 JANATA DAL (SAMAJWADI) versus THE ELECTION COMMISSIONER OF INDIA (1995-11-23, [1995] SUPP. 5 S.C.R. 592)
+
+#32 [NAME_EDGE] citing 28952 (2008-08-01) SATYA NARAIN YADAV versus GAJANAND AND ANR.
+   context: ...405; Shivaji Sahabrao Bobade v. State of Maharashtra (1973) 2 sec 793; K. Gopal Reddy v. State of A.P (1979) 1 sec 355; Ramesh Babula/ Doshi v. State of Gujarat (1996) 9 SCC 225; Allarakha K. Mansuri v. State of Gujarat (2002) 3 SCC 57
+   extracted name: Allarakha K. Mansuri v. State of Gujarat | citation (2002) 3 SCC 57 (2002)
+   resolved to: 23012 ALLARAKHA K. MANSURI versus STATE OF GUJARAT (2002-02-14, [2002] 1 S.C.R. 1011)
+
+#33 [NAME_EDGE] citing 23192 (2002-12-17) M/S INDIAN CHARGE CHROME LTD. AND ANR. versus UNION OF INDIA AND ORS.
+   context: ...rements. If the order of the Central Government is accepted the same would amount to grant of relaxation with retrospective effect which is impermissible in law. [330- - ] Tata Iron and Steel Co. Ltd. v. Union of India. [1996] 9 SCC 709
+   extracted name: Steel Co. Ltd. v. Union of India | citation [1996] 9 SCC 709 (1996)
+   resolved to: 18437 TATA IRON AND STEEL CO. LTD. ETC. versus UNION OF INDIA AND ANR. (1996-07-23, [1996] SUPP. 3 S.C.R. 808)
+
+#34 [NAME_EDGE] citing 41886 (2024-02-26) M/S BRAHMAPUTRA CONCRETE PIPE INDUSTRIES ETC. ETC versus THE ASSAM STA
+   context: ... curative petition would be maintainable against an order passed in a review petition which has been heard in open Court. The second is whether the pre-conditions laid down in “Rupa Ashok Hurra vs. Ashok Hurra & Anr. “, (2002) 4 SCC 389
+   extracted name: Ashok Hurra v. Ashok Hurra & Anr | citation (2002) 4 SCC 389 (2002)
+   resolved to: 23078 RUPA ASHOK HURRA versus ASHOK HURRA AND ANR. (2002-04-10, [2002] 2 S.C.R. 1006)
+
+#35 [NAME_EDGE] citing 24752 (2005-07-28) STA TE OF UTTAR PRADESH AND ANR. versus SHIV NARAIN UPADHYAYA
+   context: ...ived by him beyond the actual date of superannuation. However, the period beyond the actual date of superannuation should not be reckoned towards his retiral benefits. [854- , , , ) State of Assam v. Daksha Prasad Deka, [1970) 3 SCC 624
+   extracted name: Assam v. Daksha Prasad Deka | citation [1970) 3 SCC 624 (1970)
+   resolved to: 7079 STATE OF ASSAM & ANR. versus DAKSHA PRASAD DEKA & ORS (1970-10-23, [1971] 2 S.C.R. 687)
+
+#36 [NAME_EDGE] citing 17125 (1995-05-12) DR. (MRS.) VIMAL versus BHAGUJI AND ORS.
+   context: ...nd 123(3A) of the Act. [ 412- , 411- ] Moha11 Singh v. Bhanwarlal, [1964] 5 SCR 12; Ku/tar Singh v. Mukhtiar Singh, [1964] 7 SCR 790; D. Venkata Reddy v. R. Sultan, [1976] 3 SCR 445; Dart/at Ram Chauhan v. Anand Sharma, [1984] 2 SCC 64
+   extracted name: Ram Chauhan v. Anand Sharma | citation [1984] 2 SCC 64 (1984)
+   resolved to: 12739 DAULAT RAM CHAUHAN versus ANAND SHARMA (1984-01-16, [1984] 2 S.C.R. 419)
+
+#37 [NAME_EDGE] citing 34334 (2014-04-16) OM PRAKASH versus STATE OF HARYANA
+   context: ...submission for the appellants pertaining to delay in lodging of the FIR being totally unaccep,able is hereby rejected. [Para 10] [315- - ] Meharaj Singh v. State of U.P. (1994) 5 SCC 188, State 308 of H.P. v. Gian Chand (2001) 6 SCC 71
+   extracted name: H.P. v. Gian Chand | citation (2001) 6 SCC 71 (2001)
+   resolved to: 22332 STATE OF HIMACHAL PRADESH versus GIAN CHAND (2001-05-01, [2001] 3 S.C.R. 247)
+
+#38 [NAME_EDGE] citing 27996 (2008-05-05) ASHOK KUMAR CHAUDHARY & ORS. versus STATE OF BIHAR
+   context: ... of Rajasthan(197 4) 3 SCC 698; State of Punjab Vs. Jagir Singh, Baljit Singh & Karam Singh(1974) 3 SCC 277; Rizan & Anr Vs. State of Chhatisgarh, through The Chief Secretary, Govt. of Chhattisgarh, Raipur, Chhattisgarh (2003) 2 SCC 661
+   extracted name: Rizan & Anr v. State of Chhatisgarh, through The Chief Secretary, Govt. of Chhattisgarh, Raipur, Chhattisgarh | citation (2003) 2 SCC 661 (2003)
+   resolved to: 23578 RIZAN AND ANOTHER versus STATE OF CHHATISGARH, THROUGH THE CHIEF SECRETARY, GOVT (2003-01-21, [2003] 1 S.C.R. 457)
+
+#39 [NAME_EDGE] citing 19222 (1996-09-11) M/S. GUJARAT MACHINERY MANUFACTURERS LTD. versus COLLECTOR, CENTRAL EX
+   context: ...- - , 605- - ] Yadu Nandan Garg v. State of Rajasthan & Ors., JT (1995) 8 SC 179; Coromandel Fertilizers Ltd. v. Union of In(i,ia & Ors., [1994] Supp. SCC 457 and Chandigarh Administration & Anr. v. Jagjit Singh & Anr., [1995) 1 SCC 745
+   extracted name: Chandigarh Administration & Anr. v. Jagjit Singh & Anr | citation [1995) 1 SCC 745 (1995)
+   resolved to: 17956 CHANDIGARH ADMINISTRATION AND ANR versus JAGJIT SINGH AND ANR. ETC. (1995-01-10, [1995] 1 S.C.R. 126)
+
+#40 [NAME_EDGE] citing 25097 (2005-11-11) STATE OF ANDHRA PRADESH AND ANR. versus A.P. PENSIONERS ASSOCIATION AN
+   context: ...88) 2 SCC 580; State of U.P. v. U.P. University Colleges Pensioners' Association (1994) 2 SCC 729; State of Punjab and Ors. v. Boota Singh and Anr., [20001 3 SCC 733; State of Punjab and Ors. v. Amar Nath Goyal and Ors. (2005) 6 SCC 754
+   extracted name: Ors. v. Amar Nath Goyal and Ors | citation (2005) 6 SCC 754 (2005)
+   resolved to: 24812 STATE OF PUNJAB AND ORS. versus AMAR NATH GOYAL AND ORS. (2005-08-11, [2005] SUPP. 2 S.C.R. 549)
+
+#41 [NAME_EDGE] citing 23967 (2003-09-11) STATE OF MADHYA PRADESH versus GHANSHYAM SINGH
+   context: ...rt to award proper sentence having regard to the nature of the offence and the manner in which it was executed or committed etc. (625- , ) Maheshv. State of MP., (1987) 2 SCR 710 and Perumal Etc. v. State of Tamil Nadu, AIR (1991) SC 1463
+   extracted name: Perumal Etc. v. State of Tamil Nadu | citation AIR (1991) SC 1463 (1991)
+   resolved to: 15353 SEYAKA PERUMAL, ETC versus STATE OF TAMIL NADU (1991-05-07, [1991] 2 S.C.R. 711)
+
+#42 [NAME_EDGE] citing 20895 (1999-04-09) DELTA INTERNATIONAL LTD. versus SHYAM SUNDER GANERIWALLA AND ANR.
+   context: ...o execute a lease deed, in that set .of circumstances, exclusive . possession would lose its importance. [557.., ; 566- ) Associated Hotels of India Ltd. v. R.N. Kapoor, [1960) 1 SCR 368 and Rajbir Kaur v. S. Chokesiri, [1989) 1 SCC 19
+   extracted name: Rajbir Kaur v. S. Chokesiri | citation [1989) 1 SCC 19 (1989)
+   resolved to: 14044 SMT. RAJBIR KAUR & ANR. versus S. CHOKESIRI & CO. (1988-08-09, [1988] SUPP. 2 S.C.R. 310)
+
+#43 [NAME_EDGE] citing 13536 (1986-12-09) SHIVAJIRAO NILANGEKAR PATIL versus DR. MAHESH MADHAV GOSAVI & ORS. AND
+   context: ...iv. Bissesur, ILR ~-9 Cal. 245: 16 C.W .N. 265; Faja Singh v. Chaichoo Singh. AIR 1940 Patna 2:u .at 203, referred to. The State of VIiar Pradesh v. Mohammad Nairn, [1964] 2 SCR 363. Vineet Kumar v. Mangal Sain Wadhera. AIR 1985 SC 817
+   extracted name: Vineet Kumar v. Mangal Sain Wadhera | citation AIR 1985 SC 817 (1985)
+   resolved to: 12765 VINEET KUMAR versus MANGAL SAIN WADHERE (1984-01-05, [1984] 2 S.C.R. 333)
+
+#44 [NAME_EDGE] citing 41197 (2023-04-18) ISOLATORS AND ISOLATORS THROUGH ITS PROPRIETOR MRS. SANDHYA MISHRA ver
+   context: ...ISOLATORS AND ISOLATORS THR. ITS PROP. MRS. SANDHYA MISHRA v. MPMKVVCL 448 Gorkha Security Services v. Government (NCT of Delhi) and Ors. (2014) 9 SCC 105 : [2014] 13 SCR 617; Raghunath Thakur v. State of Bihar and Ors. (1989) 1 SCC 229
+   extracted name: Raghunath Thakur v. State of Bihar and Ors | citation (1989) 1 SCC 229 (1989)
+   resolved to: 14027 RAGHUNATH THAKUR versus STATE OF BIHAR & ORS. (1988-11-08, [1988] SUPP. 3 S.C.R. 867)
+
+#45 [NAME_EDGE] citing 37402 (2018-05-08) GURWINDER SINGH @ SONU ETC. versus STATE OF PUNJAB AND ANR.
+   context: ...hers (2001) 6 SCC 145 and held as under:- “17. The first question which arises for consideration is what is the effect of non-explanation of injuries sustained by the accused persons. In Rajender Singh v. State of Bihar (2000) 4 SCC 298
+   extracted name: Rajender Singh v. State of Bihar | citation (2000) 4 SCC 298 (2000)
+   resolved to: 21506 RAJENDER SINGH AND ORS. versus THE STATE OF BIHAR (2000-04-07, [2000] 2 S.C.R. 1073)
+
+#46 [NAME_EDGE] citing 25135 (2005-10-03) G. SRINIVASGOUD versus STATE OF A.P.
+   context: ...Intelligence, (200318 SCC 449; State of Haryana v. Jarnail Singh and Ors., [2004) 5 SCC 842 188 and State of W.B. and Ors. v. Babu Chakraborthy., (2004) 12 SCC 201, referred to. Beckodan Abdul Rahman v. State of Kera/a, (2002) 4 SCC 229
+   extracted name: Beckodan Abdul Rahman v. State of | citation (2002) 4 SCC 229 (2002)
+   resolved to: 22829 BECKODAN ABDUL RAHIMAN versus STATE OF KERALA (2002-04-16, [2002] 3 S.C.R. 53)
+
+#47 [NAME_EDGE] citing 29515 (2009-02-16) COMMNR. OF CUSTOMS (PREVENTIVE) versus M/S AAFLOAT TEXTILES (I) PVT.LT
+   context: ... Satyam Febres (India) Pvt. Ltd. 1996 492 (5) sec 550; S. p Changalvaraya Naidu V. Jagannath .... 1994 (1) SCC 1; Ram Chandra Singh v. Savitri Devi and Ors. 2003 (8) SCC 319; Shrisht Dhawan (Smt.) v. Mis. Shaw Brothers, 1992 (1) SCC 534
+   extracted name: Shrisht Dhawan (Smt.) v. Mis. Shaw Brothers | citation 1992 (1) SCC 534 (1992)
+   resolved to: 15627 SMT. SHRISHT DHAWAN versus SHAW BROTHERS (1991-12-13, [1991] SUPP. 3 S.C.R. 446)
+
+#48 [NAME_EDGE] citing 39158 (2021-03-19) GOVERNMENT OF MAHARASHTRA (WATER RESOURCES DEPARTMENT) REPRESENTED BY 
+   context: ... procedure for filing of such appeals and powers of the court for dealing with such appeals are governed by the Code of Civil Procedure. (See decision of the Constitution Bench in Vidyacharan Shukla v. Khubchand Baghel [AIR 1964 SC 1099
+   extracted name: Vidyacharan Shukla v. Khubchand Baghel | citation AIR 1964 SC 1099 (1964)
+   resolved to: 3568 VIDYACHARAN SHUKLA versus KHUBCHAND BAGHEL AND OTHERS (1963-12-20, [1964] 6 S.C.R. 129)
+
+#49 [NAME_EDGE] citing 38497 (2019-08-01) MANOHARAN versus STATE BY INSPECTOR OF POLICE, VARIETY HALL POLICE STA
+   context: ...C 706; Santosh Kumar Satishbhushan Bariyar v. State of Maharashtra (2009) 6 SCC 498 : [2009] 9 SCR 90; Mulla v. State of Uttar Pradesh (2010) 3 SCC 508 : [2010] 2 SCR 633; Gurdeep Singh alias Deep v. State (Delhi Admn.) (2000) 1 SCC 498
+   extracted name: Gurdeep Singh alias Deep v. State (Delhi Admn.) | citation (2000) 1 SCC 498 (2000)
+   resolved to: 21146 GURDEEP SINGH @ DEEP versus THE STATE (DELHI ADMN.) (1999-09-17, [1999] SUPP. 2 S.C.R. 693)
+
+#50 [NAME_EDGE] citing 29817 (2009-05-06) COMMISSIONER OF INCOME TAX, SHIMLA versus M/S. GREENWORLD CORPORATION,
+   context: ...dicatory process. [Para 32] [219F] Rajinder Nath vs. Commissioner of Income-Tax, Delhi 120 ITR 14 {SC); State of Kera/a & Ors. vs. Kurian Abraham (P) Ltd. & Anr. (2008) 3 SCC 582; Union of India vs. Azadi Bachao Ando/an (2004) 10 SCC 1
+   extracted name: India v. Azadi Bachao | citation (2004) 10 SCC 1 (2004)
+   resolved to: 23915 UNION OF INDIA AND ANR. versus AZADI BACHAO ANDOLAN AND ANR. (2003-10-07, [2003] SUPP. 4 S.C.R. 222)
+
+#51 [NAME_EDGE] citing 36920 (2018-11-02) PRATAP MEHTA versus SUNIL GUPTA & ORS.
+   context: ...gh Court was right in issuing directions for conducting a fresh election to elect a member in the Bar Council of India, which was necessary and just. [Para 26] [1086- - ] Waryam Singh and another v. Amarnath and another AIR 1954 SC 215
+   extracted name: another v. Amarnath and another | citation AIR 1954 SC 215 (1954)
+   resolved to: 369 WARYAM SINGH AND ANOTHER versus AMARNATH AND ANOTHER. (1954-01-19, [1954] 1 S.C.R. 565)
+
+#52 [NAME_EDGE] citing 28107 (2008-04-01) STATE OF ARUNACHAL PRADESH versus NEZONE LAW HOUSE, ASSAM
+   context: ... Investment Trust Ltd. (1972) 1 SCC 857; Century Spinning Co. vs. Ulhasnagar Municipal Council AIR (1971) SC 1021; Radhakrishna vs. State of Bihar AIR (1977) SC 1496; Motilal Padampat Sugar Mills Co. Ltd vs. State of UP (1979) 2 SCC 409
+   extracted name: Motilal Padampat Sugar Mills Co. Ltd v. State of UP | citation (1979) 2 SCC 409 (1979)
+   resolved to: 10950 M/S MOTILAL PADAMPAT SUGAR MILLS CO. (P.) LTD. versus STATE OF UTTAR PRADESH AND (1978-12-12, [1979] 2 S.C.R. 641)
+
+#53 [NAME_EDGE] citing 21259 (1999-02-05) NARESH KUMARI (DEAD) BY LRS. AND ANOTHER versus SHAKSHI LAL (DEAD) BY 
+   context: ... death such property even from alienee would revert back to the reversioners of her husband. [451- ] Kalishanker Das and Another v. Dhirendra Nath Patra and Others, [1955] 1 SCR 467; Kalawatibai v. Soiryabai and Others, [1991] 3 SCC 410
+   extracted name: Kalawatibai v. Soiryabai and Others | citation [1991] 3 SCC 410 (1991)
+   resolved to: 15686 KALAWATIBAI versus SOIRYABAI AND OTHERS (1991-05-01, [1991] 2 S.C.R. 599)
+
+#54 [NAME_EDGE] citing 40470 (2022-04-22) JAFARUDHEEN & ORS. versus STATE OF KERALA
+   context: ...and which could be relied upon, the conclusions would not be treated as perverse and the findings would not be interfered with. 14.3. In the recent decision of Vijay Mohan Singh [Vijay Mohan Singh v. State of Karnataka, (2019) 5 SCC 436
+   extracted name: Vijay Mohan Singh Mohan Singh v. State of Karnataka | citation (2019) 5 SCC 436 (2019)
+   resolved to: 37461 VIJAY MOHAN SINGH versus STATE OF KARNATAKA (2019-04-10, [2019] 6 S.C.R. 994)
+
+#55 [NAME_EDGE] citing 26857 (2007-12-12) SARABJIT RICK SINGH versus UNION OF INDIA
+   context: ...ion as well as statement which amounts to confession. [Para 50) (350- ; 351- - ] R. v. Babula!, ILR 6 All 509; Commissioner of Income Tax v. A. Raman and Co. AIR (1968) SC 49 and Hirachand Kothari v. State of Rajasthan, AIR (1985) SC 998
+   extracted name: Hirachand Kothari v. State of Rajasthan | citation AIR (1985) SC 998 (1985)
+   resolved to: 13068 HIRACHAND KOTHARI (DEAD) THROUGH LRS. versus STATE OF RAJASTHAN & ANR. (1985-05-09, [1985] SUPP. 1 S.C.R. 644)
+
+#56 [NAME_EDGE] citing 26320 (2006-06-16) MAYURAM SUBRAMANIAN SRINIVASAN versus CBI
+   context: ...hetics and Chemicals Ltd. and Anr., [1991) 4 sec 139. To perpetuate an error is no heroism. To rectify it is the compulsion of the judicial conscience. The posit:on was highlighted in Nirmal' Jeet Kaur v. State of M.P., [2004] 7 SCC 558
+   extracted name: Nirmal' Jeet Kaur v. State of M.P | citation [2004] 7 SCC 558 (2004)
+   resolved to: 24618 NIRMAL JEET KAUR versus THE STATE OF MADHYA PRADESH AND ANR. (2004-09-01, [2004] SUPP. 3 S.C.R. 1006)
+
+#57 [NAME_EDGE] citing 18748 (1996-02-27) UNION OF INDIA AND ORS. versus K.V. VIJEESH
+   context: ...fied-On facts held appointments were made according to comparative merits of the candidates-Rejection of respondent's claim who was at the bottom of the select list held not arbitrary. Shankarsan Dash v. Union of India, AIR (1991) SC 1612
+   extracted name: Shankarsan Dash v. Union of India | citation AIR (1991) SC 1612 (1991)
+   resolved to: 15501 SHANKARSAN DASH versus UNION OF INDIA (1991-04-30, [1991] 2 S.C.R. 567)
+
+#58 [NAME_EDGE] citing 22289 (2001-10-12) ANANGA UDAY SINGH DEO versus RANGA NATH MISHRA AND ORS.
+   context: ..., [1994] Supp. 3 SCC 5 and V. Narayanaswamy v. C.P. Thirunavukkarasu, [2000] 2 sec 294, relied on. Atma Ram Mittal v. Ishwar Singh Punia, [1988] 4 SCC 284 and Administrator, Municipal Corporation v. Dattatraya Dahankar, [1992] 1 SCC 361
+   extracted name: Administrator, Municipal Corporation v. Dattatraya Dahankar | citation [1992] 1 SCC 361 (1992)
+   resolved to: 15510 ADMINISTRATOR, MUNICIPAL CORPORATION, BILASPUR versus DATTATRAYA DAHANKAR, ADVOC (1991-12-05, [1991] SUPP. 3 S.C.R. 112)
+
+#59 [NAME_EDGE] citing 26295 (2006-08-21) COMMITTEE OF MANAGEMENT, KANYA JUNIOR HIGH SCHOOL BAL VIDYA MANDIR, ET
+   context: ...ent such regulations would operate, however, again is a matter which would be governed by the statute. (838- -DJ The Commissioner Hindu Religious Endowments, Madras v. Sri Lakshmindra Thirtha Swamiar of Sri Shirur Mutt, AIR (1954) SC 282
+   extracted name: Commissioner Hindu Religious Endowments, Madras v. Sri Lakshmindra Thirtha Swamiar of Sri Shirur Mutt | citation AIR (1954) SC 282 (1954)
+   resolved to: 416 THE COMMISSIONER, HINDU RELIGIOUS ENDOWMENTS, MADRAS versus SRI LAKSHMINDRA THIR (1954-03-16, [1954] 1 S.C.R. 1005)
+
+#60 [NAME_EDGE] citing 40364 (2022-03-03) LOOP TELECOM AND TRADING LIMITED versus UNION OF INDIA AND ANR.
+   context: ...jit Banerjee, learned Additional Solicitor General, appearing on behalf of the Union of India has urged the following submissions: 16 Union of India v. Association of Unified Telecom Service Providers of India and Ors., (2020) 3 SCC 525
+   extracted name: India v. Association of Unified Telecom Service Providers of India and Ors | citation (2020) 3 SCC 525 (2020)
+   resolved to: 37495 UNION OF INDIA versus ASSOCIATION OF UNIFIED TELECOM SERVICE PROVIDERS OF INDIA  (2019-10-24, [2019] 16 S.C.R. 672)
+
+#61 [UNRESOLVED] citing 21954 (2000-12-15) BISHWANATH PRASAD SINGH ETC. versus STA TE OF BIHAR AND ORS
+   context: ...ab, [1987] 2 SCC 188; Ramchandra Raju v. State of Orissa, 11994] Suppl. 3 SCC 424; Baikunthnath Das & Anr. v. Chief District Medical Officer, Baripuda & Anr .. (1992] 2 SCC 299 and S. Ram Chandra Raju v. State ofOrissa, (1994] Suppl. 3 SCC 424
+   extracted name: S. Ram Chandra Raju v. State ofOrissa | citation (1994] Suppl. 3 SCC 424 (1994)
+   unresolved: name_not_found (candidates 0)
+
+#62 [UNRESOLVED] citing 23221 (2002-07-29) DEENA (DEAD) THROUGH L.RS. versus BHARAT SINGH (DEAD) THROUGH L.RS. AN
+   context: ...like nature'. The expression "defect of jurisdiction" on a plain reading means the court must lack jurisdiction to entertain the suit or proceeding. [296- , , ; 297- [ Vijay Kumar Rampa/ and Ors. v. Diwan Devi and Ors., AIR (1985) SC 1669
+   extracted name: Ors. v. Diwan Devi and Ors | citation AIR (1985) SC 1669 (1985)
+   unresolved: name_not_found (candidates 0)
+
+#63 [UNRESOLVED] citing 36610 (2017-08-17) MS. Z versus THE STATE OF BIHAR AND OTHERS
+   context: ...the statutory duty, as a result of which, the appellant has been constrained to suffer grave mental injury. [Paras 23, 26 and 39) (236- - ; 238- - ; 244- - ] Suchita Srivastava and another v. Chandigarh . Administration (2009) 9 SCC 1
+   extracted name: another v. Chandigarh . Administration | citation (2009) 9 SCC 1 (2009)
+   unresolved: ambiguous (candidates 3)
+
+#64 [UNRESOLVED] citing 31971 (2011-11-14) SHIJI @ PAPPU AND ORS. versus RADHIKA AND ANR.
+   context: ...3; Y. Suresh Babu v. State of Andhra Pradesh JT (1987) 2 SC 361; Mahesh Chand v. State of Rajasthan 1990 Supp. SCC 681; Jshwar Singh v. State of Madhya Pradesh (2008) 15 SCC 667; State of Kamataka v. L. Muniswamy & Ors. (1977) 2 SCC 699
+   extracted name: Kamataka v. L. Muniswamy & Ors | citation (1977) 2 SCC 699 (1977)
+   unresolved: name_not_found (candidates 0)
+
+#65 [UNRESOLVED] citing 29926 (2009-02-25) STATE OF U.P. versus DINESH
+   context: ...pellate court to interfere with an order of acquittal than to curtail the power of the appellate court to review the entire evidence and to come to its own conclusion. In some cases (Ramaphupala Reddy v. State of A.P., (AIR 1971 SC 460
+   extracted name: (Ramaphupala Reddy v. State of A.P | citation AIR 1971 SC 460 (1971)
+   unresolved: name_not_found (candidates 0)
+
+#66 [UNRESOLVED] citing 22843 (2002-10-30) ANTHONY D'SOUZA AND ORS. versus STATE OF KARNATAKA
+   context: ...of jevenile accused has been splited. The Trial Court, therefore, was right in convicting the appellants under Section 396 IPC read with Section 149 IPC. (584- , ; 585- , , ; , HJ £ Swapan Patra v. State of West Bengal, [1999) 9 SCC 242
+   extracted name: HJ Swapan Patra v. State of West Bengal | citation [1999) 9 SCC 242 (1999)
+   unresolved: name_not_found (candidates 0)
+
+#67 [UNRESOLVED] citing 33886 (2014-11-18) SUDARSHAN RAJPOOT versus U.P. STATE ROAD TRANSPORT CORPORATION
+   context: ...Parivahan Karmchari Sanghata (2009) 8 SCC 556; Hari Nandan Prasad & Anr. v. Employer llR to Management of Food Corporation of India & Anr. (2014) 7 SCC 190: 2014 (2) SCR 955; U.P. Power Corporation v. Bijli Mazdoor Sang (2007) 2 SCC 755
+   extracted name: U.P. Power Corporation v. Bijli Mazdoor Sang | citation (2007) 2 SCC 755 (2007)
+   unresolved: name_not_found (candidates 0)
+
+#68 [UNRESOLVED] citing 25287 (2005-11-17) STATE OF PUNJAB AND ORS. versus M/S CHHABRA RICE MILLS AND ORS
+   context: ...ations framed under Punjab Agricultural Produce Markets Act, 1961-Agricultural Produce Markets. Anand Swarup Mahesh Kumar v. CST, (1980) 4 SCC 451 and State of Punjab and Ors. v. Guranditta Mal Shauti Prakash and Ors .. (2004] 5 SCC 791
+   extracted name: Ors. v. Guranditta Mal Shauti Prakash and Ors | citation (2004] 5 SCC 791 (2004)
+   unresolved: name_not_found (candidates 0)
+
+#69 [UNRESOLVED] citing 20488 (1998-02-26) STATE OF PUNJAB AND ORS. versus RAM LUBHAYA BAGGA
+   context: ...said reasons and findings the State Government's new 11olicy date 13-2-1995 is upheld. It is further held that the new policy is not violative of Article 21 of the Constitution. [1137- ) Surjit Singh v. State of Punjab, [1996)2 SCC 336
+   extracted name: Surjit Singh v. State of Punjab | citation [1996)2 SCC 336 (1996)
+   unresolved: ambiguous (candidates 3)
+
+#70 [UNRESOLVED] citing 30313 (2009-03-05) SATISH AMBANNA BANSODE versus STATE OF MAHARASHTRA
+   context: ... the dying declaration, the ,onclusions cannot be in any way faulted. [Paras 13 and 14] [1174- ] Paniben v. State of Gujarat 1992(2) SCC 474; Munnu Raja v. State of M.P. 1976 (3) SCC 104; State of UP. v. Ram Sagar Yadav 1985(1) SCC 552
+   extracted name: UP. v. Ram Sagar Yadav | citation 1985(1) SCC 552 (1985)
+   unresolved: name_not_found (candidates 0)
+
+#71 [UNRESOLVED] citing 38037 (2019-12-04) GREAT EASTERN SHIPPING CO. LTD. versus STATE OF KARNATAKA & ORS.
+   context: ...2006) 3 SCC 1 : [2006] 2 SCR 823 ; British India Steam Navigation Co. Ltd. v. Shanmughavilas Cashew Industries & Ors., (1990) 3 SCC 481 : [1990] 1 SCR 884 – relied on. State of A.P. & Anr. v. Rashtriya Ispat Nigam Ltd., (2002) 3 SCC 314
+   extracted name: A.P. & Anr. v. Rashtriya Ispat Nigam Ltd | citation (2002) 3 SCC 314 (2002)
+   unresolved: name_not_found (candidates 0)
+
+#72 [UNRESOLVED] citing 23586 (2003-09-08) SMT. SHAKILA ABDUL GAFAR KHAN versus VASANT RAGHUNATH DHOBLE AND ANR.
+   context: ...ces against them, in reality perpetrate them. (436- , 437- - ) Raghubir Singh v. State of Haryana, AIR (1980) SC 1087; Gauri Shankar Sharma v. State of U.P., AIR (1990) SC 709; Bhagwan Singh and Anr. v. State of Punjab, [1992) 3 SCC 249
+   extracted name: Anr. v. State of Punjab | citation [1992) 3 SCC 249 (1992)
+   unresolved: ambiguous (candidates 3)
+
+#73 [UNRESOLVED] citing 40601 (2022-05-19) C.C., C.E. & S.T. – BANGALORE (ADJUDICATION) ETC. versus M/S NORTHERN 
+   context: ...nental Consultants and Technocrats Pvt. Ltd. v. Union of India (2018) 4 SCC 669 : (2018) 10 SCR 309; Escorts v. Commissioner of Central Excise (2015) 9 SCC 109 : 2015 (5) SCR 241; Commissioner of Customs v. Magus Metals (2017) 16 SCC 491
+   extracted name: Customs v. Magus Metals | citation (2017) 16 SCC 491 (2017)
+   unresolved: name_not_found (candidates 0)
+
+#74 [UNRESOLVED] citing 16852 (1994-08-10) AMRUTLAL SOMESHWAR JOSHI versus THE STATE OF MAHARASHTRA
+   context: ... the courts below. [528· , CJ Convictions and death sentence confirmed. [528· ) Shankar @ Gauri Shankar a11d Ors. v. State of Tamil Nadu, JT (1994) 3 SC 54; //audin Mian and other v. State of Bihar, JT (1989) 2 SC 171 = (1989) 3 SCC 5
+   extracted name: other v. State of Bihar, JT | citation (1989) 3 SCC 5 (1989)
+   unresolved: name_not_found (candidates 0)
+
+#75 [UNRESOLVED] citing 42702 (2025-01-29) KRISHNADATT AWASTHY versus STATE OF M.P. & ORS.
+   context: ...the selection process the selected candidates ought to be impleaded. [See J.S. Yadav vs. State of Uttar Pradesh and Another, (2011) 6 SCC 570 (para 31) and Prabodh Verma and Others vs. State of Uttar Pradesh and Others, (1984) 4 SCC 251
+   extracted name: Others v. State of Uttar Pradesh and Others | citation (1984) 4 SCC 251 (1984)
+   unresolved: ambiguous (candidates 14)
+
+#76 [UNRESOLVED] citing 21758 (2000-03-30) SURESH RAI AND ORS. versus STATE OF BIHAR
+   context: ...ries and the possible weapon used in causing those injuries as also possible cause of death. (803- - ] 796 -- ... - SURESH RAI v. STATE 797 Podda Narayan v. State of A.P., [1975) Supp. SCR 84; George v. State of Kerala, [1998) 4 SCC 605
+   extracted name: George v. State of Kerala | citation [1998) 4 SCC 605 (1998)
+   unresolved: name_not_found (candidates 0)
+
+#77 [UNRESOLVED] citing 21175 (1999-02-22) OM PRAKASH versus STATE OF HARYANA
+   context: ...h case. (801- - ] Suraj Bhan v. State of Rajasthan, (1996] SCC Criminal 1314; State of M.P. v. Shyamsunder Trivedi, (1995] 4 SCC 262; Shankar v. State of Tamil Nadu, (1994] 4 SCC 478 and Bachan Singh v. State of Punjab, (1980] 2 SCC 684
+   extracted name: Bachan Singh v. State of Punjab | citation (1980] 2 SCC 684 (1980)
+   unresolved: ambiguous (candidates 2)
+
+#78 [UNRESOLVED] citing 39625 (2021-04-06) SANJIV PRAKASH versus SEEMA KUKREJA AND ORS.
+   context: ...td. v. North 47 American Coal Corpn. (India) (P) Ltd. (2016) 10 SCC 813 : [2016] 6 SCR 809; Larsen & Toubro Ltd. v. Mohan Lal Harbans Lal Bhayana (2015) 2 SCC 461 : [2014] 3 SCR 162; V.B. Rangaraj v. V.B. Gopalakrishnan (1992) 1 SCC 160
+   extracted name: V.B. Rangaraj v. V.B. Gopalakrishnan | citation (1992) 1 SCC 160 (1992)
+   unresolved: name_not_found (candidates 0)
+
+#79 [UNRESOLVED] citing 24607 (2004-03-25) STATE OF MADHYA PRADESH versus SANJAY RAI
+   context: ...; Ashok Kumar Challerjee v. State of MP., AIR (1989) ~ 1890; Bhagat Ram. v. State of Punjab, AIR (1954) SC 621; C. Chenga Reddy and Ors. v. State of A.P., [1996[ 10 SCC 193; Pada/a Veera Reddy v. State of A.P. and Ors., AIR (1990) SC 79
+   extracted name: Veera Reddy v. State of A.P. and Ors | citation AIR (1990) SC 79 (1990)
+   unresolved: name_not_found (candidates 0)
+
+#80 [UNRESOLVED] citing 24214 (2004-09-10) M/S. I.T.C. LTD. versus COMMISSIONER OF CENTRAL EXCISE, NEW DELHI AND 
+   context: ... 9 SCC 404; State of Madras v. Mis Radio and Electricals Ltd, [1996] Suppl. SCR 198; Mis Chunni Lal Parshadi Lal v. Commissioner of Sales Tax, (1986] SCC 501; Jacksons Thevara v. Collector of Customs and Central Excise, (1991] 2 SCC 62
+   extracted name: Jacksons Thevara v. Collector of Customs and Central Excise | citation (1991] 2 SCC 62 (1991)
+   unresolved: name_not_found (candidates 0)
+
+#81 [UNRESOLVED] citing 32117 (2011-09-02) STATE OF RAJASTHAN versus ARJUN SINGH & ORS. ETC
+   context: ...ysed because of their relationship and if the same are cogent and if there is no discrepancy, the same are acceptable.[paras 13 and 14] [839-f· ; 840- · ] Abdul Rashid Abdul Rahiman Patel & Ors. vs. State of Maharashtra (2007) 9 SCC 1
+   extracted name: Abdul Rashid Abdul Rahiman Patel & Ors. v. State of Maharashtra | citation (2007) 9 SCC 1 (2007)
+   unresolved: name_not_found (candidates 0)
+
+#82 [UNRESOLVED] citing 40997 (2023-09-06) R. SREENIVASA versus STATE OF KARNATAKA
+   context: ... State of Rajasthan, (2014) 4 SCC 715 : [2014] 3 SCR 744; Nizam v. State of Rajasthan, (2016) 1 SCC 550 : [2015] 10 SCR 786; Chotkau v. State of Uttar Pradesh, (2023) 6 SCC 742; Laxman Prasad v. State of Madhya Pradesh, (2023) 6 SCC 399
+   extracted name: Laxman Prasad v. State of Madhya Pradesh | citation (2023) 6 SCC 399 (2023)
+   unresolved: name_not_found (candidates 0)
+
+#83 [UNRESOLVED] citing 32424 (2012-11-02) THE STATE OF MAHARASHTRA & ORS. ETC.ETC. versus SAEED SOHAIL SHEIKH ET
+   context: ...be shown to be superadded. The Court held: "If there is power to decide and determine to the prejudice of a person, duty to act judicially is implicit in the exercise of such power.· 36. In AK. Kraipak v. Union of India (1969) 2 SCC 262
+   extracted name: AK. Kraipak v. Union of India | citation (1969) 2 SCC 262 (1969)
+   unresolved: name_not_found (candidates 0)
+
+#84 [UNRESOLVED] citing 24777 (2005-10-07) N.K. SHARMA versus ABHIMANYU
+   context: ... obtained, proceedings against him and his summoning were vitiated, was not maintainable since subordinate criminal courts do not have any review or inherent power. (217- , , DJ Ada/at Prasad v. Roop/al Jindal and Ors., (2004] 7 SCC 338
+   extracted name: DJ Prasad v. Jindal and Ors | citation (2004] 7 SCC 338 (2004)
+   unresolved: name_not_found (candidates 0)
+
+#85 [UNRESOLVED] citing 19869 (1997-07-11) SAMATHA versus STATE OF ANDHRA PRADESH AND ORS.
+   context: ...opment Authority v. Daulat Mal Jain, [1997) 1 SCC 35; Delhi Transport Corporation v. D.T.C. Mazdoor Congress, AIR (1991) SC 101; Shamsher Singh v. State of Punjab &Anr., [1974) 2 SCC 831 and R.K. Jain v. Union of India, [1995) 4 SCC 119
+   extracted name: R.K. Jain v. Union of India | citation [1995) 4 SCC 119 (1995)
+   unresolved: name_not_found (candidates 0)
+
+#86 [UNRESOLVED] citing 23841 (2003-01-08) SHARDA DEVI versus STATE OF BIHAR AND ANR.
+   context: ...e State to acquire the land of its subjects without regard to the wishes or willingness of the owner or person interested in the land cannot be questioned. (See Scindia Employees' Union v. State of Maharashtra and Ors., (1996) 10 SCC 150
+   extracted name: (See Scindia Employees' Union v. State of Maharashtra and Ors | citation (1996) 10 SCC 150 (1996)
+   unresolved: name_not_found (candidates 0)
+
+#87 [UNRESOLVED] citing 41662 (2024-05-17) RAVIKUMAR DHANSUKHLAL MAHETA & ANR. versus HIGH COURT OF GUJARAT & ORS
+   context: ... (1) v. U.P. Public Service Commission [2023] 12 SCR 682 : (2006) 9 SCC 507; All India Judges’ Association (4) v. Union of India (2010) 15 SCC 170; Malik Mazhar Sultan & Anr. (3) v. U.P. Public Service Commission & Ors. (2009) 17 SCC 530
+   extracted name: Malik Mazhar Sultan & Anr. v. U.P. Public Service Commission & Ors | citation (2009) 17 SCC 530 (2009)
+   unresolved: name_not_found (candidates 0)
+
+#88 [UNRESOLVED] citing 41511 (2023-05-11) SUBHASH DESAI versus PRINCIPAL SECRETARY, GOVERNOR OF MAHARASHTRA & OR
+   context: ...n of India (Aadhar 5J) (2019) 1 SCC 1 : [2018] 8 SCR 1; Rojer Mathew v. South Indian Bank Ltd. (2020) 6 SCC 1 : [2019] SUBHASH DESAI v. PRINCIPAL SECRETARY, GOVERNOR OF MAHARASHTRA 866 16 SCR 1; State of UP v. Desh Raj, (2007) 1 SCC 257
+   extracted name: UP v. Desh Raj | citation (2007) 1 SCC 257 (2007)
+   unresolved: name_not_found (candidates 0)
+
+#89 [UNRESOLVED] citing 32476 (2012-08-30) KRISHI UPAJ MANDI SAMITI, NARSINGHPUR versus M/S. SHIV SHAKTI KHANSARI
+   context: ...Gram Panchayat of Village Jama/pur v. Ma/winder Singh and others 1985 (3) sec 661: 1985 (2) Suppl. SCR 28 and Kaiser-I-Hind Private Limited and another v. National Textile Corporation (Maharashtra North) Ltd. and others (2002) 8 SCC 182
+   extracted name: another v. National Textile Corporation (Maharashtra North) Ltd. and others | citation (2002) 8 SCC 182 (2002)
+   unresolved: ambiguous (candidates 2)
+
+#90 [UNRESOLVED] citing 38820 (2020-01-21) KEISHAM MEGHACHANDRA SINGH versus THE HON’BLE SPEAKER MANIPUR LEGISLAT
+   context: ... question of split put forward before him. Even within the parameters of judicial review laid down in Kihoto Hollohan [1992 Supp (2) SCC 651 : AIR 1993 SC 412 : (1992) 1 SCR 686] and in Jagjit Singh v. State of Haryana [(2006) 11 SCC 1
+   extracted name: Jagjit Singh v. State of Haryana | citation (2006) 11 SCC 1 (2006)
+   unresolved: name_not_found (candidates 0)
+
+#91 [UNRESOLVED] citing 22046 (2000-05-01) STATE OF MAHARASHTRA versus DAMU AND ORS.
+   context: ...tances. Thus, the said confessional statement can he used against -4 without any difficulty. (898- - ] ---+ Sarwan Singh Ratan Singh v. State of Punjab, AIR (1957) SC 637 and Kehar Singh v. State (Delhi Administration), AIR (1988) SC 1883
+   extracted name: Kehar Singh v. State (Delhi Administration) | citation AIR (1988) SC 1883 (1988)
+   unresolved: name_not_found (candidates 0)
+
+#92 [UNRESOLVED] citing 38298 (2019-02-27) DEPARTMENT OF CUSTOMS versus SHARAD GANDHI
+   context: ...ue that it may be the same acts or transaction which gives rise to the two distinct offences but that may not matter. [Paras 42, 65, 66][303- ; 318- - ; 319- - ] Bharat Heavy Electricals Limited v. Globe Hi-Fabs Limited (2015) 5 SCC 718
+   extracted name: Bharat Heavy Electricals Limited v. Globe Hi-Fabs Limited | citation (2015) 5 SCC 718 (2015)
+   unresolved: name_not_found (candidates 0)
+
+#93 [UNRESOLVED] citing 22193 (2001-09-18) VERIGAMTO NAVEEN versus GOVERNMENT OF ANDHRA PRADESH AND ORS.
+   context: .... A.P. Mining Cmporation Ltd., (1988) 2 ALT 722; Harshankar v. Deputy Excise & Taxation Co11m1issioner, [1975] 1 SCC 737; Radhakrishna Agatwal v. State of Bihar, AIR (1977) SC 1496; Ram fol & Sons v. State of Rajasthan, AIR (1976) SC 54
+   extracted name: Ram fol & Sons v. State of Rajasthan | citation AIR (1976) SC 54 (1976)
+   unresolved: name_not_found (candidates 0)
+
+#94 [UNRESOLVED] citing 20330 (1997-07-11) THE INSTITUTE OF CHARTERED ACCOUNTANTS OF INDIA versus MIS PRICE WATER
+   context: ...r, (1965] 2 ALL ER 441; Gwalior Rayon Silk Mfg. (Wvg) Co Ltd. v. Custodian of Vested Forests Pa/ghat & Anr., AIR (1990) SC 1747 (1752) = (1990] 2 SCIR 401; Smt. Shyam Kishori Devi v. Patna Municipal Corporation & AllT., AIR (1966) SC 1678
+   extracted name: Smt. Shyam Kishori Devi v. Patna Municipal Corporation & AllT | citation AIR (1966) SC 1678 (1966)
+   unresolved: name_not_found (candidates 0)
+
+#95 [UNRESOLVED] citing 31812 (2011-09-13) ARULMIGHU LAKSHMI NARAYANASWAMY TEMPLE, REP. BY ITS CHAIRMAN, BOARD OF
+   context: ...OARD OF TRUSTEES v. NALLAMMAL ( ) THR. LRS. in respect of Survey Nos. 2/1, 2/2, 3/1 and 3/3 and classified Survey No. 3/2 as Cart track Poramboke. [Para 8] [635- - ] K.M. Sengoda Goundar & Ors. v. State of Madras & Anr. (1973) 2 SCC 662
+   extracted name: K.M. Sengoda Goundar & Ors. v. State of Madras & Anr | citation (1973) 2 SCC 662 (1973)
+   unresolved: name_not_found (candidates 0)
+
+#96 [UNRESOLVED] citing 37209 (2018-01-23) M/S. INDIAN FARMERS FERTILIZER CO-OPERATIVE LIMITED versus M/S BHADRA 
+   context: ...ound of it being barred by limitation, it will be, in a sense, a case of the court or tribunal refusing to exercise jurisdiction to go into the merits of the claim. In Pandurang Dhoni 867 Chougule v. Maruti Hari Jadhav [AIR 1996 SC 153
+   extracted name: Pandurang Dhoni Chougule v. Maruti Hari Jadhav | citation AIR 1996 SC 153 (1996)
+   unresolved: name_not_found (candidates 0)
+
+#97 [UNRESOLVED] citing 32671 (2012-04-27) P.A. MOHAMMED RIYAS versus M.K. RAGHAVAN & ORS.
+   context: ...by the Appellant was, therefore, liable to be dismissed under Section 86(1) of the 1951 Act read with Order VII Rule 11 (a) CPC. Reference was made to the decision of this Court in M. Kama/am Vs. Dr. V.A. Syed Mohammed ((1978) 2 SCC 659
+   extracted name: M. v. Dr. V.A. Syed Mohammed | citation (1978) 2 SCC 659 (1978)
+   unresolved: name_not_found (candidates 0)
+
+#98 [UNRESOLVED] citing 23217 (2002-04-22) STATE OF A.P. versus NATIONAL THERMAL POWER CORPORATION LTD. AND ORS.
+   context: ...gislation. [303- - ; 304- ] Burmah Shell Oii Storage and Distributing Co. India Ltd v. The Belgaum Borough Municipality, [1963] Suppl. 2 SCR 216 and 20th Century Finance Corporation Ltd and Anr. v. State of Maharashtra, [2000] 6 SCC 12
+   extracted name: Anr. v. State of Maharashtra | citation [2000] 6 SCC 12 (2000)
+   unresolved: ambiguous (candidates 4)
+
+#99 [UNRESOLVED] citing 23268 (2003-05-09) SUNIL KUMAR GOYAL versus RAJASTHAN PUBLIC SERVICE COMMISSION
+   context: ...ing been called for interview, their candidature could not have been cancelled on the purported ground of non-completion of three years' practice in terms of the All India Judges' Association and Ors. v. Union of India, [2002] 4 SCC 247
+   extracted name: Ors. v. Union of India | citation [2002] 4 SCC 247 (2002)
+   unresolved: ambiguous (candidates 15)
+
+#100 [UNRESOLVED] citing 33028 (2013-08-29) SINGARENI COLLIERIES CO. LTD. versus VEMUGANTI RAMAKRISHAN RAO & ORS.
+   context: ... Abraham Umarji v. State of Gujarat (2004) CriLJ 3860, Unique Butyle Tube Industries Pvt. Ltd. v. U.P. Financial Corporation and Ors. 2002 (5) Suppl. SCR 666 = (2003) 2 SCC 455, UOI v. Rajiv Kumar with UOI v. Bani Singh (2003) SCC (LS) 928
+   extracted name: UOI v. Bani Singh | citation (2003) SCC (LS) 928 (2003)
+   unresolved: name_not_found (candidates 0)
+

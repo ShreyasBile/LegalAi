@@ -1,0 +1,10 @@
+5cf3b65d8bcdfbd0c4506cb8c28d795a15f31e760bfe17fbc918b5cea80ea236 *citebench/index.py
+2b76b59ecaa7b2d56125d6d177b7b6fddb455c1d1bb647a2d4ffd746382418d1 *citebench/verifier.py
+2026-09-30T00:45:19+05:30
+
+# Addendum 2026-10-03 (before publishing the repository): the database password was removed from
+# citebench/index.py. The only differences from the hash above are `import os` and the DSN line, which
+# now reads CASELAW_DSN and omits the password (it comes from PGPASSWORD). Reversing exactly those three
+# lines reproduces the hash above. Behaviour of the verifier is unchanged. verifier.py is unchanged.
+440448790554287e1d02422914c06c3f6b1043903fbedd3d94e9c371976a73f4 *citebench/index.py
+2b76b59ecaa7b2d56125d6d177b7b6fddb455c1d1bb647a2d4ffd746382418d1 *citebench/verifier.py

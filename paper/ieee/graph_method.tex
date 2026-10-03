@@ -1,0 +1,13 @@
+\section{Judgment Text and Citation Graph}
+\label{sec:graph}
+\subsection{Text and headnotes}
+We downloaded the PDF of every Supreme Court judgment in the archive and extracted its text layer with PyMuPDF. The reports are scanned pages with an embedded OCR layer, so no further OCR is needed; we keep only the text. \GraphTextOK{} of the \CorpusSC{} judgments were extracted; for \GraphTextFail{} the archive returned an error or an HTML page instead of the PDF. Every judgment in the S.C.R. opens with the reporter's headnote: the parties, date and bench, then a summary of the questions decided and the holdings, then the judgment proper, usually introduced by a jurisdiction line such as ``CIVIL APPELLATE JURISDICTION''. We cut the headnote at that line, keep at most 3{,}000 characters, and remove running page heads and the margin letters A--H of the printed report.
+
+\subsection{Extracting and resolving citations}
+We find every reporter citation in the text: S.C.R. and neutral citations, SCC citations, and AIR citations of the Supreme Court (AIR citations of other courts are discarded). Each distinct pair of citing judgment and citation is resolved in three tiers:
+\begin{enumerate}
+\item \emph{Number}: an S.C.R. or neutral citation is looked up exactly in the index.
+\item \emph{Parallel number}: an SCC or AIR citation written directly beside an S.C.R. or neutral citation, as in \texttt{(2012) 1 SCC 40 : [2011] 13 SCR 309}, takes that number's judgment.
+\item \emph{Name}: otherwise the case name written before the citation and the citation's year go through the frozen verifier of \S\ref{sec:verifier}, and the pair is resolved only if exactly one judgment matches.
+\end{enumerate}
+If a number and the case name beside it point to different judgments, the pair is dropped. A citation of the judgment itself (its own report) is ignored. We developed the extractor on a pilot sample of \PilotN{} judgments and then ran it once over the whole corpus; the manual check in \S\ref{sec:graphres} uses only judgments outside the pilot.

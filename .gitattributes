@@ -1,0 +1,7 @@
+# Keep line endings identical on every machine: the frozen SHA-256 hashes in paper/experiment/data/ are computed on LF files.
+* text=auto eol=lf
+*.pdf binary
+*.png binary
+*.jpg binary
+*.gz binary
+*.npz binary

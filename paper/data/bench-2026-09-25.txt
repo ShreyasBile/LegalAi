@@ -1,0 +1,17 @@
+﻿Benchmarking http://localhost:8090 — 1,93,19,963 rows, 12 classes
+
+class                            n | pass1 p50  p95  max      | pass2 p50  p95  max      | results (capped/total)
+browse (no query)                6 |    3.4    5.5    5.5  |    2.8    5.6    5.6  | 6/6 capped, 0 empty
+filter only (court)             12 |    2.8    4.8    4.8  |    2.8    4.9    4.9  | 12/12 capped, 0 empty
+filter only (court+years)        6 |    3.9     20     20  |    2.7    5.1    5.1  | 4/6 capped, 0 empty
+keyword, selective              10 |    7.7  2.30s  2.30s  |    5.3    645    645  | 1/10 capped, 0 empty, 1 fuzzy
+keyword, common                  8 |  1.00s  6.06s  6.06s  |    235    932    932  | 7/8 capped, 0 empty
+keyword + filters                6 |    184    864    864  |    199    552    552  | 2/6 capped, 0 empty, 1 fuzzy
+keyword + outcome filter         4 |    293  2.49s  2.49s  |    208    726    726  | 0/4 capped, 3 empty
+exact: CNR                      25 |    2.2    4.6     15  |    1.8    5.9     14  | 0/25 capped, 0 empty
+exact: neutral citation         10 |    2.0    4.0    4.0  |    1.6    1.9    1.9  | 0/10 capped, 0 empty
+exact: reporter citation        10 |    3.4     29     29  |    2.4    5.8    5.8  | 0/10 capped, 0 empty
+fuzzy (typo) fallback            6 |    295  1.05s  1.05s  |    242    482    482  | 0/6 capped, 0 empty, 5 fuzzy
+case orders (per-case fetch)    25 |    1.6    3.9     12  |    1.8    2.3    3.2  | 0/25 capped, 0 empty
+
+raw timings → D:\lawyer\paper\data\bench-2026-09-25.json

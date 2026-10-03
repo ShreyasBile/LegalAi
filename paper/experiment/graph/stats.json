@@ -1,0 +1,209 @@
+{
+ "judgments": 28253,
+ "units": 220762,
+ "tiers": {
+  "exact": 68523,
+  "unresolved": 49784,
+  "name": 44846,
+  "conflict": 749,
+  "self": 16847,
+  "parallel": 40013
+ },
+ "edges": 109370,
+ "by_kind_resolved": {
+  "scr": [
+   68478,
+   86443
+  ],
+  "air": [
+   14099,
+   25976
+  ],
+  "scc": [
+   69905,
+   105106
+  ],
+  "insc": [
+   900,
+   3237
+  ]
+ },
+ "by_era": {
+  "1950": {
+   "units": 953,
+   "resolved_pct": 87.61804826862539,
+   "exact": 821,
+   "parallel": 0,
+   "name": 14,
+   "unresolved": 111
+  },
+  "1960": {
+   "units": 3259,
+   "resolved_pct": 84.01350107394906,
+   "exact": 2669,
+   "parallel": 6,
+   "name": 63,
+   "unresolved": 507
+  },
+  "1970": {
+   "units": 5001,
+   "resolved_pct": 75.94481103779245,
+   "exact": 3561,
+   "parallel": 18,
+   "name": 219,
+   "unresolved": 1173
+  },
+  "1980": {
+   "units": 6467,
+   "resolved_pct": 77.4547703726612,
+   "exact": 4160,
+   "parallel": 43,
+   "name": 806,
+   "unresolved": 1416
+  },
+  "1990": {
+   "units": 15667,
+   "resolved_pct": 63.79651496776664,
+   "exact": 4958,
+   "parallel": 361,
+   "name": 4676,
+   "unresolved": 5595
+  },
+  "2000": {
+   "units": 34810,
+   "resolved_pct": 55.04740017236426,
+   "exact": 2957,
+   "parallel": 375,
+   "name": 15830,
+   "unresolved": 15613
+  },
+  "2010": {
+   "units": 70340,
+   "resolved_pct": 78.51435882854706,
+   "exact": 23027,
+   "parallel": 17174,
+   "name": 15026,
+   "unresolved": 14847
+  },
+  "2020": {
+   "units": 67418,
+   "resolved_pct": 83.98053932184283,
+   "exact": 26370,
+   "parallel": 22036,
+   "name": 8212,
+   "unresolved": 10522
+  }
+ },
+ "agree": [
+  48381,
+  70235
+ ],
+ "name_precision": [
+  45342,
+  46091
+ ],
+ "violations": {
+  "all": [
+   53,
+   109370
+  ],
+  "exact": [
+   27,
+   67578
+  ],
+  "name": [
+   26,
+   44160
+  ],
+  "parallel": [
+   0,
+   39863
+  ]
+ },
+ "cited_at_least_once": 21518,
+ "max_indegree": 261,
+ "median_outdeg": 3,
+ "landmark_median_percentile": 98.94177136005838,
+ "landmark_cited": [
+  50,
+  51
+ ],
+ "citing_judgments": 22483,
+ "top_cited": [
+  [
+   "MANEKA GANDHI versus UNION OF INDIA",
+   "1978",
+   261
+  ],
+  [
+   "HIS HOLINESS KESAVANANDA BHARATI SRIPADAGALAVARU versus STATE OF KERALA",
+   "1973",
+   170
+  ],
+  [
+   "SHARAD BIRDHI CHAND SARDA versus STATE OF MAHARASHTRA",
+   "1984",
+   155
+  ],
+  [
+   "RAMANA DAYARAM SHETTY versus THE INTERNATIONAL AIRPORT AUTHORITY OF INDIA AND ORS.",
+   "1979",
+   150
+  ],
+  [
+   "SHIVAJI SAHEBRAO BOBADE & ANR versus STATE OF MAHARASHTRA",
+   "1973",
+   141
+  ],
+  [
+   "MOHINDER SINGH GILL & ANR. versus THE CHIEF ELECTION COMMISSIONER, NEW DELHI & ORS.",
+   "1977",
+   135
+  ],
+  [
+   "THE BENGAL IMMUNITY COMPANY LIMITED versus THE STATE OF BIHAR AND OTHERS.",
+   "1955",
+   126
+  ],
+  [
+   "E. P. ROYAPPA versus STATE OF TAMIL NADU & ANR.",
+   "1973",
+   119
+  ],
+  [
+   "D.S. NAKARA & OTHERS versus UNION OF INDIA",
+   "1982",
+   117
+  ],
+  [
+   "SHRI RAM KRISHNA DALMIA versus SHRI JUSTICE S. R. TENDOLKAR & OTHERS",
+   "1958",
+   116
+  ],
+  [
+   "RUSTOM CAVASJEE COOPER versus UNION OF INDIA",
+   "1970",
+   114
+  ],
+  [
+   "SECRETARY, STATE OF KARNATAKA AND ORS. versus UMADEVI AND ORS.",
+   "2006",
+   114
+  ],
+  [
+   "A.K. GOPALAN versus THE STATE OF MADRAS.",
+   "1950",
+   111
+  ],
+  [
+   "A.R. ANTULAY versus R.S. NAYAK & ANR.",
+   "1988",
+   107
+  ],
+  [
+   "THE STATE OF WEST BENGAL versus ANWAR ALI SARKAR",
+   "1952",
+   105
+  ]
+ ]
+}

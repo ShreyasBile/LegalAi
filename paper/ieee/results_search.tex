@@ -1,0 +1,27 @@
+\subsection{Searching by name}
+\label{sec:search}
+With access to the index the citation tasks became easy for most models (Table~\ref{tab:searchcit}). The models identified between \SearchTOneCorrectMin{} and \SearchTOneCorrectMax{} of the \TOneN{} real citations, against at most \BestTOneCorrect{} without search, and three of them supplied the correct S.C.R. and neutral citations for nearly every T3 judgment. Llama and Qwen3 looked up the given citation in every T1 and T2 item. After an empty lookup Llama named a judgment for only \SearchTTwoNamedLlama{} fabricated citation, against \TTwoNamedLlama{} without search. Two weaknesses remain. Gemma looked up the given citation in only \SearchTOneLookedGemma{} of the \TOneN{} T1 items. In the others it searched for a case name it had guessed, never saw the right judgment, and answered from those results or declined; it gave \SearchTOneWrongGemma{} wrong answers in all. For \SearchTTwoNamedGemma{} of the 60 fabricated citations it still named a judgment, \SearchTTwoNamedRealGemma{} of them real judgments that its own searches for invented names had returned. Qwen2.5-VL declined \SearchTOneDeclQwenVL{} T1 items although the lookup had returned the right judgment. Some answers scored wrong do name the right judgment, with a small copying error that the strict name matcher rejects (\emph{Ircc} for \emph{IRRC}, \emph{Simplicity} for \emph{Simplex}, or a title copied with an empty respondent, ``\ldots\ v.'', whose ``v'' the frozen parser reads as an initial). This applies to \SearchTOneNearLlama{} of Llama's \SearchTOneWrongLlama{} and \SearchTOneNearQwen{} of Qwen3's \SearchTOneWrongQwen{} wrong T1 answers. We count them as wrong, as scored.
+
+\begin{table}[t]
+\caption{Citation tasks with search and lookup (compare Tables~\ref{tab:t1t2} and~\ref{tab:t3}). T1: \NumTOne{} real citations; T2: \NumTTwo{} fabricated citations; T3: share of the \NumTThree{} judgments whose S.C.R. or neutral citation was supplied exactly.}
+\label{tab:searchcit}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\input{tab_search_cit}
+\end{table}
+
+For legal questions the effect differs (Table~\ref{tab:t4conds}, name search). Name search almost eliminated cases that the index cannot find: across the four models, NOT\_FOUND cases fell from \NFClosedAll{} to \NFSearchAll{}, and verified cases rose from \VerClosedAll{} to \VerSearchAll{}. But fewer answers contained a judgment that decided the question: \RefSearchAll{} of the \RefQuestionsAll{} model--question pairs, against \RefClosedAll{} without search. Question by question, \RefLostAll{} pairs lost their reference judgment and \RefGainedAll{} gained one (exact McNemar test, $p$~\RefMcNemarP).
+
+The cause is how the models searched. The tool description stated that the index holds no subject matter, yet Llama and Qwen2.5-VL mostly searched with the words of the question: \SearchTopicQLlama{} of Llama's \SearchSearchesLlama{} searches and \SearchTopicQQwenVL{} of Qwen2.5-VL's \SearchSearchesQwenVL{} consisted mainly of the question's own words. They then listed the judgments whose party names happened to contain those words. On whether ``procedure established by law'' must be fair, just and reasonable, Llama had cited \emph{Maneka Gandhi} without search; with search it listed \emph{Fair Air Engineers v.\ N.K.\ Modi} and \emph{Just Society v.\ Union of India}. Qwen2.5-VL listed \emph{State of U.P.\ v.\ U.P.\ State Law Officers Association} and \emph{Bajaj Auto v.\ Company Law Board}. These judgments exist, so the verifier labels them VERIFIED. Yet none of the \SearchTopicCasesAll{} listed judgments that came only from such searches is a reference judgment.
+
+Qwen3 searched by party names (only \SearchTopicQQwen{} of its \SearchSearchesQwen{} searches consisted mainly of the question's words) and kept nearly all its reference hits (\RefClosedQwen{} questions without search, \RefSearchQwen{} with): search confirmed the judgments it recalled but added none it did not. Gemma also searched by names, but paired the citations it found with names from memory, producing \SearchTFourMisGemma{} MISATTRIBUTED cases, such as \emph{Jacob Mathew v.\ State of Kerala} with the citation of \emph{Jacob Mathew v.\ State of Punjab}. Gemma and Qwen2.5-VL often wrote their whole answer into the \emph{answer} action (\SearchTFourInvalidActionGemma{} and \SearchTFourInvalidActionQwenVL{} of 40 T4 episodes), which was cut at the length limit; they were then asked for the final answer as in every other episode.
+
+\begin{table*}[t]
+\caption{T4 under five conditions: from memory, after verifier feedback (T5 answers where revised, T4 otherwise), with name search over the index metadata, and with topic search over headnotes without and with the citation prior. Ref.\ = questions (of \NumTopics) whose list includes a judgment that decided the question; N.F.\ = listed cases the verifier could not find.}
+\label{tab:t4conds}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\input{tab_t4conds}
+\end{table*}

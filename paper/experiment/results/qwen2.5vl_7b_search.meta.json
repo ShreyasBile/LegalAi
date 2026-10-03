@@ -1,0 +1,18 @@
+{
+ "model": "qwen2.5vl:7b+search",
+ "host": 11434,
+ "digest": "5ced39dfa4bac325dc183dd1e4febaa1c46b3ea28bce48896c8e69c1e79611cc",
+ "details": {
+  "parent_model": "",
+  "format": "gguf",
+  "family": "qwen25vl",
+  "families": [
+   "qwen25vl"
+  ],
+  "parameter_size": "8.3B",
+  "quantization_level": "Q4_K_M"
+ },
+ "max_actions": 5,
+ "num_ctx": 8192,
+ "results_per_search": 6
+}

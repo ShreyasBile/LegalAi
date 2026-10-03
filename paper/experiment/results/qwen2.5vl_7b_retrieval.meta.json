@@ -1,0 +1,25 @@
+{
+ "model": "qwen2.5vl:7b+retrieval",
+ "host": "11434",
+ "details": {
+  "parent_model": "",
+  "format": "gguf",
+  "family": "qwen25vl",
+  "families": [
+   "qwen25vl"
+  ],
+  "parameter_size": "8.3B",
+  "quantization_level": "Q4_K_M"
+ },
+ "weights": [
+  1.0,
+  1.0,
+  0.0
+ ],
+ "max_actions": 5,
+ "results_per_search": 6,
+ "snippet_chars": 280,
+ "tasks": [
+  "T4"
+ ]
+}

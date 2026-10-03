@@ -1,0 +1,14 @@
+\subsection{Revision after verifier feedback (T5)}
+For the \TFiveQAll{} T4 answers that contained at least one unverified case, we told the model what the check had found for each case (for example, that no Supreme Court judgment with those parties exists near the stated year) and asked it to revise its list. Table~\ref{tab:t5} shows the result. The models dropped the flagged cases: across the four models the number of NOT\_FOUND cases fell from \TFiveNFBeforeAll{} to \TFiveNFAfterAll{}, and the share of verified cases rose for every model. The gain came entirely from removal. \TFiveRepeatedAll{} of the \TFiveCasesAfterAll{} cases in the revised lists were repeated from the first answers; only \TFiveNewCaseModels{} named new cases (\TFiveNewCasesAll{} in all), and none of them could be verified. The number of verified cases fell slightly, from \TFiveVerBeforeAll{} to \TFiveVerAfterAll{}. Qwen3 returned an empty list for \TFiveEmptyAfterQwen{} questions, and Qwen2.5-VL's revised lists still contained \TFiveKeptNFQwenVL{} cases the index could not find, all repeated from its first answers. Feedback from an existence check thus makes an answer shorter and safer, but not more complete.
+
+\begin{table}[t]
+\caption{T5: the T4 answers that contained an unverified case (Q), before and after the model revised them with the verifier's feedback.}
+\label{tab:t5}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\input{tab_t5}
+\end{table}
+
+\subsection{Effect of reasoning}
+With thinking enabled, Qwen3 wrote a median of \ThinkMedianChars{} characters of reasoning per item and took a median of \ThinkMedianSec{}\,s instead of \NoThinkMedianSec{}\,s (Table~\ref{tab:t1t2}, row ``Qwen3 8B think''; T3 was not run). It stopped declining every question, and the additional answers were mostly wrong. On T1 it identified \ThinkTOneCorrect{} real citations correctly and \ThinkTOneWrong{} wrongly, declining \ThinkTOneDecl{}; on T2 it named a judgment for \ThinkTTwoNamed{} of the 60 fabricated citations (\TTwoNamedPctQwenThink, 95\% CI \TTwoNamedCIQwenThink), sometimes a famous one: it identified the non-existent \texttt{[1992] 7 S.C.R.~142} as \emph{Indra Sawhney v.\ Union of India} and \texttt{[1997] 7 S.C.R.~501} as \emph{Vishaka v.\ Rajasthan}. On T4 the share of verified cases fell from \NoThinkTFourVerPct{} to \ThinkTFourVerPct{} and the share of NOT\_FOUND cases rose from \NoThinkTFourNFPct{} to \ThinkTFourNFPct{}; \ThinkTFourInvalid{} of the 40 answers were invalid because the reasoning exhausted the token budget (\ThinkTruncated{} items in all). At this scale, reasoning made the model more willing to answer without making it more accurate.

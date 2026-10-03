@@ -1,0 +1,107 @@
+﻿=== A. Corpus, per court (Table 1): rows, year range, rows without a PDF link
+ court_code |               name                |  rows   | y_min | y_max | no_link | pct_linked 
+------------+-----------------------------------+---------+-------+-------+---------+------------
+ 27~1       | Bombay High Court                 | 2446330 |  1950 |  2026 |  105775 |      95.68
+ 9~13       | Allahabad High Court              | 2300821 |  1987 |  2026 |   20664 |      99.10
+ 3~22       | High Court of Punjab and Haryana  | 1864802 |  1950 |  2026 |       0 |     100.00
+ 10~8       | Patna High Court                  | 1708553 |  1967 |  2026 |       0 |     100.00
+ 33~10      | Madras High Court                 | 1701231 |  1953 |  2026 |       0 |     100.00
+ 8~9        | High Court Of Rajasthan           | 1099000 |  1989 |  2026 |       0 |     100.00
+ 36~29      | High Court for State of Telangana | 1045405 |  1963 |  2026 |       0 |     100.00
+ 32~4       | High Court of Kerala              | 1036147 |  1950 |  2026 |       0 |     100.00
+ 29~3       | High Court of Karnataka           |  963734 |  1997 |  2026 |       0 |     100.00
+ 21~11      | Orissa High Court                 |  801171 |  1970 |  2026 |       0 |     100.00
+ 23~23      | High Court of Madhya Pradesh      |  693219 |  1996 |  2026 |   42690 |      93.84
+ 22~18      | High Court Of Chhattisgarh        |  574390 |  1963 |  2026 |       0 |     100.00
+ 20~7       | High Court of Jharkhand           |  463440 |  1989 |  2026 |       0 |     100.00
+ 24~17      | High Court of Gujarat             |  423417 |  1982 |  2026 |       0 |     100.00
+ 19~16      | Calcutta High Court               |  420539 |  1950 |  2026 |       0 |     100.00
+ 7~26       | High Court of Delhi               |  389938 |  1960 |  2026 |       0 |     100.00
+ 18~6       | Gauhati High Court                |  325650 |  1988 |  2026 |       0 |     100.00
+ 28~2       | High Court of Andhra Pradesh      |  310716 |  1995 |  2026 |       0 |     100.00
+ 2~5        | High Court of Himachal Pradesh    |  292894 |  1970 |  2026 |       0 |     100.00
+ 5~15       | High Court of Uttarakhand         |  236813 |  1950 |  2026 |       0 |     100.00
+ 1~12       | High Court of Jammu and Kashmir   |  115040 |  1950 |  2026 |       0 |     100.00
+ SC         | Supreme Court of India            |   38366 |  1950 |  2026 |       0 |     100.00
+ 16~20      | High Court of Tripura             |   33871 |  2001 |  2026 |       0 |     100.00
+ 14~25      | High Court of Manipur             |   19035 |  2005 |  2026 |       0 |     100.00
+ 17~21      | High Court of Meghalaya           |   12986 |  2010 |  2026 |       0 |     100.00
+ 11~24      | High Court of Sikkim              |    2455 |  2000 |  2026 |       0 |     100.00
+(26 rows)
+
+=== B. Corpus total and overall link availability
+  total   | no_link | pct_linked 
+----------+---------+------------
+ 19319963 |  169129 |     99.125
+(1 row)
+
+=== C. Mobile rows per court and how many now resolve to a real PDF (Table 2)
+ court_code |              name              | mobile_rows | mobile_with_pdf | mobile_no_pdf | nonmobile_no_pdf | total_rows 
+------------+--------------------------------+-------------+-----------------+---------------+------------------+------------
+ 27~1       | Bombay High Court              |      643216 |          537441 |        105775 |                0 |    2446330
+ 9~13       | Allahabad High Court           |      605598 |          584934 |         20664 |                0 |    2300821
+ 23~23      | High Court of Madhya Pradesh   |       42695 |               5 |         42690 |                0 |     693219
+ 2~5        | High Court of Himachal Pradesh |           7 |               7 |             0 |                0 |     292894
+(4 rows)
+
+=== D. Mobile rows by decision year: how many have no PDF anywhere in the archive
+ court_code | year | mobile_rows | no_pdf 
+------------+------+-------------+--------
+ 23~23      | 2024 |       15874 |  15869
+ 23~23      | 2025 |       23344 |  23344
+ 23~23      | 2026 |        3477 |   3477
+ 2~5        | 2025 |           5 |      0
+ 2~5        | 2026 |           2 |      0
+ 27~1       | 2005 |           7 |      0
+ 27~1       | 2007 |           1 |      0
+ 27~1       | 2008 |           1 |      0
+ 27~1       | 2009 |           1 |      0
+ 27~1       | 2010 |           1 |      0
+ 27~1       | 2012 |           4 |      3
+ 27~1       | 2013 |           7 |      0
+ 27~1       | 2014 |          31 |      7
+ 27~1       | 2015 |         112 |     12
+ 27~1       | 2016 |         172 |     21
+ 27~1       | 2017 |         363 |     24
+ 27~1       | 2018 |         665 |     55
+ 27~1       | 2019 |        1133 |    123
+ 27~1       | 2020 |         683 |    233
+ 27~1       | 2021 |        1467 |   1406
+ 27~1       | 2022 |        4579 |   4442
+ 27~1       | 2023 |       16513 |  16042
+ 27~1       | 2024 |      192615 |  38727
+ 27~1       | 2025 |      310672 |  36379
+ 27~1       | 2026 |      114189 |   8301
+ 9~13       | 2017 |           4 |      4
+ 9~13       | 2018 |          57 |     57
+ 9~13       | 2019 |         126 |    126
+ 9~13       | 2020 |          75 |     75
+ 9~13       | 2021 |         115 |    115
+ 9~13       | 2022 |         465 |    465
+ 9~13       | 2023 |        1964 |   1964
+ 9~13       | 2024 |      174463 |   3325
+ 9~13       | 2025 |      285405 |   8875
+ 9~13       | 2026 |      142924 |   5658
+(35 rows)
+
+=== E. Independent consistency check: year folder of the resolved key vs decision year (expect 0 differing)
+ court_code | resolved | folder_year_differs 
+------------+----------+---------------------
+ 9~13       |   584934 |                   0
+ 27~1       |   537441 |                   0
+ 2~5        |        7 |                   0
+ 23~23      |        5 |                   0
+(4 rows)
+
+=== F. Filename is not an identity: stems that occur in more than one bench of the same court
+ colliding_stems | rows_involved | min_rows_lost_if_keyed_on_filename | more_than_two_benches | same_title_and_date | different_title_and_date | only_one_differs | cnr_differs 
+-----------------+---------------+------------------------------------+-----------------------+---------------------+--------------------------+------------------+-------------
+           61125 |        123131 |                              62006 |                   881 |                6575 |                    53963 |              587 |       61125
+(1 row)
+
+=== G. Outcome (disposal_nature) vocabulary
+ raw_distinct | case_insens_distinct |  nulls  |   rows   
+--------------+----------------------+---------+----------
+          691 |                  612 | 1204137 | 19319963
+(1 row)
+

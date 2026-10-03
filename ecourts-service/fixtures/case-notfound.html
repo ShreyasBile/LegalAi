@@ -1,0 +1,10 @@
+<!--
+  Fixture: the "no such case" response. eCourts returns a short error panel with
+  no case_details_table. The parser must detect this and return found:false
+  rather than throwing.
+-->
+<div class="col-md-12">
+  <div class="alert alert-danger-cust">
+    <span class="text-danger">This Case Code does not exists. Please try again.</span>
+  </div>
+</div>

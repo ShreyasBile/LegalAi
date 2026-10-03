@@ -1,0 +1,16 @@
+{
+ "model": "llama3.1:8b",
+ "host": 11435,
+ "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+ "details": {
+  "parent_model": "",
+  "format": "gguf",
+  "family": "llama",
+  "families": [
+   "llama"
+  ],
+  "parameter_size": "8.0B",
+  "quantization_level": "Q4_K_M"
+ },
+ "think": false
+}

@@ -1,0 +1,15 @@
+<!--
+  Fixture: simulates eCourts changing their markup (a "Phase" upgrade). The case
+  data is clearly present to a human, but the structural anchors the parser relies
+  on are gone: no case_details_table class, and the CNR/Case Type rows have been
+  restructured into <div>s. The parser MUST throw a ParseError so CI / the runtime
+  health check catches the drift instead of returning garbage.
+-->
+<div class="col-md-12">
+  <h2>Case Information</h2>
+  <div class="case-info">
+    <div class="row"><span class="k">Case Type</span><span class="v">CRIMINAL BAIL APPLICATION</span></div>
+    <div class="row"><span class="k">CNR</span><span class="v">MHCC010012342026</span></div>
+    <div class="row"><span class="k">Stage</span><span class="v">Pending</span></div>
+  </div>
+</div>

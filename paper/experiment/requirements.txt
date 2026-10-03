@@ -1,0 +1,7 @@
+# Python 3.13 was used for every result in the paper. These are the versions installed when the results were produced.
+numpy==2.2.6
+scipy==1.16.1
+scikit-learn==1.7.2
+PyMuPDF==1.27.2.2
+psycopg2-binary==2.9.13
+requests==2.34.2

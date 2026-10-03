@@ -1,0 +1,13 @@
+\begin{tabular}{lrrrr}
+\toprule
+Method & R@10 & R@50 & Hit@10 & MRR \\
+\midrule
+Most cited so far & 0.013 & 0.039 & 0.111 & 0.056 \\
+BM25 & 0.151 & 0.321 & 0.662 & 0.390 \\
+Dense (bge-m3) & 0.136 & 0.286 & 0.614 & 0.362 \\
+BM25 + dense & 0.167 & 0.345 & 0.689 & 0.420 \\
+BM25 + prior & 0.182 & 0.381 & 0.740 & 0.455 \\
+Dense + prior & 0.159 & 0.323 & 0.686 & 0.426 \\
+BM25 + dense + prior & 0.204 & 0.399 & 0.774 & 0.496 \\
+\bottomrule
+\end{tabular}

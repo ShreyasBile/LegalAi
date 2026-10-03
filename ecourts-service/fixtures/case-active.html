@@ -1,0 +1,43 @@
+<!--
+  Fixture: an ACTIVE case as returned by the eCourts v6 "Case Status > Search by CNR"
+  result panel. Structure mirrors the real portal: a case_details_table, a
+  case_status_table, petitioner/respondent blocks and an order/business history
+  table. The parser targets these by class token + row labels.
+  CNR: MHCC010012342026  (Sharma v. State of Maharashtra)
+-->
+<div class="col-md-12">
+  <h2 class="h2class">Case Details</h2>
+  <table class="table case_details_table table-bordered">
+    <tr><td>Case Type</td><td>CRIMINAL BAIL APPLICATION</td></tr>
+    <tr><td>Filing Number</td><td>1234/2026</td></tr>
+    <tr><td>Filing Date</td><td>03-09-2026</td></tr>
+    <tr><td>Registration Number</td><td>0011/2026</td></tr>
+    <tr><td>Registration Date</td><td>04-09-2026</td></tr>
+    <tr><td>CNR Number</td><td>MHCC010012342026 &nbsp;(Note the CNR number for future reference)</td></tr>
+  </table>
+
+  <h2 class="h2class">Case Status</h2>
+  <table class="table case_status_table table-bordered">
+    <tr><td>First Hearing Date</td><td>08th September 2026</td></tr>
+    <tr><td>Next Hearing Date</td><td>11th September 2026</td></tr>
+    <tr><td>Case Stage</td><td>Pending — Anticipatory Bail</td></tr>
+    <tr><td>Court Number and Judge</td><td>Court No. 52 - Justice A. R. Deshpande</td></tr>
+  </table>
+
+  <h2 class="h2class">Petitioner and Advocate</h2>
+  <table class="table Petitioner_Advocate_table">
+    <tr><td>1) Rohan Sharma &nbsp;&nbsp; Advocate- S. Kamat</td></tr>
+  </table>
+
+  <h2 class="h2class">Respondent and Advocate</h2>
+  <table class="table Respondent_Advocate_table">
+    <tr><td>1) State of Maharashtra &nbsp;&nbsp; Advocate- PP</td></tr>
+  </table>
+
+  <h2 class="h2class">Orders</h2>
+  <table class="table order_table table-bordered">
+    <tr><th>Order Number</th><th>Order Date</th><th>Order Details</th></tr>
+    <tr><td>2</td><td>04-09-2026</td><td>Application registered. Listed for hearing on 11.09.2026 before the appropriate bench.</td></tr>
+    <tr><td>1</td><td>03-09-2026</td><td>Anticipatory bail application filed. Registry defects cleared the same day.</td></tr>
+  </table>
+</div>

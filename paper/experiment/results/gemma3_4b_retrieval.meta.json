@@ -1,0 +1,25 @@
+{
+ "model": "gemma3:4b+retrieval",
+ "host": "11435",
+ "details": {
+  "parent_model": "",
+  "format": "gguf",
+  "family": "gemma3",
+  "families": [
+   "gemma3"
+  ],
+  "parameter_size": "4.3B",
+  "quantization_level": "Q4_K_M"
+ },
+ "weights": [
+  1.0,
+  1.0,
+  0.0
+ ],
+ "max_actions": 5,
+ "results_per_search": 6,
+ "snippet_chars": 280,
+ "tasks": [
+  "T4"
+ ]
+}

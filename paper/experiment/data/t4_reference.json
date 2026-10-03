@@ -1,0 +1,732 @@
+[
+ {
+  "topic_id": 0,
+  "topic": "Whether anticipatory bail granted under Section 438 of the Code of Criminal Procedure must be limited to a fixed period.",
+  "reference": [
+   {
+    "id": 38546,
+    "title": "SUSHILA AGGARWAL AND OTHERS versus STATE (NCT OF DELHI) AND ANOTHER",
+    "decision_date": "2020-01-29",
+    "scr": "[2020] 2 S.C.R. 1",
+    "neutral": "2020 INSC 106"
+   },
+   {
+    "id": 11678,
+    "title": "GURBAKSH SINGH SIBBIA ETC . versus STATE OF PUNJAB",
+    "decision_date": "1980-04-09",
+    "scr": "[1980] 3 S.C.R. 383",
+    "neutral": "1980 INSC 68"
+   },
+   {
+    "id": 30742,
+    "title": "SIDDHARAM SATLINGAPPA MHETRE versus STATE OF MAHARASHTRA AND OTHERS",
+    "decision_date": "2010-12-02",
+    "scr": "[2010] 15 S.C.R. 201",
+    "neutral": "2010 INSC 843"
+   }
+  ]
+ },
+ {
+  "topic_id": 1,
+  "topic": "Whether Parliament's power to amend the Constitution is limited by the basic structure doctrine.",
+  "reference": [
+   {
+    "id": 8302,
+    "title": "HIS HOLINESS KESAVANANDA BHARATI SRIPADAGALAVARU versus STATE OF KERALA",
+    "decision_date": "1973-04-24",
+    "scr": "[1973] SUPP. 1 S.C.R. 1",
+    "neutral": "1973 INSC 91"
+   },
+   {
+    "id": 11699,
+    "title": "MINERVA MILLS LTD. & ORS versus UNION OF INDIA & ORS.",
+    "decision_date": "1980-07-31",
+    "scr": "[1981] 1 S.C.R. 206",
+    "neutral": "1980 INSC 142"
+   }
+  ]
+ },
+ {
+  "topic_id": 2,
+  "topic": "Whether the right to privacy is a fundamental right under the Constitution of India.",
+  "reference": [
+   {
+    "id": 36212,
+    "title": "JUSTICE K S PUTTASWAMY (RETD.), AND ANR. versus UNION OF INDIA AND ORS.",
+    "decision_date": "2017-08-24",
+    "scr": "[2017] 10 S.C.R. 569",
+    "neutral": "2017 INSC 801"
+   }
+  ]
+ },
+ {
+  "topic_id": 3,
+  "topic": "Whether the right to livelihood is part of the right to life under Article 21.",
+  "reference": [
+   {
+    "id": 13016,
+    "title": "OLGA TELLIS & ORS. versus BOMBAY MUNICIPAL CORPORATION & ORS. ETC.",
+    "decision_date": "1985-07-10",
+    "scr": "[1985] SUPP. 2 S.C.R. 51",
+    "neutral": "1985 INSC 151"
+   }
+  ]
+ },
+ {
+  "topic_id": 4,
+  "topic": "When the death penalty may be imposed: the 'rarest of rare' test.",
+  "reference": [
+   {
+    "id": 11682,
+    "title": "BACHAN SINGH ETC. ETC. versus STATE OF PUNJAB ETC. ETC.",
+    "decision_date": "1980-05-09",
+    "scr": "[1983] 1 S.C.R. 145",
+    "neutral": "1980 INSC 120"
+   },
+   {
+    "id": 12463,
+    "title": "MACHHL SINGH AND OTHERS versus STATE OF PUNJAB",
+    "decision_date": "1983-07-20",
+    "scr": "[1983] 3 S.C.R. 413",
+    "neutral": "1983 INSC 78"
+   }
+  ]
+ },
+ {
+  "topic_id": 5,
+  "topic": "Whether police must register an FIR when information discloses a cognizable offence.",
+  "reference": [
+   {
+    "id": 33190,
+    "title": "LALITA KUMARI versus GOVT. OF U.P. AND ORS.",
+    "decision_date": "2013-11-12",
+    "scr": "[2013] 14 S.C.R. 713",
+    "neutral": "2013 INSC 748"
+   }
+  ]
+ },
+ {
+  "topic_id": 6,
+  "topic": "Guidelines against automatic arrest for offences punishable with less than seven years' imprisonment.",
+  "reference": [
+   {
+    "id": 34170,
+    "title": "ARNESH KUMAR versus STATE OF BIHAR & ANR.",
+    "decision_date": "2014-07-02",
+    "scr": "[2014] 8 S.C.R. 128",
+    "neutral": "2014 INSC 463"
+   }
+  ]
+ },
+ {
+  "topic_id": 7,
+  "topic": "Safeguards required when a person is arrested or detained by the police.",
+  "reference": [
+   {
+    "id": 18329,
+    "title": "D.K. BASU versus STATE OF WEST BENGAL",
+    "decision_date": "1996-12-18",
+    "scr": "[1996] SUPP. 10 S.C.R. 284",
+    "neutral": "1996 INSC 1508"
+   },
+   {
+    "id": 16623,
+    "title": "JOGINDER KUMAR versus STATE OF U.P. AND OTHERS",
+    "decision_date": "1994-04-25",
+    "scr": "[1994] 3 S.C.R. 661",
+    "neutral": "1994 INSC 170"
+   }
+  ]
+ },
+ {
+  "topic_id": 8,
+  "topic": "Guidelines to prevent sexual harassment of women at the workplace.",
+  "reference": [
+   {
+    "id": 19564,
+    "title": "VISHAKA AND ORS. versus STATE OF RAJASTHAN AND ORS.",
+    "decision_date": "1997-08-13",
+    "scr": "[1997] SUPP. 3 S.C.R. 404",
+    "neutral": "1997 INSC 604"
+   }
+  ]
+ },
+ {
+  "topic_id": 9,
+  "topic": "Whether Section 377 of the Indian Penal Code violates the Constitution insofar as it criminalises consensual sexual acts between adults.",
+  "reference": [
+   {
+    "id": 37329,
+    "title": "NAVTEJ SINGH JOHAR & ORS. versus UNION OF INDIA THR. SECRETARY MINISTRY OF LAW AND JUSTICE",
+    "decision_date": "2018-09-06",
+    "scr": "[2018] 7 S.C.R. 379",
+    "neutral": "2018 INSC 790"
+   },
+   {
+    "id": 33457,
+    "title": "SURESH KUMAR KOUSHAL AND ANOTHER versus NAZ FOUNDATION AND OTHERS",
+    "decision_date": "2013-12-11",
+    "scr": "[2013] 17 S.C.R. 116",
+    "neutral": "2013 INSC 823"
+   }
+  ]
+ },
+ {
+  "topic_id": 10,
+  "topic": "Whether adultery under Section 497 of the Indian Penal Code is unconstitutional.",
+  "reference": [
+   {
+    "id": 37121,
+    "title": "JOSEPH SHINE versus UNION OF INDIA",
+    "decision_date": "2018-09-27",
+    "scr": "[2018] 11 S.C.R. 765",
+    "neutral": "2018 INSC 898"
+   },
+   {
+    "id": 13038,
+    "title": "SMT. SOWMITHRI VISHNU versus UNION OF INDIA & ANR.",
+    "decision_date": "1985-05-27",
+    "scr": "[1985] SUPP. 1 S.C.R. 741",
+    "neutral": "1985 INSC 141"
+   }
+  ]
+ },
+ {
+  "topic_id": 11,
+  "topic": "Whether the practice of instant triple talaq (talaq-e-biddat) is constitutional.",
+  "reference": [
+   {
+    "id": 36332,
+    "title": "SHAYARA BANO versus UNION OF INDIA AND OTHERS",
+    "decision_date": "2017-08-22",
+    "scr": "[2017] 9 S.C.R. 797",
+    "neutral": "2017 INSC 785"
+   }
+  ]
+ },
+ {
+  "topic_id": 12,
+  "topic": "Whether Section 66A of the Information Technology Act, 2000 is constitutional.",
+  "reference": [
+   {
+    "id": 35109,
+    "title": "SHREYA SINGHAL versus UNION OF INDIA",
+    "decision_date": "2015-03-24",
+    "scr": "[2015] 5 S.C.R. 963",
+    "neutral": "2015 INSC 257"
+   }
+  ]
+ },
+ {
+  "topic_id": 13,
+  "topic": "Whether suspending internet access indefinitely is permissible under the Constitution.",
+  "reference": [
+   {
+    "id": 38824,
+    "title": "ANURADHA BHASIN versus UNION OF INDIA & ORS.",
+    "decision_date": "2020-01-10",
+    "scr": "[2020] 1 S.C.R. 812",
+    "neutral": "2020 INSC 31"
+   }
+  ]
+ },
+ {
+  "topic_id": 14,
+  "topic": "Whether a divorced Muslim woman is entitled to maintenance under Section 125 of the Code of Criminal Procedure.",
+  "reference": [
+   {
+    "id": 12928,
+    "title": "MOHD. AHMED KHAN versus SHAH BANO BEGUM AND ORS.",
+    "decision_date": "1985-04-23",
+    "scr": "[1985] 3 S.C.R. 844",
+    "neutral": "1985 INSC 97"
+   },
+   {
+    "id": 22075,
+    "title": "DANIAL LATIFI AND ANR. versus UNION OF INDIA",
+    "decision_date": "2001-09-28",
+    "scr": "[2001] SUPP. 3 S.C.R. 419",
+    "neutral": "2001 INSC 468"
+   }
+  ]
+ },
+ {
+  "topic_id": 15,
+  "topic": "Limits on the President's power to dissolve a State Legislative Assembly under Article 356.",
+  "reference": [
+   {
+    "id": 16524,
+    "title": "S.R. BOMMAI versus UNION OF INDIA AND ORS.",
+    "decision_date": "1994-03-11",
+    "scr": "[1994] 2 S.C.R. 644",
+    "neutral": "1994 INSC 111"
+   }
+  ]
+ },
+ {
+  "topic_id": 16,
+  "topic": "Whether reservations in public employment are subject to a 50 percent ceiling and a creamy-layer exclusion.",
+  "reference": [
+   {
+    "id": 16018,
+    "title": "INDRA SAWHNEY AND ORS. ETC. ETC. versus UNION OF INDIA AND ORS. ETC. ETC.",
+    "decision_date": "1992-11-16",
+    "scr": "[1992] SUPP. 2 S.C.R. 454",
+    "neutral": null
+   },
+   {
+    "id": 25831,
+    "title": "M. NAGARAJ AND ORS. versus UNION OF INDIA AND ORS",
+    "decision_date": "2006-10-19",
+    "scr": "[2006] SUPP. 7 S.C.R. 336",
+    "neutral": "2006 INSC 711"
+   }
+  ]
+ },
+ {
+  "topic_id": 17,
+  "topic": "Whether the right to education is a fundamental right.",
+  "reference": [
+   {
+    "id": 16046,
+    "title": "MISS MOHINI JAIN versus STATE OF KARNATAKA AND ORS.",
+    "decision_date": "1992-07-30",
+    "scr": "[1992] 3 S.C.R. 658",
+    "neutral": "1992 INSC 186"
+   },
+   {
+    "id": 16446,
+    "title": "UNNI KRISHNAN, J.P. AND ORS. ETC. IRRC versus STATE OF ANDHRA PRADESH AND ORS. ETC. ETC.",
+    "decision_date": "1993-02-04",
+    "scr": "[1993] 1 S.C.R. 594",
+    "neutral": "1993 INSC 40"
+   }
+  ]
+ },
+ {
+  "topic_id": 18,
+  "topic": "Whether passive euthanasia is permissible in India.",
+  "reference": [
+   {
+    "id": 31706,
+    "title": "ARUNA RAMCHANDRA SHANBAUG versus UNION OF INDIA AND OTHERS",
+    "decision_date": "2011-03-07",
+    "scr": "[2011] 4 S.C.R. 1057",
+    "neutral": "2011 INSC 187"
+   },
+   {
+    "id": 32199,
+    "title": "ARUNA RAMCHANDRA SHANBAUG versus UNION OF INDIA AND ORS .",
+    "decision_date": "2011-01-24",
+    "scr": "[2011] 2 S.C.R. 869",
+    "neutral": "2011 INSC 67"
+   },
+   {
+    "id": 37269,
+    "title": "COMMON CAUSE (A REGD. SOCIETY) versus UNION OF INDIA & ANOTHER",
+    "decision_date": "2018-03-09",
+    "scr": "[2018] 6 S.C.R. 1",
+    "neutral": "2018 INSC 223"
+   }
+  ]
+ },
+ {
+  "topic_id": 19,
+  "topic": "Whether 'procedure established by law' under Article 21 must be fair, just and reasonable.",
+  "reference": [
+   {
+    "id": 10697,
+    "title": "MANEKA GANDHI versus UNION OF INDIA",
+    "decision_date": "1978-01-25",
+    "scr": "[1978] 2 S.C.R. 621",
+    "neutral": "1978 INSC 16"
+   }
+  ]
+ },
+ {
+  "topic_id": 20,
+  "topic": "Whether Article 21 rights can be suspended during an emergency (habeas corpus during emergency).",
+  "reference": [
+   {
+    "id": 9783,
+    "title": "ADDITIONAL DISTRICT MAGISTRATE, JABALPUR versus S. S. SHUKLA ETC. ETC.",
+    "decision_date": "1976-04-28",
+    "scr": "[1976] SUPP. 1 S.C.R. 172",
+    "neutral": "1976 INSC 129"
+   }
+  ]
+ },
+ {
+  "topic_id": 21,
+  "topic": "Whether undertrial prisoners have a right to a speedy trial.",
+  "reference": [
+   {
+    "id": 11191,
+    "title": "HUSSAINARA KHATOON & ORS. versus HOME SECRETARY, STATE OF BIHAR, GOVT. OF BIHAR. PATNA",
+    "decision_date": "1979-02-12",
+    "scr": "[1979] 3 S.C.R. 169",
+    "neutral": "1979 INSC 34"
+   },
+   {
+    "id": 11024,
+    "title": "HUSSAINARA KHATOON & ORS. versus HOME SECRETARY, STATE OF BIHAR, PATNA",
+    "decision_date": "1979-02-26",
+    "scr": "[1979] 3 S.C.R. 393",
+    "neutral": "1979 INSC 53"
+   },
+   {
+    "id": 11084,
+    "title": "HUSSAINARA KHATOON & ORS. versus HOME SECRETARY, STATE OF BIHAR, PATNA",
+    "decision_date": "1979-03-09",
+    "scr": "[1979] 3 S.C.R. 532",
+    "neutral": "1979 INSC 66"
+   },
+   {
+    "id": 10984,
+    "title": "HUSSAINARA KHANTOON & ORS. versus HOME SECRETARY, STATE OF BIHAR, PATNA",
+    "decision_date": "1979-04-19",
+    "scr": "[1979] 3 S.C.R. 760",
+    "neutral": "1979 INSC 88"
+   },
+   {
+    "id": 11020,
+    "title": "HUSSAINARA KHATOON & ORS. versus HOME SECRETARY, STATE OF BIHAR, GOVT. OF BIHAR, PATNA",
+    "decision_date": "1979-05-04",
+    "scr": "[1979] 3 S.C.R. 1276",
+    "neutral": "1979 INSC 116"
+   },
+   {
+    "id": 15559,
+    "title": "ABDUL REHMAN ANTULAY ETC. ETC. versus R.S. NAYAK AND ANR. ETC. ETC.",
+    "decision_date": "1991-12-10",
+    "scr": "[1991] SUPP. 3 S.C.R. 325",
+    "neutral": "1991 INSC 329"
+   }
+  ]
+ },
+ {
+  "topic_id": 22,
+  "topic": "Whether a court can award monetary compensation for violation of the right to life in writ jurisdiction.",
+  "reference": [
+   {
+    "id": 12433,
+    "title": "RUDUL SAH versus STATE OF BIHAR AND ANOTHER",
+    "decision_date": "1983-08-01",
+    "scr": "[1983] 3 S.C.R. 508",
+    "neutral": "1983 INSC 85"
+   },
+   {
+    "id": 16196,
+    "title": "SMT. NILABATI BEHERA ALIAS LAUT BEHERA (THROUGH THE SUPREME COURT LEGAL AID COMMITTEE) versus STATE OF ORISSA AND ORS.",
+    "decision_date": "1993-03-24",
+    "scr": "[1993] 2 S.C.R. 581",
+    "neutral": "1993 INSC 113"
+   }
+  ]
+ },
+ {
+  "topic_id": 23,
+  "topic": "Whether sitting legislators convicted of offences are immediately disqualified from membership.",
+  "reference": [
+   {
+    "id": 32934,
+    "title": "LILY THOMAS versus UNION OF INDIA & ORS.",
+    "decision_date": "2013-07-10",
+    "scr": "[2013] 10 S.C.R. 1130",
+    "neutral": "2013 INSC 456"
+   }
+  ]
+ },
+ {
+  "topic_id": 24,
+  "topic": "Whether police reforms and security of tenure for police chiefs can be directed by the Supreme Court.",
+  "reference": [
+   {
+    "id": 26253,
+    "title": "PRAKASH SINGH AND ORS. versus UNION OF INDIA AND ORS.",
+    "decision_date": "2006-09-22",
+    "scr": "[2006] SUPP. 6 S.C.R. 473",
+    "neutral": "2006 INSC 642"
+   }
+  ]
+ },
+ {
+  "topic_id": 25,
+  "topic": "Principles governing the grant of bail and the rule that bail is the rule and jail the exception.",
+  "reference": [
+   {
+    "id": 10526,
+    "title": "STATE OF RAJASTHAN, JAIPUR versus BALCHAND @ BALIAY",
+    "decision_date": "1977-09-20",
+    "scr": "[1978] 1 S.C.R. 535",
+    "neutral": "1977 INSC 180"
+   },
+   {
+    "id": 10587,
+    "title": "GUDIKANTI NARASIMHULU AND ORS. versus PUBLIC PROSECUTOR, HIGH COURT OF ANDHRA PRADESH",
+    "decision_date": "1977-12-06",
+    "scr": "[1978] 2 S.C.R. 371",
+    "neutral": "1977 INSC 232"
+   },
+   {
+    "id": 31792,
+    "title": "SANJAY CHANDRA versus CBI",
+    "decision_date": "2011-11-23",
+    "scr": "[2011] 13 S.C.R. 309",
+    "neutral": "2011 INSC 819"
+   },
+   {
+    "id": 40226,
+    "title": "SATENDER KUMAR ANTIL versus CENTRAL BUREAU OF INVESTIGATION & ANR.",
+    "decision_date": "2022-07-11",
+    "scr": "[2022] 10 S.C.R. 351",
+    "neutral": "2022 INSC 690"
+   }
+  ]
+ },
+ {
+  "topic_id": 26,
+  "topic": "Whether the time for performance is of the essence in contracts for the sale of immovable property.",
+  "reference": [
+   {
+    "id": 15707,
+    "title": "SMT. CHAND RANI (DEAD) BY L.RS. versus SMT. KAMAL RANI (DEAD) BY L.RS.",
+    "decision_date": "1992-12-18",
+    "scr": "[1992] SUPP. 3 S.C.R. 798",
+    "neutral": "1992 INSC 351"
+   },
+   {
+    "id": 4945,
+    "title": "GOMATHINAYAGAM PILLAI AND ORS. versus PALLANISWAMI NADAR",
+    "decision_date": "1966-09-02",
+    "scr": "[1967] 1 S.C.R. 227",
+    "neutral": "1966 INSC 151"
+   }
+  ]
+ },
+ {
+  "topic_id": 27,
+  "topic": "How penalties for anti-competitive agreements should be computed under the Competition Act, 2002 (relevant turnover).",
+  "reference": [
+   {
+    "id": 36640,
+    "title": "EXCEL CROP CARE LIMITED versus COMPETITION COMMISSION OF INDIA AND ANOTHER",
+    "decision_date": "2017-05-08",
+    "scr": "[2017] 5 S.C.R. 901",
+    "neutral": "2017 INSC 1286"
+   }
+  ]
+ },
+ {
+  "topic_id": 28,
+  "topic": "Whether a Tribunal can exclude the jurisdiction of High Courts under Articles 226 and 227.",
+  "reference": [
+   {
+    "id": 19684,
+    "title": "L. CHANDRA KUMAR ETC. ETC. versus THE UNION OF INDIA AND ORS. ETC. ETC.",
+    "decision_date": "1997-03-18",
+    "scr": "[1997] 2 S.C.R. 1186",
+    "neutral": "1997 INSC 288"
+   },
+   {
+    "id": 13554,
+    "title": "S.P. SAMPATH KUMAR ETC. versus UNION OF INDIA & ORS.",
+    "decision_date": "1986-12-09",
+    "scr": "[1987] 1 S.C.R. 435",
+    "neutral": "1986 INSC 259"
+   }
+  ]
+ },
+ {
+  "topic_id": 29,
+  "topic": "Whether the Ninth Schedule protects laws from judicial review after the Kesavananda Bharati decision.",
+  "reference": [
+   {
+    "id": 26894,
+    "title": "I. R. COELHO (DEAD) BY LRS. versus STATE OF TAMIL NADU",
+    "decision_date": "2007-01-11",
+    "scr": "[2007] 1 S.C.R. 706",
+    "neutral": "2007 INSC 28"
+   },
+   {
+    "id": 11794,
+    "title": "WAMAN RAO & ORS. ETC. ETC. versus UNION OF INDIA AND ORS.",
+    "decision_date": "1980-11-13",
+    "scr": "[1981] 2 S.C.R. 1",
+    "neutral": "1980 INSC 216"
+   }
+  ]
+ },
+ {
+  "topic_id": 30,
+  "topic": "Whether surveillance by police through domiciliary visits violates personal liberty.",
+  "reference": [
+   {
+    "id": 3019,
+    "title": "KHARAK SINGH versus THE STATE OF U. P. & OTHERS",
+    "decision_date": "1962-12-18",
+    "scr": "[1964] 1 S.C.R. 332",
+    "neutral": "1962 INSC 389"
+   },
+   {
+    "id": 9393,
+    "title": "GOVIND versus STATE OF MADHYA PRADESH & ANR.",
+    "decision_date": "1975-03-18",
+    "scr": "[1975] 3 S.C.R. 946",
+    "neutral": "1975 INSC 74"
+   }
+  ]
+ },
+ {
+  "topic_id": 31,
+  "topic": "Whether freedom of speech permits pre-censorship or bans on the circulation of a journal.",
+  "reference": [
+   {
+    "id": 12,
+    "title": "ROMESH THAPPAR versus THE STATE OF MADRAS",
+    "decision_date": "1950-05-26",
+    "scr": "[1950] 1 S.C.R. 594",
+    "neutral": "1950 INSC 14"
+   },
+   {
+    "id": 5,
+    "title": "BRIJ BHUSHAN AND ANOTHER versus THE STATE OF DELHI.",
+    "decision_date": "1950-05-26",
+    "scr": "[1950] 1 S.C.R. 605",
+    "neutral": "1950 INSC 15"
+   }
+  ]
+ },
+ {
+  "topic_id": 32,
+  "topic": "Whether students can be compelled to sing the national anthem against their religious beliefs.",
+  "reference": [
+   {
+    "id": 13387,
+    "title": "BIJOE EMMANUEL & ORS. versus STATE OF KERALA & ORS.",
+    "decision_date": "1986-08-11",
+    "scr": "[1986] 3 S.C.R. 518",
+    "neutral": "1986 INSC 167"
+   }
+  ]
+ },
+ {
+  "topic_id": 33,
+  "topic": "Whether the Anti-Defection law (Tenth Schedule) is constitutional and whether Speakers' decisions are subject to judicial review.",
+  "reference": [
+   {
+    "id": 15690,
+    "title": "KIHOTO HOLLOHAN versus ZACHILLHU AND OTHERS",
+    "decision_date": "1991-11-12",
+    "scr": "[1992] 1 S.C.R. 686",
+    "neutral": "1991 INSC 287"
+   }
+  ]
+ },
+ {
+  "topic_id": 34,
+  "topic": "Whether women of all ages may enter the Sabarimala temple.",
+  "reference": [
+   {
+    "id": 36771,
+    "title": "INDIAN YOUNG LAWYERS ASSN. versus STATE OF KERALA 561 INDIAN YOUNG LAWYERS ASSOCIATION & ORS.V. THE STATE OF KERALA & ORS.",
+    "decision_date": "2018-09-28",
+    "scr": "[2018] 9 S.C.R. 561",
+    "neutral": "2017 INSC 1040"
+   }
+  ]
+ },
+ {
+  "topic_id": 35,
+  "topic": "Whether criminal defamation under Sections 499 and 500 of the Indian Penal Code is constitutional.",
+  "reference": [
+   {
+    "id": 35442,
+    "title": "SUBRAMANIAN SWAMY versus UNION OF INDIA, MINISTRY OF LAW & ORS.",
+    "decision_date": "2016-05-13",
+    "scr": "[2016] 3 S.C.R. 865",
+    "neutral": "2016 INSC 427"
+   }
+  ]
+ },
+ {
+  "topic_id": 36,
+  "topic": "Whether State-sponsored armed civilian groups (such as Salwa Judum) violate the Constitution.",
+  "reference": [
+   {
+    "id": 31808,
+    "title": "NANDINI SUNDAR AND ORS. versus STATE OF CHATTISGARH",
+    "decision_date": "2011-07-05",
+    "scr": "[2011] 8 S.C.R. 1028",
+    "neutral": "2011 INSC 451"
+   }
+  ]
+ },
+ {
+  "topic_id": 37,
+  "topic": "Whether the primacy of the Chief Justice of India applies to appointments of judges (judicial appointments).",
+  "reference": [
+   {
+    "id": 16150,
+    "title": "SUPREME COURT ADVOCATES-ON-RECORD ASSOCIATION AND ANR. versus UNION OF INDIA",
+    "decision_date": "1993-10-06",
+    "scr": "[1993] SUPP. 2 S.C.R. 659",
+    "neutral": "1993 INSC 318"
+   },
+   {
+    "id": 34642,
+    "title": "SUPREME COURT ADVOCATES-ON-RECORD ASSOCIATION AND ANOTHER versus UNION OF INDIA",
+    "decision_date": "2015-10-16",
+    "scr": "[2015] 13 S.C.R. 1",
+    "neutral": "2015 INSC 285"
+   },
+   {
+    "id": 12116,
+    "title": "S.P. GUPTA & ORS. ETC. ETC. versus UNION OF INDIA & ORS. ETC. ETC.",
+    "decision_date": "1981-12-28",
+    "scr": "[1982] 2 S.C.R. 365",
+    "neutral": "1981 INSC 209"
+   }
+  ]
+ },
+ {
+  "topic_id": 38,
+  "topic": "Whether private unaided educational institutions have a right to administer and set admission criteria.",
+  "reference": [
+   {
+    "id": 22668,
+    "title": "T.M.A. PAL FOUNDATION AND ORS. versus STATE OF KARNATAKA AND ORS.",
+    "decision_date": "2002-10-31",
+    "scr": "[2002] SUPP. 3 S.C.R. 587",
+    "neutral": "2002 INSC 454"
+   },
+   {
+    "id": 25078,
+    "title": "P.A. INAMDAR AND ORS. versus STATE OF MAHARASHTRA AND ORS.",
+    "decision_date": "2005-08-12",
+    "scr": "[2005] SUPP. 2 S.C.R. 603",
+    "neutral": "2005 INSC 358"
+   },
+   {
+    "id": 23883,
+    "title": "ISLAMIC ACADEMY OF EDUCATION AND ANOTHER versus STATE OF KARNATAKA AND OTHERS",
+    "decision_date": "2003-08-14",
+    "scr": "[2003] SUPP. 2 S.C.R. 474",
+    "neutral": "2003 INSC 391"
+   }
+  ]
+ },
+ {
+  "topic_id": 39,
+  "topic": "Whether involuntary narco-analysis, polygraph and brain-mapping tests violate the right against self-incrimination.",
+  "reference": [
+   {
+    "id": 27713,
+    "title": "SMT. SELVI & ORS. versus STATE OF KARNATAKA",
+    "decision_date": "2007-05-05",
+    "scr": "[2010] 5 S.C.R. 381",
+    "neutral": "2007 INSC 520"
+   }
+  ]
+ }
+]

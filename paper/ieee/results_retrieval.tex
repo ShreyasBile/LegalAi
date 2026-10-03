@@ -1,0 +1,23 @@
+\subsection{Results}
+\label{sec:retres}
+\textbf{Citation recommendation.} \RecPool{} judgments cite at least \RecMinTargets{} earlier judgments that the graph resolves. On the \RecNTest{} test judgments, which cite \RecMeanTargets{} of them on average, the hybrid retriever with the citation prior places \RecHybridPriorRTenPct{} of the cited judgments in its top 10, and at least one of them for \RecHybridPriorHitTen{} of the queries (Table~\ref{tab:recommend}). The prior helps every retriever. On the same queries it raises the recall@10 of the hybrid retriever by \RecDiffPrior{} (paired bootstrap 95\% CI \RecDiffPriorCI; better on \RecDiffPriorBetter{} queries, worse on \RecDiffPriorWorse), a relative gain of \RecPriorRelGain. Popularity alone is useless (\RecPopRTen). The prior only reorders judgments that already match the subject, and among those, the ones the Court has cited often are more likely to be cited again. The query scrubbing leaves some names behind: \RecLeakStrictPct{} of the cited judgments share a rare title word (one found in at most \RecLeakRareDF{} titles) with the query. Scoring only the other targets changes little (\RecHybridPriorRTenUnleaked{} with the prior, \RecHybridRTenUnleaked{} without).
+
+\begin{table}[t]
+\caption{Citation recommendation on \RecNTest{} held-out judgments: given the headnote without citations and case names, retrieve the earlier judgments it cites. R@$k$ = share of cited judgments in the top $k$; Hit@10 = share of queries with at least one in the top 10; MRR = mean reciprocal rank of the first. Weights chosen on \RecNDev{} other judgments.}
+\label{tab:recommend}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\input{tab_recommend}
+\end{table}
+
+\textbf{The 40 legal questions.} Searched with the question text, the hybrid retriever with the prior returns a judgment that decided the question among its top three results for \QHybridPriorHitThree{} of the \NumTopics{} questions, and among its top ten for \QHybridPriorHitTen{} (Table~\ref{tab:questions}). No model named such a judgment from memory for more than \RefClosedLlama{} questions. Every judgment the retriever returns exists, with its correct citations, by construction. The questions were written around landmark judgments, which are cited often, so this set favours the prior. The recommendation experiment has no such bias.
+
+\begin{table}[t]
+\caption{Retrieval for the \NumTopics{} T4 questions: questions whose top-$k$ results contain a reference judgment, and the share of reference judgments in the top 10 (R@10). Weights from the recommendation development split.}
+\label{tab:questions}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\input{tab_questions}
+\end{table}

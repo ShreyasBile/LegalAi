@@ -1,0 +1,866 @@
+{
+ "annotator": "Claude (AI assistant), single annotator; judged from the citation context, the index record and knowledge of the case law",
+ "date": "2026-09-30",
+ "labels": [
+  {
+   "n": 1,
+   "tag": "NAME_EDGE",
+   "src": 27569,
+   "raw": "(2006] 6 SCC 27",
+   "name": "Gian Dass v. The Gram Panchayat Village Sunner Kalan & Ors",
+   "dst": 26163,
+   "correct": true
+  },
+  {
+   "n": 2,
+   "tag": "NAME_EDGE",
+   "src": 16718,
+   "raw": "(1975] 2 SCC 4",
+   "name": "Mohd. Serajjuddin v. State of Orissa",
+   "dst": 9173,
+   "correct": true
+  },
+  {
+   "n": 3,
+   "tag": "NAME_EDGE",
+   "src": 40505,
+   "raw": "(2001) 6 SCC 670",
+   "name": "SWIL Ltd. v. State of Delhi and Another",
+   "dst": 22573,
+   "correct": true
+  },
+  {
+   "n": 4,
+   "tag": "NAME_EDGE",
+   "src": 26637,
+   "raw": "[1994) 6 SCC 14",
+   "name": "Subbash Muljimal Gandhi v. L. Himingliana & Anr",
+   "dst": 16757,
+   "correct": true
+  },
+  {
+   "n": 5,
+   "tag": "NAME_EDGE",
+   "src": 21052,
+   "raw": "[ 1984] 2 SCC 281",
+   "name": "Chhedi Ram v. Jhilmit Ram and Ors",
+   "dst": 12555,
+   "correct": true
+  },
+  {
+   "n": 6,
+   "tag": "NAME_EDGE",
+   "src": 16114,
+   "raw": "(1986] 3 S.C.R. 103",
+   "name": "Ram Chander v. Union of India & Ors",
+   "dst": 13381,
+   "correct": true
+  },
+  {
+   "n": 7,
+   "tag": "NAME_EDGE",
+   "src": 40589,
+   "raw": "(2010) 4 SCC 772",
+   "name": "Raj Kumar Shivhare v. Directorate of Enforcement",
+   "dst": 31381,
+   "correct": true
+  },
+  {
+   "n": 8,
+   "tag": "NAME_EDGE",
+   "src": 17160,
+   "raw": "[1992] Supp. 1 SCC 304",
+   "name": "A.N. Shehgal v. R.R. Sheoram",
+   "dst": 15644,
+   "correct": true
+  },
+  {
+   "n": 9,
+   "tag": "NAME_EDGE",
+   "src": 23188,
+   "raw": "AIR (1981) SC 1390",
+   "name": "Rajasthan v. Smt. Kalki and Anr",
+   "dst": 11879,
+   "correct": true
+  },
+  {
+   "n": 10,
+   "tag": "NAME_EDGE",
+   "src": 23616,
+   "raw": "(2001) 2 SCC 205",
+   "name": "Gura Singh v. State of Rajasthan",
+   "dst": 21961,
+   "correct": true
+  },
+  {
+   "n": 11,
+   "tag": "NAME_EDGE",
+   "src": 31850,
+   "raw": "AIR 2004 SC 942",
+   "name": "Baroda v. Sadruddin Hasan Daya & Anr",
+   "dst": 23656,
+   "correct": true
+  },
+  {
+   "n": 12,
+   "tag": "NAME_EDGE",
+   "src": 24751,
+   "raw": "(1997) 8 SCC 459",
+   "name": "Mohd. Yunus v. State of Gujarat",
+   "dst": 20159,
+   "correct": true
+  },
+  {
+   "n": 13,
+   "tag": "NAME_EDGE",
+   "src": 39021,
+   "raw": "(1992) 1 SCC 306",
+   "name": "India v. Jagjit Singh Mehta",
+   "dst": 15362,
+   "correct": true
+  },
+  {
+   "n": 14,
+   "tag": "NAME_EDGE",
+   "src": 25711,
+   "raw": "[2004) 3 SCC 297",
+   "name": "National Insurance Co. Ltd. v. Swaran Singh and Ors",
+   "dst": 24345,
+   "correct": true
+  },
+  {
+   "n": 15,
+   "tag": "NAME_EDGE",
+   "src": 40847,
+   "raw": "(2022) 10 SCC 51",
+   "name": "Satender Kumar Antil v. CBI",
+   "dst": 40226,
+   "correct": true
+  },
+  {
+   "n": 16,
+   "tag": "NAME_EDGE",
+   "src": 22697,
+   "raw": "[1987) 1 SCC 458",
+   "name": "Om Prakash v. Amar Singh",
+   "dst": 13671,
+   "correct": true
+  },
+  {
+   "n": 17,
+   "tag": "NAME_EDGE",
+   "src": 38813,
+   "raw": "(1986) 3 SCC 156",
+   "name": "Central Inland Water Transport Corporation Ltd. & Anr. v. Brojo Nath Ganguly & Anr",
+   "dst": 13466,
+   "correct": true
+  },
+  {
+   "n": 18,
+   "tag": "NAME_EDGE",
+   "src": 25303,
+   "raw": "AIR (1964) SC 1",
+   "name": "Raghubir Saran (Dr.) v. State of Bihar",
+   "dst": 3358,
+   "correct": true
+  },
+  {
+   "n": 19,
+   "tag": "NAME_EDGE",
+   "src": 26240,
+   "raw": "[2004) 6 SCC 341",
+   "name": "M. Chinnasamy v. K.C. Palanisamy and Ors",
+   "dst": 23815,
+   "correct": true
+  },
+  {
+   "n": 20,
+   "tag": "NAME_EDGE",
+   "src": 31655,
+   "raw": "(1996) 2 SCC 62",
+   "name": "K.S. Shivadevamma v. Assistant and Land Acqusition Officer",
+   "dst": 17732,
+   "correct": true
+  },
+  {
+   "n": 21,
+   "tag": "NAME_EDGE",
+   "src": 39466,
+   "raw": "(1989) 3 SCC 709",
+   "name": "Tinsukhia Electric Supply Co. Ltd. v. State of Assam",
+   "dst": 14862,
+   "correct": true
+  },
+  {
+   "n": 22,
+   "tag": "NAME_EDGE",
+   "src": 36818,
+   "raw": "(2016) 4 SCC 469",
+   "name": "Rajasthan v. Gotan Lime Stone Khanji Udyog Pvt. Ltd",
+   "dst": 35525,
+   "correct": true
+  },
+  {
+   "n": 23,
+   "tag": "NAME_EDGE",
+   "src": 33769,
+   "raw": "AIR 1963 SC 599",
+   "name": "Bhiva Doulu Patil v. State of Maharashtra",
+   "dst": 2882,
+   "correct": true
+  },
+  {
+   "n": 24,
+   "tag": "NAME_EDGE",
+   "src": 38312,
+   "raw": "(1994) 6 SCC 651",
+   "name": "Tata Cellular v. Union of India",
+   "dst": 16710,
+   "correct": true
+  },
+  {
+   "n": 25,
+   "tag": "NAME_EDGE",
+   "src": 14452,
+   "raw": "[1980] 3 S.C.C. 452",
+   "name": "Ram Saroop Rai v. .. Lilavati",
+   "dst": 11518,
+   "correct": true
+  },
+  {
+   "n": 26,
+   "tag": "NAME_EDGE",
+   "src": 25264,
+   "raw": "[1999] 6 SCC 337",
+   "name": "Syed Dastagir v. T.R. Gopalakrishna Settty",
+   "dst": 21139,
+   "correct": true
+  },
+  {
+   "n": 27,
+   "tag": "NAME_EDGE",
+   "src": 36347,
+   "raw": "(1990) 2 SCC 71",
+   "name": "Goodyear India Ltd. v. State of Haryana",
+   "dst": 14901,
+   "correct": true
+  },
+  {
+   "n": 28,
+   "tag": "NAME_EDGE",
+   "src": 25476,
+   "raw": "AIR (1958) SC 465",
+   "name": "Virsa Singh v. State of Punjab",
+   "dst": 935,
+   "correct": true
+  },
+  {
+   "n": 29,
+   "tag": "NAME_EDGE",
+   "src": 25623,
+   "raw": "[2001] 5 SCC 73",
+   "name": "Health Care Ltd. v. Cadila Pharmaceuticals Ltd",
+   "dst": 22634,
+   "correct": true
+  },
+  {
+   "n": 30,
+   "tag": "NAME_EDGE",
+   "src": 27550,
+   "raw": "(1987) 3 SCC 211",
+   "name": "Smt. S. Tiwari v. Hem Chand M Singhania",
+   "dst": 13616,
+   "correct": true
+  },
+  {
+   "n": 31,
+   "tag": "NAME_EDGE",
+   "src": 41066,
+   "raw": "(1996) 1 SCC 235",
+   "name": "Janata Dal (Samajwadi) v. Election Commission of India",
+   "dst": 17970,
+   "correct": true
+  },
+  {
+   "n": 32,
+   "tag": "NAME_EDGE",
+   "src": 28952,
+   "raw": "(2002) 3 SCC 57",
+   "name": "Allarakha K. Mansuri v. State of Gujarat",
+   "dst": 23012,
+   "correct": true
+  },
+  {
+   "n": 33,
+   "tag": "NAME_EDGE",
+   "src": 23192,
+   "raw": "[1996] 9 SCC 709",
+   "name": "Steel Co. Ltd. v. Union of India",
+   "dst": 18437,
+   "correct": true
+  },
+  {
+   "n": 34,
+   "tag": "NAME_EDGE",
+   "src": 41886,
+   "raw": "(2002) 4 SCC 389",
+   "name": "Ashok Hurra v. Ashok Hurra & Anr",
+   "dst": 23078,
+   "correct": true
+  },
+  {
+   "n": 35,
+   "tag": "NAME_EDGE",
+   "src": 24752,
+   "raw": "[1970) 3 SCC 624",
+   "name": "Assam v. Daksha Prasad Deka",
+   "dst": 7079,
+   "correct": true
+  },
+  {
+   "n": 36,
+   "tag": "NAME_EDGE",
+   "src": 17125,
+   "raw": "[1984] 2 SCC 64",
+   "name": "Ram Chauhan v. Anand Sharma",
+   "dst": 12739,
+   "correct": true
+  },
+  {
+   "n": 37,
+   "tag": "NAME_EDGE",
+   "src": 34334,
+   "raw": "(2001) 6 SCC 71",
+   "name": "H.P. v. Gian Chand",
+   "dst": 22332,
+   "correct": true
+  },
+  {
+   "n": 38,
+   "tag": "NAME_EDGE",
+   "src": 27996,
+   "raw": "(2003) 2 SCC 661",
+   "name": "Rizan & Anr v. State of Chhatisgarh, through The Chief Secretary, Govt. of Chhattisgarh, Raipur, Chhattisgarh",
+   "dst": 23578,
+   "correct": true
+  },
+  {
+   "n": 39,
+   "tag": "NAME_EDGE",
+   "src": 19222,
+   "raw": "[1995) 1 SCC 745",
+   "name": "Chandigarh Administration & Anr. v. Jagjit Singh & Anr",
+   "dst": 17956,
+   "correct": true
+  },
+  {
+   "n": 40,
+   "tag": "NAME_EDGE",
+   "src": 25097,
+   "raw": "(2005) 6 SCC 754",
+   "name": "Ors. v. Amar Nath Goyal and Ors",
+   "dst": 24812,
+   "correct": true
+  },
+  {
+   "n": 41,
+   "tag": "NAME_EDGE",
+   "src": 23967,
+   "raw": "AIR (1991) SC 1463",
+   "name": "Perumal Etc. v. State of Tamil Nadu",
+   "dst": 15353,
+   "correct": true
+  },
+  {
+   "n": 42,
+   "tag": "NAME_EDGE",
+   "src": 20895,
+   "raw": "[1989) 1 SCC 19",
+   "name": "Rajbir Kaur v. S. Chokesiri",
+   "dst": 14044,
+   "correct": true
+  },
+  {
+   "n": 43,
+   "tag": "NAME_EDGE",
+   "src": 13536,
+   "raw": "AIR 1985 SC 817",
+   "name": "Vineet Kumar v. Mangal Sain Wadhera",
+   "dst": 12765,
+   "correct": true
+  },
+  {
+   "n": 44,
+   "tag": "NAME_EDGE",
+   "src": 41197,
+   "raw": "(1989) 1 SCC 229",
+   "name": "Raghunath Thakur v. State of Bihar and Ors",
+   "dst": 14027,
+   "correct": true
+  },
+  {
+   "n": 45,
+   "tag": "NAME_EDGE",
+   "src": 37402,
+   "raw": "(2000) 4 SCC 298",
+   "name": "Rajender Singh v. State of Bihar",
+   "dst": 21506,
+   "correct": true
+  },
+  {
+   "n": 46,
+   "tag": "NAME_EDGE",
+   "src": 25135,
+   "raw": "(2002) 4 SCC 229",
+   "name": "Beckodan Abdul Rahman v. State of",
+   "dst": 22829,
+   "correct": true
+  },
+  {
+   "n": 47,
+   "tag": "NAME_EDGE",
+   "src": 29515,
+   "raw": "1992 (1) SCC 534",
+   "name": "Shrisht Dhawan (Smt.) v. Mis. Shaw Brothers",
+   "dst": 15627,
+   "correct": true
+  },
+  {
+   "n": 48,
+   "tag": "NAME_EDGE",
+   "src": 39158,
+   "raw": "AIR 1964 SC 1099",
+   "name": "Vidyacharan Shukla v. Khubchand Baghel",
+   "dst": 3568,
+   "correct": true
+  },
+  {
+   "n": 49,
+   "tag": "NAME_EDGE",
+   "src": 38497,
+   "raw": "(2000) 1 SCC 498",
+   "name": "Gurdeep Singh alias Deep v. State (Delhi Admn.)",
+   "dst": 21146,
+   "correct": true
+  },
+  {
+   "n": 50,
+   "tag": "NAME_EDGE",
+   "src": 29817,
+   "raw": "(2004) 10 SCC 1",
+   "name": "India v. Azadi Bachao",
+   "dst": 23915,
+   "correct": true
+  },
+  {
+   "n": 51,
+   "tag": "NAME_EDGE",
+   "src": 36920,
+   "raw": "AIR 1954 SC 215",
+   "name": "another v. Amarnath and another",
+   "dst": 369,
+   "correct": true
+  },
+  {
+   "n": 52,
+   "tag": "NAME_EDGE",
+   "src": 28107,
+   "raw": "(1979) 2 SCC 409",
+   "name": "Motilal Padampat Sugar Mills Co. Ltd v. State of UP",
+   "dst": 10950,
+   "correct": true
+  },
+  {
+   "n": 53,
+   "tag": "NAME_EDGE",
+   "src": 21259,
+   "raw": "[1991] 3 SCC 410",
+   "name": "Kalawatibai v. Soiryabai and Others",
+   "dst": 15686,
+   "correct": true
+  },
+  {
+   "n": 54,
+   "tag": "NAME_EDGE",
+   "src": 40470,
+   "raw": "(2019) 5 SCC 436",
+   "name": "Vijay Mohan Singh Mohan Singh v. State of Karnataka",
+   "dst": 37461,
+   "correct": true
+  },
+  {
+   "n": 55,
+   "tag": "NAME_EDGE",
+   "src": 26857,
+   "raw": "AIR (1985) SC 998",
+   "name": "Hirachand Kothari v. State of Rajasthan",
+   "dst": 13068,
+   "correct": true
+  },
+  {
+   "n": 56,
+   "tag": "NAME_EDGE",
+   "src": 26320,
+   "raw": "[2004] 7 SCC 558",
+   "name": "Nirmal' Jeet Kaur v. State of M.P",
+   "dst": 24618,
+   "correct": true
+  },
+  {
+   "n": 57,
+   "tag": "NAME_EDGE",
+   "src": 18748,
+   "raw": "AIR (1991) SC 1612",
+   "name": "Shankarsan Dash v. Union of India",
+   "dst": 15501,
+   "correct": true
+  },
+  {
+   "n": 58,
+   "tag": "NAME_EDGE",
+   "src": 22289,
+   "raw": "[1992] 1 SCC 361",
+   "name": "Administrator, Municipal Corporation v. Dattatraya Dahankar",
+   "dst": 15510,
+   "correct": true
+  },
+  {
+   "n": 59,
+   "tag": "NAME_EDGE",
+   "src": 26295,
+   "raw": "AIR (1954) SC 282",
+   "name": "Commissioner Hindu Religious Endowments, Madras v. Sri Lakshmindra Thirtha Swamiar of Sri Shirur Mutt",
+   "dst": 416,
+   "correct": true
+  },
+  {
+   "n": 60,
+   "tag": "NAME_EDGE",
+   "src": 40364,
+   "raw": "(2020) 3 SCC 525",
+   "name": "India v. Association of Unified Telecom Service Providers of India and Ors",
+   "dst": 37495,
+   "correct": true
+  },
+  {
+   "n": 61,
+   "tag": "UNRESOLVED",
+   "src": 21954,
+   "raw": "(1994] Suppl. 3 SCC 424",
+   "name": "S. Ram Chandra Raju v. State ofOrissa",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 62,
+   "tag": "UNRESOLVED",
+   "src": 23221,
+   "raw": "AIR (1985) SC 1669",
+   "name": "Ors. v. Diwan Devi and Ors",
+   "category": "not_in_index"
+  },
+  {
+   "n": 63,
+   "tag": "UNRESOLVED",
+   "src": 36610,
+   "raw": "(2009) 9 SCC 1",
+   "name": "another v. Chandigarh . Administration",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 64,
+   "tag": "UNRESOLVED",
+   "src": 31971,
+   "raw": "(1977) 2 SCC 699",
+   "name": "Kamataka v. L. Muniswamy & Ors",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 65,
+   "tag": "UNRESOLVED",
+   "src": 29926,
+   "raw": "AIR 1971 SC 460",
+   "name": "(Ramaphupala Reddy v. State of A.P",
+   "category": "not_in_index"
+  },
+  {
+   "n": 66,
+   "tag": "UNRESOLVED",
+   "src": 22843,
+   "raw": "[1999) 9 SCC 242",
+   "name": "HJ Swapan Patra v. State of West Bengal",
+   "category": "not_in_index"
+  },
+  {
+   "n": 67,
+   "tag": "UNRESOLVED",
+   "src": 33886,
+   "raw": "(2007) 2 SCC 755",
+   "name": "U.P. Power Corporation v. Bijli Mazdoor Sang",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 68,
+   "tag": "UNRESOLVED",
+   "src": 25287,
+   "raw": "(2004] 5 SCC 791",
+   "name": "Ors. v. Guranditta Mal Shauti Prakash and Ors",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 69,
+   "tag": "UNRESOLVED",
+   "src": 20488,
+   "raw": "[1996)2 SCC 336",
+   "name": "Surjit Singh v. State of Punjab",
+   "category": "in_index_ambiguous_name"
+  },
+  {
+   "n": 70,
+   "tag": "UNRESOLVED",
+   "src": 30313,
+   "raw": "1985(1) SCC 552",
+   "name": "UP. v. Ram Sagar Yadav",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 71,
+   "tag": "UNRESOLVED",
+   "src": 38037,
+   "raw": "(2002) 3 SCC 314",
+   "name": "A.P. & Anr. v. Rashtriya Ispat Nigam Ltd",
+   "category": "not_in_index"
+  },
+  {
+   "n": 72,
+   "tag": "UNRESOLVED",
+   "src": 23586,
+   "raw": "[1992) 3 SCC 249",
+   "name": "Anr. v. State of Punjab",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 73,
+   "tag": "UNRESOLVED",
+   "src": 40601,
+   "raw": "(2017) 16 SCC 491",
+   "name": "Customs v. Magus Metals",
+   "category": "not_in_index"
+  },
+  {
+   "n": 74,
+   "tag": "UNRESOLVED",
+   "src": 16852,
+   "raw": "(1989) 3 SCC 5",
+   "name": "other v. State of Bihar, JT",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 75,
+   "tag": "UNRESOLVED",
+   "src": 42702,
+   "raw": "(1984) 4 SCC 251",
+   "name": "Others v. State of Uttar Pradesh and Others",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 76,
+   "tag": "UNRESOLVED",
+   "src": 21758,
+   "raw": "[1998) 4 SCC 605",
+   "name": "George v. State of Kerala",
+   "category": "in_index_source_error"
+  },
+  {
+   "n": 77,
+   "tag": "UNRESOLVED",
+   "src": 21175,
+   "raw": "(1980] 2 SCC 684",
+   "name": "Bachan Singh v. State of Punjab",
+   "category": "in_index_ambiguous_name"
+  },
+  {
+   "n": 78,
+   "tag": "UNRESOLVED",
+   "src": 39625,
+   "raw": "(1992) 1 SCC 160",
+   "name": "V.B. Rangaraj v. V.B. Gopalakrishnan",
+   "category": "in_index_verifier_limitation"
+  },
+  {
+   "n": 79,
+   "tag": "UNRESOLVED",
+   "src": 24607,
+   "raw": "AIR (1990) SC 79",
+   "name": "Veera Reddy v. State of A.P. and Ors",
+   "category": "not_in_index"
+  },
+  {
+   "n": 80,
+   "tag": "UNRESOLVED",
+   "src": 24214,
+   "raw": "(1991] 2 SCC 62",
+   "name": "Jacksons Thevara v. Collector of Customs and Central Excise",
+   "category": "not_in_index"
+  },
+  {
+   "n": 81,
+   "tag": "UNRESOLVED",
+   "src": 32117,
+   "raw": "(2007) 9 SCC 1",
+   "name": "Abdul Rashid Abdul Rahiman Patel & Ors. v. State of Maharashtra",
+   "category": "not_in_index"
+  },
+  {
+   "n": 82,
+   "tag": "UNRESOLVED",
+   "src": 40997,
+   "raw": "(2023) 6 SCC 399",
+   "name": "Laxman Prasad v. State of Madhya Pradesh",
+   "category": "not_in_index"
+  },
+  {
+   "n": 83,
+   "tag": "UNRESOLVED",
+   "src": 32424,
+   "raw": "(1969) 2 SCC 262",
+   "name": "AK. Kraipak v. Union of India",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 84,
+   "tag": "UNRESOLVED",
+   "src": 24777,
+   "raw": "(2004] 7 SCC 338",
+   "name": "DJ Prasad v. Jindal and Ors",
+   "category": "not_in_index"
+  },
+  {
+   "n": 85,
+   "tag": "UNRESOLVED",
+   "src": 19869,
+   "raw": "[1995) 4 SCC 119",
+   "name": "R.K. Jain v. Union of India",
+   "category": "in_index_source_error"
+  },
+  {
+   "n": 86,
+   "tag": "UNRESOLVED",
+   "src": 23841,
+   "raw": "(1996) 10 SCC 150",
+   "name": "(See Scindia Employees' Union v. State of Maharashtra and Ors",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 87,
+   "tag": "UNRESOLVED",
+   "src": 41662,
+   "raw": "(2009) 17 SCC 530",
+   "name": "Malik Mazhar Sultan & Anr. v. U.P. Public Service Commission & Ors",
+   "category": "not_in_index"
+  },
+  {
+   "n": 88,
+   "tag": "UNRESOLVED",
+   "src": 41511,
+   "raw": "(2007) 1 SCC 257",
+   "name": "UP v. Desh Raj",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 89,
+   "tag": "UNRESOLVED",
+   "src": 32476,
+   "raw": "(2002) 8 SCC 182",
+   "name": "another v. National Textile Corporation (Maharashtra North) Ltd. and others",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 90,
+   "tag": "UNRESOLVED",
+   "src": 38820,
+   "raw": "(2006) 11 SCC 1",
+   "name": "Jagjit Singh v. State of Haryana",
+   "category": "not_in_index"
+  },
+  {
+   "n": 91,
+   "tag": "UNRESOLVED",
+   "src": 22046,
+   "raw": "AIR (1988) SC 1883",
+   "name": "Kehar Singh v. State (Delhi Administration)",
+   "category": "in_index_verifier_limitation"
+  },
+  {
+   "n": 92,
+   "tag": "UNRESOLVED",
+   "src": 38298,
+   "raw": "(2015) 5 SCC 718",
+   "name": "Bharat Heavy Electricals Limited v. Globe Hi-Fabs Limited",
+   "category": "not_in_index"
+  },
+  {
+   "n": 93,
+   "tag": "UNRESOLVED",
+   "src": 22193,
+   "raw": "AIR (1976) SC 54",
+   "name": "Ram fol & Sons v. State of Rajasthan",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 94,
+   "tag": "UNRESOLVED",
+   "src": 20330,
+   "raw": "AIR (1966) SC 1678",
+   "name": "Smt. Shyam Kishori Devi v. Patna Municipal Corporation & AllT",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 95,
+   "tag": "UNRESOLVED",
+   "src": 31812,
+   "raw": "(1973) 2 SCC 662",
+   "name": "K.M. Sengoda Goundar & Ors. v. State of Madras & Anr",
+   "category": "not_in_index"
+  },
+  {
+   "n": 96,
+   "tag": "UNRESOLVED",
+   "src": 37209,
+   "raw": "AIR 1996 SC 153",
+   "name": "Pandurang Dhoni Chougule v. Maruti Hari Jadhav",
+   "category": "in_index_source_error"
+  },
+  {
+   "n": 97,
+   "tag": "UNRESOLVED",
+   "src": 32671,
+   "raw": "(1978) 2 SCC 659",
+   "name": "M. v. Dr. V.A. Syed Mohammed",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 98,
+   "tag": "UNRESOLVED",
+   "src": 23217,
+   "raw": "[2000] 6 SCC 12",
+   "name": "Anr. v. State of Maharashtra",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 99,
+   "tag": "UNRESOLVED",
+   "src": 23268,
+   "raw": "[2002] 4 SCC 247",
+   "name": "Ors. v. Union of India",
+   "category": "in_index_extraction_or_ocr"
+  },
+  {
+   "n": 100,
+   "tag": "UNRESOLVED",
+   "src": 33028,
+   "raw": "(2003) SCC (LS) 928",
+   "name": "UOI v. Bani Singh",
+   "category": "not_in_index"
+  }
+ ]
+}

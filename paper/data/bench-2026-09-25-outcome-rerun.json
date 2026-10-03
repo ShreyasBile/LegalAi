@@ -1,0 +1,58 @@
+{
+ "base": "http://localhost:8090",
+ "when": "2026-09-24T22:41:16.321Z",
+ "node": "v22.14.0",
+ "totalRows": 19319963,
+ "classes": {
+  "keyword + outcome filter": {
+   "paths": [
+    "/api/caselaw/search?q=bail&court=27%7E1&outcome=DISMISSED",
+    "/api/caselaw/search?q=land+acquisition&court=27%7E1&outcome=Dismissed",
+    "/api/caselaw/search?q=tax&court=3%7E22&outcome=DISMISSED",
+    "/api/caselaw/search?q=service&court=3%7E22&outcome=ALLOWED",
+    "/api/caselaw/search?q=appeal&court=SC&outcome=Dismissed",
+    "/api/caselaw/search?q=state&court=23%7E23&outcome=Dismissed",
+    "/api/caselaw/search?q=order&court=23%7E23&outcome=Allowed"
+   ],
+   "pass1": [
+    1273.6842000000033,
+    1858.977700000003,
+    225.4765999999945,
+    138.9731000000029,
+    133.63159999999334,
+    1401.101800000004,
+    787.1859000000113
+   ],
+   "pass2": [
+    734.1625000000058,
+    240.86500000000524,
+    204.16359999999986,
+    135.34960000000137,
+    102.0972000000038,
+    1019.4303999999975,
+    243.33000000000175
+   ],
+   "status": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+   ],
+   "totals": [
+    1454,
+    544,
+    5818,
+    306,
+    8,
+    10000,
+    72
+   ],
+   "capped": 1,
+   "fuzzy": 0,
+   "empty": 0
+  }
+ }
+}

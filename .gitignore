@@ -1,0 +1,40 @@
+# --- dependencies and build output
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+.env
+*.log
+
+# --- LaTeX build files (main.pdf and the generated numbers.tex / tab_*.tex ARE kept)
+paper/ieee/*.aux
+paper/ieee/*.bbl
+paper/ieee/*.blg
+paper/ieee/*.out
+paper/ieee/*.toc
+paper/ieee/*.fls
+paper/ieee/*.fdb_latexmk
+paper/ieee/*.synctex.gz
+
+# --- data that is downloaded from the public AWS archive or rebuilt by the scripts (hundreds of MB; see README)
+paper/experiment/corpus/text/
+paper/experiment/corpus/manifest.jsonl
+paper/experiment/pilot/pdf/
+paper/experiment/pilot/text/
+paper/experiment/pilot/mentions.jsonl
+paper/experiment/pilot/window_*.jsonl
+paper/experiment/retrieval/emb/
+paper/experiment/retrieval/headnotes.jsonl
+paper/experiment/graph/units.jsonl
+paper/experiment/graph/done_ids.txt
+
+# --- stale drafts from 2026-09-25 (superseded by paper/ieee)
+paper/draft-v1.md
+paper/numbers.md
+
+# --- local tool and editor settings, OS files
+.claude/
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

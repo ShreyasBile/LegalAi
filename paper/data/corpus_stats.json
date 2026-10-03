@@ -1,0 +1,175 @@
+{
+ "total": 19319963,
+ "sc": 38366,
+ "hc": 19281597,
+ "no_link": 169129,
+ "courts": 26,
+ "year_min": 1950,
+ "year_max": 2026,
+ "mobile_by_court": {
+  "23~23": {
+   "mobile": 42695,
+   "linked": 5,
+   "nonmobile_unlinked": 0,
+   "court_rows": 693219
+  },
+  "2~5": {
+   "mobile": 7,
+   "linked": 7,
+   "nonmobile_unlinked": 0,
+   "court_rows": 292894
+  },
+  "27~1": {
+   "mobile": 643216,
+   "linked": 537441,
+   "nonmobile_unlinked": 0,
+   "court_rows": 2446330
+  },
+  "9~13": {
+   "mobile": 605598,
+   "linked": 584934,
+   "nonmobile_unlinked": 0,
+   "court_rows": 2300821
+  }
+ },
+ "mobile_total": 1291516,
+ "mobile_linked": 1122387,
+ "mobile_recent": 1262967,
+ "collide_stems": 61125,
+ "collide_rows": 123131,
+ "collide_gt2": 881,
+ "collide_same": 6575,
+ "collide_diff_both": 53963,
+ "collide_cnr_diff": 61125,
+ "sc_with_scr": 38366,
+ "sc_with_neutral": 38238,
+ "sc_supp": 7642,
+ "sc_year_ne": 5179,
+ "sc_neutral_dup_groups": 96,
+ "sc_neutral_dup_rows": 216,
+ "insc_complete_years": [
+  1950,
+  1951,
+  1952,
+  1953,
+  1954,
+  1955,
+  1956,
+  1957,
+  1958,
+  1959,
+  1960,
+  1962,
+  1963,
+  1964,
+  1965,
+  1966,
+  1967,
+  1968,
+  1969,
+  1970,
+  1971,
+  1972,
+  1973,
+  1974,
+  1975,
+  1976,
+  1977,
+  1978,
+  1979,
+  1980,
+  1981,
+  1982,
+  1983,
+  1984,
+  1985,
+  1986,
+  1987,
+  1988,
+  1989,
+  1990,
+  1991,
+  1992,
+  1993,
+  1995,
+  1996,
+  1998,
+  1999,
+  2000,
+  2001,
+  2002,
+  2003,
+  2004,
+  2005,
+  2006,
+  2007,
+  2008,
+  2009,
+  2010,
+  2011,
+  2012,
+  2013
+ ],
+ "insc_incomplete_years": [
+  1961,
+  1994,
+  1997,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025,
+  2026
+ ],
+ "insc_coverage_2014_2026": {
+  "2014": 0.729,
+  "2015": 0.716,
+  "2016": 0.464,
+  "2017": 0.552,
+  "2018": 0.621,
+  "2019": 0.734,
+  "2020": 0.786,
+  "2021": 0.764,
+  "2022": 0.762,
+  "2023": 0.779,
+  "2024": 0.171,
+  "2025": 0.627,
+  "2026": 0.253
+ },
+ "head_recovered": {
+  "resolved 27~1": {
+   "200": 150
+  },
+  "resolved 9~13": {
+   "200": 150
+  }
+ },
+ "head_unresolved": {
+  "unresolved 27~1": {
+   "absent (all 3 year folders 404)": 150
+  },
+  "unresolved 9~13": {
+   "absent (all 3 year folders 404)": 150
+  },
+  "unresolved 23~23": {
+   "absent (all 3 year folders 404)": 150
+  }
+ },
+ "collision_pairs": {
+  "same_bytes": 0,
+  "different_bytes": 60,
+  "unreadable": 0
+ },
+ "nonmobile_checked": 454,
+ "nonmobile_ok": 454,
+ "nonmobile_courts": 24,
+ "sc_links_checked": 150,
+ "sc_links_ok": 150
+}

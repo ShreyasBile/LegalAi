@@ -1,0 +1,25 @@
+{
+ "model": "llama3.1:8b+retrieval",
+ "host": "11435",
+ "details": {
+  "parent_model": "",
+  "format": "gguf",
+  "family": "llama",
+  "families": [
+   "llama"
+  ],
+  "parameter_size": "8.0B",
+  "quantization_level": "Q4_K_M"
+ },
+ "weights": [
+  1.0,
+  1.0,
+  0.0
+ ],
+ "max_actions": 5,
+ "results_per_search": 6,
+ "snippet_chars": 280,
+ "tasks": [
+  "T4"
+ ]
+}

@@ -1,0 +1,7 @@
+{
+ "cases": 450,
+ "index_load_s": 1.4,
+ "median_ms": 79.5,
+ "p95_ms": 1992.0,
+ "max_ms": 2536.7
+}

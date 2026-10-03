@@ -1,0 +1,49 @@
+\section{How Language Models Cite: Results}
+\label{sec:results}
+
+\subsection{Identifying citations (T1, T2)}
+Table~\ref{tab:t1t2} shows two opposite behaviours. Llama~3.1 and Gemma~3 answered almost every question and were almost always wrong. Llama identified \TOneCorrectLlama{} of the \TOneN{} real citations (\emph{Kesavananda Bharati}, by its S.C.R. citation); Gemma identified none. Both named a judgment for nearly every fabricated citation: \TTwoNamedLlama{} of 60 for Llama (\TTwoNamedPctLlama, 95\% CI \TTwoNamedCILlama; one output was invalid) and \TTwoNamedGemma{} of 60 for Gemma (\TTwoNamedPctGemma, 95\% CI \TTwoNamedCIGemma). Their wrong answers were not near misses: the closest any wrong T1 answer came to the true judgment was a name score of \MaxWrongLenientLlama{} (Llama) and \MaxWrongLenientGemma{} (Gemma), well below the match threshold of 0.5. The answers also repeated: across T1 and T2, Llama gave \emph{\TopAnswerLlama} as the answer \TopAnswerCountLlama{} times, and Gemma gave \emph{\TopAnswerGemma} \TopAnswerCountGemma{} times. The two Qwen models took the opposite course and declined all 262 questions. Under our system prompt, declining is the correct response to T2, but it forfeits T1 entirely. With thinking disabled, no model identified more than \BestTOneCorrect{} of the \TOneN{} real citations.
+
+\begin{table}[t]
+\caption{Identifying a judgment from its citation. T1: \NumTOne{} real citations (\NumJudgments{} judgments, each by S.C.R. and neutral citation). T2: \NumTTwo{} citations that cannot exist. Corr.\ = named the right judgment; Named = named any judgment for a fabricated citation; Decl.\ = declined; Inv.\ = invalid output.}
+\label{tab:t1t2}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\input{tab_t1t2}
+\end{table}
+
+\subsection{Supplying citations (T3)}
+When given the parties and the date of a judgment and asked for its citations, the two Qwen models, which had declined every T1 question, supplied a neutral citation for most judgments, and almost all were wrong (Table~\ref{tab:t3}). Across the four models only \TThreeCorrectAll{} of the \TThreeAskedAll{} requested citations were correct. Qwen2.5-VL returned a neutral citation for \TThreeNeutralWrongQwenVL{} of \NumTThree{} judgments and none was correct; \TThreeUnassignedQwenVL{} of them carry a number above the year's last issued neutral citation in a year the index covers completely, so they cannot exist. Qwen3 returned wrong neutral citations for \TThreeNeutralWrongQwen{} judgments, \TThreeNeutralOtherJudgmentQwen{} of which belong to other judgments, and wrong S.C.R. citations for \TThreeScrWrongQwen{}, \TThreeScrNoJudgmentQwen{} of which point to a page where no reported judgment begins. Llama answered the request for a neutral citation with an AIR citation \TThreeNeutralOtherFormatLlama{} times.
+
+\begin{table}[t]
+\caption{Supplying the citations of \NumTThree{} known judgments, given parties and decision date. Corr.\ = exact match; Wrong = any other non-empty answer; Empty = no citation given.}
+\label{tab:t3}
+\centering
+\setlength{\tabcolsep}{4pt}
+\input{tab_t3}
+\end{table}
+
+\subsection{Authorities for legal questions (T4)}
+Asked for up to three leading Supreme Court authorities on each of \NumTopics{} questions, the models named between \TFourCasesMin{} and \TFourCasesMax{} cases each, counting a case repeated within one answer once (Table~\ref{tab:t4}). Only \TFourVerifiedRange{} of these could be matched to a Supreme Court judgment with the named parties within a year of the stated date; between \TFourNFMinPct{} (\TFourNFMinModel) and \TFourNFMaxPct{} (\TFourNFMaxModel) were NOT\_FOUND. The models cited almost exclusively the commercial SCC and AIR reports and SCC OnLine, which the index cannot resolve, so these labels rest on the party names and year. Only Qwen2.5-VL used the S.C.R. form to any extent (\TFourReporterCitesQwenVL{} citations, \TFourReporterCitePctQwenVL{} of its total). All \TFourReporterResolvedMisQwenVL{} of these that resolved in the index pointed to a different judgment (MISATTRIBUTED): for example, it attributed \texttt{1970 (2) SCR 1}, which is \emph{Sitabai v.\ Ram Chandra}, to an invented \emph{State of Maharashtra v.\ Keshav Bapuji Patil}. WRONG\_YEAR cases are real judgments cited with a wrong year, such as \emph{R.\ Rajagopal v.\ State of Tamil Nadu} (1994) cited as 1969 and 1985.
+
+\begin{table}[t]
+\caption{T4: every case cited for \NumTopics{} legal questions, by verifier label. Ver.\ = VERIFIED (with Wilson 95\% interval), W.Yr.\ = WRONG\_YEAR, W.Cit.\ = WRONG\_CITATION, Misatt.\ = MISATTRIBUTED, N.F.\ = NOT\_FOUND.}
+\label{tab:t4}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\input{tab_t4}
+\end{table}
+
+\subsection{Verifier accuracy}
+\label{sec:audit}
+We built the verifier on a development sample of T4 answers and then froze it. To measure it we drew a fresh, stratified random sample of \AuditN{} T4 decisions from the four models, excluding every case on the development sheet, and judged each by hand against the index and our knowledge of the case law. The verifier was right in \AuditCorrect{} of \AuditN{} (\AuditPct). \AuditVerCorrect{} of \AuditVerN{} VERIFIED labels were correct; the error matched \emph{Narendra Kumar v.\ Union of India} to \emph{State Bank of India v.\ Narendra Kumar Pandey}. \AuditNFCorrect{} of \AuditNFN{} NOT\_FOUND labels were correct; both misses were real judgments whose titles contain OCR errors in the source (\emph{Machhi Singh} spelled ``Machhl'', \emph{Baliya} spelled ``Baliay''). All \AuditWYN{} WRONG\_YEAR and \AuditMisN{} MISATTRIBUTED labels were correct.
+
+The audit also shows what NOT\_FOUND means. Of the \AuditNFN{} audited cases, \AuditNFFab{} named parties that match no Supreme Court judgment in any year, \AuditNFGeneric{} used names so common (\emph{Rajesh Kumar v.\ State of Bihar}) that same-named judgments exist only in other years, \AuditNFMisdated{} was a real judgment cited with both a wrong year and an altered name, \AuditNFNotJudgment{} was not a judgment at all (a committee report), and \AuditNFMiss{} were the verifier misses above.
+
+\input{results_t5}
+
+\input{results_search}
+
+\input{results_topic}

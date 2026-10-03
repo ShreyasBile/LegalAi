@@ -1,0 +1,6 @@
+﻿Benchmarking http://localhost:8090 — 19,319,963 rows, 1 classes
+
+class                            n | pass1 p50  p95  max      | pass2 p50  p95  max      | results (capped/total)
+keyword + outcome filter         7 |    787  1.86s  1.86s  |    241  1.02s  1.02s  | 1/7 capped, 0 empty
+
+raw timings → D:\lawyer\paper\data\bench-2026-09-25-outcome-rerun.json

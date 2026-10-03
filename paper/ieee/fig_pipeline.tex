@@ -1,0 +1,27 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, minimum height=0.9cm, inner sep=2.5pt},
+  arr/.style={-{Latex[length=1.6mm]}, thick},
+  lbl/.style={font=\scriptsize, align=center}]
+\node[box, text width=1.5cm] (aws) {AWS Open Data archive};
+\node[box, text width=1.75cm, right=0.75cm of aws] (idx) {Audited index\\ \CorpusTotal{}\\ records};
+\node[box, text width=1.35cm, right=0.75cm of idx] (ver) {Citation\\ verifier};
+\node[box, text width=1.5cm, below=0.75cm of aws] (txt) {S.C. judgment text, headnotes};
+\node[box, text width=1.75cm, below=0.75cm of idx] (graph) {Citation graph\\ \GraphEdges{}\\ links};
+\node[box, text width=1.35cm, below=0.75cm of ver] (ret) {Retriever\\ (text + prior)};
+\node[box, text width=1.35cm, below=0.75cm of ret] (llm) {Model\\ answers};
+\node[box, text width=1.75cm, below=0.75cm of graph] (lab) {Labels};
+\draw[arr] (aws) -- node[lbl, above] {load,} node[lbl, below] {repair} (idx);
+\draw[arr] (idx) -- node[lbl, above] {S.C.} (ver);
+\draw[arr] (aws) -- node[lbl, left] {PDFs} (txt);
+\draw[arr] (txt) -- node[lbl, above] {cites} (graph);
+\draw[arr, dashed] (ver) -- node[lbl, sloped, above] {resolve} (graph);
+\draw[arr] (graph) -- node[lbl, above] {prior} (ret);
+\draw[arr] (txt.south east) to[bend right=22] (ret.south west);
+\draw[arr, {Latex[length=1.6mm]}-{Latex[length=1.6mm]}, dotted] (ret) -- node[lbl, right] {search} (llm);
+\draw[arr] (llm) -- node[lbl, above] {check} (lab);
+\end{tikzpicture}
+\caption{Overview. The archive's metadata is loaded into an audited index; the verifier resolves citations and case names against its Supreme Court part. The text of every Supreme Court judgment yields headnotes and the citations each judgment makes, which the verifier resolves into a citation graph. The retriever searches headnotes by subject and ranks with the graph's citation counts. Model answers are checked by the verifier; in the search conditions the model queries the index or the retriever before answering.}
+\label{fig:pipeline}
+\end{figure}

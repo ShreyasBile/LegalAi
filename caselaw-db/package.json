@@ -1,0 +1,15 @@
+{
+  "name": "caselaw-api",
+  "version": "1.0.0",
+  "description": "Read-only search API over the case-law metadata database (Supreme Court + 25 High Courts). Serves the LegalAI Case law page.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node api/server.js",
+    "test": "node --test test/lib.test.js",
+    "smoke": "node scripts/smoke.js",
+    "bench": "node scripts/bench.js"
+  },
+  "license": "MIT",
+  "dependencies": { "pg": "^8.13.0" }
+}

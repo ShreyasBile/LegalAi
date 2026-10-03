@@ -1,0 +1,3865 @@
+{
+ "seed": 20260929,
+ "judgments": [
+  {
+   "id": 21,
+   "stratum": "landmark",
+   "petitioner": "A.k. Gopalan",
+   "respondent": "The State of Madras.",
+   "decision_date": "1950-05-19",
+   "dyear": 1950,
+   "neutral": "1950 INSC 13",
+   "scr": "[1950] 1 S.C.R. 88"
+  },
+  {
+   "id": 12,
+   "stratum": "landmark",
+   "petitioner": "Romesh Thappar",
+   "respondent": "The State of Madras",
+   "decision_date": "1950-05-26",
+   "dyear": 1950,
+   "neutral": "1950 INSC 14",
+   "scr": "[1950] 1 S.C.R. 594"
+  },
+  {
+   "id": 61,
+   "stratum": "landmark",
+   "petitioner": "The State of Madras",
+   "respondent": "Srimathl Champakam Dorairajan",
+   "decision_date": "1951-04-09",
+   "dyear": 1951,
+   "neutral": "1951 INSC 26",
+   "scr": "[1951] 1 S.C.R. 525"
+  },
+  {
+   "id": 91,
+   "stratum": "landmark",
+   "petitioner": "Sri Sankari Prasad Singh Deo",
+   "respondent": "Union of India and State of Bihar",
+   "decision_date": "1951-10-05",
+   "dyear": 1951,
+   "neutral": "1951 INSC 47",
+   "scr": "[1952] 1 S.C.R. 89"
+  },
+  {
+   "id": 536,
+   "stratum": "landmark",
+   "petitioner": "Rai Sahib Ram Jawaya Kapur and Others",
+   "respondent": "The State of Punjab",
+   "decision_date": "1955-04-12",
+   "dyear": 1955,
+   "neutral": "1955 INSC 27",
+   "scr": "[1955] 2 S.C.R. 225"
+  },
+  {
+   "id": 2296,
+   "stratum": "landmark",
+   "petitioner": "K. M. Nanavati",
+   "respondent": "State of Maharashtra",
+   "decision_date": "1961-11-24",
+   "dyear": 1961,
+   "neutral": "1961 INSC 322",
+   "scr": "[1962] SUPP. 1 S.C.R. 567"
+  },
+  {
+   "id": 3019,
+   "stratum": "landmark",
+   "petitioner": "Kharak Singh",
+   "respondent": "The State of U. P. & Others",
+   "decision_date": "1962-12-18",
+   "dyear": 1962,
+   "neutral": "1962 INSC 389",
+   "scr": "[1964] 1 S.C.R. 332"
+  },
+  {
+   "id": 5334,
+   "stratum": "landmark",
+   "petitioner": "I. C. Golak Nath & Ors.",
+   "respondent": "Sta Te of Punjab & Anrs.",
+   "decision_date": "1967-02-27",
+   "dyear": 1967,
+   "neutral": "1967 INSC 45",
+   "scr": "[1967] 2 S.C.R. 762"
+  },
+  {
+   "id": 8302,
+   "stratum": "landmark",
+   "petitioner": "His Holiness Kesavananda Bharati Sripadagalavaru",
+   "respondent": "State of Kerala",
+   "decision_date": "1973-04-24",
+   "dyear": 1973,
+   "neutral": "1973 INSC 91",
+   "scr": "[1973] SUPP. 1 S.C.R. 1"
+  },
+  {
+   "id": 9543,
+   "stratum": "landmark",
+   "petitioner": "Smt. Indira Nehru Gandhi",
+   "respondent": "Shri Raj Narain",
+   "decision_date": "1975-11-07",
+   "dyear": 1975,
+   "neutral": "1975 INSC 272",
+   "scr": "[1976] 2 S.C.R. 347"
+  },
+  {
+   "id": 9783,
+   "stratum": "landmark",
+   "petitioner": "Additional District Magistrate, Jabalpur",
+   "respondent": "S. S. Shukla Etc. Etc.",
+   "decision_date": "1976-04-28",
+   "dyear": 1976,
+   "neutral": "1976 INSC 129",
+   "scr": "[1976] SUPP. 1 S.C.R. 172"
+  },
+  {
+   "id": 10526,
+   "stratum": "landmark",
+   "petitioner": "State of Rajasthan, Jaipur",
+   "respondent": "Balchand @ Baliay",
+   "decision_date": "1977-09-20",
+   "dyear": 1977,
+   "neutral": "1977 INSC 180",
+   "scr": "[1978] 1 S.C.R. 535"
+  },
+  {
+   "id": 10697,
+   "stratum": "landmark",
+   "petitioner": "Maneka Gandhi",
+   "respondent": "Union of India",
+   "decision_date": "1978-01-25",
+   "dyear": 1978,
+   "neutral": "1978 INSC 16",
+   "scr": "[1978] 2 S.C.R. 621"
+  },
+  {
+   "id": 10842,
+   "stratum": "landmark",
+   "petitioner": "Sunil Batra Etc.",
+   "respondent": "Delhi Administration and Ors. Etc.",
+   "decision_date": "1978-08-30",
+   "dyear": 1978,
+   "neutral": "1978 INSC 147",
+   "scr": "[1979] 1 S.C.R. 392"
+  },
+  {
+   "id": 11024,
+   "stratum": "landmark",
+   "petitioner": "Hussainara Khatoon & Ors.",
+   "respondent": "Home Secretary, State of Bihar, Patna",
+   "decision_date": "1979-02-26",
+   "dyear": 1979,
+   "neutral": "1979 INSC 53",
+   "scr": "[1979] 3 S.C.R. 393"
+  },
+  {
+   "id": 11678,
+   "stratum": "landmark",
+   "petitioner": "Gurbaksh Singh Sibbia etc .",
+   "respondent": "State of Punjab",
+   "decision_date": "1980-04-09",
+   "dyear": 1980,
+   "neutral": "1980 INSC 68",
+   "scr": "[1980] 3 S.C.R. 383"
+  },
+  {
+   "id": 11682,
+   "stratum": "landmark",
+   "petitioner": "Bachan Singh Etc. Etc.",
+   "respondent": "State of Punjab Etc. Etc.",
+   "decision_date": "1980-05-09",
+   "dyear": 1980,
+   "neutral": "1980 INSC 120",
+   "scr": "[1983] 1 S.C.R. 145"
+  },
+  {
+   "id": 11699,
+   "stratum": "landmark",
+   "petitioner": "Minerva Mills Ltd. & ors",
+   "respondent": "Union of India & Ors.",
+   "decision_date": "1980-07-31",
+   "dyear": 1980,
+   "neutral": "1980 INSC 142",
+   "scr": "[1981] 1 S.C.R. 206"
+  },
+  {
+   "id": 12116,
+   "stratum": "landmark",
+   "petitioner": "S.p. Gupta & Ors. Etc. Etc.",
+   "respondent": "Union of India & Ors. Etc. Etc.",
+   "decision_date": "1981-12-28",
+   "dyear": 1981,
+   "neutral": "1981 INSC 209",
+   "scr": "[1982] 2 S.C.R. 365"
+  },
+  {
+   "id": 12433,
+   "stratum": "landmark",
+   "petitioner": "Rudul Sah",
+   "respondent": "State of Bihar and Another",
+   "decision_date": "1983-08-01",
+   "dyear": 1983,
+   "neutral": "1983 INSC 85",
+   "scr": "[1983] 3 S.C.R. 508"
+  },
+  {
+   "id": 13016,
+   "stratum": "landmark",
+   "petitioner": "Olga Tellis & Ors.",
+   "respondent": "Bombay Municipal Corporation & Ors. Etc.",
+   "decision_date": "1985-07-10",
+   "dyear": 1985,
+   "neutral": "1985 INSC 151",
+   "scr": "[1985] SUPP. 2 S.C.R. 51"
+  },
+  {
+   "id": 12928,
+   "stratum": "landmark",
+   "petitioner": "Mohd. Ahmed Khan",
+   "respondent": "Shah Bano Begum and Ors.",
+   "decision_date": "1985-04-23",
+   "dyear": 1985,
+   "neutral": "1985 INSC 97",
+   "scr": "[1985] 3 S.C.R. 844"
+  },
+  {
+   "id": 13387,
+   "stratum": "landmark",
+   "petitioner": "Bijoe Emmanuel & Ors.",
+   "respondent": "State of Kerala & Ors.",
+   "decision_date": "1986-08-11",
+   "dyear": 1986,
+   "neutral": "1986 INSC 167",
+   "scr": "[1986] 3 S.C.R. 518"
+  },
+  {
+   "id": 16046,
+   "stratum": "landmark",
+   "petitioner": "Miss Mohini Jain",
+   "respondent": "State of Karnataka and Ors.",
+   "decision_date": "1992-07-30",
+   "dyear": 1992,
+   "neutral": "1992 INSC 186",
+   "scr": "[1992] 3 S.C.R. 658"
+  },
+  {
+   "id": 16446,
+   "stratum": "landmark",
+   "petitioner": "Unni Krishnan, J.p. and Ors. Etc. Irrc",
+   "respondent": "State of Andhra Pradesh and Ors. Etc. Etc.",
+   "decision_date": "1993-02-04",
+   "dyear": 1993,
+   "neutral": "1993 INSC 40",
+   "scr": "[1993] 1 S.C.R. 594"
+  },
+  {
+   "id": 16524,
+   "stratum": "landmark",
+   "petitioner": "S.r. Bommai",
+   "respondent": "Union of India and Ors.",
+   "decision_date": "1994-03-11",
+   "dyear": 1994,
+   "neutral": "1994 INSC 111",
+   "scr": "[1994] 2 S.C.R. 644"
+  },
+  {
+   "id": 18329,
+   "stratum": "landmark",
+   "petitioner": "D.k. Basu",
+   "respondent": "State of West Bengal",
+   "decision_date": "1996-12-18",
+   "dyear": 1996,
+   "neutral": "1996 INSC 1508",
+   "scr": "[1996] SUPP. 10 S.C.R. 284"
+  },
+  {
+   "id": 19564,
+   "stratum": "landmark",
+   "petitioner": "Vishaka and Ors.",
+   "respondent": "State of Rajasthan and Ors.",
+   "decision_date": "1997-08-13",
+   "dyear": 1997,
+   "neutral": "1997 INSC 604",
+   "scr": "[1997] SUPP. 3 S.C.R. 404"
+  },
+  {
+   "id": 19684,
+   "stratum": "landmark",
+   "petitioner": "L. Chandra Kumar Etc. Etc.",
+   "respondent": "The Union of India and Ors. Etc. Etc.",
+   "decision_date": "1997-03-18",
+   "dyear": 1997,
+   "neutral": "1997 INSC 288",
+   "scr": "[1997] 2 S.C.R. 1186"
+  },
+  {
+   "id": 19598,
+   "stratum": "landmark",
+   "petitioner": "Vineet Narain and ors",
+   "respondent": "Union of India and Anr.",
+   "decision_date": "1997-12-18",
+   "dyear": 1997,
+   "neutral": "1997 INSC 826",
+   "scr": "[1997] SUPP. 6 S.C.R. 595"
+  },
+  {
+   "id": 22668,
+   "stratum": "landmark",
+   "petitioner": "T.m.a. Pal Foundation and Ors.",
+   "respondent": "State of Karnataka and Ors.",
+   "decision_date": "2002-10-31",
+   "dyear": 2002,
+   "neutral": "2002 INSC 454",
+   "scr": "[2002] SUPP. 3 S.C.R. 587"
+  },
+  {
+   "id": 26253,
+   "stratum": "landmark",
+   "petitioner": "Prakash Singh and Ors.",
+   "respondent": "Union of India and Ors.",
+   "decision_date": "2006-09-22",
+   "dyear": 2006,
+   "neutral": "2006 INSC 642",
+   "scr": "[2006] SUPP. 6 S.C.R. 473"
+  },
+  {
+   "id": 26894,
+   "stratum": "landmark",
+   "petitioner": "I. R. Coelho (dead) by Lrs.",
+   "respondent": "State of Tamil Nadu",
+   "decision_date": "2007-01-11",
+   "dyear": 2007,
+   "neutral": "2007 INSC 28",
+   "scr": "[2007] 1 S.C.R. 706"
+  },
+  {
+   "id": 30742,
+   "stratum": "landmark",
+   "petitioner": "Siddharam Satlingappa Mhetre",
+   "respondent": "State of Maharashtra and Others",
+   "decision_date": "2010-12-02",
+   "dyear": 2010,
+   "neutral": "2010 INSC 843",
+   "scr": "[2010] 15 S.C.R. 201"
+  },
+  {
+   "id": 31706,
+   "stratum": "landmark",
+   "petitioner": "Aruna Ramchandra Shanbaug",
+   "respondent": "Union of India and Others",
+   "decision_date": "2011-03-07",
+   "dyear": 2011,
+   "neutral": "2011 INSC 187",
+   "scr": "[2011] 4 S.C.R. 1057"
+  },
+  {
+   "id": 31808,
+   "stratum": "landmark",
+   "petitioner": "Nandini Sundar and Ors.",
+   "respondent": "State of Chattisgarh",
+   "decision_date": "2011-07-05",
+   "dyear": 2011,
+   "neutral": "2011 INSC 451",
+   "scr": "[2011] 8 S.C.R. 1028"
+  },
+  {
+   "id": 31926,
+   "stratum": "landmark",
+   "petitioner": "Mrs. Saradamani Kandappan",
+   "respondent": "Mrs. S. Rajalakshmi & Ors.",
+   "decision_date": "2011-07-04",
+   "dyear": 2011,
+   "neutral": "2011 INSC 446",
+   "scr": "[2011] 8 S.C.R. 874"
+  },
+  {
+   "id": 33190,
+   "stratum": "landmark",
+   "petitioner": "Lalita Kumari",
+   "respondent": "Govt. of U.p. and Ors.",
+   "decision_date": "2013-11-12",
+   "dyear": 2013,
+   "neutral": "2013 INSC 748",
+   "scr": "[2013] 14 S.C.R. 713"
+  },
+  {
+   "id": 32934,
+   "stratum": "landmark",
+   "petitioner": "Lily Thomas",
+   "respondent": "Union of India & Ors.",
+   "decision_date": "2013-07-10",
+   "dyear": 2013,
+   "neutral": "2013 INSC 456",
+   "scr": "[2013] 10 S.C.R. 1130"
+  },
+  {
+   "id": 33457,
+   "stratum": "landmark",
+   "petitioner": "Suresh Kumar Koushal and Another",
+   "respondent": "Naz Foundation and Others",
+   "decision_date": "2013-12-11",
+   "dyear": 2013,
+   "neutral": "2013 INSC 823",
+   "scr": "[2013] 17 S.C.R. 116"
+  },
+  {
+   "id": 34170,
+   "stratum": "landmark",
+   "petitioner": "Arnesh Kumar",
+   "respondent": "State of Bihar & Anr.",
+   "decision_date": "2014-07-02",
+   "dyear": 2014,
+   "neutral": "2014 INSC 463",
+   "scr": "[2014] 8 S.C.R. 128"
+  },
+  {
+   "id": 35109,
+   "stratum": "landmark",
+   "petitioner": "Shreya Singhal",
+   "respondent": "Union of India",
+   "decision_date": "2015-03-24",
+   "dyear": 2015,
+   "neutral": "2015 INSC 257",
+   "scr": "[2015] 5 S.C.R. 963"
+  },
+  {
+   "id": 35442,
+   "stratum": "landmark",
+   "petitioner": "Subramanian Swamy",
+   "respondent": "Union of India, Ministry of Law & Ors.",
+   "decision_date": "2016-05-13",
+   "dyear": 2016,
+   "neutral": "2016 INSC 427",
+   "scr": "[2016] 3 S.C.R. 865"
+  },
+  {
+   "id": 36332,
+   "stratum": "landmark",
+   "petitioner": "Shayara Bano",
+   "respondent": "Union of India and Others",
+   "decision_date": "2017-08-22",
+   "dyear": 2017,
+   "neutral": "2017 INSC 785",
+   "scr": "[2017] 9 S.C.R. 797"
+  },
+  {
+   "id": 36212,
+   "stratum": "landmark",
+   "petitioner": "Justice K S Puttaswamy (retd.), and Anr.",
+   "respondent": "Union of India and Ors.",
+   "decision_date": "2017-08-24",
+   "dyear": 2017,
+   "neutral": "2017 INSC 801",
+   "scr": "[2017] 10 S.C.R. 569"
+  },
+  {
+   "id": 36640,
+   "stratum": "landmark",
+   "petitioner": "Excel Crop Care Limited",
+   "respondent": "Competition Commission of India and Another",
+   "decision_date": "2017-05-08",
+   "dyear": 2017,
+   "neutral": "2017 INSC 1286",
+   "scr": "[2017] 5 S.C.R. 901"
+  },
+  {
+   "id": 36229,
+   "stratum": "landmark",
+   "petitioner": "Mukesh & Anr.",
+   "respondent": "State for Nct of Delhi & Ors.",
+   "decision_date": "2017-05-05",
+   "dyear": 2017,
+   "neutral": "2017 INSC 448",
+   "scr": "[2017] 6 S.C.R. 1"
+  },
+  {
+   "id": 37329,
+   "stratum": "landmark",
+   "petitioner": "Navtej Singh Johar & Ors.",
+   "respondent": "Union of India Thr. Secretary Ministry of Law and Justice",
+   "decision_date": "2018-09-06",
+   "dyear": 2018,
+   "neutral": "2018 INSC 790",
+   "scr": "[2018] 7 S.C.R. 379"
+  },
+  {
+   "id": 37121,
+   "stratum": "landmark",
+   "petitioner": "Joseph Shine",
+   "respondent": "Union of India",
+   "decision_date": "2018-09-27",
+   "dyear": 2018,
+   "neutral": "2018 INSC 898",
+   "scr": "[2018] 11 S.C.R. 765"
+  },
+  {
+   "id": 38824,
+   "stratum": "landmark",
+   "petitioner": "Anuradha Bhasin",
+   "respondent": "Union of India & Ors.",
+   "decision_date": "2020-01-10",
+   "dyear": 2020,
+   "neutral": "2020 INSC 31",
+   "scr": "[2020] 1 S.C.R. 812"
+  },
+  {
+   "id": 40226,
+   "stratum": "landmark",
+   "petitioner": "Satender Kumar Antil",
+   "respondent": "Central Bureau of Investigation & Anr.",
+   "decision_date": "2022-07-11",
+   "dyear": 2022,
+   "neutral": "2022 INSC 690",
+   "scr": "[2022] 10 S.C.R. 351"
+  },
+  {
+   "id": 508,
+   "stratum": "random",
+   "petitioner": "Naresh Charan Das Gupta",
+   "respondent": "Paresh Charan Das Gupta",
+   "decision_date": "1954-12-02",
+   "dyear": 1954,
+   "neutral": "1954 INSC 116",
+   "scr": "[1955] 1 S.C.R. 1035"
+  },
+  {
+   "id": 742,
+   "stratum": "random",
+   "petitioner": "Firm of Bhagat Ram Mohanlal",
+   "respondent": "The Commissioner of Excess Profits Tax, Madhya Pradesh, Nagpur and Another.",
+   "decision_date": "1956-02-15",
+   "dyear": 1956,
+   "neutral": "1956 INSC 10",
+   "scr": "[1956] 1 S.C.R. 143"
+  },
+  {
+   "id": 1053,
+   "stratum": "random",
+   "petitioner": "Bishan Singh & Others",
+   "respondent": "Khazan Singh & Another",
+   "decision_date": "1958-05-20",
+   "dyear": 1958,
+   "neutral": "1958 INSC 62",
+   "scr": "[1959] 1 S.C.R. 878"
+  },
+  {
+   "id": 406,
+   "stratum": "random",
+   "petitioner": "Sri Sri Sri Kishore Chandra Singh Deo",
+   "respondent": "Babu Ganesh Prasad Bhagat and Others.",
+   "decision_date": "1954-03-09",
+   "dyear": 1954,
+   "neutral": "1954 INSC 17",
+   "scr": "[1954] 1 S.C.R. 919"
+  },
+  {
+   "id": 915,
+   "stratum": "random",
+   "petitioner": "Rajvi Amar Singh",
+   "respondent": "The State of Rajasthan",
+   "decision_date": "1957-11-28",
+   "dyear": 1957,
+   "neutral": "1957 INSC 109",
+   "scr": "[1958] 1 S.C.R. 1015"
+  },
+  {
+   "id": 654,
+   "stratum": "random",
+   "petitioner": "In the Matter of An Advocate of the Supreme Court. \u2022",
+   "respondent": ".",
+   "decision_date": "1955-11-23",
+   "dyear": 1955,
+   "neutral": "1955 INSC 67",
+   "scr": "[1955] 2 S.C.R. 1006"
+  },
+  {
+   "id": 2303,
+   "stratum": "random",
+   "petitioner": "Mohammad Serajuddin",
+   "respondent": "R. C. Mishra",
+   "decision_date": "1961-11-24",
+   "dyear": 1961,
+   "neutral": "1961 INSC 320",
+   "scr": "[1962] SUPP. 1 S.C.R. 545"
+  },
+  {
+   "id": 4484,
+   "stratum": "random",
+   "petitioner": "Sawai Singhai Nirmal Chand",
+   "respondent": "Union of India",
+   "decision_date": "1965-09-24",
+   "dyear": 1965,
+   "neutral": "1965 INSC 194",
+   "scr": "[1966] 1 S.C.R. 986"
+  },
+  {
+   "id": 2973,
+   "stratum": "random",
+   "petitioner": "Income-tax Officer & Another, Bombay",
+   "respondent": "The Simplex Mills Ltd., Bombay",
+   "decision_date": "1962-11-15",
+   "dyear": 1962,
+   "neutral": "1962 INSC 327",
+   "scr": "[1963] SUPP. 2 S.C.R. 162"
+  },
+  {
+   "id": 5495,
+   "stratum": "random",
+   "petitioner": "Modi & Co.",
+   "respondent": "Union of India",
+   "decision_date": "1967-12-07",
+   "dyear": 1967,
+   "neutral": "1967 INSC 291",
+   "scr": "[1968] 2 S.C.R. 565"
+  },
+  {
+   "id": 4063,
+   "stratum": "random",
+   "petitioner": "M/s. Modi Spinning & Weaving Mills Co., Ltd.",
+   "respondent": "Commissioner of Income-tax, Punjab & Anr.",
+   "decision_date": "1964-10-05",
+   "dyear": 1964,
+   "neutral": "1964 INSC 208",
+   "scr": "[1965] 1 S.C.R. 592"
+  },
+  {
+   "id": 4760,
+   "stratum": "random",
+   "petitioner": "Narandas Mokardas Gaziwala & Ors.",
+   "respondent": "S. P. Am. Papammal & Anr.",
+   "decision_date": "1966-03-25",
+   "dyear": 1966,
+   "neutral": "1966 INSC 87",
+   "scr": "[1966] SUPP. 1 S.C.R. 38"
+  },
+  {
+   "id": 7179,
+   "stratum": "random",
+   "petitioner": "Regional Provident Fund Commissioner, Andhra Pradesh",
+   "respondent": "Shri T. S. Hariharan",
+   "decision_date": "1971-04-01",
+   "dyear": 1971,
+   "neutral": "1971 INSC 103",
+   "scr": "[1971] SUPP. 1 S.C.R. 305"
+  },
+  {
+   "id": 10105,
+   "stratum": "random",
+   "petitioner": "Sindhi Sahiti Multipurpose Transport Co-operative Society Ltd.",
+   "respondent": "State of Madhya Pradesh & Ors.",
+   "decision_date": "1976-11-16",
+   "dyear": 1976,
+   "neutral": "1976 INSC 287",
+   "scr": "[1977] 2 S.C.R. 86"
+  },
+  {
+   "id": 6837,
+   "stratum": "random",
+   "petitioner": "G. R. Baqual",
+   "respondent": "State of Jammu & Kashmir",
+   "decision_date": "1970-03-04",
+   "dyear": 1970,
+   "neutral": "1970 INSC 48",
+   "scr": "[1970] 3 S.C.R. 878"
+  },
+  {
+   "id": 8899,
+   "stratum": "random",
+   "petitioner": "Sankaran Govindan",
+   "respondent": "Lakshmi Bharathi & Others",
+   "decision_date": "1974-04-15",
+   "dyear": 1974,
+   "neutral": "1974 INSC 94",
+   "scr": "[1975] 1 S.C.R. 57"
+  },
+  {
+   "id": 10081,
+   "stratum": "random",
+   "petitioner": "Union of India",
+   "respondent": "Sita Ram Jaiswal",
+   "decision_date": "1976-10-28",
+   "dyear": 1976,
+   "neutral": "1976 INSC 266",
+   "scr": "[1977] 1 S.C.R. 979"
+  },
+  {
+   "id": 10613,
+   "stratum": "random",
+   "petitioner": "Lila Gupta",
+   "respondent": "Laxmi Narain & Ors.",
+   "decision_date": "1978-05-04",
+   "dyear": 1978,
+   "neutral": "1978 INSC 104",
+   "scr": "[1978] 3 S.C.R. 922"
+  },
+  {
+   "id": 14673,
+   "stratum": "random",
+   "petitioner": "Prabha Manufacturing Industrial Co-operative Society",
+   "respondent": "Banwari Lai",
+   "decision_date": "1989-02-14",
+   "dyear": 1989,
+   "neutral": "1989 INSC 56",
+   "scr": "[1989] 1 S.C.R. 647"
+  },
+  {
+   "id": 13818,
+   "stratum": "random",
+   "petitioner": "Jai Mahavir Co-operative Housing Society Ltd.",
+   "respondent": "Panchal Keshavlal Narbheram & Ors.",
+   "decision_date": "1987-04-10",
+   "dyear": 1987,
+   "neutral": "1987 INSC 102",
+   "scr": "[1987] 2 S.C.R. 894"
+  },
+  {
+   "id": 13978,
+   "stratum": "random",
+   "petitioner": "Sadiq Bakery Etc.",
+   "respondent": "State of A.p. & Ors.",
+   "decision_date": "1987-11-24",
+   "dyear": 1987,
+   "neutral": "1987 INSC 345",
+   "scr": "[1988] 2 S.C.R. 7"
+  },
+  {
+   "id": 13920,
+   "stratum": "random",
+   "petitioner": "Christian Medical College Hospital Employees' Union & Anr.",
+   "respondent": "Christian Medical College Vellore Association & Ors.",
+   "decision_date": "1987-10-20",
+   "dyear": 1987,
+   "neutral": "1987 INSC 288",
+   "scr": "[1988] 1 S.C.R. 546"
+  },
+  {
+   "id": 14185,
+   "stratum": "random",
+   "petitioner": "Sales Tax Officer, Ward 2 Moradabad and 2 Ors.",
+   "respondent": "Oriental Coal Corporation Moradabad.",
+   "decision_date": "1988-01-12",
+   "dyear": 1988,
+   "neutral": "1988 INSC 4",
+   "scr": "[1988] 2 S.C.R. 562"
+  },
+  {
+   "id": 13931,
+   "stratum": "random",
+   "petitioner": "M.s. Jagadambal",
+   "respondent": "Southern Indian Education Trust & Ors.",
+   "decision_date": "1987-11-02",
+   "dyear": 1987,
+   "neutral": "1987 INSC 304",
+   "scr": "[1988] 1 S.C.R. 722"
+  },
+  {
+   "id": 20481,
+   "stratum": "random",
+   "petitioner": "Ferro Alloys Corporation Ltd. Etc.",
+   "respondent": "Union of India and Ors.",
+   "decision_date": "1998-12-14",
+   "dyear": 1998,
+   "neutral": "1998 INSC 480",
+   "scr": "[1998] SUPP. 3 S.C.R. 541"
+  },
+  {
+   "id": 16027,
+   "stratum": "random",
+   "petitioner": "Srinivasa Theatre and Ors. Etc. Etc.",
+   "respondent": "Government of Tamil Nadu and Ors. Etc. Etc.",
+   "decision_date": "1992-03-12",
+   "dyear": 1992,
+   "neutral": "1992 INSC 73",
+   "scr": "[1992] 2 S.C.R. 164"
+  },
+  {
+   "id": 20688,
+   "stratum": "random",
+   "petitioner": "R. Rudraiah and Anr.",
+   "respondent": "State of Karnataka and Ors.",
+   "decision_date": "1998-02-04",
+   "dyear": 1998,
+   "neutral": "1998 INSC 59",
+   "scr": "[1998] 1 S.C.R. 553"
+  },
+  {
+   "id": 21335,
+   "stratum": "random",
+   "petitioner": "M/s. Industrial Credit and Development Syndicate Now Called I.c.d.s. Ltd.",
+   "respondent": "Smt. Smithaben H. Patel and Others",
+   "decision_date": "1999-02-10",
+   "dyear": 1999,
+   "neutral": "1999 INSC 55",
+   "scr": "[1999] 1 S.C.R. 555"
+  },
+  {
+   "id": 15392,
+   "stratum": "random",
+   "petitioner": "Nain Singh and Anr.",
+   "respondent": "State of Uttar Pradesh",
+   "decision_date": "1991-02-22",
+   "dyear": 1991,
+   "neutral": "1991 INSC 65",
+   "scr": "[1991] 1 S.C.R. 685"
+  },
+  {
+   "id": 16469,
+   "stratum": "random",
+   "petitioner": "J.k. Synthetics Ltd.",
+   "respondent": "The Commercial Taxes Officer",
+   "decision_date": "1994-05-09",
+   "dyear": 1994,
+   "neutral": "1994 INSC 197",
+   "scr": "[1994] 3 S.C.R. 964"
+  },
+  {
+   "id": 29420,
+   "stratum": "random",
+   "petitioner": "Tilak Raj",
+   "respondent": "Baikunthi Devi (d) by Lrs.",
+   "decision_date": "2009-02-16",
+   "dyear": 2009,
+   "neutral": "2009 INSC 192",
+   "scr": "[2009] 2 S.C.R. 452"
+  },
+  {
+   "id": 28574,
+   "stratum": "random",
+   "petitioner": "Prasad Kurien and Ors.",
+   "respondent": "K.j. Augustin and Ors.",
+   "decision_date": "2008-02-19",
+   "dyear": 2008,
+   "neutral": "2008 INSC 213",
+   "scr": "[2008] 3 S.C.R. 1"
+  },
+  {
+   "id": 23504,
+   "stratum": "random",
+   "petitioner": "Comptroller and Auditor General",
+   "respondent": "Kamlesh Vadilal Mehta",
+   "decision_date": "2003-01-21",
+   "dyear": 2003,
+   "neutral": "2003 INSC 24",
+   "scr": "[2003] 1 S.C.R. 471"
+  },
+  {
+   "id": 24528,
+   "stratum": "random",
+   "petitioner": "K.c. Builders and Anr.",
+   "respondent": "The Assistant Commissioner of Income Tax",
+   "decision_date": "2004-01-28",
+   "dyear": 2004,
+   "neutral": "2004 INSC 65",
+   "scr": "[2004] 1 S.C.R. 1134"
+  },
+  {
+   "id": 25621,
+   "stratum": "random",
+   "petitioner": "S. Rajeswari",
+   "respondent": "S.n. Kulasekaran and Ors.",
+   "decision_date": "2006-03-29",
+   "dyear": 2006,
+   "neutral": "2006 INSC 188",
+   "scr": "[2006] 3 S.C.R. 610"
+  },
+  {
+   "id": 26623,
+   "stratum": "random",
+   "petitioner": "Manish Maheshwari",
+   "respondent": "Ass Tt. Commissioner of Income Tax and Anr.",
+   "decision_date": "2007-02-23",
+   "dyear": 2007,
+   "neutral": "2007 INSC 204",
+   "scr": "[2007] 3 S.C.R. 61"
+  },
+  {
+   "id": 34665,
+   "stratum": "random",
+   "petitioner": "Prakash Chand Meena & Ors.",
+   "respondent": "State of Rajasthan & Ors.",
+   "decision_date": "2015-03-19",
+   "dyear": 2015,
+   "neutral": "2015 INSC 976",
+   "scr": "[2015] 3 S.C.R. 729"
+  },
+  {
+   "id": 38219,
+   "stratum": "random",
+   "petitioner": "Tukaram S/o Sadashiv Chaudhari",
+   "respondent": "The Executive Engineer, Maharashtra State Electricity Distribution Company Ltd. & Anr.",
+   "decision_date": "2019-04-08",
+   "dyear": 2019,
+   "neutral": "2019 INSC 471",
+   "scr": "[2019] 5 S.C.R. 765"
+  },
+  {
+   "id": 31753,
+   "stratum": "random",
+   "petitioner": "Shivlal & Anr.",
+   "respondent": "State of Chhattisgarh",
+   "decision_date": "2011-09-19",
+   "dyear": 2011,
+   "neutral": "2011 INSC 694",
+   "scr": "[2011] 11 S.C.R. 429"
+  },
+  {
+   "id": 37521,
+   "stratum": "random",
+   "petitioner": "Mayank N Shah",
+   "respondent": "State of Gujarat & Anr.",
+   "decision_date": "2019-12-18",
+   "dyear": 2019,
+   "neutral": "2019 INSC 1396",
+   "scr": "[2019] 15 S.C.R. 358"
+  },
+  {
+   "id": 30622,
+   "stratum": "random",
+   "petitioner": "Vijay Kumar Arora",
+   "respondent": "State Govt. of Nct of Delhi",
+   "decision_date": "2010-01-13",
+   "dyear": 2010,
+   "neutral": "2010 INSC 40",
+   "scr": "[2010] 1 S.C.R. 1069"
+  },
+  {
+   "id": 31633,
+   "stratum": "random",
+   "petitioner": "Pancho",
+   "respondent": "State of Haryana",
+   "decision_date": "2011-10-20",
+   "dyear": 2011,
+   "neutral": "2011 INSC 773",
+   "scr": "[2011] 12 S.C.R. 1173"
+  },
+  {
+   "id": 34751,
+   "stratum": "random",
+   "petitioner": "Commissioner of Central Excise, Bhavnagar",
+   "respondent": "M/s Gujarat Maritime Board, Jafrabad",
+   "decision_date": "2015-07-22",
+   "dyear": 2015,
+   "neutral": "2015 INSC 509",
+   "scr": "[2015] 8 S.C.R. 187"
+  },
+  {
+   "id": 37463,
+   "stratum": "random",
+   "petitioner": "Union of India 2. Joint Secretary (cofeposa), Govt. of India, Ministry of Finance",
+   "respondent": "Dimple Happy Dhakad",
+   "decision_date": "2019-07-18",
+   "dyear": 2019,
+   "neutral": "2019 INSC 777",
+   "scr": "[2019] 8 S.C.R. 1153"
+  },
+  {
+   "id": 40758,
+   "stratum": "random",
+   "petitioner": "Sandeep Alias Kala",
+   "respondent": "Supreme Court of India",
+   "decision_date": "2022-08-16",
+   "dyear": 2022,
+   "neutral": "2022 INSC 835",
+   "scr": "[2022] 18 S.C.R. 468"
+  },
+  {
+   "id": 40347,
+   "stratum": "random",
+   "petitioner": "B. A. Umesh",
+   "respondent": "Union of India & Ors.",
+   "decision_date": "2022-11-04",
+   "dyear": 2022,
+   "neutral": "2022 INSC 1173",
+   "scr": "[2022] 8 S.C.R. 628"
+  },
+  {
+   "id": 40395,
+   "stratum": "random",
+   "petitioner": "Chandi Puliya",
+   "respondent": "The State of West Bengal",
+   "decision_date": "2022-12-12",
+   "dyear": 2022,
+   "neutral": "2022 INSC 1276",
+   "scr": "[2022] 14 S.C.R. 566"
+  },
+  {
+   "id": 41383,
+   "stratum": "random",
+   "petitioner": "Neeraj Dutta",
+   "respondent": "State (govt. of N.c.t. of Delhi)",
+   "decision_date": "2023-03-17",
+   "dyear": 2023,
+   "neutral": "2023 INSC 245",
+   "scr": "[2023] 2 S.C.R. 997"
+  },
+  {
+   "id": 41420,
+   "stratum": "random",
+   "petitioner": "State of U.p. & Ors.",
+   "respondent": "Smt. Priyanka",
+   "decision_date": "2023-02-09",
+   "dyear": 2023,
+   "neutral": "2023 INSC 109",
+   "scr": "[2023] 1 S.C.R. 385"
+  },
+  {
+   "id": 41291,
+   "stratum": "random",
+   "petitioner": "Initiatives for Inclusion Foundation & Anr.",
+   "respondent": "Union of India & ors",
+   "decision_date": "2023-10-19",
+   "dyear": 2023,
+   "neutral": "2023 INSC 927",
+   "scr": "[2023] 13 S.C.R. 675"
+  }
+ ],
+ "T1": [
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1950] 1 S.C.R. 88",
+   "truth_id": 21,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1950 INSC 13",
+   "truth_id": 21,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1950] 1 S.C.R. 594",
+   "truth_id": 12,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1950 INSC 14",
+   "truth_id": 12,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1951] 1 S.C.R. 525",
+   "truth_id": 61,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1951 INSC 26",
+   "truth_id": 61,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1952] 1 S.C.R. 89",
+   "truth_id": 91,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1951 INSC 47",
+   "truth_id": 91,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1955] 2 S.C.R. 225",
+   "truth_id": 536,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1955 INSC 27",
+   "truth_id": 536,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1962] SUPP. 1 S.C.R. 567",
+   "truth_id": 2296,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1961 INSC 322",
+   "truth_id": 2296,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1964] 1 S.C.R. 332",
+   "truth_id": 3019,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1962 INSC 389",
+   "truth_id": 3019,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1967] 2 S.C.R. 762",
+   "truth_id": 5334,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1967 INSC 45",
+   "truth_id": 5334,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1973] SUPP. 1 S.C.R. 1",
+   "truth_id": 8302,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1973 INSC 91",
+   "truth_id": 8302,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1976] 2 S.C.R. 347",
+   "truth_id": 9543,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1975 INSC 272",
+   "truth_id": 9543,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1976] SUPP. 1 S.C.R. 172",
+   "truth_id": 9783,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1976 INSC 129",
+   "truth_id": 9783,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1978] 1 S.C.R. 535",
+   "truth_id": 10526,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1977 INSC 180",
+   "truth_id": 10526,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1978] 2 S.C.R. 621",
+   "truth_id": 10697,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1978 INSC 16",
+   "truth_id": 10697,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1979] 1 S.C.R. 392",
+   "truth_id": 10842,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1978 INSC 147",
+   "truth_id": 10842,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1979] 3 S.C.R. 393",
+   "truth_id": 11024,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1979 INSC 53",
+   "truth_id": 11024,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1980] 3 S.C.R. 383",
+   "truth_id": 11678,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1980 INSC 68",
+   "truth_id": 11678,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1983] 1 S.C.R. 145",
+   "truth_id": 11682,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1980 INSC 120",
+   "truth_id": 11682,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1981] 1 S.C.R. 206",
+   "truth_id": 11699,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1980 INSC 142",
+   "truth_id": 11699,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1982] 2 S.C.R. 365",
+   "truth_id": 12116,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1981 INSC 209",
+   "truth_id": 12116,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1983] 3 S.C.R. 508",
+   "truth_id": 12433,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1983 INSC 85",
+   "truth_id": 12433,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1985] SUPP. 2 S.C.R. 51",
+   "truth_id": 13016,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1985 INSC 151",
+   "truth_id": 13016,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1985] 3 S.C.R. 844",
+   "truth_id": 12928,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1985 INSC 97",
+   "truth_id": 12928,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1986] 3 S.C.R. 518",
+   "truth_id": 13387,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1986 INSC 167",
+   "truth_id": 13387,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1992] 3 S.C.R. 658",
+   "truth_id": 16046,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1992 INSC 186",
+   "truth_id": 16046,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1993] 1 S.C.R. 594",
+   "truth_id": 16446,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1993 INSC 40",
+   "truth_id": 16446,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1994] 2 S.C.R. 644",
+   "truth_id": 16524,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1994 INSC 111",
+   "truth_id": 16524,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1996] SUPP. 10 S.C.R. 284",
+   "truth_id": 18329,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1996 INSC 1508",
+   "truth_id": 18329,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1997] SUPP. 3 S.C.R. 404",
+   "truth_id": 19564,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1997 INSC 604",
+   "truth_id": 19564,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1997] 2 S.C.R. 1186",
+   "truth_id": 19684,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1997 INSC 288",
+   "truth_id": 19684,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1997] SUPP. 6 S.C.R. 595",
+   "truth_id": 19598,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1997 INSC 826",
+   "truth_id": 19598,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2002] SUPP. 3 S.C.R. 587",
+   "truth_id": 22668,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2002 INSC 454",
+   "truth_id": 22668,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2006] SUPP. 6 S.C.R. 473",
+   "truth_id": 26253,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2006 INSC 642",
+   "truth_id": 26253,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2007] 1 S.C.R. 706",
+   "truth_id": 26894,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2007 INSC 28",
+   "truth_id": 26894,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2010] 15 S.C.R. 201",
+   "truth_id": 30742,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2010 INSC 843",
+   "truth_id": 30742,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2011] 4 S.C.R. 1057",
+   "truth_id": 31706,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2011 INSC 187",
+   "truth_id": 31706,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2011] 8 S.C.R. 1028",
+   "truth_id": 31808,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2011 INSC 451",
+   "truth_id": 31808,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2011] 8 S.C.R. 874",
+   "truth_id": 31926,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2011 INSC 446",
+   "truth_id": 31926,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2013] 14 S.C.R. 713",
+   "truth_id": 33190,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2013 INSC 748",
+   "truth_id": 33190,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2013] 10 S.C.R. 1130",
+   "truth_id": 32934,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2013 INSC 456",
+   "truth_id": 32934,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2013] 17 S.C.R. 116",
+   "truth_id": 33457,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2013 INSC 823",
+   "truth_id": 33457,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2014] 8 S.C.R. 128",
+   "truth_id": 34170,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2014 INSC 463",
+   "truth_id": 34170,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2015] 5 S.C.R. 963",
+   "truth_id": 35109,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2015 INSC 257",
+   "truth_id": 35109,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2016] 3 S.C.R. 865",
+   "truth_id": 35442,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2016 INSC 427",
+   "truth_id": 35442,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2017] 9 S.C.R. 797",
+   "truth_id": 36332,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2017 INSC 785",
+   "truth_id": 36332,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2017] 10 S.C.R. 569",
+   "truth_id": 36212,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2017 INSC 801",
+   "truth_id": 36212,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2017] 5 S.C.R. 901",
+   "truth_id": 36640,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2017 INSC 1286",
+   "truth_id": 36640,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2017] 6 S.C.R. 1",
+   "truth_id": 36229,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2017 INSC 448",
+   "truth_id": 36229,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2018] 7 S.C.R. 379",
+   "truth_id": 37329,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2018 INSC 790",
+   "truth_id": 37329,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2018] 11 S.C.R. 765",
+   "truth_id": 37121,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2018 INSC 898",
+   "truth_id": 37121,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2020] 1 S.C.R. 812",
+   "truth_id": 38824,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2020 INSC 31",
+   "truth_id": 38824,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2022] 10 S.C.R. 351",
+   "truth_id": 40226,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2022 INSC 690",
+   "truth_id": 40226,
+   "stratum": "landmark"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1955] 1 S.C.R. 1035",
+   "truth_id": 508,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1954 INSC 116",
+   "truth_id": 508,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1956] 1 S.C.R. 143",
+   "truth_id": 742,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1956 INSC 10",
+   "truth_id": 742,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1959] 1 S.C.R. 878",
+   "truth_id": 1053,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1958 INSC 62",
+   "truth_id": 1053,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1954] 1 S.C.R. 919",
+   "truth_id": 406,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1954 INSC 17",
+   "truth_id": 406,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1958] 1 S.C.R. 1015",
+   "truth_id": 915,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1957 INSC 109",
+   "truth_id": 915,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1955] 2 S.C.R. 1006",
+   "truth_id": 654,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1955 INSC 67",
+   "truth_id": 654,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1962] SUPP. 1 S.C.R. 545",
+   "truth_id": 2303,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1961 INSC 320",
+   "truth_id": 2303,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1966] 1 S.C.R. 986",
+   "truth_id": 4484,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1965 INSC 194",
+   "truth_id": 4484,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1963] SUPP. 2 S.C.R. 162",
+   "truth_id": 2973,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1962 INSC 327",
+   "truth_id": 2973,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1968] 2 S.C.R. 565",
+   "truth_id": 5495,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1967 INSC 291",
+   "truth_id": 5495,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1965] 1 S.C.R. 592",
+   "truth_id": 4063,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1964 INSC 208",
+   "truth_id": 4063,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1966] SUPP. 1 S.C.R. 38",
+   "truth_id": 4760,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1966 INSC 87",
+   "truth_id": 4760,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1971] SUPP. 1 S.C.R. 305",
+   "truth_id": 7179,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1971 INSC 103",
+   "truth_id": 7179,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1977] 2 S.C.R. 86",
+   "truth_id": 10105,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1976 INSC 287",
+   "truth_id": 10105,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1970] 3 S.C.R. 878",
+   "truth_id": 6837,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1970 INSC 48",
+   "truth_id": 6837,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1975] 1 S.C.R. 57",
+   "truth_id": 8899,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1974 INSC 94",
+   "truth_id": 8899,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1977] 1 S.C.R. 979",
+   "truth_id": 10081,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1976 INSC 266",
+   "truth_id": 10081,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1978] 3 S.C.R. 922",
+   "truth_id": 10613,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1978 INSC 104",
+   "truth_id": 10613,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1989] 1 S.C.R. 647",
+   "truth_id": 14673,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1989 INSC 56",
+   "truth_id": 14673,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1987] 2 S.C.R. 894",
+   "truth_id": 13818,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1987 INSC 102",
+   "truth_id": 13818,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1988] 2 S.C.R. 7",
+   "truth_id": 13978,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1987 INSC 345",
+   "truth_id": 13978,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1988] 1 S.C.R. 546",
+   "truth_id": 13920,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1987 INSC 288",
+   "truth_id": 13920,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1988] 2 S.C.R. 562",
+   "truth_id": 14185,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1988 INSC 4",
+   "truth_id": 14185,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1988] 1 S.C.R. 722",
+   "truth_id": 13931,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1987 INSC 304",
+   "truth_id": 13931,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1998] SUPP. 3 S.C.R. 541",
+   "truth_id": 20481,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1998 INSC 480",
+   "truth_id": 20481,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1992] 2 S.C.R. 164",
+   "truth_id": 16027,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1992 INSC 73",
+   "truth_id": 16027,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1998] 1 S.C.R. 553",
+   "truth_id": 20688,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1998 INSC 59",
+   "truth_id": 20688,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1999] 1 S.C.R. 555",
+   "truth_id": 21335,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1999 INSC 55",
+   "truth_id": 21335,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1991] 1 S.C.R. 685",
+   "truth_id": 15392,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1991 INSC 65",
+   "truth_id": 15392,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[1994] 3 S.C.R. 964",
+   "truth_id": 16469,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "1994 INSC 197",
+   "truth_id": 16469,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2009] 2 S.C.R. 452",
+   "truth_id": 29420,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2009 INSC 192",
+   "truth_id": 29420,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2008] 3 S.C.R. 1",
+   "truth_id": 28574,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2008 INSC 213",
+   "truth_id": 28574,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2003] 1 S.C.R. 471",
+   "truth_id": 23504,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2003 INSC 24",
+   "truth_id": 23504,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2004] 1 S.C.R. 1134",
+   "truth_id": 24528,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2004 INSC 65",
+   "truth_id": 24528,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2006] 3 S.C.R. 610",
+   "truth_id": 25621,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2006 INSC 188",
+   "truth_id": 25621,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2007] 3 S.C.R. 61",
+   "truth_id": 26623,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2007 INSC 204",
+   "truth_id": 26623,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2015] 3 S.C.R. 729",
+   "truth_id": 34665,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2015 INSC 976",
+   "truth_id": 34665,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2019] 5 S.C.R. 765",
+   "truth_id": 38219,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2019 INSC 471",
+   "truth_id": 38219,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2011] 11 S.C.R. 429",
+   "truth_id": 31753,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2011 INSC 694",
+   "truth_id": 31753,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2019] 15 S.C.R. 358",
+   "truth_id": 37521,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2019 INSC 1396",
+   "truth_id": 37521,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2010] 1 S.C.R. 1069",
+   "truth_id": 30622,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2010 INSC 40",
+   "truth_id": 30622,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2011] 12 S.C.R. 1173",
+   "truth_id": 31633,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2011 INSC 773",
+   "truth_id": 31633,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2015] 8 S.C.R. 187",
+   "truth_id": 34751,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2015 INSC 509",
+   "truth_id": 34751,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2019] 8 S.C.R. 1153",
+   "truth_id": 37463,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2019 INSC 777",
+   "truth_id": 37463,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2022] 18 S.C.R. 468",
+   "truth_id": 40758,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2022 INSC 835",
+   "truth_id": 40758,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2022] 8 S.C.R. 628",
+   "truth_id": 40347,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2022 INSC 1173",
+   "truth_id": 40347,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2022] 14 S.C.R. 566",
+   "truth_id": 40395,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2022 INSC 1276",
+   "truth_id": 40395,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2023] 2 S.C.R. 997",
+   "truth_id": 41383,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2023 INSC 245",
+   "truth_id": 41383,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2023] 1 S.C.R. 385",
+   "truth_id": 41420,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2023 INSC 109",
+   "truth_id": 41420,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "scr",
+   "citation": "[2023] 13 S.C.R. 675",
+   "truth_id": 41291,
+   "stratum": "random"
+  },
+  {
+   "task": "T1",
+   "form": "neutral",
+   "citation": "2023 INSC 927",
+   "truth_id": 41291,
+   "stratum": "random"
+  }
+ ],
+ "T2": [
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1950 INSC 225",
+   "truth_id": null,
+   "basis": "max assigned 1950 INSC 43"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1951 INSC 284",
+   "truth_id": null,
+   "basis": "max assigned 1951 INSC 64"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1952 INSC 271",
+   "truth_id": null,
+   "basis": "max assigned 1952 INSC 81"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1955 INSC 273",
+   "truth_id": null,
+   "basis": "max assigned 1955 INSC 83"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1957 INSC 353",
+   "truth_id": null,
+   "basis": "max assigned 1957 INSC 116"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1958 INSC 380",
+   "truth_id": null,
+   "basis": "max assigned 1958 INSC 124"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1960 INSC 825",
+   "truth_id": null,
+   "basis": "max assigned 1960 INSC 276"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1962 INSC 1004",
+   "truth_id": null,
+   "basis": "max assigned 1962 INSC 394"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1963 INSC 734",
+   "truth_id": null,
+   "basis": "max assigned 1963 INSC 267"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1966 INSC 722",
+   "truth_id": null,
+   "basis": "max assigned 1966 INSC 270"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1967 INSC 775",
+   "truth_id": null,
+   "basis": "max assigned 1967 INSC 304"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1969 INSC 942",
+   "truth_id": null,
+   "basis": "max assigned 1969 INSC 344"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1972 INSC 935",
+   "truth_id": null,
+   "basis": "max assigned 1972 INSC 313"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1974 INSC 928",
+   "truth_id": null,
+   "basis": "max assigned 1974 INSC 282"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1977 INSC 724",
+   "truth_id": null,
+   "basis": "max assigned 1977 INSC 244"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1978 INSC 787",
+   "truth_id": null,
+   "basis": "max assigned 1978 INSC 266"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1979 INSC 735",
+   "truth_id": null,
+   "basis": "max assigned 1979 INSC 279"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1982 INSC 386",
+   "truth_id": null,
+   "basis": "max assigned 1982 INSC 104"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1984 INSC 588",
+   "truth_id": null,
+   "basis": "max assigned 1984 INSC 242"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1987 INSC 919",
+   "truth_id": null,
+   "basis": "max assigned 1987 INSC 385"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1991 INSC 1090",
+   "truth_id": null,
+   "basis": "max assigned 1991 INSC 351"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1992 INSC 1034",
+   "truth_id": null,
+   "basis": "max assigned 1992 INSC 358"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1993 INSC 967",
+   "truth_id": null,
+   "basis": "max assigned 1993 INSC 397"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "1998 INSC 1542",
+   "truth_id": null,
+   "basis": "max assigned 1998 INSC 492"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "2000 INSC 1622",
+   "truth_id": null,
+   "basis": "max assigned 2000 INSC 607"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "2004 INSC 2122",
+   "truth_id": null,
+   "basis": "max assigned 2004 INSC 728"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "2007 INSC 3741",
+   "truth_id": null,
+   "basis": "max assigned 2007 INSC 1321"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "2009 INSC 3868",
+   "truth_id": null,
+   "basis": "max assigned 2009 INSC 1322"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "2010 INSC 2422",
+   "truth_id": null,
+   "basis": "max assigned 2010 INSC 895"
+  },
+  {
+   "task": "T2",
+   "form": "neutral",
+   "citation": "2013 INSC 1905",
+   "truth_id": null,
+   "basis": "max assigned 2013 INSC 849"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1951] 4 S.C.R. 1135",
+   "truth_id": null,
+   "basis": "highest regular volume 1951: 1"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1953] 7 S.C.R. 135",
+   "truth_id": null,
+   "basis": "highest regular volume 1953: 1"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1954] 6 S.C.R. 577",
+   "truth_id": null,
+   "basis": "highest regular volume 1954: 1"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1955] 8 S.C.R. 298",
+   "truth_id": null,
+   "basis": "highest regular volume 1955: 2"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1957] 7 S.C.R. 591",
+   "truth_id": null,
+   "basis": "highest regular volume 1957: 1"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1958] 7 S.C.R. 510",
+   "truth_id": null,
+   "basis": "highest regular volume 1958: 1"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1965] 7 S.C.R. 614",
+   "truth_id": null,
+   "basis": "highest regular volume 1965: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1966] 7 S.C.R. 665",
+   "truth_id": null,
+   "basis": "highest regular volume 1966: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1969] 7 S.C.R. 1177",
+   "truth_id": null,
+   "basis": "highest regular volume 1969: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1970] 6 S.C.R. 3",
+   "truth_id": null,
+   "basis": "highest regular volume 1970: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1976] 9 S.C.R. 740",
+   "truth_id": null,
+   "basis": "highest regular volume 1976: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1980] 7 S.C.R. 446",
+   "truth_id": null,
+   "basis": "highest regular volume 1980: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1981] 7 S.C.R. 608",
+   "truth_id": null,
+   "basis": "highest regular volume 1981: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1983] 7 S.C.R. 361",
+   "truth_id": null,
+   "basis": "highest regular volume 1983: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1984] 8 S.C.R. 656",
+   "truth_id": null,
+   "basis": "highest regular volume 1984: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1992] 7 S.C.R. 142",
+   "truth_id": null,
+   "basis": "highest regular volume 1992: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1997] 7 S.C.R. 501",
+   "truth_id": null,
+   "basis": "highest regular volume 1997: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[1999] 8 S.C.R. 387",
+   "truth_id": null,
+   "basis": "highest regular volume 1999: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2000] 6 S.C.R. 137",
+   "truth_id": null,
+   "basis": "highest regular volume 2000: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2002] 7 S.C.R. 100",
+   "truth_id": null,
+   "basis": "highest regular volume 2002: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2003] 9 S.C.R. 149",
+   "truth_id": null,
+   "basis": "highest regular volume 2003: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2005] 7 S.C.R. 979",
+   "truth_id": null,
+   "basis": "highest regular volume 2005: 3"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2008] 21 S.C.R. 216",
+   "truth_id": null,
+   "basis": "highest regular volume 2008: 17"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2009] 19 S.C.R. 990",
+   "truth_id": null,
+   "basis": "highest regular volume 2009: 16"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2011] 19 S.C.R. 318",
+   "truth_id": null,
+   "basis": "highest regular volume 2011: 15"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2015] 18 S.C.R. 988",
+   "truth_id": null,
+   "basis": "highest regular volume 2015: 15"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2017] 19 S.C.R. 473",
+   "truth_id": null,
+   "basis": "highest regular volume 2017: 14"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2019] 23 S.C.R. 727",
+   "truth_id": null,
+   "basis": "highest regular volume 2019: 18"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2020] 19 S.C.R. 1002",
+   "truth_id": null,
+   "basis": "highest regular volume 2020: 14"
+  },
+  {
+   "task": "T2",
+   "form": "scr",
+   "citation": "[2023] 19 S.C.R. 73",
+   "truth_id": null,
+   "basis": "highest regular volume 2023: 16"
+  }
+ ],
+ "T3": [
+  {
+   "task": "T3",
+   "truth_id": 21,
+   "stratum": "landmark",
+   "petitioner": "A.k. Gopalan",
+   "respondent": "The State of Madras.",
+   "decision_date": "1950-05-19"
+  },
+  {
+   "task": "T3",
+   "truth_id": 12,
+   "stratum": "landmark",
+   "petitioner": "Romesh Thappar",
+   "respondent": "The State of Madras",
+   "decision_date": "1950-05-26"
+  },
+  {
+   "task": "T3",
+   "truth_id": 61,
+   "stratum": "landmark",
+   "petitioner": "The State of Madras",
+   "respondent": "Srimathl Champakam Dorairajan",
+   "decision_date": "1951-04-09"
+  },
+  {
+   "task": "T3",
+   "truth_id": 91,
+   "stratum": "landmark",
+   "petitioner": "Sri Sankari Prasad Singh Deo",
+   "respondent": "Union of India and State of Bihar",
+   "decision_date": "1951-10-05"
+  },
+  {
+   "task": "T3",
+   "truth_id": 536,
+   "stratum": "landmark",
+   "petitioner": "Rai Sahib Ram Jawaya Kapur and Others",
+   "respondent": "The State of Punjab",
+   "decision_date": "1955-04-12"
+  },
+  {
+   "task": "T3",
+   "truth_id": 2296,
+   "stratum": "landmark",
+   "petitioner": "K. M. Nanavati",
+   "respondent": "State of Maharashtra",
+   "decision_date": "1961-11-24"
+  },
+  {
+   "task": "T3",
+   "truth_id": 3019,
+   "stratum": "landmark",
+   "petitioner": "Kharak Singh",
+   "respondent": "The State of U. P. & Others",
+   "decision_date": "1962-12-18"
+  },
+  {
+   "task": "T3",
+   "truth_id": 5334,
+   "stratum": "landmark",
+   "petitioner": "I. C. Golak Nath & Ors.",
+   "respondent": "Sta Te of Punjab & Anrs.",
+   "decision_date": "1967-02-27"
+  },
+  {
+   "task": "T3",
+   "truth_id": 8302,
+   "stratum": "landmark",
+   "petitioner": "His Holiness Kesavananda Bharati Sripadagalavaru",
+   "respondent": "State of Kerala",
+   "decision_date": "1973-04-24"
+  },
+  {
+   "task": "T3",
+   "truth_id": 9543,
+   "stratum": "landmark",
+   "petitioner": "Smt. Indira Nehru Gandhi",
+   "respondent": "Shri Raj Narain",
+   "decision_date": "1975-11-07"
+  },
+  {
+   "task": "T3",
+   "truth_id": 9783,
+   "stratum": "landmark",
+   "petitioner": "Additional District Magistrate, Jabalpur",
+   "respondent": "S. S. Shukla Etc. Etc.",
+   "decision_date": "1976-04-28"
+  },
+  {
+   "task": "T3",
+   "truth_id": 10526,
+   "stratum": "landmark",
+   "petitioner": "State of Rajasthan, Jaipur",
+   "respondent": "Balchand @ Baliay",
+   "decision_date": "1977-09-20"
+  },
+  {
+   "task": "T3",
+   "truth_id": 10697,
+   "stratum": "landmark",
+   "petitioner": "Maneka Gandhi",
+   "respondent": "Union of India",
+   "decision_date": "1978-01-25"
+  },
+  {
+   "task": "T3",
+   "truth_id": 10842,
+   "stratum": "landmark",
+   "petitioner": "Sunil Batra Etc.",
+   "respondent": "Delhi Administration and Ors. Etc.",
+   "decision_date": "1978-08-30"
+  },
+  {
+   "task": "T3",
+   "truth_id": 11024,
+   "stratum": "landmark",
+   "petitioner": "Hussainara Khatoon & Ors.",
+   "respondent": "Home Secretary, State of Bihar, Patna",
+   "decision_date": "1979-02-26"
+  },
+  {
+   "task": "T3",
+   "truth_id": 11678,
+   "stratum": "landmark",
+   "petitioner": "Gurbaksh Singh Sibbia etc .",
+   "respondent": "State of Punjab",
+   "decision_date": "1980-04-09"
+  },
+  {
+   "task": "T3",
+   "truth_id": 11682,
+   "stratum": "landmark",
+   "petitioner": "Bachan Singh Etc. Etc.",
+   "respondent": "State of Punjab Etc. Etc.",
+   "decision_date": "1980-05-09"
+  },
+  {
+   "task": "T3",
+   "truth_id": 11699,
+   "stratum": "landmark",
+   "petitioner": "Minerva Mills Ltd. & ors",
+   "respondent": "Union of India & Ors.",
+   "decision_date": "1980-07-31"
+  },
+  {
+   "task": "T3",
+   "truth_id": 12116,
+   "stratum": "landmark",
+   "petitioner": "S.p. Gupta & Ors. Etc. Etc.",
+   "respondent": "Union of India & Ors. Etc. Etc.",
+   "decision_date": "1981-12-28"
+  },
+  {
+   "task": "T3",
+   "truth_id": 12433,
+   "stratum": "landmark",
+   "petitioner": "Rudul Sah",
+   "respondent": "State of Bihar and Another",
+   "decision_date": "1983-08-01"
+  },
+  {
+   "task": "T3",
+   "truth_id": 13016,
+   "stratum": "landmark",
+   "petitioner": "Olga Tellis & Ors.",
+   "respondent": "Bombay Municipal Corporation & Ors. Etc.",
+   "decision_date": "1985-07-10"
+  },
+  {
+   "task": "T3",
+   "truth_id": 12928,
+   "stratum": "landmark",
+   "petitioner": "Mohd. Ahmed Khan",
+   "respondent": "Shah Bano Begum and Ors.",
+   "decision_date": "1985-04-23"
+  },
+  {
+   "task": "T3",
+   "truth_id": 13387,
+   "stratum": "landmark",
+   "petitioner": "Bijoe Emmanuel & Ors.",
+   "respondent": "State of Kerala & Ors.",
+   "decision_date": "1986-08-11"
+  },
+  {
+   "task": "T3",
+   "truth_id": 16046,
+   "stratum": "landmark",
+   "petitioner": "Miss Mohini Jain",
+   "respondent": "State of Karnataka and Ors.",
+   "decision_date": "1992-07-30"
+  },
+  {
+   "task": "T3",
+   "truth_id": 16446,
+   "stratum": "landmark",
+   "petitioner": "Unni Krishnan, J.p. and Ors. Etc. Irrc",
+   "respondent": "State of Andhra Pradesh and Ors. Etc. Etc.",
+   "decision_date": "1993-02-04"
+  },
+  {
+   "task": "T3",
+   "truth_id": 16524,
+   "stratum": "landmark",
+   "petitioner": "S.r. Bommai",
+   "respondent": "Union of India and Ors.",
+   "decision_date": "1994-03-11"
+  },
+  {
+   "task": "T3",
+   "truth_id": 18329,
+   "stratum": "landmark",
+   "petitioner": "D.k. Basu",
+   "respondent": "State of West Bengal",
+   "decision_date": "1996-12-18"
+  },
+  {
+   "task": "T3",
+   "truth_id": 19564,
+   "stratum": "landmark",
+   "petitioner": "Vishaka and Ors.",
+   "respondent": "State of Rajasthan and Ors.",
+   "decision_date": "1997-08-13"
+  },
+  {
+   "task": "T3",
+   "truth_id": 19684,
+   "stratum": "landmark",
+   "petitioner": "L. Chandra Kumar Etc. Etc.",
+   "respondent": "The Union of India and Ors. Etc. Etc.",
+   "decision_date": "1997-03-18"
+  },
+  {
+   "task": "T3",
+   "truth_id": 19598,
+   "stratum": "landmark",
+   "petitioner": "Vineet Narain and ors",
+   "respondent": "Union of India and Anr.",
+   "decision_date": "1997-12-18"
+  },
+  {
+   "task": "T3",
+   "truth_id": 22668,
+   "stratum": "landmark",
+   "petitioner": "T.m.a. Pal Foundation and Ors.",
+   "respondent": "State of Karnataka and Ors.",
+   "decision_date": "2002-10-31"
+  },
+  {
+   "task": "T3",
+   "truth_id": 26253,
+   "stratum": "landmark",
+   "petitioner": "Prakash Singh and Ors.",
+   "respondent": "Union of India and Ors.",
+   "decision_date": "2006-09-22"
+  },
+  {
+   "task": "T3",
+   "truth_id": 26894,
+   "stratum": "landmark",
+   "petitioner": "I. R. Coelho (dead) by Lrs.",
+   "respondent": "State of Tamil Nadu",
+   "decision_date": "2007-01-11"
+  },
+  {
+   "task": "T3",
+   "truth_id": 30742,
+   "stratum": "landmark",
+   "petitioner": "Siddharam Satlingappa Mhetre",
+   "respondent": "State of Maharashtra and Others",
+   "decision_date": "2010-12-02"
+  },
+  {
+   "task": "T3",
+   "truth_id": 31706,
+   "stratum": "landmark",
+   "petitioner": "Aruna Ramchandra Shanbaug",
+   "respondent": "Union of India and Others",
+   "decision_date": "2011-03-07"
+  },
+  {
+   "task": "T3",
+   "truth_id": 31808,
+   "stratum": "landmark",
+   "petitioner": "Nandini Sundar and Ors.",
+   "respondent": "State of Chattisgarh",
+   "decision_date": "2011-07-05"
+  },
+  {
+   "task": "T3",
+   "truth_id": 31926,
+   "stratum": "landmark",
+   "petitioner": "Mrs. Saradamani Kandappan",
+   "respondent": "Mrs. S. Rajalakshmi & Ors.",
+   "decision_date": "2011-07-04"
+  },
+  {
+   "task": "T3",
+   "truth_id": 33190,
+   "stratum": "landmark",
+   "petitioner": "Lalita Kumari",
+   "respondent": "Govt. of U.p. and Ors.",
+   "decision_date": "2013-11-12"
+  },
+  {
+   "task": "T3",
+   "truth_id": 32934,
+   "stratum": "landmark",
+   "petitioner": "Lily Thomas",
+   "respondent": "Union of India & Ors.",
+   "decision_date": "2013-07-10"
+  },
+  {
+   "task": "T3",
+   "truth_id": 33457,
+   "stratum": "landmark",
+   "petitioner": "Suresh Kumar Koushal and Another",
+   "respondent": "Naz Foundation and Others",
+   "decision_date": "2013-12-11"
+  },
+  {
+   "task": "T3",
+   "truth_id": 34170,
+   "stratum": "landmark",
+   "petitioner": "Arnesh Kumar",
+   "respondent": "State of Bihar & Anr.",
+   "decision_date": "2014-07-02"
+  },
+  {
+   "task": "T3",
+   "truth_id": 35109,
+   "stratum": "landmark",
+   "petitioner": "Shreya Singhal",
+   "respondent": "Union of India",
+   "decision_date": "2015-03-24"
+  },
+  {
+   "task": "T3",
+   "truth_id": 35442,
+   "stratum": "landmark",
+   "petitioner": "Subramanian Swamy",
+   "respondent": "Union of India, Ministry of Law & Ors.",
+   "decision_date": "2016-05-13"
+  },
+  {
+   "task": "T3",
+   "truth_id": 36332,
+   "stratum": "landmark",
+   "petitioner": "Shayara Bano",
+   "respondent": "Union of India and Others",
+   "decision_date": "2017-08-22"
+  },
+  {
+   "task": "T3",
+   "truth_id": 36212,
+   "stratum": "landmark",
+   "petitioner": "Justice K S Puttaswamy (retd.), and Anr.",
+   "respondent": "Union of India and Ors.",
+   "decision_date": "2017-08-24"
+  },
+  {
+   "task": "T3",
+   "truth_id": 36640,
+   "stratum": "landmark",
+   "petitioner": "Excel Crop Care Limited",
+   "respondent": "Competition Commission of India and Another",
+   "decision_date": "2017-05-08"
+  },
+  {
+   "task": "T3",
+   "truth_id": 36229,
+   "stratum": "landmark",
+   "petitioner": "Mukesh & Anr.",
+   "respondent": "State for Nct of Delhi & Ors.",
+   "decision_date": "2017-05-05"
+  },
+  {
+   "task": "T3",
+   "truth_id": 37329,
+   "stratum": "landmark",
+   "petitioner": "Navtej Singh Johar & Ors.",
+   "respondent": "Union of India Thr. Secretary Ministry of Law and Justice",
+   "decision_date": "2018-09-06"
+  },
+  {
+   "task": "T3",
+   "truth_id": 37121,
+   "stratum": "landmark",
+   "petitioner": "Joseph Shine",
+   "respondent": "Union of India",
+   "decision_date": "2018-09-27"
+  },
+  {
+   "task": "T3",
+   "truth_id": 38824,
+   "stratum": "landmark",
+   "petitioner": "Anuradha Bhasin",
+   "respondent": "Union of India & Ors.",
+   "decision_date": "2020-01-10"
+  },
+  {
+   "task": "T3",
+   "truth_id": 40226,
+   "stratum": "landmark",
+   "petitioner": "Satender Kumar Antil",
+   "respondent": "Central Bureau of Investigation & Anr.",
+   "decision_date": "2022-07-11"
+  },
+  {
+   "task": "T3",
+   "truth_id": 508,
+   "stratum": "random",
+   "petitioner": "Naresh Charan Das Gupta",
+   "respondent": "Paresh Charan Das Gupta",
+   "decision_date": "1954-12-02"
+  },
+  {
+   "task": "T3",
+   "truth_id": 742,
+   "stratum": "random",
+   "petitioner": "Firm of Bhagat Ram Mohanlal",
+   "respondent": "The Commissioner of Excess Profits Tax, Madhya Pradesh, Nagpur and Another.",
+   "decision_date": "1956-02-15"
+  },
+  {
+   "task": "T3",
+   "truth_id": 1053,
+   "stratum": "random",
+   "petitioner": "Bishan Singh & Others",
+   "respondent": "Khazan Singh & Another",
+   "decision_date": "1958-05-20"
+  },
+  {
+   "task": "T3",
+   "truth_id": 406,
+   "stratum": "random",
+   "petitioner": "Sri Sri Sri Kishore Chandra Singh Deo",
+   "respondent": "Babu Ganesh Prasad Bhagat and Others.",
+   "decision_date": "1954-03-09"
+  },
+  {
+   "task": "T3",
+   "truth_id": 915,
+   "stratum": "random",
+   "petitioner": "Rajvi Amar Singh",
+   "respondent": "The State of Rajasthan",
+   "decision_date": "1957-11-28"
+  },
+  {
+   "task": "T3",
+   "truth_id": 654,
+   "stratum": "random",
+   "petitioner": "In the Matter of An Advocate of the Supreme Court. \u2022",
+   "respondent": ".",
+   "decision_date": "1955-11-23"
+  },
+  {
+   "task": "T3",
+   "truth_id": 2303,
+   "stratum": "random",
+   "petitioner": "Mohammad Serajuddin",
+   "respondent": "R. C. Mishra",
+   "decision_date": "1961-11-24"
+  },
+  {
+   "task": "T3",
+   "truth_id": 4484,
+   "stratum": "random",
+   "petitioner": "Sawai Singhai Nirmal Chand",
+   "respondent": "Union of India",
+   "decision_date": "1965-09-24"
+  },
+  {
+   "task": "T3",
+   "truth_id": 2973,
+   "stratum": "random",
+   "petitioner": "Income-tax Officer & Another, Bombay",
+   "respondent": "The Simplex Mills Ltd., Bombay",
+   "decision_date": "1962-11-15"
+  },
+  {
+   "task": "T3",
+   "truth_id": 5495,
+   "stratum": "random",
+   "petitioner": "Modi & Co.",
+   "respondent": "Union of India",
+   "decision_date": "1967-12-07"
+  },
+  {
+   "task": "T3",
+   "truth_id": 4063,
+   "stratum": "random",
+   "petitioner": "M/s. Modi Spinning & Weaving Mills Co., Ltd.",
+   "respondent": "Commissioner of Income-tax, Punjab & Anr.",
+   "decision_date": "1964-10-05"
+  },
+  {
+   "task": "T3",
+   "truth_id": 4760,
+   "stratum": "random",
+   "petitioner": "Narandas Mokardas Gaziwala & Ors.",
+   "respondent": "S. P. Am. Papammal & Anr.",
+   "decision_date": "1966-03-25"
+  },
+  {
+   "task": "T3",
+   "truth_id": 7179,
+   "stratum": "random",
+   "petitioner": "Regional Provident Fund Commissioner, Andhra Pradesh",
+   "respondent": "Shri T. S. Hariharan",
+   "decision_date": "1971-04-01"
+  },
+  {
+   "task": "T3",
+   "truth_id": 10105,
+   "stratum": "random",
+   "petitioner": "Sindhi Sahiti Multipurpose Transport Co-operative Society Ltd.",
+   "respondent": "State of Madhya Pradesh & Ors.",
+   "decision_date": "1976-11-16"
+  },
+  {
+   "task": "T3",
+   "truth_id": 6837,
+   "stratum": "random",
+   "petitioner": "G. R. Baqual",
+   "respondent": "State of Jammu & Kashmir",
+   "decision_date": "1970-03-04"
+  },
+  {
+   "task": "T3",
+   "truth_id": 8899,
+   "stratum": "random",
+   "petitioner": "Sankaran Govindan",
+   "respondent": "Lakshmi Bharathi & Others",
+   "decision_date": "1974-04-15"
+  },
+  {
+   "task": "T3",
+   "truth_id": 10081,
+   "stratum": "random",
+   "petitioner": "Union of India",
+   "respondent": "Sita Ram Jaiswal",
+   "decision_date": "1976-10-28"
+  },
+  {
+   "task": "T3",
+   "truth_id": 10613,
+   "stratum": "random",
+   "petitioner": "Lila Gupta",
+   "respondent": "Laxmi Narain & Ors.",
+   "decision_date": "1978-05-04"
+  },
+  {
+   "task": "T3",
+   "truth_id": 14673,
+   "stratum": "random",
+   "petitioner": "Prabha Manufacturing Industrial Co-operative Society",
+   "respondent": "Banwari Lai",
+   "decision_date": "1989-02-14"
+  },
+  {
+   "task": "T3",
+   "truth_id": 13818,
+   "stratum": "random",
+   "petitioner": "Jai Mahavir Co-operative Housing Society Ltd.",
+   "respondent": "Panchal Keshavlal Narbheram & Ors.",
+   "decision_date": "1987-04-10"
+  },
+  {
+   "task": "T3",
+   "truth_id": 13978,
+   "stratum": "random",
+   "petitioner": "Sadiq Bakery Etc.",
+   "respondent": "State of A.p. & Ors.",
+   "decision_date": "1987-11-24"
+  },
+  {
+   "task": "T3",
+   "truth_id": 13920,
+   "stratum": "random",
+   "petitioner": "Christian Medical College Hospital Employees' Union & Anr.",
+   "respondent": "Christian Medical College Vellore Association & Ors.",
+   "decision_date": "1987-10-20"
+  },
+  {
+   "task": "T3",
+   "truth_id": 14185,
+   "stratum": "random",
+   "petitioner": "Sales Tax Officer, Ward 2 Moradabad and 2 Ors.",
+   "respondent": "Oriental Coal Corporation Moradabad.",
+   "decision_date": "1988-01-12"
+  },
+  {
+   "task": "T3",
+   "truth_id": 13931,
+   "stratum": "random",
+   "petitioner": "M.s. Jagadambal",
+   "respondent": "Southern Indian Education Trust & Ors.",
+   "decision_date": "1987-11-02"
+  },
+  {
+   "task": "T3",
+   "truth_id": 20481,
+   "stratum": "random",
+   "petitioner": "Ferro Alloys Corporation Ltd. Etc.",
+   "respondent": "Union of India and Ors.",
+   "decision_date": "1998-12-14"
+  },
+  {
+   "task": "T3",
+   "truth_id": 16027,
+   "stratum": "random",
+   "petitioner": "Srinivasa Theatre and Ors. Etc. Etc.",
+   "respondent": "Government of Tamil Nadu and Ors. Etc. Etc.",
+   "decision_date": "1992-03-12"
+  },
+  {
+   "task": "T3",
+   "truth_id": 20688,
+   "stratum": "random",
+   "petitioner": "R. Rudraiah and Anr.",
+   "respondent": "State of Karnataka and Ors.",
+   "decision_date": "1998-02-04"
+  },
+  {
+   "task": "T3",
+   "truth_id": 21335,
+   "stratum": "random",
+   "petitioner": "M/s. Industrial Credit and Development Syndicate Now Called I.c.d.s. Ltd.",
+   "respondent": "Smt. Smithaben H. Patel and Others",
+   "decision_date": "1999-02-10"
+  },
+  {
+   "task": "T3",
+   "truth_id": 15392,
+   "stratum": "random",
+   "petitioner": "Nain Singh and Anr.",
+   "respondent": "State of Uttar Pradesh",
+   "decision_date": "1991-02-22"
+  },
+  {
+   "task": "T3",
+   "truth_id": 16469,
+   "stratum": "random",
+   "petitioner": "J.k. Synthetics Ltd.",
+   "respondent": "The Commercial Taxes Officer",
+   "decision_date": "1994-05-09"
+  },
+  {
+   "task": "T3",
+   "truth_id": 29420,
+   "stratum": "random",
+   "petitioner": "Tilak Raj",
+   "respondent": "Baikunthi Devi (d) by Lrs.",
+   "decision_date": "2009-02-16"
+  },
+  {
+   "task": "T3",
+   "truth_id": 28574,
+   "stratum": "random",
+   "petitioner": "Prasad Kurien and Ors.",
+   "respondent": "K.j. Augustin and Ors.",
+   "decision_date": "2008-02-19"
+  },
+  {
+   "task": "T3",
+   "truth_id": 23504,
+   "stratum": "random",
+   "petitioner": "Comptroller and Auditor General",
+   "respondent": "Kamlesh Vadilal Mehta",
+   "decision_date": "2003-01-21"
+  },
+  {
+   "task": "T3",
+   "truth_id": 24528,
+   "stratum": "random",
+   "petitioner": "K.c. Builders and Anr.",
+   "respondent": "The Assistant Commissioner of Income Tax",
+   "decision_date": "2004-01-28"
+  },
+  {
+   "task": "T3",
+   "truth_id": 25621,
+   "stratum": "random",
+   "petitioner": "S. Rajeswari",
+   "respondent": "S.n. Kulasekaran and Ors.",
+   "decision_date": "2006-03-29"
+  },
+  {
+   "task": "T3",
+   "truth_id": 26623,
+   "stratum": "random",
+   "petitioner": "Manish Maheshwari",
+   "respondent": "Ass Tt. Commissioner of Income Tax and Anr.",
+   "decision_date": "2007-02-23"
+  },
+  {
+   "task": "T3",
+   "truth_id": 34665,
+   "stratum": "random",
+   "petitioner": "Prakash Chand Meena & Ors.",
+   "respondent": "State of Rajasthan & Ors.",
+   "decision_date": "2015-03-19"
+  },
+  {
+   "task": "T3",
+   "truth_id": 38219,
+   "stratum": "random",
+   "petitioner": "Tukaram S/o Sadashiv Chaudhari",
+   "respondent": "The Executive Engineer, Maharashtra State Electricity Distribution Company Ltd. & Anr.",
+   "decision_date": "2019-04-08"
+  },
+  {
+   "task": "T3",
+   "truth_id": 31753,
+   "stratum": "random",
+   "petitioner": "Shivlal & Anr.",
+   "respondent": "State of Chhattisgarh",
+   "decision_date": "2011-09-19"
+  },
+  {
+   "task": "T3",
+   "truth_id": 37521,
+   "stratum": "random",
+   "petitioner": "Mayank N Shah",
+   "respondent": "State of Gujarat & Anr.",
+   "decision_date": "2019-12-18"
+  },
+  {
+   "task": "T3",
+   "truth_id": 30622,
+   "stratum": "random",
+   "petitioner": "Vijay Kumar Arora",
+   "respondent": "State Govt. of Nct of Delhi",
+   "decision_date": "2010-01-13"
+  },
+  {
+   "task": "T3",
+   "truth_id": 31633,
+   "stratum": "random",
+   "petitioner": "Pancho",
+   "respondent": "State of Haryana",
+   "decision_date": "2011-10-20"
+  },
+  {
+   "task": "T3",
+   "truth_id": 34751,
+   "stratum": "random",
+   "petitioner": "Commissioner of Central Excise, Bhavnagar",
+   "respondent": "M/s Gujarat Maritime Board, Jafrabad",
+   "decision_date": "2015-07-22"
+  },
+  {
+   "task": "T3",
+   "truth_id": 37463,
+   "stratum": "random",
+   "petitioner": "Union of India 2. Joint Secretary (cofeposa), Govt. of India, Ministry of Finance",
+   "respondent": "Dimple Happy Dhakad",
+   "decision_date": "2019-07-18"
+  },
+  {
+   "task": "T3",
+   "truth_id": 40758,
+   "stratum": "random",
+   "petitioner": "Sandeep Alias Kala",
+   "respondent": "Supreme Court of India",
+   "decision_date": "2022-08-16"
+  },
+  {
+   "task": "T3",
+   "truth_id": 40347,
+   "stratum": "random",
+   "petitioner": "B. A. Umesh",
+   "respondent": "Union of India & Ors.",
+   "decision_date": "2022-11-04"
+  },
+  {
+   "task": "T3",
+   "truth_id": 40395,
+   "stratum": "random",
+   "petitioner": "Chandi Puliya",
+   "respondent": "The State of West Bengal",
+   "decision_date": "2022-12-12"
+  },
+  {
+   "task": "T3",
+   "truth_id": 41383,
+   "stratum": "random",
+   "petitioner": "Neeraj Dutta",
+   "respondent": "State (govt. of N.c.t. of Delhi)",
+   "decision_date": "2023-03-17"
+  },
+  {
+   "task": "T3",
+   "truth_id": 41420,
+   "stratum": "random",
+   "petitioner": "State of U.p. & Ors.",
+   "respondent": "Smt. Priyanka",
+   "decision_date": "2023-02-09"
+  },
+  {
+   "task": "T3",
+   "truth_id": 41291,
+   "stratum": "random",
+   "petitioner": "Initiatives for Inclusion Foundation & Anr.",
+   "respondent": "Union of India & ors",
+   "decision_date": "2023-10-19"
+  }
+ ],
+ "T4": [
+  {
+   "task": "T4",
+   "topic_id": 0,
+   "topic": "Whether anticipatory bail granted under Section 438 of the Code of Criminal Procedure must be limited to a fixed period."
+  },
+  {
+   "task": "T4",
+   "topic_id": 1,
+   "topic": "Whether Parliament's power to amend the Constitution is limited by the basic structure doctrine."
+  },
+  {
+   "task": "T4",
+   "topic_id": 2,
+   "topic": "Whether the right to privacy is a fundamental right under the Constitution of India."
+  },
+  {
+   "task": "T4",
+   "topic_id": 3,
+   "topic": "Whether the right to livelihood is part of the right to life under Article 21."
+  },
+  {
+   "task": "T4",
+   "topic_id": 4,
+   "topic": "When the death penalty may be imposed: the 'rarest of rare' test."
+  },
+  {
+   "task": "T4",
+   "topic_id": 5,
+   "topic": "Whether police must register an FIR when information discloses a cognizable offence."
+  },
+  {
+   "task": "T4",
+   "topic_id": 6,
+   "topic": "Guidelines against automatic arrest for offences punishable with less than seven years' imprisonment."
+  },
+  {
+   "task": "T4",
+   "topic_id": 7,
+   "topic": "Safeguards required when a person is arrested or detained by the police."
+  },
+  {
+   "task": "T4",
+   "topic_id": 8,
+   "topic": "Guidelines to prevent sexual harassment of women at the workplace."
+  },
+  {
+   "task": "T4",
+   "topic_id": 9,
+   "topic": "Whether Section 377 of the Indian Penal Code violates the Constitution insofar as it criminalises consensual sexual acts between adults."
+  },
+  {
+   "task": "T4",
+   "topic_id": 10,
+   "topic": "Whether adultery under Section 497 of the Indian Penal Code is unconstitutional."
+  },
+  {
+   "task": "T4",
+   "topic_id": 11,
+   "topic": "Whether the practice of instant triple talaq (talaq-e-biddat) is constitutional."
+  },
+  {
+   "task": "T4",
+   "topic_id": 12,
+   "topic": "Whether Section 66A of the Information Technology Act, 2000 is constitutional."
+  },
+  {
+   "task": "T4",
+   "topic_id": 13,
+   "topic": "Whether suspending internet access indefinitely is permissible under the Constitution."
+  },
+  {
+   "task": "T4",
+   "topic_id": 14,
+   "topic": "Whether a divorced Muslim woman is entitled to maintenance under Section 125 of the Code of Criminal Procedure."
+  },
+  {
+   "task": "T4",
+   "topic_id": 15,
+   "topic": "Limits on the President's power to dissolve a State Legislative Assembly under Article 356."
+  },
+  {
+   "task": "T4",
+   "topic_id": 16,
+   "topic": "Whether reservations in public employment are subject to a 50 percent ceiling and a creamy-layer exclusion."
+  },
+  {
+   "task": "T4",
+   "topic_id": 17,
+   "topic": "Whether the right to education is a fundamental right."
+  },
+  {
+   "task": "T4",
+   "topic_id": 18,
+   "topic": "Whether passive euthanasia is permissible in India."
+  },
+  {
+   "task": "T4",
+   "topic_id": 19,
+   "topic": "Whether 'procedure established by law' under Article 21 must be fair, just and reasonable."
+  },
+  {
+   "task": "T4",
+   "topic_id": 20,
+   "topic": "Whether Article 21 rights can be suspended during an emergency (habeas corpus during emergency)."
+  },
+  {
+   "task": "T4",
+   "topic_id": 21,
+   "topic": "Whether undertrial prisoners have a right to a speedy trial."
+  },
+  {
+   "task": "T4",
+   "topic_id": 22,
+   "topic": "Whether a court can award monetary compensation for violation of the right to life in writ jurisdiction."
+  },
+  {
+   "task": "T4",
+   "topic_id": 23,
+   "topic": "Whether sitting legislators convicted of offences are immediately disqualified from membership."
+  },
+  {
+   "task": "T4",
+   "topic_id": 24,
+   "topic": "Whether police reforms and security of tenure for police chiefs can be directed by the Supreme Court."
+  },
+  {
+   "task": "T4",
+   "topic_id": 25,
+   "topic": "Principles governing the grant of bail and the rule that bail is the rule and jail the exception."
+  },
+  {
+   "task": "T4",
+   "topic_id": 26,
+   "topic": "Whether the time for performance is of the essence in contracts for the sale of immovable property."
+  },
+  {
+   "task": "T4",
+   "topic_id": 27,
+   "topic": "How penalties for anti-competitive agreements should be computed under the Competition Act, 2002 (relevant turnover)."
+  },
+  {
+   "task": "T4",
+   "topic_id": 28,
+   "topic": "Whether a Tribunal can exclude the jurisdiction of High Courts under Articles 226 and 227."
+  },
+  {
+   "task": "T4",
+   "topic_id": 29,
+   "topic": "Whether the Ninth Schedule protects laws from judicial review after the Kesavananda Bharati decision."
+  },
+  {
+   "task": "T4",
+   "topic_id": 30,
+   "topic": "Whether surveillance by police through domiciliary visits violates personal liberty."
+  },
+  {
+   "task": "T4",
+   "topic_id": 31,
+   "topic": "Whether freedom of speech permits pre-censorship or bans on the circulation of a journal."
+  },
+  {
+   "task": "T4",
+   "topic_id": 32,
+   "topic": "Whether students can be compelled to sing the national anthem against their religious beliefs."
+  },
+  {
+   "task": "T4",
+   "topic_id": 33,
+   "topic": "Whether the Anti-Defection law (Tenth Schedule) is constitutional and whether Speakers' decisions are subject to judicial review."
+  },
+  {
+   "task": "T4",
+   "topic_id": 34,
+   "topic": "Whether women of all ages may enter the Sabarimala temple."
+  },
+  {
+   "task": "T4",
+   "topic_id": 35,
+   "topic": "Whether criminal defamation under Sections 499 and 500 of the Indian Penal Code is constitutional."
+  },
+  {
+   "task": "T4",
+   "topic_id": 36,
+   "topic": "Whether State-sponsored armed civilian groups (such as Salwa Judum) violate the Constitution."
+  },
+  {
+   "task": "T4",
+   "topic_id": 37,
+   "topic": "Whether the primacy of the Chief Justice of India applies to appointments of judges (judicial appointments)."
+  },
+  {
+   "task": "T4",
+   "topic_id": 38,
+   "topic": "Whether private unaided educational institutions have a right to administer and set admission criteria."
+  },
+  {
+   "task": "T4",
+   "topic_id": 39,
+   "topic": "Whether involuntary narco-analysis, polygraph and brain-mapping tests violate the right against self-incrimination."
+  }
+ ]
+}

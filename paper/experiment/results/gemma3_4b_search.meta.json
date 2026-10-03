@@ -1,0 +1,18 @@
+{
+ "model": "gemma3:4b+search",
+ "host": 11435,
+ "digest": "a2af6cc3eb7fa8be8504abaf9b04e88f17a119ec3f04a3addf55f92841195f5a",
+ "details": {
+  "parent_model": "",
+  "format": "gguf",
+  "family": "gemma3",
+  "families": [
+   "gemma3"
+  ],
+  "parameter_size": "4.3B",
+  "quantization_level": "Q4_K_M"
+ },
+ "max_actions": 5,
+ "num_ctx": 8192,
+ "results_per_search": 6
+}
