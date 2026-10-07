@@ -1266,3 +1266,50 @@ code{font-family:var(--mono);font-size:11.5px;background:var(--bg-2);padding:1px
 ins{background:#d3efe2;color:var(--teal-ink);text-decoration:none;border-radius:3px;padding:0 1px}
 del{background:#f6d9d3;color:var(--red-ink);text-decoration:line-through;border-radius:3px;padding:0 1px}
 #wbCm{padding:4px 22px 22px}
+
+/* ── reading evidence: the read state, the progress dialog, the text viewer, the index ── */
+.ev-read{display:flex!important;align-items:center;gap:6px;margin-top:4px!important;font-size:11px!important;color:var(--teal-ink)!important}
+.ev-read i{width:5px;height:5px;border-radius:50%;background:var(--teal);flex:0 0 auto}
+.ev-unread{color:var(--faint)!important}
+.ev-lost{color:var(--amber-ink)!important}
+.ev-warn{display:block;margin-top:3px!important;font-size:11px!important;color:var(--amber-ink)!important}
+.modal .ev-read-opts{border:1px solid var(--line);border-radius:10px;padding:10px 12px 12px;margin:12px 0 0}
+.ev-langs{display:flex;gap:6px 16px;align-items:center;flex-wrap:wrap;font-size:13px;margin-top:8px}
+.ev-langs>span{color:var(--ink-soft)}
+.modal .ev-lang{display:inline-flex;gap:6px;align-items:center;font-weight:500;margin:0}
+.modal .ev-lang input{width:auto;padding:0;margin:0}
+#evProg{display:grid;gap:10px}
+.ev-job{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:6px}
+.ev-job small{font-size:12px;color:var(--ink-soft)}
+.ev-job-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.ev-job-top strong{font-size:13.5px;overflow-wrap:anywhere}
+.ev-bar{height:6px;background:var(--line-soft);border-radius:999px;overflow:hidden}
+.ev-bar i{display:block;height:100%;background:var(--teal);border-radius:999px;transition:width .2s}
+.ev-viewer-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.modal .ev-viewer-bar input{flex:1;min-width:180px;margin:0;width:auto}
+.ev-text{margin:0;padding:14px 16px;max-height:min(58vh,560px);overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--sans);font-size:13.5px;line-height:1.7;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;color:var(--ink)}
+.ev-text mark,.ev-snip mark,.ev-result mark{background:#fbe7a8;color:inherit;border-radius:3px;padding:0 1px}
+.ev-index .ev-search{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:0 12px;margin-bottom:6px}
+.ev-index .ev-search:focus-within{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-pale)}
+.ev-index .ev-search input{flex:1;border:0;outline:0;background:transparent;padding:10px 0;font-size:13.5px;color:var(--ink);font-family:var(--sans)}
+.ev-results{display:grid;gap:8px;margin:8px 0 4px}
+.ev-result{border:1px solid var(--line-soft);border-radius:10px;padding:10px 12px}
+.ev-result-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ev-result-top .hint{margin:0;flex:1}
+.ev-snip{font-size:12.5px;line-height:1.55;color:var(--ink-soft);overflow-wrap:anywhere}
+p.ev-snip{margin:6px 0 0}
+.ev-h{margin:20px 0 6px;font-size:14px;display:flex;gap:8px;align-items:center}
+.ev-doc{border:1px solid var(--line-soft);border-radius:10px;margin-top:8px}
+.ev-doc>summary{cursor:pointer;padding:10px 12px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:13.5px}
+.ev-doc>summary .hint{margin:0}
+.ev-rows{padding:0 12px 10px}
+.ev-row{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:4px 12px;align-items:start;padding:9px 0;border-top:1px solid var(--line-soft)}
+.ev-row>.mono,.ev-row>b{font-size:12.5px;padding-top:2px}
+.ev-row-copy{min-width:0}
+.ev-row-act{display:flex;gap:6px 12px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.ev-conflict{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--amber-pale);background:#fffaf0;border-radius:10px;padding:12px 14px;margin-top:8px}
+.ev-conflict-copy{min-width:0;flex:1}
+.ev-conflict-doc{margin-top:6px;font-size:13px}
+.ev-conflict-doc small{display:block;margin-top:3px}
+@media (max-width:640px){.ev-row{grid-template-columns:minmax(0,1fr)}.ev-row-act{justify-content:flex-start}}
+.wb-event-copy p,.contradiction p{white-space:pre-line}

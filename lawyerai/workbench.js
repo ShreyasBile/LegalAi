@@ -28,10 +28,15 @@ const wbNewDraftProfile = () => (wbProfiles().some(p => p.id === wb.defaultProfi
 /* ── saving and loading ──────────────────────────────────────────────────────
    Anything read back from storage is rebuilt field by field, so a damaged or edited
    entry can never put markup or odd types into the page. */
+const wbCleanRead = r => {                            // what is kept about a document whose text has been read (the text itself is in IndexedDB)
+  if (!r || typeof r !== 'object' || !Object.hasOwn(Extract.METHODS, r.method)) return null;
+  const int = (v, max) => Math.max(0, Math.min(max, Math.round(Number(v)) || 0));
+  return { words: int(r.words, 1e7), method: r.method, langs: Extract.normalizeLangs(r.langs), pages: int(r.pages, 5000), ocrPages: int(r.ocrPages, 5000), confidence: int(r.confidence, 100), at: /^\d{4}-\d{2}-\d{2}$/.test(r.at) ? r.at : '', edited: !!r.edited, note: wbStr(r.note, 400) };
+};
 const WB_CLEAN = {
   authorities: a => ({ key: wbStr(a.key, 80), title: wbStr(a.title, 300), meta: wbStr(a.meta, 300), pdfUrl: wbStr(a.pdfUrl, 500), note: wbStr(a.note, 1000) }),
-  documents: d => ({ id: wbStr(d.id, 40), name: wbStr(d.name, 200), type: /^[a-z]{2,5}$/.test(d.type) ? d.type : 'file', added: wbStr(d.added, 20), size: wbStr(d.size, 20), status: wbStr(d.status, 40) || 'Needs review', tool: wbStr(d.tool, 60), toolNote: wbStr(d.toolNote, 200), processing: !!d.processing, note: wbStr(d.note, 1000) }),
-  timeline: t => ({ date: wbStr(t.date, 30), iso: /^\d{4}-\d{2}-\d{2}$/.test(t.iso) ? t.iso : '', title: wbStr(t.title, 200), note: wbStr(t.note, 1000), flag: !!t.flag, omitFromDrafts: !!t.omitFromDrafts }),
+  documents: d => ({ id: wbStr(d.id, 40), name: wbStr(d.name, 200), type: /^[a-z]{2,5}$/.test(d.type) ? d.type : 'file', added: wbStr(d.added, 20), size: wbStr(d.size, 20), status: wbStr(d.status, 40) || 'Needs review', read: wbCleanRead(d.read), note: wbStr(d.note, 1000) }),
+  timeline: t => ({ date: wbStr(t.date, 30), iso: /^\d{4}-\d{2}-\d{2}$/.test(t.iso) ? t.iso : '', title: wbStr(t.title, 200), note: wbStr(t.note, 1000), source: wbStr(t.source, 200), flag: !!t.flag, omitFromDrafts: !!t.omitFromDrafts }),
   arguments: a => ({ point: wbStr(a.point, 500), support: wbStr(a.support, 1000), strength: Math.max(0, Math.min(100, Math.round(Number(a.strength)) || 0)), stressTest: wbStr(a.stressTest, 2000), links: Array.isArray(a.links) ? a.links.map(k => wbStr(k, 80)) : [] }),
   counterArgs: c => ({ point: wbStr(c.point, 500), rebuttal: wbStr(c.rebuttal, 1000) }),
   drafts: d => Drafting.normalizeDraft(d),
@@ -41,6 +46,7 @@ const WB_CLEAN = {
 function wbEnsure(m) {
   for (const k of WB_FIELDS) if (!Array.isArray(m[k])) m[k] = [];
   m.authorities.forEach(a => { if (!a.key) a.key = uid('auth'); });
+  m.documents.forEach((d, i) => { if (!d.id) d.id = `file-${i + 1}-${String(d.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30)}`; });      // sample files get a steady id, so their text can be found again
   return m;
 }
 
@@ -100,7 +106,7 @@ function wbCtx() {
   return { m: parts[0] === 'matters' ? matterById(parts[1]) : null, tab: parts[2] || 'overview' };
 }
 const wbGrow = ta => { ta.style.height = 'auto'; ta.style.height = `${ta.scrollHeight + 2}px`; };
-const wbAfterRender = root => $$('.wb-ta', root).forEach(wbGrow);
+const wbAfterRender = root => { $$('.wb-ta', root).forEach(wbGrow); if (typeof evAfterRender === 'function') evAfterRender(root); };
 function wbRefresh() {                                // repaint the open tab in place (keeps the scroll position)
   const { m, tab } = wbCtx(), root = $('#matterTabContent');
   if (!m || !root) return;
@@ -321,16 +327,18 @@ function wbDocRow(d, i) {
   const statuses = WB_STATUSES.includes(d.status) ? WB_STATUSES : [...WB_STATUSES, d.status];
   return `<div class="doc-row doc-row-tall"><div class="doc-type ${esc(d.type)}">${esc(String(d.type || 'file').toUpperCase())}</div>
     <div class="doc-copy"><strong>${esc(d.name)}</strong><small>Added ${esc(d.added)}${d.size ? ` · ${esc(d.size)}` : ''}</small>
-      ${d.tool ? `<small class="doc-tool${d.processing ? ' processing' : ''}"><i></i>${d.processing ? esc(d.toolNote) : `${esc(d.tool)} · ${esc(d.toolNote)}`}</small>` : ''}
+      ${evReadLine(d)}
       ${d.note ? `<small class="wb-note">${esc(d.note)}</small>` : ''}
       <div class="wb-doc-actions"><select class="wb-select wb-status" data-wb-change="doc-status" data-i="${i}" aria-label="Status of ${esc(d.name)}">${statuses.map(s => `<option${s === d.status ? ' selected' : ''}>${esc(s)}</option>`).join('')}</select>
+        <button type="button" class="btn-text" data-wb="doc-read" data-i="${i}">${wbIc('spark')}${d.read ? 'Read again…' : 'Read text…'}</button>
+        ${d.read ? `<button type="button" class="btn-text" data-wb="doc-view" data-i="${i}">${wbIc('docs')}View text</button>` : ''}
         <button type="button" class="btn-text" data-wb="doc-chrono" data-i="${i}">${wbIc('calendar')}Add to chronology</button>
         <button type="button" class="btn-text wb-danger" data-wb="doc-del" data-i="${i}">Remove</button></div></div></div>`;
 }
 
 function wbEventRow(t, i) {
   return `<article class="wb-event"><time class="mono">${esc(t.date)}</time>
-    <div class="wb-event-copy"><strong>${esc(t.title)}</strong>${t.flag ? ' <span class="chip chip-amber">Inconsistency</span>' : ''}${t.omitFromDrafts ? ' <span class="chip chip-navy">Not in drafts</span>' : ''}${t.note ? `<p>${esc(t.note)}</p>` : ''}</div>
+    <div class="wb-event-copy"><strong>${esc(t.title)}</strong>${t.flag ? ' <span class="chip chip-amber">Inconsistency</span>' : ''}${t.omitFromDrafts ? ' <span class="chip chip-navy">Not in drafts</span>' : ''}${t.source ? ` <span class="chip chip-navy" title="The document this date was taken from">From ${esc(wbShort(t.source, 28))}</span>` : ''}${t.note ? `<p>${esc(t.note)}</p>` : ''}</div>
     <div class="wb-row-actions"><button type="button" class="icon-btn" data-wb="ev-flag" data-i="${i}" aria-label="${t.flag ? 'Clear the inconsistency flag' : 'Flag as an inconsistency'}" aria-pressed="${t.flag}">${wbIc('flag')}</button><button type="button" class="icon-btn" data-wb="ev-del" data-i="${i}" aria-label="Remove event">${wbIc('close')}</button></div></article>`;
 }
 
@@ -340,7 +348,7 @@ function tabEvidence(m) {
   return `
   <div class="dash-grid">
     <div class="card card-pad">
-      <div class="card-head"><div><h2>Documents</h2><p class="hint">Add the documents this case turns on, mark the key ones and put their dates into the chronology. Files stay on your computer — only their names and sizes are recorded, and their contents are not read.</p></div><button type="button" class="btn btn-teal btn-sm" data-wb="ev-add">${wbIc('upload')}Add evidence</button></div>
+      <div class="card-head"><div><h2>Documents</h2><p class="hint">Add the documents this case turns on, mark the key ones and put their dates into the chronology. Files are never uploaded or stored. If you choose “Read text”, the text is read on this computer and only that text is kept in this browser.</p></div><button type="button" class="btn btn-teal btn-sm" data-wb="ev-add">${wbIc('upload')}Add evidence</button></div>
       ${m.documents.length ? m.documents.map(wbDocRow).join('') : '<p class="empty-note">No documents added yet.</p>'}
     </div>
     <div class="wb-col">
@@ -354,24 +362,30 @@ function tabEvidence(m) {
         ${m.timeline.length ? m.timeline.map(wbEventRow).join('') : '<p class="empty-note">No events yet.</p>'}
       </div>
     </div>
-  </div>`;
+  </div>
+  ${evIndexShell(m)}`;
 }
 
 WB_CLICK['ev-add'] = (el, m) => wbOpenEvidenceForm(m);
 WB_CLICK['ev-event'] = (el, m) => wbOpenEventForm(m, {});
-WB_CLICK['doc-chrono'] = (el, m) => { const d = m.documents[+el.dataset.i]; if (d) wbOpenEventForm(m, { title: d.name }); };
-WB_CLICK['doc-del'] = (el, m) => { m.documents.splice(+el.dataset.i, 1); wbSave(m.id); wbRefresh(); };
+WB_CLICK['doc-chrono'] = (el, m) => { const d = m.documents[+el.dataset.i]; if (d) wbOpenEventForm(m, { title: d.name, source: d.name }); };
+WB_CLICK['doc-del'] = (el, m) => { const [d] = m.documents.splice(+el.dataset.i, 1); if (d) evForget(m, d); wbSave(m.id); wbRefresh(); };
+WB_CLICK['doc-read'] = (el, m) => { const d = m.documents[+el.dataset.i]; if (d) evOpenRead(m, d); };
+WB_CLICK['doc-view'] = (el, m) => { const d = m.documents[+el.dataset.i]; if (d) evOpenViewer(m, d, {}); };
 WB_CHANGE['doc-status'] = (el, m) => { const d = m.documents[+el.dataset.i]; if (d) { d.status = el.value; wbSave(m.id); wbRefresh(); } };
 WB_CLICK['ev-flag'] = (el, m) => { const t = m.timeline[+el.dataset.i]; if (t) { t.flag = !t.flag; wbSave(m.id); wbRefresh(); } };
 WB_CLICK['ev-del'] = (el, m) => { m.timeline.splice(+el.dataset.i, 1); wbSave(m.id); wbRefresh(); };
 
-function wbOpenEvidenceForm(m) {
-  if (!m) return;
+function wbOpenEvidenceForm(m) {                      // m is null when this is opened from the Documents page: the form then asks which matter
+  const langBoxes = evLangBoxes(['eng']);
   wbOpenModal({
     eyebrow: 'Evidence', title: 'Add evidence',
     html: `<form class="wb-form">
+      ${m ? '' : `<label>Matter<select name="matter">${MATTERS.map(x => `<option value="${esc(x.id)}">${esc(x.title)}</option>`).join('')}</select></label>`}
       <label>Files<input type="file" name="files" multiple /></label>
-      <p class="hint" style="margin:8px 0 0">The files stay on your computer. Only their names, sizes and types are recorded here.</p>
+      <fieldset class="ev-read-opts"><label class="wb-check"><input type="checkbox" name="read" checked /><span>Read the text now, so I can search these documents and pick out dates and amounts</span></label>
+        <div class="ev-langs"><span>Language of scanned pages and photos:</span>${langBoxes}</div>
+        <p class="hint" style="margin:6px 0 0">${evPrivacyNote()}</p></fieldset>
       <label>…or a document you only hold on paper<input name="name" maxlength="200" placeholder="e.g. Original sale deed (paper copy)" /></label>
       <div class="form-grid"><label>Status<select name="status">${WB_STATUSES.map(s => `<option>${s}</option>`).join('')}</select></label>
         <label>Type (for a paper record)<select name="type"><option value="doc">Document</option><option value="pdf">PDF</option><option value="img">Image</option><option value="zip">Bundle</option><option value="file">Other</option></select></label></div>
@@ -379,14 +393,18 @@ function wbOpenEvidenceForm(m) {
       <div class="modal-actions">${wbCancelButton}<button class="btn btn-primary" type="submit">Add</button></div></form>`,
     onSubmit: e => {
       const f = new FormData(e.target), files = [...e.target.elements.files.files].filter(x => x.name), typed = String(f.get('name')).trim();
+      const target = m || matterById(String(f.get('matter') || ''));
+      if (!target) { showToast('Choose a matter.'); return; }
       if (!files.length && !typed) { showToast('Choose a file, or type the name of a paper document.'); return; }
-      const base = { added: wbToday(), status: String(f.get('status')), tool: '', toolNote: '', processing: false, note: String(f.get('note')).trim() };
+      const base = { added: wbToday(), status: String(f.get('status')), read: null, note: String(f.get('note')).trim() };
       const added = files.length ? files.map(x => ({ ...base, id: uid('doc'), name: x.name, type: wbFileType(x.name), size: wbBytes(x.size) }))
         : [{ ...base, id: uid('doc'), name: typed, type: /^(doc|pdf|img|zip|file)$/.test(f.get('type')) ? String(f.get('type')) : 'file', size: '' }];
-      wbEnsure(m).documents.push(...added);
-      wbSave(m.id); closeModals();
-      if (wbCtx().tab === 'evidence') wbRefresh();
-      showToast(`${added.length === 1 ? added[0].name : `${added.length} documents`} added to ${m.title}.`);
+      wbEnsure(target).documents.push(...added);
+      wbSave(target.id);
+      const finish = () => { if (wbCtx().tab === 'evidence' && wbCtx().m === target) wbRefresh(); else if (location.hash.startsWith('#/documents')) docsRefresh?.(); };
+      if (f.has('read') && files.length) { evRunReads(target, added.map((doc, i) => ({ doc, file: files[i] })), f.getAll('lang'), finish); return; }     // the dialog stays open to show progress
+      closeModals(); finish();
+      showToast(`${added.length === 1 ? added[0].name : `${added.length} documents`} added to ${target.title}.`);
     }
   });
 }
@@ -395,16 +413,16 @@ function wbOpenEventForm(m, preset) {
   wbOpenModal({
     eyebrow: 'Evidence', title: 'Add to chronology',
     html: `<form class="wb-form">
-      <label>Date<input type="date" name="iso" required value="${TODAY_ISO}" /></label>
+      <label>Date<input type="date" name="iso" required value="${/^\d{4}-\d{2}-\d{2}$/.test(preset.iso || '') ? preset.iso : TODAY_ISO}" /></label>
       <label>What happened<input name="title" required maxlength="200" value="${esc(preset.title || '')}" placeholder="e.g. FIR registered" /></label>
-      <label>Detail (optional)<textarea name="note" maxlength="1000"></textarea></label>
-      <label class="wb-check"><input type="checkbox" name="flag" /><span>Flag as an inconsistency with another document</span></label>
+      <label>Detail (optional)<textarea name="note" maxlength="1000">${esc(preset.note || '')}</textarea></label>
+      <label class="wb-check"><input type="checkbox" name="flag"${preset.flag ? ' checked' : ''} /><span>Flag as an inconsistency with another document</span></label>
       <label class="wb-check"><input type="checkbox" name="omit" /><span>Keep out of drafts (an internal milestone, not a fact for the pleading)</span></label>
       <div class="modal-actions">${wbCancelButton}<button class="btn btn-primary" type="submit">Add event</button></div></form>`,
     onSubmit: e => {
       const f = new FormData(e.target), iso = String(f.get('iso')), title = String(f.get('title')).trim();
       if (!/^\d{4}-\d{2}-\d{2}$/.test(iso) || !title) return;
-      wbEnsure(m).timeline.push({ date: fmtDate(iso, true), iso, title, note: String(f.get('note')).trim(), flag: f.has('flag'), omitFromDrafts: f.has('omit') });
+      wbEnsure(m).timeline.push({ date: fmtDate(iso, true), iso, title, note: String(f.get('note')).trim(), source: wbStr(preset.source, 200), flag: f.has('flag'), omitFromDrafts: f.has('omit') });
       m.timeline.sort((a, b) => wbTlKey(a).localeCompare(wbTlKey(b)));
       wbSave(m.id); closeModals(); wbRefresh();
     }

@@ -65,10 +65,10 @@ const MATTERS = [
       { label: 'Financial trail', score: 47, tone: 'low', note: 'One transaction needs a bank confirmation before the next listing.' }
     ],
     documents: [
-      { name: 'FIR_No_211_2026.pdf', type: 'pdf', added: '9 Sep', size: '1.8 MB', status: 'Key document', tool: 'OCR', toolNote: 'Text extracted · 2,140 words · 4 sections identified' },
-      { name: 'Applicant_statement.docx', type: 'doc', added: '9 Sep', size: '64 KB', status: 'Reviewed', tool: 'Layout parser', toolNote: 'Structured into 6 numbered paragraphs' },
-      { name: 'Bank_transaction_summary.pdf', type: 'pdf', added: '10 Sep', size: '512 KB', status: 'Needs review', tool: 'Table extractor', toolNote: 'Extracting transaction rows…', processing: true },
-      { name: 'Cooperation_email_chain.pdf', type: 'pdf', added: '10 Sep', size: '220 KB', status: 'Reviewed', tool: 'OCR', toolNote: 'Text extracted · 3 email threads' }
+      { name: 'FIR_No_211_2026.pdf', type: 'pdf', added: '9 Sep', size: '1.8 MB', status: 'Key document' },
+      { name: 'Applicant_statement.docx', type: 'doc', added: '9 Sep', size: '64 KB', status: 'Reviewed' },
+      { name: 'Bank_transaction_summary.pdf', type: 'pdf', added: '10 Sep', size: '512 KB', status: 'Needs review' },
+      { name: 'Cooperation_email_chain.pdf', type: 'pdf', added: '10 Sep', size: '220 KB', status: 'Reviewed' }
     ],
     timeline: [
       { date: '07 Feb', title: 'Commercial transaction recorded', note: 'Bank summary links to the applicant’s statement.', flag: false },
@@ -99,9 +99,9 @@ const MATTERS = [
     tasks: [{ label: 'Obtain certified copy of the development agreement', done: true }, { label: 'Compute liquidated damages under Clause 14', done: false }],
     strengths: [{ label: 'Breach established', score: 71, tone: 'good', note: 'Delay is documented across three notices.' }],
     documents: [
-      { name: 'Development_agreement.pdf', type: 'pdf', added: '2 Sep', size: '3.1 MB', status: 'Key document', tool: 'OCR', toolNote: 'Text extracted · 12 pages · clauses indexed' },
-      { name: 'Notice_of_delay_1.pdf', type: 'pdf', added: '4 Sep', size: '210 KB', status: 'Reviewed', tool: 'OCR', toolNote: 'Text extracted · 1 page' },
-      { name: 'Site_photographs.zip', type: 'zip', added: '10 Sep', size: '18 MB', status: 'Needs review', tool: 'Layout parser', toolNote: 'Sorting 9 images by timestamp…', processing: true }
+      { name: 'Development_agreement.pdf', type: 'pdf', added: '2 Sep', size: '3.1 MB', status: 'Key document' },
+      { name: 'Notice_of_delay_1.pdf', type: 'pdf', added: '4 Sep', size: '210 KB', status: 'Reviewed' },
+      { name: 'Site_photographs.zip', type: 'zip', added: '10 Sep', size: '18 MB', status: 'Needs review' }
     ],
     timeline: [
       { date: '12 Jun', title: 'Agreement executed', note: 'Handover committed for 30 November.', flag: false },
@@ -125,7 +125,7 @@ const MATTERS = [
     ],
     tasks: [{ label: 'Collect appraisal history for the last 3 years', done: false }],
     strengths: [{ label: 'Procedural fairness', score: 58, tone: 'mid', note: 'No enquiry notice found in the file yet.' }],
-    documents: [{ name: 'Termination_letter.pdf', type: 'pdf', added: '6 Sep', size: '140 KB', status: 'Key document', tool: 'OCR', toolNote: 'Text extracted · 1 page' }],
+    documents: [{ name: 'Termination_letter.pdf', type: 'pdf', added: '6 Sep', size: '140 KB', status: 'Key document' }],
     timeline: [{ date: '30 Aug', title: 'Termination communicated', note: 'No enquiry notice preceding this letter.', flag: true }],
     drafts: [],
     postJudgment: null
@@ -152,7 +152,7 @@ const MATTERS = [
     },
     authorities: [], arguments: [], counterArgs: [],
     tasks: [{ label: 'Review award computation before advising on appeal', done: false }],
-    strengths: [], documents: [{ name: 'MACT_Award_Order.pdf', type: 'pdf', added: '4 Sep', size: '380 KB', status: 'Key document', tool: 'OCR', toolNote: 'Text extracted · award order · 9 pages' }],
+    strengths: [], documents: [{ name: 'MACT_Award_Order.pdf', type: 'pdf', added: '4 Sep', size: '380 KB', status: 'Key document' }],
     timeline: [
       { date: '2 Sep', title: 'Award pronounced', note: 'Tribunal awarded ₹18.4L against the ₹32L claimed.', flag: false },
       { date: '4 Sep', title: 'Certified copy received', note: 'Award order indexed and appeal window calculated.', flag: false }
@@ -1658,19 +1658,22 @@ function docRow(d) {
 function pageDocuments() {
   const rows = MATTERS.flatMap(m => m.documents.map(d => ({ ...d, matter: m.title, matterId: m.id })));
   return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Document library</p><h1>Documents</h1><p class="lede">Every file across every matter, indexed and searchable in one place.</p></div><button class="btn btn-primary" data-action="upload-doc"><svg class="ic"><use href="#i-upload"/></svg>Upload</button></div>
+  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Document library</p><h1>Documents</h1><p class="lede">Every document added to a matter, in one place. Search by name, matter or status; to search inside a document, read its text on the matter’s Evidence tab.</p></div><button class="btn btn-primary" data-action="upload-doc"><svg class="ic"><use href="#i-upload"/></svg>Upload</button></div>
   <div class="toolbar"><div class="search-box"><svg class="ic"><use href="#i-research"/></svg><input id="docsSearch" placeholder="Search by file name, matter or status" /></div><span class="toolbar-count" id="docsCount">${rows.length} documents</span></div>
   <div class="card" style="padding:0;overflow:hidden" id="docsList">${rows.map(docRow).join('')}</div>`;
 }
 
+let docsRefresh = null;                               // repaints the library list in place, so adding a file does not rebuild the page (and close the dialog)
 function bindDocuments() {
-  const rows = MATTERS.flatMap(m => m.documents.map(d => ({ ...d, matter: m.title, matterId: m.id })));
-  $('#docsSearch')?.addEventListener('input', e => {
-    const q = e.target.value.toLowerCase();
-    const filtered = rows.filter(d => (d.name + d.matter + d.status).toLowerCase().includes(q));
-    $('#docsList').innerHTML = filtered.length ? filtered.map(docRow).join('') : `<p class="empty-note" style="padding:20px">No documents match “${esc(e.target.value)}”.</p>`;
-    $('#docsCount').textContent = `${filtered.length} document${filtered.length === 1 ? '' : 's'}`;
-  });
+  docsRefresh = () => {
+    const rows = MATTERS.flatMap(m => m.documents.map(d => ({ ...d, matter: m.title, matterId: m.id })));
+    const input = $('#docsSearch'), list = $('#docsList'), count = $('#docsCount');
+    if (!input || !list || !count) return;
+    const q = input.value.toLowerCase(), filtered = q ? rows.filter(d => (d.name + d.matter + d.status).toLowerCase().includes(q)) : rows;
+    list.innerHTML = filtered.length ? filtered.map(docRow).join('') : `<p class="empty-note" style="padding:20px">No documents match “${esc(input.value)}”.</p>`;
+    count.textContent = `${filtered.length} document${filtered.length === 1 ? '' : 's'}`;
+  };
+  $('#docsSearch')?.addEventListener('input', docsRefresh);
 }
 
 /* =============================================================================
@@ -2494,7 +2497,7 @@ function bindPage(key, parts, query) {
   $$('.kg-node.has-link').forEach(g => g.addEventListener('click', () => { if (g.dataset.href) navigate(g.dataset.href); }));
   $$('[data-action="sync-ecourts"]').forEach(b => b.addEventListener('click', () => syncAllFromService()));
   $$('[data-action="sync-case"]').forEach(b => b.addEventListener('click', () => syncCaseStatusFromService(b.dataset.matter)));
-  $$('[data-action="upload-doc"]').forEach(b => b.addEventListener('click', () => showToast('Document upload opens here.')));
+  $$('[data-action="upload-doc"]').forEach(b => b.addEventListener('click', () => wbOpenEvidenceForm(null)));
 
   if (key === 'today') bindToday();
   else if (key === 'ask') bindAsk(parts[1]);
