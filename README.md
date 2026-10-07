@@ -5,7 +5,7 @@ language models cite Indian Supreme Court judgments. It has four parts:
 
 | Folder | What it is | Status |
 |---|---|---|
-| [`lawyerai/`](lawyerai) | Web workspace: matters, calendar, documents, case chat, case-law search, eCourts. Vanilla JavaScript, no framework or build step. | **UI prototype.** Most screens run on built-in sample data (see below). |
+| [`lawyerai/`](lawyerai) | Web workspace: matters, calendar, documents, case chat, case-law search, eCourts. Vanilla JavaScript, no framework or build step. | **UI prototype.** Most screens run on built-in sample data (see below). A matter's Research, Evidence, Drafting and Arguments tabs are working tools that save in your browser. |
 | [`caselaw-db/`](caselaw-db) | PostgreSQL 17 catalogue of 19.3 million Indian court judgments and orders (Supreme Court + 25 High Courts) with a search API. | **Working on real data.** |
 | [`ecourts-service/`](ecourts-service) | Microservice that turns an eCourts case lookup into a JSON API (cache, API keys, rate limits, drift checks). | **Working on sample data.** The live scraper was never run. |
 | [`paper/`](paper) | IEEE-format paper and all research code: citation verifier, an open citation graph of 38,357 Supreme Court judgments, retrieval, and model experiments. | Complete draft. |
@@ -18,10 +18,22 @@ Real and tested:
   PDF links to the archive (no PDFs are stored).
 - The eCourts service's architecture and its **83 tests**.
 - All research code and results in `paper/`.
+- The workspace's **Build the case** tabs on a matter. *Research:* search judgments and pin authorities, keep notes, save an Ask AI
+  answer as a note. *Evidence:* record documents and build a dated chronology. *Arguments:* points with linked authorities,
+  risks and counter-arguments. *Drafting:* a library of document formats (ten built in, and the user's own, each of which can be
+  made the default for its document type) that every new draft follows, with Word and print export. The format logic has **22
+  unit tests** (`cd lawyerai && npm test`).
 
 **Sample or simulated, not real:**
-- The workspace's matters, hearings, deadlines, documents, notes, reminders, audit log and knowledge graph are hard-coded
-  sample data, and nothing is saved when the page reloads.
+- The workspace's matters, hearings, deadlines, calendar notes, reminders and knowledge graph are hard-coded sample data.
+  The only things it saves are what you add on a matter's Research, Evidence, Drafting and Arguments tabs, your document formats
+  and your draft approvals, and they are saved in this browser's `localStorage`, not on a server. A matter created through the
+  guided intake is itself not saved, so what you add to it is lost on reload.
+- **Drafting does not use AI.** A draft is your chosen format filled with what is already recorded for the matter (facts,
+  chronology, authorities, arguments, documents); where the matter has nothing it leaves a visible `[____]`, and you write the
+  rest. The built-in formats are general starting points, not legal advice. Export (Word `.doc`, or print / save as PDF) is
+  allowed only after you approve a draft.
+- **Evidence files are not uploaded or read.** Only a file's name, size and type are recorded, and the file stays on your computer.
 - **"Ask AI" is not an AI.** Its replies come from keyword matching in the browser. Text such as "verified against the
   knowledge graph" is a fixed label.
 - WhatsApp reminders, "save to matter" and "export" only show a confirmation message.
@@ -37,8 +49,9 @@ None of that is implemented.
 Requires Node.js 20+. Python 3.13 for the data scripts.
 
 ```bash
-# workspace (http://localhost:4173)
+# workspace (http://localhost:4173) and its unit tests
 cd lawyerai && node server.mjs
+cd lawyerai && npm test
 
 # eCourts service on sample data (http://localhost:8080) and its tests
 cd ecourts-service && cp .env.example .env && npm start

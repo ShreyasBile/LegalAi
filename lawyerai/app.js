@@ -74,12 +74,9 @@ const MATTERS = [
       { date: '07 Feb', title: 'Commercial transaction recorded', note: 'Bank summary links to the applicant’s statement.', flag: false },
       { date: '18 Feb', title: 'First contact alleged by complainant', note: 'An 11-day gap against the financial record.', flag: true },
       { date: '03 Sep', title: 'FIR registered', note: 'FIR No. 211/2026 indexed with its annexures.', flag: false },
-      { date: '11 Sep', title: 'Hearing preparation complete', note: 'Brief includes evidence, precedent and open issues.', flag: false }
+      { date: '11 Sep', title: 'Hearing preparation complete', note: 'Brief includes evidence, precedent and open issues.', flag: false, omitFromDrafts: true }
     ],
-    drafts: [
-      { title: 'Anticipatory bail application', status: 'Needs your approval', score: 98,
-        checks: [{ label: 'Citations resolved', note: '18 of 18 sources verified', ok: true }, { label: 'Format checked', note: 'Bombay High Court template', ok: true }, { label: 'Your review', note: 'Approval required before export', ok: false }] }
-    ],
+    drafts: [{ title: 'Anticipatory bail application', docType: 'Anticipatory bail application' }],      // workbench.js builds it from the format on load
     postJudgment: null
   },
   {
@@ -599,7 +596,9 @@ function shell({ activeKey, crumb, content, flush, matterCtx, matterTab, pageCla
   <section class="modal cmdk" id="cmdkModal" role="dialog" aria-modal="true">
     <div class="cmdk-input"><svg class="ic"><use href="#i-research"/></svg><input id="cmdkInput" placeholder="Search or jump to anything — a case, a section, a judgment…" /><kbd>ESC</kbd></div>
     <div id="cmdkResults"></div>
-  </section>`;
+  </section>
+
+  <section class="modal wb-modal" id="wbModal" role="dialog" aria-modal="true"></section>`;
 }
 
 function bindShell() {
@@ -1146,7 +1145,14 @@ function bindAskPage({ threadId, basePath, scoped = false, fixedMatterId = null 
     if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.style.borderColor = 'var(--teal)'; setTimeout(() => card.style.borderColor = '', 900); }
   }));
   $$('[data-action="copy-msg"]').forEach(btn => btn.addEventListener('click', () => showToast('Answer copied to clipboard.')));
-  $$('[data-action="save-msg"]').forEach(btn => btn.addEventListener('click', () => showToast('Saved to matter research notes.')));
+  $$('[data-action="save-msg"]').forEach(btn => btn.addEventListener('click', () => {
+    const convo = CONVERSATIONS.find(c => c.id === threadId);
+    const matterId = convo?.matterId || fixedMatterId || (scoped ? state.caseChatScope : null);
+    if (!matterId) { showToast('Open this from a matter, or pick a case first, to save the answer to its research notes.'); return; }
+    const answers = $$('.msg.ai').filter(el => !el.classList.contains('msg-pending'));
+    const msg = convo?.messages.filter(x => x.role === 'ai')[answers.indexOf(btn.closest('.msg.ai'))];
+    if (wbSaveChatAnswer(matterId, msg)) showToast(`Saved to ${matterById(matterId).title} — Research notes.`);
+  }));
 
   const form = $('#askForm');
   const input = $('#askInput');
@@ -1272,89 +1278,7 @@ function tabOverview(m) {
   </div>`;
 }
 
-function tabResearch(m) {
-  const threads = CONVERSATIONS.filter(c => c.matterId === m.id);
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><h2>Research history</h2><p class="hint">Conversations with LegalAI scoped to this matter.</p></div><a class="btn btn-teal btn-sm" href="#/matters/${m.id}/chat"><svg class="ic"><use href="#i-spark"/></svg>New question</a></div>
-      ${threads.length ? threads.map(t => `<a class="list-row" href="#/matters/${m.id}/chat/${t.id}" style="text-decoration:none;color:inherit"><div class="review-icon"><svg class="ic"><use href="#i-spark"/></svg></div><div class="review-text"><strong>${esc(t.title)}</strong><small>${esc(t.updated)} · ${t.messages.filter(x => x.role === 'ai').length} answer${t.messages.filter(x => x.role === 'ai').length === 1 ? '' : 's'}</small></div><svg class="ic" style="color:var(--faint)"><use href="#i-chevron"/></svg></a>`).join('') : '<p class="empty-note">No research yet for this matter. Ask LegalAI a question to get started.</p>'}
-    </div>
-    <div class="card card-pad">
-      <h2>Key authorities</h2>
-      ${m.authorities.length ? m.authorities.map((a, i) => `<div class="authority-row"><div class="authority-num mono">${i + 1}</div><div class="authority-copy"><strong>${esc(a.title)}</strong><small>${esc(a.meta)}</small></div></div>`).join('') : '<p class="empty-note">No authorities pinned yet.</p>'}
-    </div>
-  </div>`;
-}
-
-function tabEvidence(m) {
-  const flagged = m.timeline.find(t => t.flag);
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><h2>Documents</h2><p class="hint">The Evidence Agent picks the right tool for each file — OCR, layout parsing, or table extraction.</p></div><button class="btn btn-teal btn-sm" data-action="add-evidence"><svg class="ic"><use href="#i-upload"/></svg>Add evidence</button></div>
-      ${m.documents.length ? m.documents.map(d => `<div class="doc-row doc-row-tall"><div class="doc-type ${d.type}">${d.type.toUpperCase()}</div><div class="doc-copy"><strong>${esc(d.name)}</strong><small>Added ${esc(d.added)} · ${esc(d.size)}</small>${d.tool ? `<small class="doc-tool${d.processing ? ' processing' : ''}"><i></i>${d.processing ? esc(d.toolNote) : `${esc(d.tool)} · ${esc(d.toolNote)}`}</small>` : ''}</div><span class="chip ${d.status === 'Key document' ? 'chip-teal' : d.status === 'Needs review' ? 'chip-amber' : 'chip-navy'}">${esc(d.status)}</span></div>`).join('') : '<p class="empty-note">No documents uploaded yet.</p>'}
-    </div>
-    <div class="card card-pad">
-      <h2>Evidence agent</h2>
-      ${flagged ? `<div class="contradiction" style="margin-top:12px"><div class="contradiction-icon"><svg class="ic"><use href="#i-alert"/></svg></div><div><p class="eyebrow" style="margin-bottom:3px">Contradiction found</p><strong style="font-size:13px">${esc(flagged.title)}</strong><p style="font-size:12px;margin-top:4px;color:var(--ink-soft)">${esc(flagged.note)}</p></div></div>` : '<p class="empty-note" style="text-align:left;padding:8px 0">No inconsistencies found yet.</p>'}
-      <div class="grid-2" style="margin-top:16px"><div class="stat-card"><div class="stat-num" style="font-size:24px">${m.documents.length}</div><div class="stat-note">documents indexed</div></div><div class="stat-card"><div class="stat-num" style="font-size:24px">${m.timeline.length}</div><div class="stat-note">events in chronology</div></div></div>
-    </div>
-  </div>`;
-}
-
-function tabDrafting(m) {
-  if (!m.drafts.length) return `<div class="card card-pad"><h2>No drafts yet</h2><p class="hint">Ask LegalAI to prepare a first draft once research is complete.</p><a class="btn btn-teal" href="#/matters/${m.id}/chat" style="margin-top:10px"><svg class="ic"><use href="#i-spark"/></svg>Draft with LegalAI</a></div>`;
-  const d = m.drafts[0];
-  return `
-  <div class="dash-grid">
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 20px;border-bottom:1px solid var(--line)"><div style="display:flex;align-items:center;gap:11px"><span class="chip chip-amber">${esc(d.status)}</span><strong style="font-size:14px">${esc(d.title)}</strong></div></div>
-      <div style="padding:24px"><div class="draft-doc" style="border:0;box-shadow:none;padding:0">
-        <p class="draft-kicker">In the ${esc(m.court)}</p>
-        <h2>${esc(d.title)}</h2>
-        <p class="draft-parties">In the matter of<br><b>${esc(m.title.split(' v.')[0])}</b> <span>…Applicant</span><br>Versus<br><b>${esc(m.title.split('v. ')[1] || 'Respondent')}</b> <span>…Respondent</span></p>
-        <p>1. The Applicant respectfully submits that the matter arises from the facts on record. The Applicant has cooperated with every request for information.</p>
-        <p>2. Courts have recognised that relief of this nature protects fundamental rights and should be assessed on the circumstances of each case.<span class="inline-cite mono">1</span> There is no demonstrated bar to the relief sought.</p>
-      </div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 20px;border-top:1px solid var(--line)"><span style="display:inline-flex;align-items:center;gap:7px;color:var(--teal-ink);font-size:13px;font-weight:500"><svg class="ic"><use href="#i-shield"/></svg>18 citations verified · 0 unresolved</span><button class="btn btn-teal btn-sm" data-action="approve-draft" data-draft="${esc(d.title)}">Approve draft</button></div>
-    </div>
-    <div class="card card-pad">
-      <div style="display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid var(--line)"><div class="score-ring" style="--pct:${d.score}"><b>${d.score}</b></div><div><strong style="font-size:13.5px">Draft score</strong><p style="font-size:12px;color:var(--muted);margin-top:3px">Strong citation coverage and correct formatting.</p></div></div>
-      ${d.checks.map(c => `<div class="check-row"><span class="check-icon ${c.ok ? 'ok' : 'warn'}">${c.ok ? '<svg class="ic"><use href="#i-check"/></svg>' : '!'}</span><div><strong style="font-size:13px;font-weight:600;display:block">${esc(c.label)}</strong><small style="font-size:11.5px;color:var(--muted)">${esc(c.note)}</small></div></div>`).join('')}
-      <button class="btn btn-ghost btn-block" style="margin-top:16px" data-action="export-pdf"><svg class="ic"><use href="#i-download"/></svg>Export PDF</button>
-    </div>
-  </div>`;
-}
-
-/* ---- Arguments: the Argumentation Agent's own workspace — structured points,
-   each stress-tested against opposing precedent, plus counter-arguments with
-   rebuttals. Matches the "Argument Prep" stage in the matter pipeline. ---- */
-function tabArguments(m) {
-  const hasArgs = m.arguments && m.arguments.length;
-  const hasCounter = m.counterArgs && m.counterArgs.length;
-  if (!hasArgs && !hasCounter) {
-    return `<div class="card card-pad"><h2>No arguments prepared yet</h2><p class="hint">Once research and evidence review are complete, ask LegalAI to build a structured argument outline for this matter.</p><a class="btn btn-teal" href="#/matters/${m.id}/chat" style="margin-top:10px"><svg class="ic"><use href="#i-spark"/></svg>Prepare arguments with LegalAI</a></div>`;
-  }
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><h2>Structured arguments</h2><p class="hint">Each point is stress-tested against retrieved opposing precedent before it reaches you.</p></div></div>
-      ${hasArgs ? m.arguments.map((a, i) => `
-        <div class="arg-card">
-          <div class="arg-top"><span class="arg-num mono">${i + 1}</span><div class="arg-copy"><strong>${esc(a.point)}</strong><p>${esc(a.support)}</p></div><b class="arg-strength ${a.strength >= 75 ? 'good' : a.strength >= 55 ? 'mid' : 'low'}">${a.strength}<em>/100</em></b></div>
-          <button type="button" class="btn-text arg-stress-btn" data-action="toggle-stress" data-idx="${i}"><svg class="ic"><use href="#i-scale"/></svg>Stress-test this argument</button>
-          <div class="arg-stress" id="argStress${i}" hidden><svg class="ic"><use href="#i-alert"/></svg><p>${esc(a.stressTest || 'No opposing precedent found in the indexed corpus for this point.')}</p></div>
-        </div>`).join('') : '<p class="empty-note">No structured arguments yet.</p>'}
-    </div>
-    <div class="card card-pad">
-      <h2>Anticipated counter-arguments</h2>
-      <p class="hint">What the other side is likely to raise, and the rebuttal already prepared.</p>
-      ${hasCounter ? m.counterArgs.map(c => `
-        <div class="counter-card"><p class="counter-point"><svg class="ic"><use href="#i-alert"/></svg>${esc(c.point)}</p><p class="counter-rebuttal"><svg class="ic"><use href="#i-check"/></svg>${esc(c.rebuttal)}</p></div>`).join('') : '<p class="empty-note">None identified yet.</p>'}
-    </div>
-  </div>`;
-}
+/* Research, Evidence, Drafting and Arguments (the "Build the case" tabs) live in workbench.js. */
 
 function tabHearing(m) {
   if (!m.nextHearing) return `<div class="card card-pad"><h2>No hearing scheduled</h2><p class="hint">This matter has no upcoming listing yet.</p></div>`;
@@ -1458,19 +1382,7 @@ function tabTimeline(m) {
   </div>`;
 }
 
-function bindMatterDetail() {
-  $$('[data-action="approve-draft"]').forEach(b => b.addEventListener('click', () => {
-    b.textContent = 'Approved'; b.disabled = true; b.classList.add('btn-ghost'); b.classList.remove('btn-teal');
-    showToast(`${b.dataset.draft} approved and recorded in the audit trail.`);
-  }));
-  $$('[data-action="toggle-stress"]').forEach(b => b.addEventListener('click', () => {
-    const panel = $(`#argStress${b.dataset.idx}`);
-    if (!panel) return;
-    const open = !panel.hidden;
-    panel.hidden = open;
-    b.classList.toggle('open', !open);
-  }));
-}
+function bindMatterDetail() { wbBindMatterDetail(); }
 
 /* =============================================================================
    PAGE: CALENDAR — iPhone-style: Day / Week / Month / Year. Month view keeps a
@@ -2495,7 +2407,7 @@ function bindCaseLaw() {
     if (!sel) return;
     const m = matterById(sel.value), c = clCards[+sel.dataset.i];
     if (!m || !c) return;
-    showToast(`${clCardTitle(c)} saved to ${m.title} authorities.`);
+    if (wbPinAuthority(m.id, wbAuthorityFromCard(c))) showToast(`${clCardTitle(c)} saved to ${m.title} authorities.`);
     sel.value = '';
   });
 
@@ -2630,9 +2542,7 @@ function bindPage(key, parts, query) {
   $$('.kg-node.has-link').forEach(g => g.addEventListener('click', () => { if (g.dataset.href) navigate(g.dataset.href); }));
   $$('[data-action="sync-ecourts"]').forEach(b => b.addEventListener('click', () => syncAllFromService()));
   $$('[data-action="sync-case"]').forEach(b => b.addEventListener('click', () => syncCaseStatusFromService(b.dataset.matter)));
-  $$('[data-action="add-evidence"]').forEach(b => b.addEventListener('click', () => showToast('Evidence upload opens here — the Evidence Agent will pick the right tool per file.')));
   $$('[data-action="upload-doc"]').forEach(b => b.addEventListener('click', () => showToast('Document upload opens here.')));
-  $$('[data-action="export-pdf"]').forEach(b => b.addEventListener('click', () => showToast('Draft exported as PDF in the court’s format.')));
 
   if (key === 'today') bindToday();
   else if (key === 'ask') bindAsk(parts[1]);
