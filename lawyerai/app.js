@@ -516,7 +516,7 @@ function globalSidebar(activeKey) {
         <nav class="nav-list">
           ${navItem('#/ecourts', activeKey === 'ecourts', 'court', 'eCourts')}
           ${navItem('#/deadlines', activeKey === 'deadlines', 'clock', 'Limitation')}
-          ${navItem('#/reminders', activeKey === 'reminders', 'whatsapp', 'Reminders')}
+          ${navItem('#/reminders', activeKey === 'reminders', 'whatsapp', 'Reminders', rmDueCount() || '')}
         </nav>
       </div>
       <div class="side-section">
@@ -2439,59 +2439,7 @@ async function clToggleOrders(btn) {
   } catch { panel.innerHTML = '<p class="cl-orders-empty">Couldn’t load the orders — try again.</p>'; }
 }
 
-/* =============================================================================
-   PAGE: REMINDERS — automatic WhatsApp reminders for hearings & deadlines
-   ============================================================================= */
-function buildReminders() {
-  const rem = [];
-  HEARINGS.forEach(h => {
-    const m = matterById(h.matterId), c = CLIENTS[h.matterId];
-    rem.push({ date: addDays(h.date, -1), send: '6:00 PM', matterId: h.matterId, to: c ? c.name : 'Client', phone: c ? c.phone : 'via WhatsApp', channel: 'WhatsApp', type: 'Hearing reminder',
-      body: `Reminder: your matter *${m ? m.title : ''}* is listed tomorrow, ${fmtDate(h.date, true)} at ${h.time}, ${h.court}. Please reach 30 minutes early. — Kamat & Partners` });
-  });
-  DEADLINES.forEach(d => {
-    const m = matterById(d.matterId);
-    rem.push({ date: addDays(d.date, -2), send: '9:00 AM', matterId: d.matterId, to: 'Shreyas A. (you)', phone: 'via WhatsApp', channel: 'WhatsApp', type: `${d.type} deadline`,
-      body: `Heads up: *${d.title}* is due on ${fmtDate(d.date, true)}${m ? ` for ${m.title}` : ''}.` });
-  });
-  const floor = addDays(TODAY_ISO, -1);
-  return rem.filter(r => r.date >= floor).sort((a, b) => a.date < b.date ? -1 : 1);
-}
-function waFmt(s) { return esc(s).replace(/\*(.+?)\*/g, '<b>$1</b>'); }
-
-function pageReminders() {
-  const rem = buildReminders();
-  const next = rem[0];
-  return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Court &amp; clients</p><h1>Reminders</h1><p class="lede">Planned WhatsApp reminders for hearings and deadlines, for you and your clients. This is a demo: no message is ever sent.</p></div><button class="btn btn-primary" data-action="new-reminder"><svg class="ic"><use href="#i-plus"/></svg>New reminder</button></div>
-
-  <div class="wa-banner section"><div class="wa-banner-icon"><svg class="ic"><use href="#i-whatsapp"/></svg></div><div class="wa-banner-copy"><strong>WhatsApp reminders (demo)</strong><small>Nothing is connected or sent. This page shows what the reminders would look like.</small></div><span class="chip chip-amber">Demo</span></div>
-
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><p class="eyebrow">Scheduled</p><h2>Upcoming reminders</h2></div><span class="chip chip-navy">${rem.length}</span></div>
-      ${rem.length ? rem.map(r => { const b = dayBadge(r.date); return `
-        <div class="reminder-row">
-          <div class="reminder-date"><b>${b.num}</b><span>${b.mon}</span></div>
-          <div class="reminder-copy"><strong>${esc(r.type)}</strong><small>To ${esc(r.to)} · ${esc(r.channel)} · sends ${esc(r.send)}</small><small class="reminder-matter">${esc(matterById(r.matterId)?.title || '')}</small></div>
-          <button class="switch on" data-action="toggle-switch" aria-label="Toggle reminder"></button>
-        </div>`; }).join('') : '<p class="empty-note">No upcoming reminders.</p>'}
-    </div>
-    <div class="card card-pad">
-      <p class="eyebrow">Preview</p>
-      <h2 style="margin-bottom:2px">Next message</h2>
-      <p class="hint">Exactly what ${next ? esc(next.to) : 'the recipient'} will receive.</p>
-      ${next ? `<div class="wa-phone"><div class="wa-head"><span class="wa-avatar">${esc((next.to || 'C').slice(0, 1))}</span><div class="wa-head-copy"><strong>${esc(next.to)}</strong><small>${esc(next.phone)}</small></div><svg class="ic"><use href="#i-whatsapp"/></svg></div>
-        <div class="wa-body"><div class="wa-bubble">${waFmt(next.body)}<time>${esc(next.send)} <span class="wa-tick">✓✓</span></time></div><p class="wa-date">Scheduled for ${esc(fmtDate(next.date, true))}</p></div></div>` : '<p class="empty-note">Nothing scheduled.</p>'}
-      <button class="btn btn-teal btn-block" style="margin-top:14px" data-action="send-test"><svg class="ic"><use href="#i-send"/></svg>Send me a test</button>
-    </div>
-  </div>`;
-}
-
-function bindReminders() {
-  $$('[data-action="send-test"]').forEach(b => b.addEventListener('click', () => showToast('Demo only: no WhatsApp message was sent.')));
-  $$('[data-action="new-reminder"]').forEach(b => b.addEventListener('click', () => showToast('Custom reminder scheduling opens here.')));
-}
+/* The Reminders page lives in reminders-ui.js (logic in reminders.js). */
 
 /* =============================================================================
    PAGE: AUDIT TRAIL

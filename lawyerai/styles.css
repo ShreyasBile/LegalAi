@@ -1187,3 +1187,29 @@ p{margin:0}
 .dl-inline input[name="label"]{grid-column:1 / -1}
 .dl-inline .btn{grid-column:1 / -1;justify-self:start}
 @media (max-width:640px){.dl-saved{grid-template-columns:48px 1fr auto}.dl-saved .chip{grid-column:2}.dl-inline{grid-template-columns:1fr}}
+
+/* ==========================================================================
+   REMINDERS (reminders-ui.js)
+   ========================================================================== */
+.rm-card{display:flex;gap:13px;align-items:flex-start;padding:14px 0;border-top:1px solid var(--line-soft)}
+.rm-card:first-of-type{border-top:0}
+.rm-card.off{opacity:.55}
+.rm-main{flex:1;min-width:0}
+.rm-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rm-title strong{font-size:13.5px}
+.rm-main small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.rm-msg{margin:9px 0 0;padding:10px 12px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line-soft);font-size:12.5px;line-height:1.55;color:var(--ink-soft);overflow-wrap:anywhere}
+.rm-blocker{display:flex;gap:7px;align-items:flex-start;margin:8px 0 0;font-size:12px;color:var(--amber-ink)}
+.rm-blocker .ic{width:14px;margin-top:1px}
+.rm-actions{display:flex;gap:6px 14px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.rm-actions .btn-text{font-size:12.5px}
+.rm-contact{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 0;border-top:1px solid var(--line-soft)}
+.rm-contact:first-child{border-top:0}
+.rm-contact strong{display:block;font-size:13px}
+.rm-contact small{display:block;font-size:11.5px;color:var(--muted);margin-top:1px}
+.rm-field{display:grid;gap:6px;margin-top:14px;font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+.rm-field textarea,.rm-field input{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:9px 11px;font-size:13px;font-weight:400;color:var(--ink);outline:0;font-family:var(--sans);line-height:1.5}
+.rm-field textarea:focus,.rm-field input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-pale)}
+.rm-hint{margin:4px 0 0;font-size:11.5px;min-height:0}
+code{font-family:var(--mono);font-size:11.5px;background:var(--bg-2);padding:1px 5px;border-radius:5px}
+@media (max-width:640px){.rm-card{flex-wrap:wrap}.rm-main{flex-basis:calc(100% - 60px)}}
