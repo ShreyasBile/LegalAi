@@ -460,6 +460,7 @@ function route() {
   else if (key === 'caselaw') { content = pageCaseLaw(query); crumb = 'Case law'; }
   else if (key === 'ecourts') { content = pageECourts(); crumb = 'eCourts'; }
   else if (key === 'reminders') { content = pageReminders(); crumb = 'Reminders'; }
+  else if (key === 'deadlines') { content = pageDeadlines(query); crumb = 'Limitation & deadlines'; }
   else if (key === 'matters' && parts[1]) {
     matterCtx = matterById(parts[1]);
     matterTab = parts[2] || 'overview';
@@ -514,6 +515,7 @@ function globalSidebar(activeKey) {
         <p class="side-label">Court &amp; clients</p>
         <nav class="nav-list">
           ${navItem('#/ecourts', activeKey === 'ecourts', 'court', 'eCourts')}
+          ${navItem('#/deadlines', activeKey === 'deadlines', 'clock', 'Limitation')}
           ${navItem('#/reminders', activeKey === 'reminders', 'whatsapp', 'Reminders')}
         </nav>
       </div>
@@ -631,6 +633,7 @@ const CMDK_NAV = [
   { href: '#/case-chat', icon: 'chat', label: 'Case chat', sub: 'Chat by case' },
   { href: '#/knowledge', icon: 'network', label: 'Knowledge base', sub: 'Statutes & precedents' },
   { href: '#/ecourts', icon: 'court', label: 'eCourts', sub: 'Case status & cause lists' },
+  { href: '#/deadlines', icon: 'clock', label: 'Limitation', sub: 'Work out a last date' },
   { href: '#/reminders', icon: 'whatsapp', label: 'Reminders', sub: 'WhatsApp reminders' },
   { href: '#/audit', icon: 'shield', label: 'Audit trail', sub: 'Agent & lawyer log' },
   { href: '#/settings', icon: 'settings', label: 'Settings', sub: 'Profile & AI behaviour' }
@@ -1332,7 +1335,7 @@ function tabStatus(m) {
         <div class="fact-item"><div class="fact-label">Court</div><div class="fact-value">${esc(m.court)}</div></div>
       </div>
       <h2 style="margin-top:22px">Order sheet</h2>
-      <div class="timeline-v" style="margin-top:10px">${e.orders.map(o => `<article><time class="mono">${esc(fmtDate(o.date, true))}</time><span class="tl-dot"></span><div class="tl-copy"><p>${esc(o.text)}</p></div></article>`).join('')}</div>
+      <div class="timeline-v" style="margin-top:10px">${e.orders.map(o => `<article><time class="mono">${esc(fmtDate(o.date, true))}</time><span class="tl-dot"></span><div class="tl-copy"><p>${esc(o.text)}</p><a class="btn-text" href="#/deadlines?matter=${m.id}&date=${esc(o.date)}">Work out a limitation date from this order<svg class="ic"><use href="#i-arrow"/></svg></a></div></article>`).join('')}</div>
     </div>
     <div class="card card-pad">
       <p class="eyebrow">Next listing</p>
@@ -1367,6 +1370,7 @@ function tabPostJudgment(m) {
     </div>
     <div class="card card-pad">
       <p class="eyebrow">Appeal window</p>
+      <a class="btn-text" href="#/deadlines?matter=${m.id}" style="float:right">Work out the exact last date<svg class="ic"><use href="#i-arrow"/></svg></a>
       <div class="pj-countdown"><b>${daysLeft}</b><span>day${daysLeft === 1 ? '' : 's'} remaining</span></div>
       <p class="hint" style="margin-top:2px">Deadline: ${esc(deadline.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }))}</p>
       <h2 style="margin-top:20px">Next steps</h2>
@@ -2549,6 +2553,7 @@ function bindPage(key, parts, query) {
   else if (key === 'case-chat') bindCaseChat(parts[1]);
   else if (key === 'caselaw') bindCaseLaw();
   else if (key === 'reminders') bindReminders();
+  else if (key === 'deadlines') bindDeadlines();
   else if (key === 'ecourts') bindECourts();
   else if (key === 'matters' && parts[1] && parts[2] === 'chat') bindMatterChat(matterById(parts[1]), parts[3]);
   else if (key === 'matters' && parts[1]) bindMatterDetail();
