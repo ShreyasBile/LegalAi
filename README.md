@@ -5,7 +5,7 @@ language models cite Indian Supreme Court judgments. It has four parts:
 
 | Folder | What it is | Status |
 |---|---|---|
-| [`lawyerai/`](lawyerai) | Web workspace: matters, calendar, documents, case chat, case-law search, eCourts. Vanilla JavaScript, no framework or build step. | **UI prototype.** Most screens run on built-in sample data (see below). A matter's Research, Evidence, Drafting and Arguments tabs are working tools that save in your browser. |
+| [`lawyerai/`](lawyerai) | Web workspace: matters, calendar, documents, case chat, case-law search, eCourts. Vanilla JavaScript, no framework or build step. | **UI prototype.** Most screens run on built-in sample data (see below). The matter tabs, limitation calculator, reminders, Word export and evidence reading are working tools that save in your browser. |
 | [`caselaw-db/`](caselaw-db) | PostgreSQL 17 catalogue of 19.3 million Indian court judgments and orders (Supreme Court + 25 High Courts) with a search API. | **Working on real data.** |
 | [`ecourts-service/`](ecourts-service) | Microservice that turns an eCourts case lookup into a JSON API (cache, API keys, rate limits, drift checks). | **Working on sample data.** The live scraper was never run. |
 | [`paper/`](paper) | IEEE-format paper and all research code: citation verifier, an open citation graph of 38,357 Supreme Court judgments, retrieval, and model experiments. | Complete draft. |
@@ -18,25 +18,54 @@ Real and tested:
   PDF links to the archive (no PDFs are stored).
 - The eCourts service's architecture and its **83 tests**.
 - All research code and results in `paper/`.
-- The workspace's **Build the case** tabs on a matter. *Research:* search judgments and pin authorities, keep notes, save an Ask AI
-  answer as a note. *Evidence:* record documents and build a dated chronology. *Arguments:* points with linked authorities,
-  risks and counter-arguments. *Drafting:* a library of document formats (ten built in, and the user's own, each of which can be
-  made the default for its document type) that every new draft follows, with Word and print export. The format logic has **22
-  unit tests** (`cd lawyerai && npm test`).
+- The workspace's working tools, all in the browser and each with unit and/or browser tests (**141 unit tests**,
+  `cd lawyerai && npm test`; the browser suites drive the real pages with Playwright):
+  - **Build the case** tabs on a matter. *Research:* search judgments and pin authorities, keep notes, save an Ask AI answer as
+    a note. *Evidence:* record documents, build a dated chronology, and read the documents' text (below). *Arguments:* points
+    with linked authorities, risks and counter-arguments. *Drafting:* a library of document formats (ten built in, and the
+    user's own, each of which can be made the default for its document type) that every new draft follows.
+  - **Word export.** A real `.docx` (the OOXML and ZIP are written in the browser and checked with python-docx and
+    LibreOffice) with paper size, margins, font, line spacing, numbering and page numbers. **Court rules** are profiles the
+    user enters; the app ships no court's rules, and warns where a draft departs from the profile you entered.
+  - **Para-wise replies.** Paste the plaint or notice; the tool numbers its paragraphs and builds the reply paragraph by
+    paragraph from the stance you choose for each (admitted, denied, partly, no knowledge, legal). It words the stance; it
+    never writes the substance — that stays a visible `[____]`.
+  - **Version history and review comments.** Every draft keeps its versions (the latest 12), with a word-level redline
+    between any two and restore. A reviewer's comments are attached to a section and can be replied to and resolved.
+  - **Limitation and deadlines.** 27 built-in periods (suits, pleadings, appeals and review, forums and statutes, cheque
+    dishonour) with the source named, your own periods, time excluded for certified copies where the law allows it, Sundays,
+    your court's closures, and the day the court reopens. Saved dates appear on the Calendar, Today and Reminders.
+    **Check every period against the current statute and the court's own rules before relying on it.**
+  - **WhatsApp reminders.** Hearing and deadline reminders are prepared from editable templates, with the client's number and
+    consent. The button opens WhatsApp with the message written; **you press send** — the app cannot send messages itself.
+  - **Reading evidence.** For each document you can read its text: text files, Word files and PDFs with a text layer are read
+    directly; scanned pages and photos are read by OCR in **English, Hindi and Marathi** (Tesseract in your browser). The files are never
+    uploaded or stored — only the text is kept, in this browser's IndexedDB. You can then search across the documents, see the
+    dates and rupee amounts each one mentions (Devanagari digits and month names included) and add them to the chronology, and
+    see a list of **possible inconsistencies** where two documents give different dates or amounts next to the same word.
+    That list is pattern matching, not understanding: it is a place to look, never a finding, and OCR can misread a digit.
+    Correct the text by hand where it has.
 
 **Sample or simulated, not real:**
-- The workspace's matters, hearings, deadlines, calendar notes, reminders and knowledge graph are hard-coded sample data.
-  The only things it saves are what you add on a matter's Research, Evidence, Drafting and Arguments tabs, your document formats
-  and your draft approvals, and they are saved in this browser's `localStorage`, not on a server. A matter created through the
+- The workspace's matters, hearings, calendar notes, knowledge graph and the demo evidence documents are hard-coded sample
+  data. What it saves is what you add or change: on a matter's tabs, your document formats and court rules, draft approvals,
+  versions and comments, saved deadlines, reminders and contacts. All of it is kept in this browser (`localStorage`, and
+  IndexedDB for document text), not on a server, so it is not shared between people or devices. A matter created through the
   guided intake is itself not saved, so what you add to it is lost on reload.
-- **Drafting does not use AI.** A draft is your chosen format filled with what is already recorded for the matter (facts,
-  chronology, authorities, arguments, documents); where the matter has nothing it leaves a visible `[____]`, and you write the
-  rest. The built-in formats are general starting points, not legal advice. Export (Word `.doc`, or print / save as PDF) is
-  allowed only after you approve a draft.
-- **Evidence files are not uploaded or read.** Only a file's name, size and type are recorded, and the file stays on your computer.
+- **Comments and approvals are not multi-user.** A reviewer's name is typed in, not signed in, and a draft's history lives on
+  one computer. Real senior-review workflow needs accounts and a server.
+- **Drafting does not use AI.** A draft is your chosen format filled with what is already recorded for the matter; where the
+  matter has nothing it leaves a visible `[____]`, and you write the rest. The built-in formats are general starting points,
+  not legal advice. Export is allowed only after you approve a draft.
+- **No translation.** Translating orders or drafts (for example between English, Hindi and Marathi) is not built: doing it
+  honestly needs a translation model or service, and nothing here calls one. OCR can read Hindi and Marathi text; it does not
+  translate it.
+- **OCR quality varies.** It was checked on clean, typed Hindi, Marathi and English pages and read them correctly, including
+  digits. Handwriting, poor photographs, stamps and skewed scans will be read worse; the reader shows an overall confidence
+  and the text can be corrected by hand.
 - **"Ask AI" is not an AI.** Its replies come from keyword matching in the browser. Text such as "verified against the
   knowledge graph" is a fixed label.
-- WhatsApp reminders, "save to matter" and "export" only show a confirmation message.
+- "Save to matter" and "export" on the sample pages only show a confirmation message.
 - The eCourts service answers from saved HTML fixtures and a made-up index of 8 cases. Its live mode (Playwright plus a
   CAPTCHA solver) was written but **never run** against the real portal.
 - The retriever, verifier and language models in `paper/` are **not** connected to the workspace.
@@ -57,6 +86,22 @@ cd lawyerai && npm test
 cd ecourts-service && cp .env.example .env && npm start
 npm test
 ```
+
+### OCR and PDF libraries
+
+Reading a PDF or a scanned page loads two libraries on demand: pdf.js and Tesseract (about 2–4 MB of code, then 1.5–3 MB of
+language data per language). By default they come from the jsDelivr CDN at pinned versions (pdf.js 4.10.38, tesseract.js
+5.1.1), so the first scan read needs the internet; the document itself is never sent anywhere. Word and text files need neither.
+To run offline, host the files yourself and set this before `extract.js` loads:
+
+```html
+<script>window.LEGALAI_LIBS = { pdfjs: '/vendor/pdf.min.mjs', pdfjsWorker: '/vendor/pdf.worker.min.mjs',
+  tesseract: '/vendor/tesseract.min.js', tesseractWorker: '/vendor/worker.min.js',
+  tesseractCore: '/vendor/tesseract-core/', langPath: '/vendor/lang' };</script>
+```
+
+`langPath` holds `eng.traineddata.gz`, `hin.traineddata.gz` and `mar.traineddata.gz` (npm: `@tesseract.js-data/eng|hin|mar`, folder
+`4.0.0_best_int`); `tesseractCore` is the `tesseract.js-core` package folder. They must be served with CORS headers if on another origin.
 
 ### Case-law database and API
 
@@ -140,6 +185,10 @@ Not included (too large, rebuilt by the scripts above): the downloaded text, the
   the edges of a year range there.
 - The workspace is a demo with a fixed "today" (`TODAY_ISO` in `lawyerai/app.js`, 11 September 2026) so that its sample hearings and deadlines stay
   consistent. The anticipatory-bail matter now cites BNSS s.482 (formerly CrPC s.438), as the sample FIR is from 2026.
+
+- The sample Post-judgment matter (MACT award) is internally inconsistent: it lists a 90-day appeal window, but its hard-coded
+  appeal deadline (2 October 2026) is 30 days after the 2 September judgment. Sample data only; the Limitation page works the
+  period out from the rule you pick.
 
 ## Data and licence
 
