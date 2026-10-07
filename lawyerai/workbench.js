@@ -558,6 +558,7 @@ function tabDrafting(m) {
     <div class="wb-bar-actions">
       <button type="button" class="btn btn-ghost" data-wb="formats-open">${wbIc('docs')}Document formats</button>
       <button type="button" class="btn btn-ghost" data-wb="profiles-open">${wbIc('court')}Court rules</button>
+      <button type="button" class="btn btn-ghost" data-wb="pw-open">${wbIc('scale')}Para-wise reply</button>
       <button type="button" class="btn btn-teal" data-wb="draft-new">${wbIc('plus')}New draft</button>
     </div>
   </div>`;
@@ -595,6 +596,7 @@ WB_CLICK['draft-pick'] = (el, m) => { wbUi.draft[m.id] = el.dataset.id; wbRefres
 WB_CLICK['mode'] = el => { wbUi.mode = el.dataset.mode === 'preview' ? 'preview' : 'edit'; wbRefresh(); };
 WB_CLICK['formats-open'] = (el, m) => wbOpenFormats(m);
 WB_CLICK['profiles-open'] = (el, m, e) => { e?.preventDefault(); wbOpenProfiles(m); };
+WB_CLICK['pw-open'] = (el, m) => wbOpenParaReply(m);
 WB_CHANGE['draft-profile'] = (el, m) => { const d = wbDraftOf(m); if (d && d.status !== 'Approved') { d.profileId = el.value; wbSave(m.id); wbPaintChecks(m, d); } };
 WB_CLICK['draft-new'] = (el, m) => wbOpenNewDraft(m);
 WB_INPUT['draft-title'] = (el, m) => { const d = wbDraftOf(m); if (d && d.status !== 'Approved') { d.title = el.value; wbSaveSoon(m.id); } };
@@ -978,6 +980,102 @@ function wbProfDelete() {
   wbPaintProfiles();
   wbRefresh();
   showToast(`Court rules “${w.name}” deleted.`);
+}
+
+/* ── para-wise reply ─────────────────────────────────────────────────────────
+   Paste (or load) the other side's plaint or notice. LegalAI splits it into its numbered paragraphs, the lawyer
+   chooses a stance for each, and the replies are placed in a written statement or reply format. It words the
+   stances; it never decides one. A paragraph with no stance becomes a visible blank in the draft. */
+const wbHasReplyField = f => f.sections.some(s => /\{\{\s*para_replies\s*\}\}/i.test(`${s.heading}\n${s.body}`));
+const wbPwOpts = () => ({ doc: wbUi.pw.doc.trim() || 'document', as: wbUi.pw.as.trim() || 'the Respondent', other: wbUi.pw.other.trim() || 'the other side' });
+const wbPwAnswered = () => (wbUi.pw.rows || []).filter(r => r.stance).length;
+
+function wbOpenParaReply(m) {
+  const k = Drafting.DOC_KINDS.plaint;
+  wbUi.pw = { kind: 'plaint', doc: k.doc, as: k.as, other: k.other, text: '', rows: null, numbered: true };
+  wbOpenModal({ eyebrow: 'Drafting', title: 'Para-wise reply', wide: true, focus: false, html: '<div id="wbPw"></div>', onClick: e => wbPwClick(e, m), onInput: wbPwInput, onChange: wbPwInput });
+  wbPaintParaReply();
+}
+
+function wbPaintParaReply() {
+  const root = $('#wbPw'), u = wbUi.pw;
+  if (!root || !u) return;
+  const note = { admitted: 'Qualification (optional)', denied: 'Reason (optional)', partly: 'Admitted only to the extent that…', unknown: 'Anything to add (optional)', legal: 'Anything to add (optional)' };
+  root.innerHTML = `<div class="pw">
+    <p class="hint" style="margin:0 0 6px">Paste the other side’s document, or load it as a text file. Word and PDF files are not read here — paste their text. The paragraphs are split on their own numbers, and nothing is sent anywhere.</p>
+    <div class="form-grid">
+      <label>It is a<select data-pw="kind">${Object.entries(Drafting.DOC_KINDS).map(([k, v]) => `<option value="${k}"${k === u.kind ? ' selected' : ''}>${esc(v.label)}</option>`).join('')}</select></label>
+      <label>Called in the reply<input data-pw="doc" maxlength="40" value="${esc(u.doc)}" /></label>
+      <label>You reply as<input data-pw="as" maxlength="60" value="${esc(u.as)}" /></label>
+      <label>The other side is<input data-pw="other" maxlength="60" value="${esc(u.other)}" /></label>
+    </div>
+    <label>The document<textarea data-pw="text" rows="7" maxlength="200000" placeholder="1. The Plaintiff is a company…&#10;2. The Defendant is…">${esc(u.text)}</textarea></label>
+    <div class="pw-bar"><label class="btn btn-ghost btn-sm pw-file">${wbIc('upload')}Load a text file<input type="file" accept=".txt,.md,text/plain" data-pw="file" hidden /></label><button type="button" class="btn btn-teal btn-sm" data-pw="split">Split into paragraphs</button></div>
+    ${u.rows ? wbPwRowsHtml(note) : ''}</div>`;
+}
+
+function wbPwRowsHtml(note) {
+  const u = wbUi.pw, all = wbFormats().filter(wbHasReplyField), k = Drafting.DOC_KINDS[u.kind];
+  const def = Drafting.defaultFormatFor(all, wb.defaults, k.docType) || all[0];
+  if (!u.rows.length) return '<p class="wb-flag">' + wbIc('alert') + '<span>No text to split yet. Paste the document above.</span></p>';
+  return `
+    <p class="eyebrow wb-mt">${u.numbered ? `${u.rows.length} numbered paragraph${u.rows.length === 1 ? '' : 's'} found` : 'No paragraph numbers found — each block of text is taken as a paragraph, numbered by position'}</p>
+    <div class="pw-bulk"><span id="pwCount" role="status"></span><label>Mark every unanswered paragraph as<select data-pw="bulk"><option value="">…</option>${Object.entries(Drafting.STANCES).map(([k2, l]) => `<option value="${k2}">${esc(l)}</option>`).join('')}</select></label></div>
+    <div class="pw-rows">${u.rows.map((r, i) => `
+      <div class="pw-row"><div class="pw-n mono">${r.n}</div><div class="pw-main">
+        <p class="pw-text" data-pw="more" title="Click to show all of it">${esc(r.text)}</p>
+        <div class="pw-ctl"><select data-pw-stance="${i}" aria-label="Reply to paragraph ${r.n}"><option value="">Not answered yet</option>${Object.entries(Drafting.STANCES).map(([k2, l]) => `<option value="${k2}"${r.stance === k2 ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>
+          <input data-pw-note="${i}" maxlength="500" value="${esc(r.note)}" placeholder="${esc(note[r.stance] || 'Choose how to reply first')}"${r.stance ? '' : ' disabled'} /></div></div></div>`).join('')}</div>
+    <div class="pw-make"><label>Make it in<select data-pw="format">${all.map(f => `<option value="${esc(f.id)}"${def && f.id === def.id ? ' selected' : ''}>${esc(f.docType)} — ${esc(f.name)}</option>`).join('')}</select></label>
+      <button type="button" class="btn btn-primary" data-pw="create">Create the draft</button></div>`;
+}
+
+function wbPwCount() { const el = $('#pwCount'), u = wbUi.pw; if (el && u?.rows) el.textContent = `${wbPwAnswered()} of ${u.rows.length} answered`; }
+
+function wbPwClick(e, m) {
+  const el = e.target.closest('[data-pw]'), u = wbUi.pw;
+  if (!el || !u) return;
+  const act = el.dataset.pw;
+  if (act === 'more') el.classList.toggle('open');
+  else if (act === 'split') {
+    const r = Drafting.splitParagraphs(u.text);
+    u.rows = r.paragraphs.map(p => ({ n: p.n, text: p.text, stance: '', note: '' })); u.numbered = r.numbered;
+    wbPaintParaReply(); wbPwCount();
+  } else if (act === 'create') {
+    const f = wbFormats().find(x => x.id === $('#wbPw [data-pw="format"]')?.value);
+    if (!f || !u.rows?.length) return;
+    const text = Drafting.paraReplies(u.rows, wbPwOpts());
+    const d = Drafting.createDraft(f, m, { title: `${f.docType} — ${m.title}`, extras: { ...wbExtras(m), paraReplies: text }, profileId: wbNewDraftProfile() });
+    m.drafts.push(d);
+    wbUi.draft[m.id] = d.id; wbUi.mode = 'edit'; wbUi.lastType = f.docType;
+    wbSave(m.id); closeModals(); wbRefresh();
+    const blank = u.rows.length - wbPwAnswered();
+    showToast(`Draft created with ${u.rows.length} paragraph repl${u.rows.length === 1 ? 'y' : 'ies'}${blank ? `; ${blank} still to answer` : ''}.`);
+  }
+}
+
+function wbPwInput(e) {
+  const el = e.target, u = wbUi.pw;
+  if (!u) return;
+  if (el.dataset.pwStance !== undefined) {
+    const r = u.rows[+el.dataset.pwStance];
+    r.stance = el.value;
+    const input = el.closest('.pw-ctl').querySelector('input');
+    input.disabled = !r.stance;
+    input.placeholder = { admitted: 'Qualification (optional)', denied: 'Reason (optional)', partly: 'Admitted only to the extent that…', unknown: 'Anything to add (optional)', legal: 'Anything to add (optional)' }[r.stance] || 'Choose how to reply first';
+    wbPwCount();
+  } else if (el.dataset.pwNote !== undefined) u.rows[+el.dataset.pwNote].note = el.value;
+  else if (el.dataset.pw === 'text') u.text = el.value;
+  else if (['doc', 'as', 'other'].includes(el.dataset.pw)) u[el.dataset.pw] = el.value;
+  else if (el.dataset.pw === 'kind') { const k = Drafting.DOC_KINDS[el.value]; if (k) Object.assign(u, { kind: el.value, doc: k.doc, as: k.as, other: k.other }); wbPaintParaReply(); wbPwCount(); }
+  else if (el.dataset.pw === 'bulk' && el.value) {
+    u.rows.forEach(r => { if (!r.stance) r.stance = el.value; });
+    wbPaintParaReply(); wbPwCount();
+  } else if (el.dataset.pw === 'file' && el.files?.[0]) {
+    const file = el.files[0];
+    if (file.size > 400000) { showToast('That file is too large for pasting here (limit about 400 KB of text).'); return; }
+    file.text().then(t => { u.text = t.slice(0, 200000); u.rows = null; wbPaintParaReply(); }, () => showToast('That file could not be read as text. Paste its text instead.'));
+  }
 }
 
 wbLoad();

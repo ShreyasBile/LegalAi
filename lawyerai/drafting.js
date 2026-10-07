@@ -40,6 +40,7 @@ const Drafting = (() => {
     { key: 'counter_arguments', label: 'Counter-arguments', hint: 'Anticipated objections with the reply, one per line' },
     { key: 'documents', label: 'Annexures', hint: 'Documents from Evidence as Annexure A, B, C…' },
     { key: 'hearing', label: 'Next hearing', hint: 'Purpose, date, time and court of the next hearing' },
+    { key: 'para_replies', label: 'Para-wise replies', hint: 'The paragraph-by-paragraph reply made in the Para-wise reply tool' },
     { key: 'today', label: 'Today’s date', hint: 'The workspace’s date' }
   ];
   const PH_KEYS = PLACEHOLDERS.map(p => p.key);
@@ -60,7 +61,7 @@ const Drafting = (() => {
     return i < 26 ? ch(i) : annexLabel(Math.floor(i / 26) - 1) + ch(i % 26);
   }
 
-  function matterContext(m, { cnr = '', today = '' } = {}) {
+  function matterContext(m, { cnr = '', today = '', paraReplies = '' } = {}) {
     const f = m.facts || {};
     const { applicant, respondent } = splitParties(m.title);
     const list = (arr, fn) => (arr || []).map(fn).join('\n');
@@ -75,6 +76,7 @@ const Drafting = (() => {
       counter_arguments: list(m.counterArgs, c => `${c.point}${c.rebuttal ? ` Reply: ${c.rebuttal}` : ''}`),
       documents: list(m.documents, (d, i) => `Annexure ${annexLabel(i)} – ${d.name}`),
       hearing: h ? `${h.purpose} on ${h.date} at ${h.time}, ${h.court2}` : '',
+      para_replies: paraReplies || 'Paragraph [____] is [admitted / denied] because [____].',
       today
     };
   }
@@ -192,7 +194,7 @@ const Drafting = (() => {
       S('Subject', 'para', 'Reply to your notice dated [____] sent to my client, {{applicant}}'),
       S('', 'signoff', 'Sir / Madam,'),
       S('Preliminary', 'numbered', 'Under instructions from my client, {{applicant}}, I reply to your notice dated [____] as follows.\nThe contents of your notice are denied, except those expressly admitted below.'),
-      S('Reply to the notice', 'numbered', 'Paragraph [____] of the notice is [admitted / denied] because [____].'),
+      S('Reply to the notice', 'para', '{{para_replies}}'),
       S('The facts as they stand', 'numbered', '{{chronology}}'),
       S('Submissions', 'numbered', '{{arguments}}'),
       S('Conclusion', 'numbered', 'The demands in your notice are without basis and are rejected.\nMy client reserves all rights and remedies, including the right to claim costs.'),
@@ -216,7 +218,7 @@ const Drafting = (() => {
       cause('CIVIL SUIT NO. ________ OF ________', reversed('Plaintiff', 'Defendant')),
       S('', 'center', '**WRITTEN STATEMENT OF THE DEFENDANT UNDER ORDER VIII OF THE CODE OF CIVIL PROCEDURE, 1908**'),
       S('Preliminary objections', 'numbered', 'The suit is not maintainable, because [____].\n{{issue}}'),
-      S('Reply on the merits', 'numbered', 'Paragraph [____] of the plaint is [admitted / denied] because [____].'),
+      S('Reply on the merits', 'para', '{{para_replies}}'),
       S('The facts as the Defendant states them', 'numbered', '{{chronology}}'),
       S('Additional pleas', 'numbered', '{{arguments}}'),
       S('Prayer', 'para', "The Defendant therefore prays that this Hon'ble Court may be pleased to:\n(a) dismiss the suit with costs; and\n(b) grant such other relief as this Hon'ble Court deems fit."),
@@ -275,6 +277,51 @@ const Drafting = (() => {
     id: `std-${id}`, name: 'LegalAI standard', docType, description, builtin: true, style: normalizeStyle(),
     sections: sections.map((s, i) => ({ id: `std-${id}-${i}`, ...s }))
   }));
+
+
+  /* ── para-wise replies ──────────────────────────────────────────────────────
+     A written statement or a reply to a notice answers the other side's document paragraph by paragraph.
+     splitParagraphs finds those paragraphs; the lawyer picks a stance for each; paraReplies words the answers.
+     Nothing is decided for the lawyer: a paragraph with no stance becomes a visible blank. */
+  const STANCES = { admitted: 'Admitted', denied: 'Denied', partly: 'Partly admitted', unknown: 'Not within my knowledge', legal: 'A legal submission' };
+  const DOC_KINDS = {
+    plaint: { label: 'Plaint', doc: 'plaint', as: 'the Defendant', other: 'the Plaintiff', docType: 'Written statement' },
+    notice: { label: 'Legal notice', doc: 'notice', as: 'my client', other: 'the sender of the notice', docType: 'Reply to legal notice' },
+    other: { label: 'Something else', doc: 'document', as: 'the Respondent', other: 'the other side', docType: 'Written statement' }
+  };
+
+  /* "1.", "1)", "(1)", "1:", "1 -" and "Para 1." at the start of a line open paragraph 1, 2, 3…
+     A marker only counts if its number is next in line (or skips at most two), so a line that begins "10. Total" or
+     "2026. The" inside paragraph 3 is not mistaken for a new paragraph. Lines before paragraph 1 (the cause title) are ignored. */
+  const MARKER = /^\s*(?:para(?:graph)?\.?\s*)?(?:\((\d{1,3})\)|(\d{1,3})\s*[.):\-])\s+(?=\S)/i;
+  function splitParagraphs(text) {
+    const raw = String(text ?? '').replace(/\r\n?/g, '\n').slice(0, 200000);
+    const found = [];
+    let cur = null, last = 0;
+    for (const line of raw.split('\n')) {
+      const m = MARKER.exec(line), n = m ? Number(m[1] || m[2]) : 0;
+      if (m && (cur ? n > last && n <= last + 3 : n >= 1 && n <= 3)) { cur = { n, text: line.slice(m[0].length).trim() }; found.push(cur); last = n; }
+      else if (cur && line.trim()) cur.text += ` ${line.trim()}`;
+    }
+    const clip = ps => ps.slice(0, 300).map(p => ({ n: p.n, text: p.text.slice(0, 4000) }));
+    if (found.length >= 2) return { numbered: true, paragraphs: clip(found) };
+    const blocks = raw.split(/\n\s*\n/).map(b => b.replace(/\s*\n\s*/g, ' ').trim()).filter(Boolean);       // no numbers: one paragraph per block
+    return { numbered: false, paragraphs: clip(blocks.map((t, i) => ({ n: i + 1, text: t }))) };
+  }
+
+  const cap1 = t => t.charAt(0).toUpperCase() + t.slice(1);
+  function paraReplyLine(row, { doc = 'document', as = 'the Respondent', other = 'the other side' } = {}) {
+    const n = row.n, note = String(row.note || '').trim(), tail = note ? ` ${note}` : '', of = `paragraph ${n} of the ${doc}`;
+    switch (row.stance) {
+      case 'admitted': return `The contents of ${of} are admitted.${tail}`;
+      case 'denied': return `The contents of ${of} are denied.${tail}`;
+      case 'partly': return `The contents of ${of} are admitted only to the extent that ${note || GAP}. The rest is denied.`;
+      case 'unknown': return `The contents of ${of} are not within the knowledge of ${as} and are therefore denied. ${cap1(other)} is put to strict proof thereof.${tail}`;
+      case 'legal': return `${cap1(of)} contains legal submissions and calls for no reply. To the extent a reply is required, it is denied.${tail}`;
+      default: return `${cap1(of)}: ${GAP}`;
+    }
+  }
+  const paraReplies = (rows, opts) => rows.map(r => paraReplyLine(r, opts)).join('\n');
 
   /* ── the format library ──────────────────────────────────────────────────── */
   const allFormats = custom => [...BUILTIN_FORMATS, ...(custom || [])];
@@ -464,7 +511,8 @@ const Drafting = (() => {
     normalizeStyle, normalizeSection, normalizeFormat, normalizeDraft,
     allFormats, docTypes, formatsFor, defaultFormatFor, isDefault, setDefault, removeFormat, cloneFormat, blankFormat, validateFormat,
     createDraft, layoutBlocks, renderDraftHtml, exportHtml, slug, draftChecks,
-    PAPERS, BUILTIN_PROFILES, normalizeProfile, validateProfile, profileChecks
+    PAPERS, BUILTIN_PROFILES, normalizeProfile, validateProfile, profileChecks,
+    STANCES, DOC_KINDS, splitParagraphs, paraReplyLine, paraReplies
   };
 })();
 
