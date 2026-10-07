@@ -139,6 +139,8 @@ const Drafting = (() => {
       id: str(d.id, 40) || makeId('d'), title: str(d.title, 120), docType: str(d.docType, 80), formatId: str(d.formatId, 40), formatName: str(d.formatName, 80),
       status: d.status === 'Approved' ? 'Approved' : 'Draft', approvedAt: str(d.approvedAt, 40), createdAt: str(d.createdAt, 40),
       profileId: str(d.profileId, 40),
+      versions: (Array.isArray(d.versions) ? d.versions : []).slice(0, MAX_VERSIONS + 8).map(normalizeVersion),
+      comments: (Array.isArray(d.comments) ? d.comments : []).slice(0, MAX_COMMENTS).map(normalizeComment).filter(c => c.text),
       style: normalizeStyle(d.style),
       sections: (Array.isArray(d.sections) ? d.sections : []).slice(0, 60).map(normalizeSection)
     };
@@ -323,6 +325,133 @@ const Drafting = (() => {
   }
   const paraReplies = (rows, opts) => rows.map(r => paraReplyLine(r, opts)).join('\n');
 
+
+  /* ── versions, redlines and review comments ─────────────────────────────────
+     A version is a copy of the draft's text at a moment: when it was made from its format, when it was
+     approved, when the lawyer chose to save one, and just before one is restored (so a restore can be undone).
+     Sections keep their ids across versions, so a comparison matches sections by id, not by position.
+     The comparison is a word-level redline: the "del" parts plus the unchanged parts rebuild the old text
+     exactly, and the "ins" parts plus the unchanged parts rebuild the new text exactly. */
+  const MAX_VERSIONS = 12, MAX_COMMENTS = 200;
+  const secCopy = s => ({ id: s.id, heading: s.heading, layout: s.layout, body: s.body });
+  const snapshot = (draft, label, { by = '', at = '' } = {}) => ({ id: makeId('v'), at: str(at, 40), by: str(by, 80), label: str(label, 120), title: str(draft.title, 120), sections: (draft.sections || []).map(secCopy) });
+  const sameContent = (a, b) => a.title === b.title && a.sections.length === b.sections.length
+    && a.sections.every((s, i) => { const t = b.sections[i]; return s.id === t.id && s.heading === t.heading && s.layout === t.layout && s.body === t.body; });
+
+  function normalizeVersion(v) {
+    v = v && typeof v === 'object' ? v : {};
+    return { id: str(v.id, 40) || makeId('v'), at: str(v.at, 40), by: str(v.by, 80), label: str(v.label, 120), title: str(v.title, 120), sections: (Array.isArray(v.sections) ? v.sections : []).slice(0, 60).map(normalizeSection) };
+  }
+
+  /* newest first; an unchanged draft is not saved twice unless asked (force), and only the latest few are kept */
+  function pushVersion(draft, label, { by = '', at = '', force = false, max = MAX_VERSIONS } = {}) {
+    draft.versions = Array.isArray(draft.versions) ? draft.versions : [];
+    const v = snapshot(draft, label, { by, at });
+    if (!force && draft.versions[0] && sameContent(draft.versions[0], v)) return false;
+    draft.versions.unshift(v);
+    if (draft.versions.length > max) draft.versions.length = max;
+    return true;
+  }
+
+  function restoreVersion(draft, id) {
+    const v = (draft.versions || []).find(x => x.id === id);
+    if (!v) return false;
+    draft.title = v.title || draft.title;
+    draft.sections = v.sections.map(secCopy);
+    draft.status = 'Draft'; draft.approvedAt = '';
+    return true;
+  }
+
+  /* words, spaces, line ends and punctuation are separate pieces, so a changed comma shows as a changed comma */
+  const tokens = t => String(t ?? '').match(/\n|[^\S\n]+|[^\s\p{P}]+|\p{P}/gu) || [];
+  const MAX_CELLS = 6000000;
+  function diffText(a, b) {
+    const x = tokens(a), y = tokens(b);
+    let i = 0;
+    while (i < x.length && i < y.length && x[i] === y[i]) i++;
+    let ex = x.length, ey = y.length;
+    while (ex > i && ey > i && x[ex - 1] === y[ey - 1]) { ex--; ey--; }
+    const A = x.slice(i, ex), B = y.slice(i, ey), ops = [];
+    const push = (t, text) => { if (!text) return; const last = ops[ops.length - 1]; if (last && last.t === t) last.text += text; else ops.push({ t, text }); };
+    push('eq', x.slice(0, i).join(''));
+    if (A.length && B.length && A.length * B.length <= MAX_CELLS) {                       // longest common subsequence of what is left in the middle
+      const w = B.length + 1, L = new Uint16Array((A.length + 1) * w);
+      for (let p = A.length - 1; p >= 0; p--) for (let q = B.length - 1; q >= 0; q--) L[p * w + q] = A[p] === B[q] ? L[(p + 1) * w + q + 1] + 1 : Math.max(L[(p + 1) * w + q], L[p * w + q + 1]);
+      let p = 0, q = 0;
+      while (p < A.length && q < B.length) {
+        if (A[p] === B[q]) { push('eq', A[p]); p++; q++; }
+        else if (L[(p + 1) * w + q] >= L[p * w + q + 1]) push('del', A[p++]);
+        else push('ins', B[q++]);
+      }
+      while (p < A.length) push('del', A[p++]);
+      while (q < B.length) push('ins', B[q++]);
+    } else { push('del', A.join('')); push('ins', B.join('')); }                          // too big to align: shown as replaced, still exact
+    push('eq', x.slice(ex).join(''));
+    return ops;
+  }
+
+  /* section by section: unchanged, changed (with the word redline), added or removed. Removed sections stay where they were. */
+  function diffSections(oldSecs, newSecs) {
+    const oldIndex = new Map(oldSecs.map((s, i) => [s.id, i])), newIds = new Set(newSecs.map(s => s.id));
+    const out = [], emitted = new Set();
+    const entry = (s, status, ops, extra = {}) => ({ id: s.id, status, heading: { old: s.heading, new: s.heading, changed: false }, layoutChanged: false, ops, ...extra });
+    const flushRemoved = upTo => oldSecs.forEach((s, i) => {
+      if (i < upTo && !newIds.has(s.id) && !emitted.has(s.id)) { emitted.add(s.id); out.push(entry(s, 'removed', s.body ? [{ t: 'del', text: s.body }] : [])); }
+    });
+    for (const n of newSecs) {
+      const i = oldIndex.get(n.id);
+      if (i === undefined) { out.push(entry(n, 'added', n.body ? [{ t: 'ins', text: n.body }] : [])); continue; }
+      flushRemoved(i);                                                                       // anything removed from before this section comes first
+      const o = oldSecs[i], ops = diffText(o.body, n.body), headingChanged = o.heading !== n.heading, layoutChanged = o.layout !== n.layout;
+      out.push({ id: n.id, status: ops.some(p => p.t !== 'eq') || headingChanged || layoutChanged ? 'changed' : 'same', heading: { old: o.heading, new: n.heading, changed: headingChanged }, layoutChanged, ops });
+    }
+    flushRemoved(Infinity);
+    return out;
+  }
+  const wordCount = ops => ops.reduce((n, p) => n + (p.text.match(/[^\s\p{P}]+/gu) || []).length, 0);
+  function diffStats(entries) {
+    const st = { same: 0, changed: 0, added: 0, removed: 0, wordsAdded: 0, wordsRemoved: 0 };
+    for (const e of entries) {
+      st[e.status]++;
+      st.wordsAdded += wordCount(e.ops.filter(p => p.t === 'ins'));
+      st.wordsRemoved += wordCount(e.ops.filter(p => p.t === 'del'));
+    }
+    return st;
+  }
+
+  function normalizeComment(c) {
+    c = c && typeof c === 'object' ? c : {};
+    return {
+      id: str(c.id, 40) || makeId('c'), sectionId: str(c.sectionId, 40), author: str(c.author, 80), text: str(c.text, 2000).trim(), at: str(c.at, 40),
+      resolved: !!c.resolved, resolvedBy: str(c.resolvedBy, 80),
+      replies: (Array.isArray(c.replies) ? c.replies : []).slice(0, 50).map(r => ({ author: str(r?.author, 80), text: str(r?.text, 2000).trim(), at: str(r?.at, 40) })).filter(r => r.text)
+    };
+  }
+  function addComment(draft, { sectionId = '', author = '', text = '', at = '' }) {
+    const body = String(text).trim();
+    if (!body) return null;
+    if (sectionId && !(draft.sections || []).some(s => s.id === sectionId)) return null;
+    draft.comments = Array.isArray(draft.comments) ? draft.comments : [];
+    if (draft.comments.length >= MAX_COMMENTS) return null;
+    const c = normalizeComment({ id: makeId('c'), sectionId, author, text: body, at });
+    draft.comments.push(c);
+    return c;
+  }
+  function replyToComment(draft, id, { author = '', text = '', at = '' }) {
+    const c = (draft.comments || []).find(x => x.id === id), body = String(text).trim();
+    if (!c || !body || c.replies.length >= 50) return false;
+    c.replies.push({ author: str(author, 80), text: str(body, 2000), at: str(at, 40) });
+    return true;
+  }
+  function setCommentResolved(draft, id, resolved, by = '') {
+    const c = (draft.comments || []).find(x => x.id === id);
+    if (!c) return false;
+    c.resolved = !!resolved; c.resolvedBy = resolved ? str(by, 80) : '';
+    return true;
+  }
+  const removeComment = (draft, id) => { const n = (draft.comments || []).length; draft.comments = (draft.comments || []).filter(c => c.id !== id); return draft.comments.length < n; };
+  const openComments = draft => (draft.comments || []).filter(c => !c.resolved);
+
   /* ── the format library ──────────────────────────────────────────────────── */
   const allFormats = custom => [...BUILTIN_FORMATS, ...(custom || [])];
   const docTypes = formats => [...new Set(formats.map(f => f.docType))];
@@ -376,12 +505,15 @@ const Drafting = (() => {
   function createDraft(format, matter, { title, extras, profileId } = {}) {
     const ctx = matterContext(matter, extras);
     const fill = t => fillTemplate(t, ctx).text;
-    return {
+    const draft = {
       id: makeId('d'), title: str(title, 120).trim() || format.docType, docType: format.docType, formatId: format.id, formatName: format.name,
       status: 'Draft', approvedAt: '', createdAt: (extras && extras.today) || '', profileId: str(profileId, 40),
       style: normalizeStyle(format.style),
-      sections: format.sections.map(s => ({ id: makeId('s'), heading: fill(s.heading), layout: s.layout, body: fill(s.body) }))
+      sections: format.sections.map(s => ({ id: makeId('s'), heading: fill(s.heading), layout: s.layout, body: fill(s.body) })),
+      versions: [], comments: []
     };
+    pushVersion(draft, `Created from “${format.name}”`, { by: 'LegalAI', at: (extras && extras.today) || '', force: true });
+    return draft;
   }
 
   const inline = text => escapeHtml(text).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
@@ -512,7 +644,9 @@ const Drafting = (() => {
     allFormats, docTypes, formatsFor, defaultFormatFor, isDefault, setDefault, removeFormat, cloneFormat, blankFormat, validateFormat,
     createDraft, layoutBlocks, renderDraftHtml, exportHtml, slug, draftChecks,
     PAPERS, BUILTIN_PROFILES, normalizeProfile, validateProfile, profileChecks,
-    STANCES, DOC_KINDS, splitParagraphs, paraReplyLine, paraReplies
+    STANCES, DOC_KINDS, splitParagraphs, paraReplyLine, paraReplies,
+    MAX_VERSIONS, snapshot, normalizeVersion, pushVersion, restoreVersion, diffText, diffSections, diffStats,
+    normalizeComment, addComment, replyToComment, setCommentResolved, removeComment, openComments
   };
 })();
 

@@ -12,7 +12,7 @@
    ============================================================================= */
 const WB_KEY = 'legalai.workbench.v1';
 const WB_FIELDS = ['authorities', 'documents', 'timeline', 'arguments', 'counterArgs', 'drafts', 'notes'];
-const wb = { touched: {}, formats: [], defaults: {}, profiles: [], defaultProfile: '', audit: [], warned: false };      // what is saved
+const wb = { touched: {}, formats: [], defaults: {}, profiles: [], defaultProfile: '', author: '', audit: [], warned: false };      // what is saved
 const wbUi = { draft: {}, mode: 'edit', results: null, req: 0, lastType: '', fmt: null };  // what is only on screen
 
 const wbIc = name => `<svg class="ic"><use href="#i-${name}"/></svg>`;
@@ -56,6 +56,7 @@ function wbLoad() {
     wb.formats = (Array.isArray(saved.formats) ? saved.formats : []).map(f => Drafting.normalizeFormat(f)).filter(f => f.name && f.docType && f.sections.length);
     wb.profiles = (Array.isArray(saved.profiles) ? saved.profiles : []).map(p => Drafting.normalizeProfile(p)).filter(p => p.name);
     wb.defaultProfile = typeof saved.defaultProfile === 'string' ? saved.defaultProfile.slice(0, 40) : '';
+    wb.author = typeof saved.author === 'string' ? saved.author.slice(0, 80) : '';
     for (const [type, id] of Object.entries(saved.defaults && typeof saved.defaults === 'object' ? saved.defaults : {})) if (typeof id === 'string') wb.defaults[type] = id;
     wb.audit = (Array.isArray(saved.audit) ? saved.audit : []).filter(a => a && typeof a === 'object').slice(0, 50)
       .map(a => ({ time: wbStr(a.time, 30), agent: wbStr(a.agent, 80), action: wbStr(a.action, 300), matter: wbStr(a.matter, 120), status: 'approve' }));
@@ -81,8 +82,13 @@ function wbSave(matterId) {
     const m = matterById(id);
     if (m) matters[id] = Object.fromEntries(WB_FIELDS.map(k => [k, m[k]]));
   }
-  try { localStorage.setItem(WB_KEY, JSON.stringify({ v: 1, matters, formats: wb.formats, defaults: wb.defaults, profiles: wb.profiles, defaultProfile: wb.defaultProfile, audit: wb.audit })); }
-  catch { if (!wb.warned) { wb.warned = true; showToast('This browser would not keep your changes — they will be lost when you reload.'); } }
+  const write = () => localStorage.setItem(WB_KEY, JSON.stringify({ v: 1, matters, formats: wb.formats, defaults: wb.defaults, profiles: wb.profiles, defaultProfile: wb.defaultProfile, author: wb.author, audit: wb.audit }));
+  try { write(); }
+  catch {
+    for (const id of Object.keys(matters)) for (const d of matterById(id)?.drafts || []) if (Array.isArray(d.versions)) d.versions.length = Math.min(d.versions.length, 3);   // old versions are the first thing to give up
+    try { write(); if (!wb.warned) { wb.warned = true; showToast('This browser was nearly full, so older draft versions were trimmed to the latest three.'); } }
+    catch { if (!wb.warned) { wb.warned = true; showToast('This browser would not keep your changes — they will be lost when you reload.'); } }
+  }
 }
 let wbSaveTimer = null;
 function wbSaveSoon(matterId) { wb.touched[matterId] = true; clearTimeout(wbSaveTimer); wbSaveTimer = setTimeout(() => wbSave(), 400); }
@@ -532,6 +538,7 @@ function wbEditorHtml(d, locked) {
       <div class="wb-sec-head">
         <input class="wb-input" data-wb-input="sec-heading" data-i="${i}" value="${esc(s.heading)}" placeholder="Heading (optional)" maxlength="200" aria-label="Section ${i + 1} heading"${ro} />
         <select class="wb-select" data-wb-change="sec-layout" data-i="${i}" aria-label="Section ${i + 1} layout"${locked ? ' disabled' : ''}>${wbLayoutOptions(s.layout)}</select>
+        <button type="button" class="icon-btn wb-cbtn" data-wb="sec-comment" data-sec="${esc(s.id)}" aria-label="Comments on section ${i + 1}${wbCommentCount(d, s.id) ? `, ${wbCommentCount(d, s.id)} open` : ''}">${wbIc('chat')}${wbCommentCount(d, s.id) ? `<em>${wbCommentCount(d, s.id)}</em>` : ''}</button>
         ${locked ? '' : wbSectionTools('data-wb="sec-move"', i, i === d.sections.length - 1)}
       </div>
       <textarea class="wb-ta" data-wb-input="sec-body" data-i="${i}" aria-label="Section ${i + 1} text"${ro}>${esc(s.body)}</textarea>
@@ -574,7 +581,7 @@ function tabDrafting(m) {
   <div class="dash-grid">
     <div class="card wb-draft">
       <div class="wb-draft-head"><input class="wb-title" data-wb-input="draft-title" value="${esc(d.title)}" maxlength="120" aria-label="Draft title"${approved ? ' readonly' : ''} /><span class="chip ${approved ? 'chip-teal' : 'chip-amber'}">${approved ? 'Approved' : 'Draft'}</span></div>
-      <div class="wb-draft-sub"><span>Format: <b>${esc(d.formatName || 'Custom')}</b> · ${esc(d.docType)}</span>
+      <div class="wb-draft-sub"><span>Format: <b>${esc(d.formatName || 'Custom')}</b> · ${esc(d.docType)} · <button type="button" class="btn-text" data-wb="hist-open">${wbIc('clock')}History (${d.versions.length})</button></span>
         <div class="wb-seg" role="group" aria-label="View"><button type="button" class="${edit ? 'on' : ''}" data-wb="mode" data-mode="edit" aria-pressed="${edit}">Edit</button><button type="button" class="${edit ? '' : 'on'}" data-wb="mode" data-mode="preview" aria-pressed="${!edit}">Preview</button></div></div>
       ${approved ? '<p class="wb-banner">Approved and locked. Reopen the draft to change it; it will need approving again before it can be exported.</p>' : ''}
       <div class="wb-draft-body">${edit ? wbEditorHtml(d, approved) : `<div class="wb-paper">${Drafting.renderDraftHtml(d)}</div>`}</div>
@@ -587,6 +594,7 @@ function tabDrafting(m) {
       <label class="dl-field">Court rules<select data-wb-change="draft-profile"${approved ? ' disabled' : ''}><option value="">None</option>${wbProfiles().map(p => `<option value="${esc(p.id)}"${p.id === d.profileId ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}</select></label>
       <p class="hint" style="margin:6px 0 4px">Sets the paper, margins and page numbers of the Word file, and checks the draft against the rules you have entered. <a href="#" data-wb="profiles-open">Set up court rules</a></p>
       <div id="wbChecks">${wbChecksHtml(r)}</div>
+      ${wbReviewHtml(d)}
       <button type="button" class="btn btn-ghost btn-block wb-danger-btn" data-wb="draft-del">Delete this draft</button>
     </div>
   </div>`;
@@ -597,6 +605,9 @@ WB_CLICK['mode'] = el => { wbUi.mode = el.dataset.mode === 'preview' ? 'preview'
 WB_CLICK['formats-open'] = (el, m) => wbOpenFormats(m);
 WB_CLICK['profiles-open'] = (el, m, e) => { e?.preventDefault(); wbOpenProfiles(m); };
 WB_CLICK['pw-open'] = (el, m) => wbOpenParaReply(m);
+WB_CLICK['hist-open'] = (el, m) => wbOpenHistory(m);
+WB_CLICK['sec-comment'] = (el, m) => wbOpenComments(m, el.dataset.sec);
+WB_CLICK['comment-open'] = (el, m) => wbOpenComments(m, el.dataset.sec || '');
 WB_CHANGE['draft-profile'] = (el, m) => { const d = wbDraftOf(m); if (d && d.status !== 'Approved') { d.profileId = el.value; wbSave(m.id); wbPaintChecks(m, d); } };
 WB_CLICK['draft-new'] = (el, m) => wbOpenNewDraft(m);
 WB_INPUT['draft-title'] = (el, m) => { const d = wbDraftOf(m); if (d && d.status !== 'Approved') { d.title = el.value; wbSaveSoon(m.id); } };
@@ -620,8 +631,11 @@ WB_CLICK['sec-add'] = (el, m) => {
 WB_CLICK['draft-approve'] = (el, m) => {
   const d = wbDraftOf(m);
   if (!d) return;
+  const open = Drafting.openComments(d).length;
+  if (open && !confirm(`${open} review comment${open === 1 ? ' is' : 's are'} still open. Approve anyway?`)) return;
   d.status = 'Approved'; d.approvedAt = fmtDate(TODAY_ISO, true);
-  const entry = { time: `${wbToday()} · ${new Date().toTimeString().slice(0, 5)}`, agent: 'Shreyas A. (lawyer)', action: `Approved “${d.title}” for export.`, matter: m.title, status: 'approve' };
+  wbSnap(d, 'Approved', true);
+  const entry = { time: `${wbToday()} · ${new Date().toTimeString().slice(0, 5)}`, agent: 'Shreyas A. (lawyer)', action: `Approved “${d.title}” for export${open ? ` with ${open} open review comment${open === 1 ? '' : 's'}` : ''}.`, matter: m.title, status: 'approve' };
   AUDIT_LOG.unshift(entry); wb.audit.unshift(entry); wb.audit.length = Math.min(wb.audit.length, 50);
   wbSave(m.id); wbRefresh();
   showToast(`“${d.title}” approved — it can now be exported. Recorded in the audit trail.`);
@@ -1076,6 +1090,150 @@ function wbPwInput(e) {
     if (file.size > 400000) { showToast('That file is too large for pasting here (limit about 400 KB of text).'); return; }
     file.text().then(t => { u.text = t.slice(0, 200000); u.rows = null; wbPaintParaReply(); }, () => showToast('That file could not be read as text. Paste its text instead.'));
   }
+}
+
+/* ── versions, redlines and review comments ──────────────────────────────────
+   A version is a copy of the draft's text: made with the draft, on approval, when the lawyer saves one, and just
+   before a restore (so a restore can be undone). The History dialog compares any version with the current draft
+   or with the one before it, word by word. Comments sit on a section, with replies, and can be resolved. Both are
+   kept in this browser: there are no accounts, so the commenter's name is typed, and a real second reviewer would
+   need a shared server. */
+const wbAuthor = () => wb.author || 'Shreyas A.';
+const wbStamp = () => `${wbToday()} ${new Date().toTimeString().slice(0, 5)}`;
+const wbSnap = (d, label, force = false) => Drafting.pushVersion(d, label, { by: wbAuthor(), at: wbStamp(), force });
+const wbCommentCount = (d, sectionId) => Drafting.openComments(d).filter(c => c.sectionId === sectionId).length;
+function wbSecName(d, id) {
+  if (!id) return 'The whole draft';
+  const i = d.sections.findIndex(s => s.id === id);
+  return i < 0 ? 'A section that was removed' : d.sections[i].heading.trim() || `Section ${i + 1}`;
+}
+
+function wbReviewHtml(d) {
+  const open = Drafting.openComments(d), resolved = d.comments.length - open.length;
+  return `<div class="wb-review"><div class="card-head"><div><p class="eyebrow" style="margin:0">Review</p><strong style="font-size:13.5px">Comments</strong></div><button type="button" class="btn-text" data-wb="comment-open" data-sec="">${wbIc('plus')}Comment on the draft</button></div>
+    ${open.length ? open.slice(0, 5).map(c => `<button type="button" class="wb-cm-item" data-wb="comment-open" data-sec="${esc(c.sectionId)}"><strong>${esc(c.author || 'Someone')} · ${esc(wbSecName(d, c.sectionId))}</strong><small>${esc(c.text.length > 90 ? `${c.text.slice(0, 89)}…` : c.text)}</small></button>`).join('') + (open.length > 5 ? `<small class="wb-cm-more">and ${open.length - 5} more open</small>` : '')
+      : '<p class="hint" style="margin:6px 0 0">No open comments.</p>'}
+    ${resolved ? `<small class="wb-cm-more">${resolved} resolved</small>` : ''}</div>`;
+}
+
+function wbOpenComments(m, sectionId) {
+  const d = wbDraftOf(m);
+  if (!d) return;
+  wbUi.cm = { sectionId, all: false };
+  wbOpenModal({ eyebrow: 'Review', title: 'Comments', focus: false, html: '<div id="wbCm" class="wb-form"></div>', onClick: e => wbCmClick(e, m), onSubmit: e => wbCmSubmit(e, m) });
+  wbPaintComments(m);
+}
+
+function wbPaintComments(m) {
+  const d = wbDraftOf(m), root = $('#wbCm'), u = wbUi.cm;
+  if (!d || !root || !u) return;
+  const list = d.comments.filter(c => u.all || c.sectionId === u.sectionId);
+  const card = c => `<div class="cm${c.resolved ? ' done' : ''}" data-id="${esc(c.id)}">
+    <div class="cm-head"><strong>${esc(c.author || 'Someone')}</strong><span>${esc(c.at)}</span>${u.all ? `<span class="chip chip-navy">${esc(wbSecName(d, c.sectionId))}</span>` : ''}${c.resolved ? `<span class="chip chip-teal">Resolved${c.resolvedBy ? ` by ${esc(c.resolvedBy)}` : ''}</span>` : ''}</div>
+    <p class="cm-text">${esc(c.text)}</p>
+    ${c.replies.map(r => `<div class="cm-reply"><strong>${esc(r.author || 'Someone')}</strong> <span>${esc(r.at)}</span><p>${esc(r.text)}</p></div>`).join('')}
+    <div class="cm-actions">${c.resolved ? '' : `<input class="cm-reply-input" maxlength="2000" placeholder="Reply…" aria-label="Reply" /><button type="button" class="btn btn-ghost btn-sm" data-cm="reply" data-id="${esc(c.id)}">Reply</button>`}
+      <button type="button" class="btn-text" data-cm="${c.resolved ? 'reopen' : 'resolve'}" data-id="${esc(c.id)}">${c.resolved ? 'Reopen' : 'Resolve'}</button><button type="button" class="btn-text wb-danger" data-cm="delete" data-id="${esc(c.id)}">Delete</button></div></div>`;
+  root.innerHTML = `<p class="hint" style="margin:0 0 10px">${u.all ? 'Every comment on this draft' : `On: <b>${esc(wbSecName(d, u.sectionId))}</b>`} · <button type="button" class="btn-text" data-cm="scope">${u.all ? 'Show only this section' : 'Show all comments'}</button></p>
+    ${list.length ? list.map(card).join('') : '<p class="empty-note" style="padding:10px 0">No comments here yet.</p>'}
+    <form class="cm-new"><label>Your name<input name="author" maxlength="80" value="${esc(wbAuthor())}" /></label>
+      <label>Comment<textarea name="text" required maxlength="2000" placeholder="e.g. Cite Arnesh Kumar here."></textarea></label>
+      <p class="hint" style="margin:6px 0 0">Comments stay in this browser. There are no accounts, so type who is commenting.</p>
+      <div class="modal-actions"><button type="button" class="btn btn-ghost" data-wb-close>Close</button><button class="btn btn-primary" type="submit">Add comment</button></div></form>`;
+}
+
+function wbCmClick(e, m) {
+  const el = e.target.closest('[data-cm]'), d = wbDraftOf(m), u = wbUi.cm;
+  if (!el || !d || !u) return;
+  const act = el.dataset.cm, id = el.dataset.id;
+  if (act === 'scope') { u.all = !u.all; wbPaintComments(m); return; }
+  if (act === 'reply') {
+    const input = el.closest('.cm').querySelector('.cm-reply-input');
+    if (!Drafting.replyToComment(d, id, { author: wbAuthor(), text: input.value, at: wbStamp() })) { showToast('Write a reply first.'); return; }
+  } else if (act === 'resolve') Drafting.setCommentResolved(d, id, true, wbAuthor());
+  else if (act === 'reopen') Drafting.setCommentResolved(d, id, false);
+  else if (act === 'delete') { if (!confirm('Delete this comment and its replies?')) return; Drafting.removeComment(d, id); }
+  wbSave(m.id); wbPaintComments(m); wbRefresh();
+}
+
+function wbCmSubmit(e, m) {
+  const d = wbDraftOf(m), u = wbUi.cm, els = e.target.elements;
+  if (!d || !u) return;
+  const author = els.author.value.trim().slice(0, 80) || wbAuthor();
+  const c = Drafting.addComment(d, { sectionId: u.sectionId, author, text: els.text.value, at: wbStamp() });
+  if (!c) { showToast('Write the comment first.'); return; }
+  wb.author = author;
+  wbSave(m.id); wbPaintComments(m); wbRefresh();
+}
+
+/* ── history ─────────────────────────────────────────────────────────────── */
+function wbRedlineHtml(entries, showSame) {
+  const piece = o => (o.t === 'ins' ? `<ins>${esc(o.text)}</ins>` : o.t === 'del' ? `<del>${esc(o.text)}</del>` : esc(o.text));
+  const label = { changed: 'Changed', added: 'Added', removed: 'Removed', same: 'Unchanged' };
+  const shown = entries.filter(e => showSame || e.status !== 'same');
+  if (!shown.length) return '<p class="empty-note">No differences in the text.</p>';
+  return shown.map(e => `<div class="rl-sec ${e.status}"><div class="rl-head"><strong>${e.heading.changed ? `<del>${esc(e.heading.old)}</del> <ins>${esc(e.heading.new)}</ins>` : esc(e.heading.new || 'Untitled section')}</strong><span class="chip ${e.status === 'added' ? 'chip-teal' : e.status === 'removed' ? 'chip-red' : e.status === 'changed' ? 'chip-amber' : 'chip-navy'}">${label[e.status]}${e.layoutChanged ? ' · layout' : ''}</span></div><div class="rl-body">${e.ops.map(piece).join('') || '<em>(empty)</em>'}</div></div>`).join('');
+}
+
+function wbOpenHistory(m) {
+  const d = wbDraftOf(m);
+  if (!d) return;
+  wbUi.hist = { sel: d.versions[0]?.id || 'current', vs: 'current', showSame: false };
+  wbOpenModal({ eyebrow: 'Drafting', title: 'Version history', wide: true, focus: false, html: '<div id="wbHist"></div>', onClick: e => wbHistClick(e, m), onChange: e => wbHistChange(e, m) });
+  wbPaintHistory(m);
+}
+
+function wbPaintHistory(m) {
+  const d = wbDraftOf(m), u = wbUi.hist, root = $('#wbHist');
+  if (!d || !u || !root) return;
+  const vs = d.versions, i = vs.findIndex(v => v.id === u.sel), v = i >= 0 ? vs[i] : null;
+  const cur = { title: d.title, sections: d.sections };
+  let from = null, to = cur, title = 'Changes since the last saved version', note = '';
+  if (!v) from = vs[0] || null;
+  else if (u.vs === 'previous') { from = vs[i + 1] || null; to = v; title = `What “${v.label}” changed`; note = from ? `Compared with the version before it, “${from.label}”.` : 'This is the first version, so there is nothing before it to compare with.'; }
+  else { from = v; title = `From “${v.label}” to the current draft`; }
+  const entries = from ? Drafting.diffSections(from.sections, to.sections) : [];
+  const st = Drafting.diffStats(entries), changed = st.changed + st.added + st.removed;
+  const sinceLast = vs[0] ? Drafting.diffStats(Drafting.diffSections(vs[0].sections, cur.sections)) : null;
+  root.innerHTML = `<div class="wb-fmt">
+    <aside class="wb-fmt-list">
+      <div class="hist-save"><input data-hist-label maxlength="120" placeholder="Name this version (optional)" aria-label="Name for the new version" /><button type="button" class="btn btn-teal btn-sm btn-block" data-hist="save">${wbIc('plus')}Save a version now</button></div>
+      <button type="button" class="wb-fmt-item${!v ? ' active' : ''}" data-hist="select" data-id="current"><span><strong>Current draft</strong><small>${sinceLast ? `${sinceLast.changed + sinceLast.added + sinceLast.removed} section${sinceLast.changed + sinceLast.added + sinceLast.removed === 1 ? '' : 's'} changed since the last version` : 'No versions yet'}</small></span></button>
+      <p class="wb-fmt-type">Saved versions</p>
+      ${vs.map(x => `<button type="button" class="wb-fmt-item${v && x.id === v.id ? ' active' : ''}" data-hist="select" data-id="${esc(x.id)}"><span><strong>${esc(x.label || 'Saved version')}</strong><small>${esc(x.by)}${x.by && x.at ? ' · ' : ''}${esc(x.at)}</small></span></button>`).join('') || '<p class="hint">None yet.</p>'}
+    </aside>
+    <section class="wb-fmt-pane">
+      <div class="wb-pane-head"><div><h3>${esc(title)}</h3>${note ? `<p class="hint" style="margin:2px 0 0">${esc(note)}</p>` : ''}</div>
+        <div class="wb-pane-actions">${v ? `<select class="wb-select" data-hist-vs aria-label="Compare with"><option value="current"${u.vs === 'current' ? ' selected' : ''}>Compare with the current draft</option><option value="previous"${u.vs === 'previous' ? ' selected' : ''}>Compare with the version before it</option></select><button type="button" class="btn btn-teal btn-sm" data-hist="restore" data-id="${esc(v.id)}">Restore this version</button>` : ''}</div></div>
+      ${from ? `<p class="hist-stats"><span class="chip chip-teal">+${st.wordsAdded} words</span><span class="chip chip-red">−${st.wordsRemoved} words</span><span class="hist-sum">${changed ? `${st.changed} changed · ${st.added} added · ${st.removed} removed · ${st.same} unchanged` : 'No differences'}</span><label class="hist-same"><input type="checkbox" data-hist-same${u.showSame ? ' checked' : ''} /> Show unchanged sections</label></p><p class="hint" style="margin:0 0 10px"><ins>Added</ins> and <del>removed</del> words are marked.</p>${wbRedlineHtml(entries, u.showSame)}` : '<p class="empty-note">Save a version, and it appears here to compare with.</p>'}
+    </section></div>`;
+}
+
+function wbHistClick(e, m) {
+  const el = e.target.closest('[data-hist]'), d = wbDraftOf(m), u = wbUi.hist;
+  if (!el || !d || !u) return;
+  const act = el.dataset.hist;
+  if (act === 'select') { u.sel = el.dataset.id; wbPaintHistory(m); }
+  else if (act === 'save') {
+    const label = ($('[data-hist-label]')?.value || '').trim() || 'Saved version';
+    if (!wbSnap(d, label)) { showToast('Nothing has changed since the last saved version.'); return; }
+    u.sel = d.versions[0].id; wbSave(m.id); wbPaintHistory(m); wbRefresh(); showToast(`Saved “${label}”.`);
+  } else if (act === 'restore') {
+    const v = d.versions.find(x => x.id === el.dataset.id);
+    if (!v || !confirm(`Restore “${v.label}”? Your current text is saved as a version first, so you can come back to it.`)) return;
+    wbSnap(d, `Before restoring “${v.label}”`);
+    Drafting.restoreVersion(d, v.id);
+    wbSave(m.id); closeModals(); wbRefresh();
+    showToast(`Restored “${v.label}”. ${d.status === 'Draft' ? 'The draft is open for editing.' : ''}`);
+  }
+}
+function wbHistChange(e, m) {
+  const u = wbUi.hist;
+  if (!u) return;
+  if (e.target.matches('[data-hist-vs]')) u.vs = e.target.value === 'previous' ? 'previous' : 'current';
+  else if (e.target.matches('[data-hist-same]')) u.showSame = e.target.checked;
+  else return;
+  wbPaintHistory(m);
 }
 
 wbLoad();
