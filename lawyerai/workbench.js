@@ -12,7 +12,7 @@
    ============================================================================= */
 const WB_KEY = 'legalai.workbench.v1';
 const WB_FIELDS = ['authorities', 'documents', 'timeline', 'arguments', 'counterArgs', 'drafts', 'notes'];
-const wb = { touched: {}, formats: [], defaults: {}, audit: [], warned: false };      // what is saved
+const wb = { touched: {}, formats: [], defaults: {}, profiles: [], defaultProfile: '', audit: [], warned: false };      // what is saved
 const wbUi = { draft: {}, mode: 'edit', results: null, req: 0, lastType: '', fmt: null };  // what is only on screen
 
 const wbIc = name => `<svg class="ic"><use href="#i-${name}"/></svg>`;
@@ -21,6 +21,9 @@ const wbShort = (s, n = 36) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
 const wbToday = () => parseISODateStr(TODAY_ISO).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
 const wbExtras = m => ({ cnr: ECOURTS[m.id]?.cnr || '', today: fmtDate(TODAY_ISO) });
 const wbFormats = () => Drafting.allFormats(wb.formats);
+const wbProfiles = () => [...Drafting.BUILTIN_PROFILES, ...wb.profiles];
+const wbProfileOf = d => wbProfiles().find(p => p.id === d.profileId) || null;       // a deleted set of rules simply stops applying
+const wbNewDraftProfile = () => (wbProfiles().some(p => p.id === wb.defaultProfile) ? wb.defaultProfile : '');
 
 /* ── saving and loading ──────────────────────────────────────────────────────
    Anything read back from storage is rebuilt field by field, so a damaged or edited
@@ -43,7 +46,7 @@ function wbEnsure(m) {
 
 function wbMigrateDraft(m, d) {                       // a sample draft that predates formats: rebuild it from its format
   const f = Drafting.defaultFormatFor(wbFormats(), wb.defaults, d.docType || d.title);
-  return f ? Drafting.createDraft(f, m, { title: d.title, extras: wbExtras(m) }) : null;
+  return f ? Drafting.createDraft(f, m, { title: d.title, extras: wbExtras(m), profileId: wbNewDraftProfile() }) : null;
 }
 
 function wbLoad() {
@@ -51,6 +54,8 @@ function wbLoad() {
   try { saved = JSON.parse(localStorage.getItem(WB_KEY) || 'null'); } catch { saved = null; }
   if (saved && saved.v === 1) {
     wb.formats = (Array.isArray(saved.formats) ? saved.formats : []).map(f => Drafting.normalizeFormat(f)).filter(f => f.name && f.docType && f.sections.length);
+    wb.profiles = (Array.isArray(saved.profiles) ? saved.profiles : []).map(p => Drafting.normalizeProfile(p)).filter(p => p.name);
+    wb.defaultProfile = typeof saved.defaultProfile === 'string' ? saved.defaultProfile.slice(0, 40) : '';
     for (const [type, id] of Object.entries(saved.defaults && typeof saved.defaults === 'object' ? saved.defaults : {})) if (typeof id === 'string') wb.defaults[type] = id;
     wb.audit = (Array.isArray(saved.audit) ? saved.audit : []).filter(a => a && typeof a === 'object').slice(0, 50)
       .map(a => ({ time: wbStr(a.time, 30), agent: wbStr(a.agent, 80), action: wbStr(a.action, 300), matter: wbStr(a.matter, 120), status: 'approve' }));
@@ -76,7 +81,7 @@ function wbSave(matterId) {
     const m = matterById(id);
     if (m) matters[id] = Object.fromEntries(WB_FIELDS.map(k => [k, m[k]]));
   }
-  try { localStorage.setItem(WB_KEY, JSON.stringify({ v: 1, matters, formats: wb.formats, defaults: wb.defaults, audit: wb.audit })); }
+  try { localStorage.setItem(WB_KEY, JSON.stringify({ v: 1, matters, formats: wb.formats, defaults: wb.defaults, profiles: wb.profiles, defaultProfile: wb.defaultProfile, audit: wb.audit })); }
   catch { if (!wb.warned) { wb.warned = true; showToast('This browser would not keep your changes — they will be lost when you reload.'); } }
 }
 let wbSaveTimer = null;
@@ -539,7 +544,7 @@ function wbChecksHtml(r) {
   return r.checks.map(c => `<div class="check-row"><span class="check-icon ${c.ok ? 'ok' : 'warn'}">${c.ok ? wbIc('check') : '!'}</span><div><strong style="font-size:13px;font-weight:600;display:block">${esc(c.label)}</strong><small style="font-size:11.5px;color:var(--muted)">${esc(c.note)}</small></div></div>`).join('');
 }
 function wbPaintChecks(m, d) {
-  const r = Drafting.draftChecks(d, m), box = $('#wbChecks'), ring = $('#wbRing');
+  const r = Drafting.draftChecks(d, m, wbProfileOf(d)), box = $('#wbChecks'), ring = $('#wbRing');
   if (box) box.innerHTML = wbChecksHtml(r);
   if (ring) { ring.style.setProperty('--pct', r.pct); ring.firstElementChild.textContent = r.pct; }
 }
@@ -552,6 +557,7 @@ function tabDrafting(m) {
     <div class="wb-drafts" role="tablist" aria-label="Drafts for this matter">${m.drafts.map(x => `<button type="button" role="tab" class="wb-draft-tab${d && x.id === d.id ? ' active' : ''}" aria-selected="${!!d && x.id === d.id}" data-wb="draft-pick" data-id="${esc(x.id)}"><span>${esc(x.title)}</span>${x.status === 'Approved' ? '<i class="wb-ok" title="Approved"></i>' : ''}</button>`).join('')}</div>
     <div class="wb-bar-actions">
       <button type="button" class="btn btn-ghost" data-wb="formats-open">${wbIc('docs')}Document formats</button>
+      <button type="button" class="btn btn-ghost" data-wb="profiles-open">${wbIc('court')}Court rules</button>
       <button type="button" class="btn btn-teal" data-wb="draft-new">${wbIc('plus')}New draft</button>
     </div>
   </div>`;
@@ -562,7 +568,7 @@ function tabDrafting(m) {
       <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn btn-teal" data-wb="draft-new">${wbIc('plus')}New draft</button><button type="button" class="btn btn-ghost" data-wb="formats-open">${wbIc('docs')}Document formats</button></div></div>`;
   }
   const approved = d.status === 'Approved', edit = wbUi.mode === 'edit';
-  const r = Drafting.draftChecks(d, m);
+  const r = Drafting.draftChecks(d, m, wbProfileOf(d));
   return `${bar}
   <div class="dash-grid">
     <div class="card wb-draft">
@@ -572,11 +578,13 @@ function tabDrafting(m) {
       ${approved ? '<p class="wb-banner">Approved and locked. Reopen the draft to change it; it will need approving again before it can be exported.</p>' : ''}
       <div class="wb-draft-body">${edit ? wbEditorHtml(d, approved) : `<div class="wb-paper">${Drafting.renderDraftHtml(d)}</div>`}</div>
       <div class="wb-draft-foot">${approved
-        ? `<span class="wb-approved">${wbIc('shield')}Approved ${esc(d.approvedAt)}</span><div class="wb-foot-actions"><button type="button" class="btn btn-teal btn-sm" data-wb="draft-word">${wbIc('download')}Download for Word</button><button type="button" class="btn btn-ghost btn-sm" data-wb="draft-print">Print / save as PDF</button><button type="button" class="btn-text" data-wb="draft-reopen">Reopen for editing</button></div>`
+        ? `<span class="wb-approved">${wbIc('shield')}Approved ${esc(d.approvedAt)}</span><div class="wb-foot-actions"><button type="button" class="btn btn-teal btn-sm" data-wb="draft-word">${wbIc('download')}Download Word (.docx)</button><button type="button" class="btn btn-ghost btn-sm" data-wb="draft-print">Print / save as PDF</button><button type="button" class="btn-text" data-wb="draft-reopen">Reopen for editing</button></div>`
         : `<span class="hint" style="margin:0">You approve every draft before it can be exported.</span><button type="button" class="btn btn-teal btn-sm" data-wb="draft-approve">Approve draft</button>`}</div>
     </div>
     <div class="card card-pad">
       <div class="wb-ring-row"><div class="score-ring" id="wbRing" style="--pct:${r.pct}"><b>${r.pct}</b></div><div><strong style="font-size:13.5px">Completeness</strong><p style="font-size:12px;color:var(--muted);margin-top:3px">The share of sections that have text. The checks below are counted from this draft and this matter’s record.</p></div></div>
+      <label class="dl-field">Court rules<select data-wb-change="draft-profile"${approved ? ' disabled' : ''}><option value="">None</option>${wbProfiles().map(p => `<option value="${esc(p.id)}"${p.id === d.profileId ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}</select></label>
+      <p class="hint" style="margin:6px 0 4px">Sets the paper, margins and page numbers of the Word file, and checks the draft against the rules you have entered. <a href="#" data-wb="profiles-open">Set up court rules</a></p>
       <div id="wbChecks">${wbChecksHtml(r)}</div>
       <button type="button" class="btn btn-ghost btn-block wb-danger-btn" data-wb="draft-del">Delete this draft</button>
     </div>
@@ -586,6 +594,8 @@ function tabDrafting(m) {
 WB_CLICK['draft-pick'] = (el, m) => { wbUi.draft[m.id] = el.dataset.id; wbRefresh(); };
 WB_CLICK['mode'] = el => { wbUi.mode = el.dataset.mode === 'preview' ? 'preview' : 'edit'; wbRefresh(); };
 WB_CLICK['formats-open'] = (el, m) => wbOpenFormats(m);
+WB_CLICK['profiles-open'] = (el, m, e) => { e?.preventDefault(); wbOpenProfiles(m); };
+WB_CHANGE['draft-profile'] = (el, m) => { const d = wbDraftOf(m); if (d && d.status !== 'Approved') { d.profileId = el.value; wbSave(m.id); wbPaintChecks(m, d); } };
 WB_CLICK['draft-new'] = (el, m) => wbOpenNewDraft(m);
 WB_INPUT['draft-title'] = (el, m) => { const d = wbDraftOf(m); if (d && d.status !== 'Approved') { d.title = el.value; wbSaveSoon(m.id); } };
 WB_INPUT['sec-heading'] = (el, m) => { const d = wbDraftOf(m), s = d?.sections[+el.dataset.i]; if (s && d.status !== 'Approved') { s.heading = el.value; wbPaintChecks(m, d); wbSaveSoon(m.id); } };
@@ -626,15 +636,16 @@ WB_CLICK['draft-word'] = (el, m) => { const d = wbDraftOf(m); if (d?.status === 
 WB_CLICK['draft-print'] = (el, m) => { const d = wbDraftOf(m); if (d?.status === 'Approved') wbPrint(d); };
 
 function wbDownload(d) {
-  const url = URL.createObjectURL(new Blob(['﻿', Drafting.exportHtml(d)], { type: 'application/msword' }));
-  const a = Object.assign(document.createElement('a'), { href: url, download: `${Drafting.slug(d.title)}.doc` });
+  const bytes = Docx.build(d, { page: wbProfileOf(d) || undefined, created: new Date().toISOString().replace(/\.\d+Z$/, 'Z') });
+  const url = URL.createObjectURL(new Blob([bytes], { type: Docx.MIME }));
+  const a = Object.assign(document.createElement('a'), { href: url, download: `${Drafting.slug(d.title)}.docx` });
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 function wbPrint(d) {                                 // print from a hidden frame, so no pop-up blocker is involved
   const frame = document.createElement('iframe');
   frame.className = 'wb-print-frame'; frame.setAttribute('aria-hidden', 'true');
-  frame.srcdoc = Drafting.exportHtml(d);
+  frame.srcdoc = Drafting.exportHtml(d, wbProfileOf(d));
   frame.onload = () => { frame.contentWindow.onafterprint = () => frame.remove(); frame.contentWindow.focus(); frame.contentWindow.print(); setTimeout(() => frame.remove(), 120000); };
   document.body.appendChild(frame);
 }
@@ -668,7 +679,7 @@ function wbOpenNewDraft(m) {
     onSubmit: e => {
       const els = e.target.elements, f = wbFormats().find(x => x.id === els.format.value);
       if (!f) { showToast('Pick a format first.'); return; }
-      const d = Drafting.createDraft(f, m, { title: els.title.value, extras: wbExtras(m) });
+      const d = Drafting.createDraft(f, m, { title: els.title.value, extras: wbExtras(m), profileId: wbNewDraftProfile() });
       m.drafts.push(d);
       wbUi.draft[m.id] = d.id; wbUi.mode = 'edit'; wbUi.lastType = f.docType;
       wbSave(m.id); closeModals(); wbRefresh();
@@ -855,6 +866,118 @@ function wbFmtDelete() {
   Object.assign(u, { work: wbWorkCopy(next), isNew: false, dirty: false, view: 'edit', makeDefault: Drafting.isDefault(wbFormats(), wb.defaults, next), ta: null });
   wbPaintFormats();
   showToast(`Format “${f.name}” deleted.`);
+}
+
+/* ── court rules ─────────────────────────────────────────────────────────────
+   Courts set their own rules for paper, margins, fonts and required parts, and they change. LegalAI ships
+   no court's rules (the two built-in sets are plain layouts), so the user enters theirs. A draft that
+   follows a set is checked against it, and its Word file gets that paper, those margins and page numbers. */
+const wbProfWork = p => ({ ...JSON.parse(JSON.stringify(p)), requiredText: (p.required || []).join('\n'), useDefault: p.id === wb.defaultProfile });
+
+function wbOpenProfiles(m) {
+  const cur = m ? wbDraftOf(m) : null;
+  const start = (cur && wbProfileOf(cur)) || wbProfiles()[0];
+  wbUi.prof = { work: wbProfWork(start), isNew: false, dirty: false };
+  wbOpenModal({ eyebrow: 'Drafting', title: 'Court rules', wide: true, focus: false, html: '<div id="wbProf"></div>', onClick: wbProfClick, onInput: wbProfInput, onChange: wbProfInput });
+  wbPaintProfiles();
+}
+
+function wbPaintProfiles() {
+  const root = $('#wbProf'), u = wbUi.prof;
+  if (!root || !u) return;
+  const w = u.work, all = wbProfiles(), ro = w.builtin;
+  const opt = (v, label, cur) => `<option value="${esc(v)}"${String(cur) === String(v) ? ' selected' : ''}>${esc(label)}</option>`;
+  const item = (p, active) => `<button type="button" class="wb-fmt-item${active ? ' active' : ''}" data-pf="select" data-id="${esc(p.id)}"><span><strong>${esc(p.name)}</strong><small>${p.builtin ? 'Plain layout' : 'Yours'}</small></span>${p.id === wb.defaultProfile ? '<span class="chip chip-teal">New drafts</span>' : ''}</button>`;
+  root.innerHTML = `<div class="wb-fmt">
+    <aside class="wb-fmt-list">
+      <button type="button" class="btn btn-teal btn-sm btn-block" data-pf="new">${wbIc('plus')}New court rules</button>
+      ${u.isNew ? `<p class="wb-fmt-type">Not saved yet</p><button type="button" class="wb-fmt-item active" data-pf="stay"><span><strong>${esc(w.name || 'New court rules')}</strong><small>Yours</small></span></button>` : ''}
+      <p class="wb-fmt-type">Court rules</p>${all.map(p => item(p, !u.isNew && p.id === w.id)).join('')}
+    </aside>
+    <section class="wb-fmt-pane">
+      <p class="wb-flag">${wbIc('alert')}<span>LegalAI does not include any court’s rules: they differ between courts and benches and they change. Enter the rules from your court’s current rules and practice directions, and keep a note of where each came from.</span></p>
+      ${ro ? `<div class="wb-pane-head"><div><h3>${esc(w.name)}</h3><p class="hint" style="margin:2px 0 0">${esc(w.notes)}</p></div><div class="wb-pane-actions">${w.id === wb.defaultProfile ? '<span class="chip chip-teal">Used for new drafts</span>' : '<button type="button" class="btn btn-ghost btn-sm" data-pf="use-default">Use for new drafts</button>'}<button type="button" class="btn btn-teal btn-sm" data-pf="duplicate">Duplicate and edit</button></div></div>
+        <p class="eyebrow">Layout</p><p style="font-size:13px;color:var(--ink-soft);margin:0 0 6px">${esc(Drafting.PAPERS[w.paper])} · margins ${w.margins.top} / ${w.margins.right} / ${w.margins.bottom} / ${w.margins.left} cm (top, right, bottom, left) · page numbers ${w.pageNumbers ? 'on' : 'off'}.</p><p class="hint">It asks nothing of a draft: no minimum font size or spacing, and no required sections.</p>`
+      : `<div class="wb-pane-head"><div><h3>${u.isNew ? 'New court rules' : esc(w.name || 'Court rules')}</h3></div></div>
+        <label>Name<input data-p="name" maxlength="80" value="${esc(w.name)}" placeholder="e.g. Bombay High Court — written pleadings" /></label>
+        <p class="eyebrow wb-mt">Paper</p>
+        <div class="wb-style-grid">
+          <label>Paper<select data-p="paper">${Object.entries(Drafting.PAPERS).map(([k, l]) => opt(k, l, w.paper)).join('')}</select></label>
+          ${['top', 'right', 'bottom', 'left'].map(k => `<label>${k[0].toUpperCase() + k.slice(1)} margin (cm)<input type="number" step="0.1" min="0.5" max="6" data-pm="${k}" value="${esc(w.margins[k])}" /></label>`).join('')}
+        </div>
+        <label class="wb-check"><input type="checkbox" data-p="pageNumbers"${w.pageNumbers ? ' checked' : ''} /><span>Number the pages</span></label>
+        <p class="eyebrow wb-mt">What the court asks of a draft</p>
+        <div class="wb-style-grid">
+          <label>Smallest font (pt)<input type="number" min="0" max="20" step="0.5" data-p="minSize" value="${w.minSize || ''}" placeholder="No minimum" /></label>
+          <label>Least line spacing<select data-p="minSpacing">${opt(0, 'No minimum', w.minSpacing)}${Drafting.SPACINGS.map(x => opt(x, x === 1 ? 'Single' : x === 2 ? 'Double' : String(x), w.minSpacing)).join('')}</select></label>
+        </div>
+        <label>Sections it must have — one per line<textarea data-p="requiredText" rows="4" maxlength="1500" placeholder="e.g.&#10;Synopsis&#10;List of dates&#10;Prayer">${esc(w.requiredText)}</textarea></label>
+        <p class="hint" style="margin:4px 0 0">A draft passes when it has a section whose heading contains those words.</p>
+        <label>Where these rules come from (optional)<textarea data-p="notes" rows="2" maxlength="500" placeholder="e.g. Rule 5, Bombay High Court (Original Side) Rules, 2018 — checked on 1 Sept 2026">${esc(w.notes)}</textarea></label>
+        <label class="wb-check wb-mt"><input type="checkbox" data-p="useDefault"${w.useDefault ? ' checked' : ''} /><span>Use these rules for new drafts</span></label>
+        <div class="wb-pane-foot">${u.isNew ? '' : `<button type="button" class="btn btn-ghost btn-sm wb-danger-btn" data-pf="delete">Delete</button><button type="button" class="btn btn-ghost btn-sm" data-pf="duplicate">Duplicate</button>`}<button type="button" class="btn btn-primary" data-pf="save" style="margin-left:auto">Save court rules</button></div>`}
+    </section></div>`;
+}
+
+function wbProfClick(e) {
+  const el = e.target.closest('[data-pf]'), u = wbUi.prof;
+  if (!el || !u) return;
+  const act = el.dataset.pf, discard = () => !(u.dirty && !confirm('Discard your unsaved changes to these court rules?'));
+  if (act === 'select') {
+    const p = wbProfiles().find(x => x.id === el.dataset.id);
+    if (!p || (!u.isNew && p.id === u.work.id) || !discard()) return;
+    wbUi.prof = { work: wbProfWork(p), isNew: false, dirty: false }; wbPaintProfiles();
+  } else if (act === 'new') {
+    if (!discard()) return;
+    wbUi.prof = { work: wbProfWork(Drafting.normalizeProfile({ id: uid('prof'), name: '', paper: 'A4' })), isNew: true, dirty: true }; wbPaintProfiles();
+  } else if (act === 'duplicate') {
+    if (u.dirty && !u.isNew && !discard()) return;
+    const c = wbProfWork(Drafting.normalizeProfile({ ...u.work, id: uid('prof'), name: `${u.work.name} (copy)`, required: String(u.work.requiredText || '').split('\n') }));
+    wbUi.prof = { work: { ...c, useDefault: false }, isNew: true, dirty: true }; wbPaintProfiles();
+  } else if (act === 'use-default') {
+    wb.defaultProfile = u.work.id; wbSave(); wbPaintProfiles(); showToast(`New drafts will follow “${u.work.name}”.`);
+  } else if (act === 'save') wbProfSave();
+  else if (act === 'delete') wbProfDelete();
+}
+
+function wbProfInput(e) {
+  const u = wbUi.prof, el = e.target;
+  if (!u || u.work.builtin) return;
+  const w = u.work;
+  if (el.dataset.pm) w.margins[el.dataset.pm] = el.value === '' ? '' : Number(el.value);
+  else if (el.dataset.p === 'pageNumbers' || el.dataset.p === 'useDefault') w[el.dataset.p] = el.checked;
+  else if (el.dataset.p === 'minSize') w.minSize = el.value === '' ? 0 : Number(el.value);
+  else if (el.dataset.p === 'minSpacing') w.minSpacing = Number(el.value);
+  else if (el.dataset.p) w[el.dataset.p] = el.value;
+  else return;
+  u.dirty = true;
+}
+
+function wbProfSave() {
+  const u = wbUi.prof, w = u.work;
+  const p = Drafting.normalizeProfile({ ...w, required: String(w.requiredText || '').split('\n') });
+  const errs = Drafting.validateProfile(p, wbProfiles());
+  if (errs.length) { showToast(errs[0]); return; }
+  const i = wb.profiles.findIndex(x => x.id === p.id);
+  if (i >= 0) wb.profiles[i] = p; else wb.profiles.push(p);
+  if (w.useDefault) wb.defaultProfile = p.id; else if (wb.defaultProfile === p.id) wb.defaultProfile = '';
+  wbSave();
+  wbUi.prof = { work: wbProfWork(p), isNew: false, dirty: false };
+  wbPaintProfiles();
+  wbRefresh();                                                                      // the draft's rules menu and its checks follow the change
+  showToast(`Court rules “${p.name}” saved.`);
+}
+
+function wbProfDelete() {
+  const w = wbUi.prof.work;
+  if (!confirm(`Delete the court rules “${w.name}”? Drafts that followed them keep their text and simply stop being checked.`)) return;
+  wb.profiles = wb.profiles.filter(x => x.id !== w.id);
+  if (wb.defaultProfile === w.id) wb.defaultProfile = '';
+  wbSave();
+  wbUi.prof = { work: wbProfWork(wbProfiles()[0]), isNew: false, dirty: false };
+  wbPaintProfiles();
+  wbRefresh();
+  showToast(`Court rules “${w.name}” deleted.`);
 }
 
 wbLoad();

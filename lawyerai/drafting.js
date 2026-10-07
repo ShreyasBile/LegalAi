@@ -136,6 +136,7 @@ const Drafting = (() => {
     return {
       id: str(d.id, 40) || makeId('d'), title: str(d.title, 120), docType: str(d.docType, 80), formatId: str(d.formatId, 40), formatName: str(d.formatName, 80),
       status: d.status === 'Approved' ? 'Approved' : 'Draft', approvedAt: str(d.approvedAt, 40), createdAt: str(d.createdAt, 40),
+      profileId: str(d.profileId, 40),
       style: normalizeStyle(d.style),
       sections: (Array.isArray(d.sections) ? d.sections : []).slice(0, 60).map(normalizeSection)
     };
@@ -325,12 +326,12 @@ const Drafting = (() => {
   }
 
   /* ── drafts ──────────────────────────────────────────────────────────────── */
-  function createDraft(format, matter, { title, extras } = {}) {
+  function createDraft(format, matter, { title, extras, profileId } = {}) {
     const ctx = matterContext(matter, extras);
     const fill = t => fillTemplate(t, ctx).text;
     return {
       id: makeId('d'), title: str(title, 120).trim() || format.docType, docType: format.docType, formatId: format.id, formatName: format.name,
-      status: 'Draft', approvedAt: '', createdAt: (extras && extras.today) || '',
+      status: 'Draft', approvedAt: '', createdAt: (extras && extras.today) || '', profileId: str(profileId, 40),
       style: normalizeStyle(format.style),
       sections: format.sections.map(s => ({ id: makeId('s'), heading: fill(s.heading), layout: s.layout, body: fill(s.body) }))
     };
@@ -339,46 +340,103 @@ const Drafting = (() => {
   const inline = text => escapeHtml(text).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
   const fontStack = f => (['Arial', 'Calibri'].includes(f) ? `'${f}', Helvetica, sans-serif` : `'${f}', 'Times New Roman', serif`);
 
-  /* The document as HTML with inline styles only, so the on-screen preview, the Word file and the
-     printout are the same thing. Each line of a section is one paragraph. */
-  function renderDraftHtml(draft) {
+  /* The document as a flat list of blocks: headings, centred or sign-off lines, and paragraphs with their
+     number already worked out. The on-screen preview, the printout and the Word file are all made from this,
+     so they can never disagree about the numbering or the layout. Each line of a section is one paragraph. */
+  function layoutBlocks(draft) {
     const st = normalizeStyle(draft.style);
-    const parts = [];
+    const blocks = [];
     let n = 0;
     for (const sec of draft.sections || []) {
       const head = String(sec.heading || '').trim();
-      if (head) parts.push(`<h3 style="margin:1.2em 0 .5em;font-size:${st.size}pt;font-weight:bold;text-align:${st.headingAlign}">${inline(st.headingCase === 'upper' ? head.toUpperCase() : head)}</h3>`);
+      if (head) blocks.push({ t: 'heading', text: st.headingCase === 'upper' ? head.toUpperCase() : head, align: st.headingAlign });
       const raw = lines(sec.body);
       if (sec.layout === 'center' || sec.layout === 'signoff') {
         const align = sec.layout === 'center' ? 'center' : 'left';
         while (raw.length && !raw[raw.length - 1].trim()) raw.pop();
-        for (const l of raw) parts.push(l.trim() ? `<p style="margin:0 0 .3em;text-align:${align}">${inline(l.trim())}</p>` : '<p style="margin:0">&nbsp;</p>');
+        for (const l of raw) blocks.push(l.trim() ? { t: 'line', text: l.trim(), align } : { t: 'blank' });
         continue;
       }
       if (sec.layout === 'numbered' && st.paraNumbering === 'restart') n = 0;
       let k = 0;
-      for (const l of raw.map(s => s.trim()).filter(Boolean)) {
+      for (const l of raw.map(x => x.trim()).filter(Boolean)) {
         const num = sec.layout === 'numbered' ? `${++n}.` : sec.layout === 'list' ? `${++k}.` : '';
-        parts.push(`<p style="margin:0 0 .6em;text-align:${st.align}">${num ? `${num}&emsp;` : ''}${inline(l)}</p>`);
+        blocks.push({ t: 'para', num, text: l, align: st.align });
       }
     }
+    return { style: st, blocks };
+  }
+
+  /* The document as HTML with inline styles only, so the preview and the printout are the same thing. */
+  function renderDraftHtml(draft) {
+    const { style: st, blocks } = layoutBlocks(draft);
+    const parts = blocks.map(b => b.t === 'heading' ? `<h3 style="margin:1.2em 0 .5em;font-size:${st.size}pt;font-weight:bold;text-align:${b.align}">${inline(b.text)}</h3>`
+      : b.t === 'blank' ? '<p style="margin:0">&nbsp;</p>'
+      : b.t === 'line' ? `<p style="margin:0 0 .3em;text-align:${b.align}">${inline(b.text)}</p>`
+      : `<p style="margin:0 0 .6em;text-align:${b.align}">${b.num ? `${b.num}&emsp;` : ''}${inline(b.text)}</p>`);
     return `<div style="font-family:${fontStack(st.font)};font-size:${st.size}pt;line-height:${st.spacing}">${parts.join('')}</div>`;
   }
 
-  /* A complete HTML file that Word opens as a document (and the browser prints). */
-  function exportHtml(draft) {
+  /* ── court rule profiles ────────────────────────────────────────────────────
+     Courts set their own rules for paper, margins, fonts and required parts, and they change. LegalAI ships
+     no court's rules: the two built-in profiles are plain layouts. The user enters their court's rules, from the
+     court's current rules and practice directions, and drafts are checked against them. */
+  const PAPERS = { A4: 'A4', Legal: 'Legal (8.5 × 14 in)', Letter: 'Letter (8.5 × 11 in)' };
+  const BUILTIN_PROFILES = [
+    { id: 'std-a4', name: 'A4 · plain layout', builtin: true, paper: 'A4', margins: { top: 2.54, right: 2.54, bottom: 2.54, left: 2.54 }, pageNumbers: true, minSize: 0, minSpacing: 0, required: [], notes: 'A general layout. It is not any court’s rule.' },
+    { id: 'std-legal', name: 'Legal size · plain layout', builtin: true, paper: 'Legal', margins: { top: 2.54, right: 2.54, bottom: 2.54, left: 2.54 }, pageNumbers: true, minSize: 0, minSpacing: 0, required: [], notes: 'A general layout. It is not any court’s rule.' }
+  ];
+  function normalizeProfile(p, { builtin = false } = {}) {
+    p = p && typeof p === 'object' ? p : {};
+    const cm = (v, d) => { const n = Number(v); return Number.isFinite(n) ? Math.min(6, Math.max(0.5, Math.round(n * 100) / 100)) : d; };
+    const m = p.margins && typeof p.margins === 'object' ? p.margins : {};
+    const size = Number(p.minSize);
+    return {
+      id: str(p.id, 40) || makeId('prof'), name: str(p.name, 80).trim(), builtin,
+      paper: Object.prototype.hasOwnProperty.call(PAPERS, p.paper) ? p.paper : 'A4',
+      margins: { top: cm(m.top, 2.54), right: cm(m.right, 2.54), bottom: cm(m.bottom, 2.54), left: cm(m.left, 2.54) },
+      pageNumbers: p.pageNumbers !== false,
+      minSize: Number.isFinite(size) ? Math.min(20, Math.max(0, size)) : 0,
+      minSpacing: SPACINGS.includes(Number(p.minSpacing)) ? Number(p.minSpacing) : 0,
+      required: (Array.isArray(p.required) ? p.required : []).map(x => str(x, 100).trim()).filter(Boolean).slice(0, 30),
+      notes: str(p.notes, 500)
+    };
+  }
+  function validateProfile(p, profiles = []) {
+    const errs = [];
+    const name = String(p.name || '').trim();
+    if (!name) errs.push('Give the court’s rules a name.');
+    else if (profiles.some(o => o.id !== p.id && o.name.trim().toLowerCase() === name.toLowerCase())) errs.push(`There is already a set of rules called “${name}”.`);
+    return errs;
+  }
+
+  /* what the profile asks of a draft, checked against the draft */
+  function profileChecks(draft, profile) {
+    if (!profile) return [];
+    const st = normalizeStyle(draft.style), out = [];
+    if (profile.minSize) out.push({ label: 'Font size', note: `${st.size} pt, the court asks for at least ${profile.minSize} pt`, ok: st.size >= profile.minSize });
+    if (profile.minSpacing) out.push({ label: 'Line spacing', note: `${st.spacing}, the court asks for at least ${profile.minSpacing}`, ok: st.spacing >= profile.minSpacing });
+    const headings = (draft.sections || []).map(x => String(x.heading || '').trim().toLowerCase());
+    for (const need of profile.required || []) out.push({ label: `Section: ${need}`, note: headings.some(h => h.includes(need.toLowerCase())) ? 'Present' : 'Not in this draft', ok: headings.some(h => h.includes(need.toLowerCase())) });
+    return out;
+  }
+
+  /* A complete HTML file for printing (and the browser's own save-as-PDF). */
+  function exportHtml(draft, profile) {
+    const m = profile ? profile.margins : { top: 2.54, right: 2.54, bottom: 2.54, left: 2.54 };
+    const size = { A4: '21cm 29.7cm', Legal: '21.59cm 35.56cm', Letter: '21.59cm 27.94cm' }[profile?.paper] || '21cm 29.7cm';
     return `<!DOCTYPE html>
 <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
 <head><meta charset="utf-8"><title>${escapeHtml(draft.title || 'Draft')}</title>
 <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
-<style>@page{size:21cm 29.7cm;margin:2.54cm}body{margin:0}</style></head>
+<style>@page{size:${size};margin:${m.top}cm ${m.right}cm ${m.bottom}cm ${m.left}cm}body{margin:0}</style></head>
 <body>${renderDraftHtml(draft)}</body></html>`;
   }
 
   const slug = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'draft';
 
   /* What can honestly be checked from the draft and the matter's record. */
-  function draftChecks(draft, matter) {
+  function draftChecks(draft, matter, profile) {
     const secs = draft.sections || [];
     const filled = secs.filter(s => String(s.body || '').trim()).length;
     const text = secs.map(s => `${s.heading}\n${s.body}`).join('\n');
@@ -394,6 +452,7 @@ const Drafting = (() => {
       { label: 'Fields resolved', note: unknown ? `${unknown} unknown {{field}} left` : 'No stray {{fields}}', ok: unknown === 0 },
       { label: 'Authorities cited', note: auths.length ? `${citedA} of ${auths.length} pinned authorities appear` : 'None pinned in Research', ok: citedA === auths.length },
       { label: 'Annexures listed', note: docs.length ? `${citedD} of ${docs.length} evidence documents appear` : 'None in Evidence', ok: citedD === docs.length },
+      ...profileChecks(draft, profile),
       { label: 'Your review', note: draft.status === 'Approved' ? 'Approved — export is open' : 'Approve to unlock export', ok: draft.status === 'Approved' }
     ];
     return { filled, total: secs.length, pct: secs.length ? Math.round((100 * filled) / secs.length) : 0, checks };
@@ -404,7 +463,8 @@ const Drafting = (() => {
     splitParties, annexLabel, matterContext, fillTemplate, countGaps, unknownFields,
     normalizeStyle, normalizeSection, normalizeFormat, normalizeDraft,
     allFormats, docTypes, formatsFor, defaultFormatFor, isDefault, setDefault, removeFormat, cloneFormat, blankFormat, validateFormat,
-    createDraft, renderDraftHtml, exportHtml, slug, draftChecks
+    createDraft, layoutBlocks, renderDraftHtml, exportHtml, slug, draftChecks,
+    PAPERS, BUILTIN_PROFILES, normalizeProfile, validateProfile, profileChecks
   };
 })();
 
