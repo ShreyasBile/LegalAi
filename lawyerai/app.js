@@ -65,21 +65,18 @@ const MATTERS = [
       { label: 'Financial trail', score: 47, tone: 'low', note: 'One transaction needs a bank confirmation before the next listing.' }
     ],
     documents: [
-      { name: 'FIR_No_211_2026.pdf', type: 'pdf', added: '9 Sep', size: '1.8 MB', status: 'Key document', tool: 'OCR', toolNote: 'Text extracted · 2,140 words · 4 sections identified' },
-      { name: 'Applicant_statement.docx', type: 'doc', added: '9 Sep', size: '64 KB', status: 'Reviewed', tool: 'Layout parser', toolNote: 'Structured into 6 numbered paragraphs' },
-      { name: 'Bank_transaction_summary.pdf', type: 'pdf', added: '10 Sep', size: '512 KB', status: 'Needs review', tool: 'Table extractor', toolNote: 'Extracting transaction rows…', processing: true },
-      { name: 'Cooperation_email_chain.pdf', type: 'pdf', added: '10 Sep', size: '220 KB', status: 'Reviewed', tool: 'OCR', toolNote: 'Text extracted · 3 email threads' }
+      { name: 'FIR_No_211_2026.pdf', type: 'pdf', added: '9 Sep', size: '1.8 MB', status: 'Key document' },
+      { name: 'Applicant_statement.docx', type: 'doc', added: '9 Sep', size: '64 KB', status: 'Reviewed' },
+      { name: 'Bank_transaction_summary.pdf', type: 'pdf', added: '10 Sep', size: '512 KB', status: 'Needs review' },
+      { name: 'Cooperation_email_chain.pdf', type: 'pdf', added: '10 Sep', size: '220 KB', status: 'Reviewed' }
     ],
     timeline: [
       { date: '07 Feb', title: 'Commercial transaction recorded', note: 'Bank summary links to the applicant’s statement.', flag: false },
       { date: '18 Feb', title: 'First contact alleged by complainant', note: 'An 11-day gap against the financial record.', flag: true },
       { date: '03 Sep', title: 'FIR registered', note: 'FIR No. 211/2026 indexed with its annexures.', flag: false },
-      { date: '11 Sep', title: 'Hearing preparation complete', note: 'Brief includes evidence, precedent and open issues.', flag: false }
+      { date: '11 Sep', title: 'Hearing preparation complete', note: 'Brief includes evidence, precedent and open issues.', flag: false, omitFromDrafts: true }
     ],
-    drafts: [
-      { title: 'Anticipatory bail application', status: 'Needs your approval', score: 98,
-        checks: [{ label: 'Citations resolved', note: '18 of 18 sources verified', ok: true }, { label: 'Format checked', note: 'Bombay High Court template', ok: true }, { label: 'Your review', note: 'Approval required before export', ok: false }] }
-    ],
+    drafts: [{ title: 'Anticipatory bail application', docType: 'Anticipatory bail application' }],      // workbench.js builds it from the format on load
     postJudgment: null
   },
   {
@@ -102,9 +99,9 @@ const MATTERS = [
     tasks: [{ label: 'Obtain certified copy of the development agreement', done: true }, { label: 'Compute liquidated damages under Clause 14', done: false }],
     strengths: [{ label: 'Breach established', score: 71, tone: 'good', note: 'Delay is documented across three notices.' }],
     documents: [
-      { name: 'Development_agreement.pdf', type: 'pdf', added: '2 Sep', size: '3.1 MB', status: 'Key document', tool: 'OCR', toolNote: 'Text extracted · 12 pages · clauses indexed' },
-      { name: 'Notice_of_delay_1.pdf', type: 'pdf', added: '4 Sep', size: '210 KB', status: 'Reviewed', tool: 'OCR', toolNote: 'Text extracted · 1 page' },
-      { name: 'Site_photographs.zip', type: 'zip', added: '10 Sep', size: '18 MB', status: 'Needs review', tool: 'Layout parser', toolNote: 'Sorting 9 images by timestamp…', processing: true }
+      { name: 'Development_agreement.pdf', type: 'pdf', added: '2 Sep', size: '3.1 MB', status: 'Key document' },
+      { name: 'Notice_of_delay_1.pdf', type: 'pdf', added: '4 Sep', size: '210 KB', status: 'Reviewed' },
+      { name: 'Site_photographs.zip', type: 'zip', added: '10 Sep', size: '18 MB', status: 'Needs review' }
     ],
     timeline: [
       { date: '12 Jun', title: 'Agreement executed', note: 'Handover committed for 30 November.', flag: false },
@@ -128,7 +125,7 @@ const MATTERS = [
     ],
     tasks: [{ label: 'Collect appraisal history for the last 3 years', done: false }],
     strengths: [{ label: 'Procedural fairness', score: 58, tone: 'mid', note: 'No enquiry notice found in the file yet.' }],
-    documents: [{ name: 'Termination_letter.pdf', type: 'pdf', added: '6 Sep', size: '140 KB', status: 'Key document', tool: 'OCR', toolNote: 'Text extracted · 1 page' }],
+    documents: [{ name: 'Termination_letter.pdf', type: 'pdf', added: '6 Sep', size: '140 KB', status: 'Key document' }],
     timeline: [{ date: '30 Aug', title: 'Termination communicated', note: 'No enquiry notice preceding this letter.', flag: true }],
     drafts: [],
     postJudgment: null
@@ -155,7 +152,7 @@ const MATTERS = [
     },
     authorities: [], arguments: [], counterArgs: [],
     tasks: [{ label: 'Review award computation before advising on appeal', done: false }],
-    strengths: [], documents: [{ name: 'MACT_Award_Order.pdf', type: 'pdf', added: '4 Sep', size: '380 KB', status: 'Key document', tool: 'OCR', toolNote: 'Text extracted · award order · 9 pages' }],
+    strengths: [], documents: [{ name: 'MACT_Award_Order.pdf', type: 'pdf', added: '4 Sep', size: '380 KB', status: 'Key document' }],
     timeline: [
       { date: '2 Sep', title: 'Award pronounced', note: 'Tribunal awarded ₹18.4L against the ₹32L claimed.', flag: false },
       { date: '4 Sep', title: 'Certified copy received', note: 'Award order indexed and appeal window calculated.', flag: false }
@@ -463,6 +460,7 @@ function route() {
   else if (key === 'caselaw') { content = pageCaseLaw(query); crumb = 'Case law'; }
   else if (key === 'ecourts') { content = pageECourts(); crumb = 'eCourts'; }
   else if (key === 'reminders') { content = pageReminders(); crumb = 'Reminders'; }
+  else if (key === 'deadlines') { content = pageDeadlines(query); crumb = 'Limitation & deadlines'; }
   else if (key === 'matters' && parts[1]) {
     matterCtx = matterById(parts[1]);
     matterTab = parts[2] || 'overview';
@@ -517,7 +515,8 @@ function globalSidebar(activeKey) {
         <p class="side-label">Court &amp; clients</p>
         <nav class="nav-list">
           ${navItem('#/ecourts', activeKey === 'ecourts', 'court', 'eCourts')}
-          ${navItem('#/reminders', activeKey === 'reminders', 'whatsapp', 'Reminders')}
+          ${navItem('#/deadlines', activeKey === 'deadlines', 'clock', 'Limitation')}
+          ${navItem('#/reminders', activeKey === 'reminders', 'whatsapp', 'Reminders', rmDueCount() || '')}
         </nav>
       </div>
       <div class="side-section">
@@ -599,7 +598,9 @@ function shell({ activeKey, crumb, content, flush, matterCtx, matterTab, pageCla
   <section class="modal cmdk" id="cmdkModal" role="dialog" aria-modal="true">
     <div class="cmdk-input"><svg class="ic"><use href="#i-research"/></svg><input id="cmdkInput" placeholder="Search or jump to anything — a case, a section, a judgment…" /><kbd>ESC</kbd></div>
     <div id="cmdkResults"></div>
-  </section>`;
+  </section>
+
+  <section class="modal wb-modal" id="wbModal" role="dialog" aria-modal="true"></section>`;
 }
 
 function bindShell() {
@@ -632,6 +633,7 @@ const CMDK_NAV = [
   { href: '#/case-chat', icon: 'chat', label: 'Case chat', sub: 'Chat by case' },
   { href: '#/knowledge', icon: 'network', label: 'Knowledge base', sub: 'Statutes & precedents' },
   { href: '#/ecourts', icon: 'court', label: 'eCourts', sub: 'Case status & cause lists' },
+  { href: '#/deadlines', icon: 'clock', label: 'Limitation', sub: 'Work out a last date' },
   { href: '#/reminders', icon: 'whatsapp', label: 'Reminders', sub: 'WhatsApp reminders' },
   { href: '#/audit', icon: 'shield', label: 'Audit trail', sub: 'Agent & lawyer log' },
   { href: '#/settings', icon: 'settings', label: 'Settings', sub: 'Profile & AI behaviour' }
@@ -1146,7 +1148,14 @@ function bindAskPage({ threadId, basePath, scoped = false, fixedMatterId = null 
     if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.style.borderColor = 'var(--teal)'; setTimeout(() => card.style.borderColor = '', 900); }
   }));
   $$('[data-action="copy-msg"]').forEach(btn => btn.addEventListener('click', () => showToast('Answer copied to clipboard.')));
-  $$('[data-action="save-msg"]').forEach(btn => btn.addEventListener('click', () => showToast('Saved to matter research notes.')));
+  $$('[data-action="save-msg"]').forEach(btn => btn.addEventListener('click', () => {
+    const convo = CONVERSATIONS.find(c => c.id === threadId);
+    const matterId = convo?.matterId || fixedMatterId || (scoped ? state.caseChatScope : null);
+    if (!matterId) { showToast('Open this from a matter, or pick a case first, to save the answer to its research notes.'); return; }
+    const answers = $$('.msg.ai').filter(el => !el.classList.contains('msg-pending'));
+    const msg = convo?.messages.filter(x => x.role === 'ai')[answers.indexOf(btn.closest('.msg.ai'))];
+    if (wbSaveChatAnswer(matterId, msg)) showToast(`Saved to ${matterById(matterId).title} — Research notes.`);
+  }));
 
   const form = $('#askForm');
   const input = $('#askInput');
@@ -1272,89 +1281,7 @@ function tabOverview(m) {
   </div>`;
 }
 
-function tabResearch(m) {
-  const threads = CONVERSATIONS.filter(c => c.matterId === m.id);
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><h2>Research history</h2><p class="hint">Conversations with LegalAI scoped to this matter.</p></div><a class="btn btn-teal btn-sm" href="#/matters/${m.id}/chat"><svg class="ic"><use href="#i-spark"/></svg>New question</a></div>
-      ${threads.length ? threads.map(t => `<a class="list-row" href="#/matters/${m.id}/chat/${t.id}" style="text-decoration:none;color:inherit"><div class="review-icon"><svg class="ic"><use href="#i-spark"/></svg></div><div class="review-text"><strong>${esc(t.title)}</strong><small>${esc(t.updated)} · ${t.messages.filter(x => x.role === 'ai').length} answer${t.messages.filter(x => x.role === 'ai').length === 1 ? '' : 's'}</small></div><svg class="ic" style="color:var(--faint)"><use href="#i-chevron"/></svg></a>`).join('') : '<p class="empty-note">No research yet for this matter. Ask LegalAI a question to get started.</p>'}
-    </div>
-    <div class="card card-pad">
-      <h2>Key authorities</h2>
-      ${m.authorities.length ? m.authorities.map((a, i) => `<div class="authority-row"><div class="authority-num mono">${i + 1}</div><div class="authority-copy"><strong>${esc(a.title)}</strong><small>${esc(a.meta)}</small></div></div>`).join('') : '<p class="empty-note">No authorities pinned yet.</p>'}
-    </div>
-  </div>`;
-}
-
-function tabEvidence(m) {
-  const flagged = m.timeline.find(t => t.flag);
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><h2>Documents</h2><p class="hint">The Evidence Agent picks the right tool for each file — OCR, layout parsing, or table extraction.</p></div><button class="btn btn-teal btn-sm" data-action="add-evidence"><svg class="ic"><use href="#i-upload"/></svg>Add evidence</button></div>
-      ${m.documents.length ? m.documents.map(d => `<div class="doc-row doc-row-tall"><div class="doc-type ${d.type}">${d.type.toUpperCase()}</div><div class="doc-copy"><strong>${esc(d.name)}</strong><small>Added ${esc(d.added)} · ${esc(d.size)}</small>${d.tool ? `<small class="doc-tool${d.processing ? ' processing' : ''}"><i></i>${d.processing ? esc(d.toolNote) : `${esc(d.tool)} · ${esc(d.toolNote)}`}</small>` : ''}</div><span class="chip ${d.status === 'Key document' ? 'chip-teal' : d.status === 'Needs review' ? 'chip-amber' : 'chip-navy'}">${esc(d.status)}</span></div>`).join('') : '<p class="empty-note">No documents uploaded yet.</p>'}
-    </div>
-    <div class="card card-pad">
-      <h2>Evidence agent</h2>
-      ${flagged ? `<div class="contradiction" style="margin-top:12px"><div class="contradiction-icon"><svg class="ic"><use href="#i-alert"/></svg></div><div><p class="eyebrow" style="margin-bottom:3px">Contradiction found</p><strong style="font-size:13px">${esc(flagged.title)}</strong><p style="font-size:12px;margin-top:4px;color:var(--ink-soft)">${esc(flagged.note)}</p></div></div>` : '<p class="empty-note" style="text-align:left;padding:8px 0">No inconsistencies found yet.</p>'}
-      <div class="grid-2" style="margin-top:16px"><div class="stat-card"><div class="stat-num" style="font-size:24px">${m.documents.length}</div><div class="stat-note">documents indexed</div></div><div class="stat-card"><div class="stat-num" style="font-size:24px">${m.timeline.length}</div><div class="stat-note">events in chronology</div></div></div>
-    </div>
-  </div>`;
-}
-
-function tabDrafting(m) {
-  if (!m.drafts.length) return `<div class="card card-pad"><h2>No drafts yet</h2><p class="hint">Ask LegalAI to prepare a first draft once research is complete.</p><a class="btn btn-teal" href="#/matters/${m.id}/chat" style="margin-top:10px"><svg class="ic"><use href="#i-spark"/></svg>Draft with LegalAI</a></div>`;
-  const d = m.drafts[0];
-  return `
-  <div class="dash-grid">
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 20px;border-bottom:1px solid var(--line)"><div style="display:flex;align-items:center;gap:11px"><span class="chip chip-amber">${esc(d.status)}</span><strong style="font-size:14px">${esc(d.title)}</strong></div></div>
-      <div style="padding:24px"><div class="draft-doc" style="border:0;box-shadow:none;padding:0">
-        <p class="draft-kicker">In the ${esc(m.court)}</p>
-        <h2>${esc(d.title)}</h2>
-        <p class="draft-parties">In the matter of<br><b>${esc(m.title.split(' v.')[0])}</b> <span>…Applicant</span><br>Versus<br><b>${esc(m.title.split('v. ')[1] || 'Respondent')}</b> <span>…Respondent</span></p>
-        <p>1. The Applicant respectfully submits that the matter arises from the facts on record. The Applicant has cooperated with every request for information.</p>
-        <p>2. Courts have recognised that relief of this nature protects fundamental rights and should be assessed on the circumstances of each case.<span class="inline-cite mono">1</span> There is no demonstrated bar to the relief sought.</p>
-      </div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 20px;border-top:1px solid var(--line)"><span style="display:inline-flex;align-items:center;gap:7px;color:var(--teal-ink);font-size:13px;font-weight:500"><svg class="ic"><use href="#i-shield"/></svg>18 citations verified · 0 unresolved</span><button class="btn btn-teal btn-sm" data-action="approve-draft" data-draft="${esc(d.title)}">Approve draft</button></div>
-    </div>
-    <div class="card card-pad">
-      <div style="display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid var(--line)"><div class="score-ring" style="--pct:${d.score}"><b>${d.score}</b></div><div><strong style="font-size:13.5px">Draft score</strong><p style="font-size:12px;color:var(--muted);margin-top:3px">Strong citation coverage and correct formatting.</p></div></div>
-      ${d.checks.map(c => `<div class="check-row"><span class="check-icon ${c.ok ? 'ok' : 'warn'}">${c.ok ? '<svg class="ic"><use href="#i-check"/></svg>' : '!'}</span><div><strong style="font-size:13px;font-weight:600;display:block">${esc(c.label)}</strong><small style="font-size:11.5px;color:var(--muted)">${esc(c.note)}</small></div></div>`).join('')}
-      <button class="btn btn-ghost btn-block" style="margin-top:16px" data-action="export-pdf"><svg class="ic"><use href="#i-download"/></svg>Export PDF</button>
-    </div>
-  </div>`;
-}
-
-/* ---- Arguments: the Argumentation Agent's own workspace — structured points,
-   each stress-tested against opposing precedent, plus counter-arguments with
-   rebuttals. Matches the "Argument Prep" stage in the matter pipeline. ---- */
-function tabArguments(m) {
-  const hasArgs = m.arguments && m.arguments.length;
-  const hasCounter = m.counterArgs && m.counterArgs.length;
-  if (!hasArgs && !hasCounter) {
-    return `<div class="card card-pad"><h2>No arguments prepared yet</h2><p class="hint">Once research and evidence review are complete, ask LegalAI to build a structured argument outline for this matter.</p><a class="btn btn-teal" href="#/matters/${m.id}/chat" style="margin-top:10px"><svg class="ic"><use href="#i-spark"/></svg>Prepare arguments with LegalAI</a></div>`;
-  }
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><h2>Structured arguments</h2><p class="hint">Each point is stress-tested against retrieved opposing precedent before it reaches you.</p></div></div>
-      ${hasArgs ? m.arguments.map((a, i) => `
-        <div class="arg-card">
-          <div class="arg-top"><span class="arg-num mono">${i + 1}</span><div class="arg-copy"><strong>${esc(a.point)}</strong><p>${esc(a.support)}</p></div><b class="arg-strength ${a.strength >= 75 ? 'good' : a.strength >= 55 ? 'mid' : 'low'}">${a.strength}<em>/100</em></b></div>
-          <button type="button" class="btn-text arg-stress-btn" data-action="toggle-stress" data-idx="${i}"><svg class="ic"><use href="#i-scale"/></svg>Stress-test this argument</button>
-          <div class="arg-stress" id="argStress${i}" hidden><svg class="ic"><use href="#i-alert"/></svg><p>${esc(a.stressTest || 'No opposing precedent found in the indexed corpus for this point.')}</p></div>
-        </div>`).join('') : '<p class="empty-note">No structured arguments yet.</p>'}
-    </div>
-    <div class="card card-pad">
-      <h2>Anticipated counter-arguments</h2>
-      <p class="hint">What the other side is likely to raise, and the rebuttal already prepared.</p>
-      ${hasCounter ? m.counterArgs.map(c => `
-        <div class="counter-card"><p class="counter-point"><svg class="ic"><use href="#i-alert"/></svg>${esc(c.point)}</p><p class="counter-rebuttal"><svg class="ic"><use href="#i-check"/></svg>${esc(c.rebuttal)}</p></div>`).join('') : '<p class="empty-note">None identified yet.</p>'}
-    </div>
-  </div>`;
-}
+/* Research, Evidence, Drafting and Arguments (the "Build the case" tabs) live in workbench.js. */
 
 function tabHearing(m) {
   if (!m.nextHearing) return `<div class="card card-pad"><h2>No hearing scheduled</h2><p class="hint">This matter has no upcoming listing yet.</p></div>`;
@@ -1408,7 +1335,7 @@ function tabStatus(m) {
         <div class="fact-item"><div class="fact-label">Court</div><div class="fact-value">${esc(m.court)}</div></div>
       </div>
       <h2 style="margin-top:22px">Order sheet</h2>
-      <div class="timeline-v" style="margin-top:10px">${e.orders.map(o => `<article><time class="mono">${esc(fmtDate(o.date, true))}</time><span class="tl-dot"></span><div class="tl-copy"><p>${esc(o.text)}</p></div></article>`).join('')}</div>
+      <div class="timeline-v" style="margin-top:10px">${e.orders.map(o => `<article><time class="mono">${esc(fmtDate(o.date, true))}</time><span class="tl-dot"></span><div class="tl-copy"><p>${esc(o.text)}</p><a class="btn-text" href="#/deadlines?matter=${m.id}&date=${esc(o.date)}">Work out a limitation date from this order<svg class="ic"><use href="#i-arrow"/></svg></a></div></article>`).join('')}</div>
     </div>
     <div class="card card-pad">
       <p class="eyebrow">Next listing</p>
@@ -1443,6 +1370,7 @@ function tabPostJudgment(m) {
     </div>
     <div class="card card-pad">
       <p class="eyebrow">Appeal window</p>
+      <a class="btn-text" href="#/deadlines?matter=${m.id}" style="float:right">Work out the exact last date<svg class="ic"><use href="#i-arrow"/></svg></a>
       <div class="pj-countdown"><b>${daysLeft}</b><span>day${daysLeft === 1 ? '' : 's'} remaining</span></div>
       <p class="hint" style="margin-top:2px">Deadline: ${esc(deadline.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }))}</p>
       <h2 style="margin-top:20px">Next steps</h2>
@@ -1458,19 +1386,7 @@ function tabTimeline(m) {
   </div>`;
 }
 
-function bindMatterDetail() {
-  $$('[data-action="approve-draft"]').forEach(b => b.addEventListener('click', () => {
-    b.textContent = 'Approved'; b.disabled = true; b.classList.add('btn-ghost'); b.classList.remove('btn-teal');
-    showToast(`${b.dataset.draft} approved and recorded in the audit trail.`);
-  }));
-  $$('[data-action="toggle-stress"]').forEach(b => b.addEventListener('click', () => {
-    const panel = $(`#argStress${b.dataset.idx}`);
-    if (!panel) return;
-    const open = !panel.hidden;
-    panel.hidden = open;
-    b.classList.toggle('open', !open);
-  }));
-}
+function bindMatterDetail() { wbBindMatterDetail(); }
 
 /* =============================================================================
    PAGE: CALENDAR — iPhone-style: Day / Week / Month / Year. Month view keeps a
@@ -1742,19 +1658,22 @@ function docRow(d) {
 function pageDocuments() {
   const rows = MATTERS.flatMap(m => m.documents.map(d => ({ ...d, matter: m.title, matterId: m.id })));
   return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Document library</p><h1>Documents</h1><p class="lede">Every file across every matter, indexed and searchable in one place.</p></div><button class="btn btn-primary" data-action="upload-doc"><svg class="ic"><use href="#i-upload"/></svg>Upload</button></div>
+  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Document library</p><h1>Documents</h1><p class="lede">Every document added to a matter, in one place. Search by name, matter or status; to search inside a document, read its text on the matter’s Evidence tab.</p></div><button class="btn btn-primary" data-action="upload-doc"><svg class="ic"><use href="#i-upload"/></svg>Upload</button></div>
   <div class="toolbar"><div class="search-box"><svg class="ic"><use href="#i-research"/></svg><input id="docsSearch" placeholder="Search by file name, matter or status" /></div><span class="toolbar-count" id="docsCount">${rows.length} documents</span></div>
   <div class="card" style="padding:0;overflow:hidden" id="docsList">${rows.map(docRow).join('')}</div>`;
 }
 
+let docsRefresh = null;                               // repaints the library list in place, so adding a file does not rebuild the page (and close the dialog)
 function bindDocuments() {
-  const rows = MATTERS.flatMap(m => m.documents.map(d => ({ ...d, matter: m.title, matterId: m.id })));
-  $('#docsSearch')?.addEventListener('input', e => {
-    const q = e.target.value.toLowerCase();
-    const filtered = rows.filter(d => (d.name + d.matter + d.status).toLowerCase().includes(q));
-    $('#docsList').innerHTML = filtered.length ? filtered.map(docRow).join('') : `<p class="empty-note" style="padding:20px">No documents match “${esc(e.target.value)}”.</p>`;
-    $('#docsCount').textContent = `${filtered.length} document${filtered.length === 1 ? '' : 's'}`;
-  });
+  docsRefresh = () => {
+    const rows = MATTERS.flatMap(m => m.documents.map(d => ({ ...d, matter: m.title, matterId: m.id })));
+    const input = $('#docsSearch'), list = $('#docsList'), count = $('#docsCount');
+    if (!input || !list || !count) return;
+    const q = input.value.toLowerCase(), filtered = q ? rows.filter(d => (d.name + d.matter + d.status).toLowerCase().includes(q)) : rows;
+    list.innerHTML = filtered.length ? filtered.map(docRow).join('') : `<p class="empty-note" style="padding:20px">No documents match “${esc(input.value)}”.</p>`;
+    count.textContent = `${filtered.length} document${filtered.length === 1 ? '' : 's'}`;
+  };
+  $('#docsSearch')?.addEventListener('input', docsRefresh);
 }
 
 /* =============================================================================
@@ -2495,7 +2414,7 @@ function bindCaseLaw() {
     if (!sel) return;
     const m = matterById(sel.value), c = clCards[+sel.dataset.i];
     if (!m || !c) return;
-    showToast(`${clCardTitle(c)} saved to ${m.title} authorities.`);
+    if (wbPinAuthority(m.id, wbAuthorityFromCard(c))) showToast(`${clCardTitle(c)} saved to ${m.title} authorities.`);
     sel.value = '';
   });
 
@@ -2523,59 +2442,7 @@ async function clToggleOrders(btn) {
   } catch { panel.innerHTML = '<p class="cl-orders-empty">Couldn’t load the orders — try again.</p>'; }
 }
 
-/* =============================================================================
-   PAGE: REMINDERS — automatic WhatsApp reminders for hearings & deadlines
-   ============================================================================= */
-function buildReminders() {
-  const rem = [];
-  HEARINGS.forEach(h => {
-    const m = matterById(h.matterId), c = CLIENTS[h.matterId];
-    rem.push({ date: addDays(h.date, -1), send: '6:00 PM', matterId: h.matterId, to: c ? c.name : 'Client', phone: c ? c.phone : 'via WhatsApp', channel: 'WhatsApp', type: 'Hearing reminder',
-      body: `Reminder: your matter *${m ? m.title : ''}* is listed tomorrow, ${fmtDate(h.date, true)} at ${h.time}, ${h.court}. Please reach 30 minutes early. — Kamat & Partners` });
-  });
-  DEADLINES.forEach(d => {
-    const m = matterById(d.matterId);
-    rem.push({ date: addDays(d.date, -2), send: '9:00 AM', matterId: d.matterId, to: 'Shreyas A. (you)', phone: 'via WhatsApp', channel: 'WhatsApp', type: `${d.type} deadline`,
-      body: `Heads up: *${d.title}* is due on ${fmtDate(d.date, true)}${m ? ` for ${m.title}` : ''}.` });
-  });
-  const floor = addDays(TODAY_ISO, -1);
-  return rem.filter(r => r.date >= floor).sort((a, b) => a.date < b.date ? -1 : 1);
-}
-function waFmt(s) { return esc(s).replace(/\*(.+?)\*/g, '<b>$1</b>'); }
-
-function pageReminders() {
-  const rem = buildReminders();
-  const next = rem[0];
-  return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Court &amp; clients</p><h1>Reminders</h1><p class="lede">Planned WhatsApp reminders for hearings and deadlines, for you and your clients. This is a demo: no message is ever sent.</p></div><button class="btn btn-primary" data-action="new-reminder"><svg class="ic"><use href="#i-plus"/></svg>New reminder</button></div>
-
-  <div class="wa-banner section"><div class="wa-banner-icon"><svg class="ic"><use href="#i-whatsapp"/></svg></div><div class="wa-banner-copy"><strong>WhatsApp reminders (demo)</strong><small>Nothing is connected or sent. This page shows what the reminders would look like.</small></div><span class="chip chip-amber">Demo</span></div>
-
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><p class="eyebrow">Scheduled</p><h2>Upcoming reminders</h2></div><span class="chip chip-navy">${rem.length}</span></div>
-      ${rem.length ? rem.map(r => { const b = dayBadge(r.date); return `
-        <div class="reminder-row">
-          <div class="reminder-date"><b>${b.num}</b><span>${b.mon}</span></div>
-          <div class="reminder-copy"><strong>${esc(r.type)}</strong><small>To ${esc(r.to)} · ${esc(r.channel)} · sends ${esc(r.send)}</small><small class="reminder-matter">${esc(matterById(r.matterId)?.title || '')}</small></div>
-          <button class="switch on" data-action="toggle-switch" aria-label="Toggle reminder"></button>
-        </div>`; }).join('') : '<p class="empty-note">No upcoming reminders.</p>'}
-    </div>
-    <div class="card card-pad">
-      <p class="eyebrow">Preview</p>
-      <h2 style="margin-bottom:2px">Next message</h2>
-      <p class="hint">Exactly what ${next ? esc(next.to) : 'the recipient'} will receive.</p>
-      ${next ? `<div class="wa-phone"><div class="wa-head"><span class="wa-avatar">${esc((next.to || 'C').slice(0, 1))}</span><div class="wa-head-copy"><strong>${esc(next.to)}</strong><small>${esc(next.phone)}</small></div><svg class="ic"><use href="#i-whatsapp"/></svg></div>
-        <div class="wa-body"><div class="wa-bubble">${waFmt(next.body)}<time>${esc(next.send)} <span class="wa-tick">✓✓</span></time></div><p class="wa-date">Scheduled for ${esc(fmtDate(next.date, true))}</p></div></div>` : '<p class="empty-note">Nothing scheduled.</p>'}
-      <button class="btn btn-teal btn-block" style="margin-top:14px" data-action="send-test"><svg class="ic"><use href="#i-send"/></svg>Send me a test</button>
-    </div>
-  </div>`;
-}
-
-function bindReminders() {
-  $$('[data-action="send-test"]').forEach(b => b.addEventListener('click', () => showToast('Demo only: no WhatsApp message was sent.')));
-  $$('[data-action="new-reminder"]').forEach(b => b.addEventListener('click', () => showToast('Custom reminder scheduling opens here.')));
-}
+/* The Reminders page lives in reminders-ui.js (logic in reminders.js). */
 
 /* =============================================================================
    PAGE: AUDIT TRAIL
@@ -2630,15 +2497,14 @@ function bindPage(key, parts, query) {
   $$('.kg-node.has-link').forEach(g => g.addEventListener('click', () => { if (g.dataset.href) navigate(g.dataset.href); }));
   $$('[data-action="sync-ecourts"]').forEach(b => b.addEventListener('click', () => syncAllFromService()));
   $$('[data-action="sync-case"]').forEach(b => b.addEventListener('click', () => syncCaseStatusFromService(b.dataset.matter)));
-  $$('[data-action="add-evidence"]').forEach(b => b.addEventListener('click', () => showToast('Evidence upload opens here — the Evidence Agent will pick the right tool per file.')));
-  $$('[data-action="upload-doc"]').forEach(b => b.addEventListener('click', () => showToast('Document upload opens here.')));
-  $$('[data-action="export-pdf"]').forEach(b => b.addEventListener('click', () => showToast('Draft exported as PDF in the court’s format.')));
+  $$('[data-action="upload-doc"]').forEach(b => b.addEventListener('click', () => wbOpenEvidenceForm(null)));
 
   if (key === 'today') bindToday();
   else if (key === 'ask') bindAsk(parts[1]);
   else if (key === 'case-chat') bindCaseChat(parts[1]);
   else if (key === 'caselaw') bindCaseLaw();
   else if (key === 'reminders') bindReminders();
+  else if (key === 'deadlines') bindDeadlines();
   else if (key === 'ecourts') bindECourts();
   else if (key === 'matters' && parts[1] && parts[2] === 'chat') bindMatterChat(matterById(parts[1]), parts[3]);
   else if (key === 'matters' && parts[1]) bindMatterDetail();
