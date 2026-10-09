@@ -14,7 +14,7 @@ const AiUi = (() => {
   const ST = { status: null, results: {}, open: new Set(), busy: new Set() };     // results are kept in memory so a repaint of the tab does not lose them
 
   /* ── what each action asks for ─────────────────────────────────────────── */
-  const draftOptions = m => (m.drafts || []).map((d, i) => `<option value="${i}">${esc(d.title || `Draft ${i + 1}`)}</option>`).join('');
+  const draftOptions = m => { const cur = typeof dsDraft === 'function' ? dsDraft(m) : null; return (m.drafts || []).map((d, i) => `<option value="${i}"${cur && cur.id === d.id ? ' selected' : ''}>${esc(d.title || `Draft ${i + 1}`)}</option>`).join(''); };
   const draftField = (m, hint) => ({ name: 'draft', label: 'Draft', type: 'draft', hint, options: draftOptions(m) });
 
   const ACTIONS = {
@@ -26,9 +26,6 @@ const AiUi = (() => {
       fields: () => [{ name: 'paraNumber', label: 'Paragraph no.', type: 'number', value: 1 }, { name: 'averment', label: 'The opponent\'s paragraph', type: 'textarea', rows: 4 },
         { name: 'stance', label: 'Your stance', type: 'select', options: ['Denied', 'Admitted', 'Partly admitted', 'No knowledge', 'Legal objection'].map(s => `<option>${s}</option>`).join('') },
         { name: 'facts', label: 'Facts to rely on', type: 'textarea', rows: 3, prefill: m => `${m.facts?.objective || ''}\n${m.facts?.issue || ''}`.trim() }] },
-    'bail-petition': { title: 'Draft an anticipatory bail application', run: 'Draft application',
-      help: 'A first draft under s.482 BNSS (formerly s.438 CrPC) from the FIR and the applicant\'s details. Cites no judgment it was not given.',
-      fields: m => [{ name: 'court', label: 'Court', type: 'text', value: m.court || '' }, { name: 'fir', label: 'FIR details', type: 'textarea', rows: 5 }, { name: 'applicant', label: 'Applicant details', type: 'textarea', rows: 3 }] },
     'interim-draft': { title: 'Draft a caveat or an interim injunction application', run: 'Draft',
       help: 'Cause title, facts, grounds and prayer for a caveat (s.148A CPC) or an Order XXXIX injunction.',
       fields: m => [{ name: 'type', label: 'Kind', type: 'select', options: ['Caveat (s.148A CPC)', 'Interim injunction (Order XXXIX CPC)'].map(s => `<option>${s}</option>`).join('') },
@@ -71,7 +68,6 @@ const AiUi = (() => {
   };
 
   const TAB_ACTIONS = {
-    drafting: ['citation-check', 'pleading-reply', 'bail-petition', 'interim-draft', 'court-rules', 'vulnerability-audit'],
     arguments: ['devils-advocate'],
     evidence: ['timeline-depositions', 'contradiction-matrix', 'vernacular-summary'],
     hearing: ['client-briefing'],
@@ -109,7 +105,7 @@ const AiUi = (() => {
       ${r.items.length ? `<p class="ai-sum"><strong>${r.summary.found}</strong> citation${r.summary.found === 1 ? '' : 's'} found · <strong>${r.summary.verified}</strong> confirmed · <strong class="${r.summary.problems ? 'ai-bad' : ''}">${r.summary.problems}</strong> not confirmed · ${r.summary.uncheckable} cannot be checked here</p>` : ''}
       ${r.items.map(i => `<div class="ai-check">${badge(i.status)} <span class="mono">${esc(i.raw)}</span><small>${esc(i.message)}</small>${matchLine(i.match)}</div>`).join('')}
       <p class="ai-foot">${esc(r.note)}</p>`,
-    'pleading-reply': r => para(r.text), 'bail-petition': r => para(r.text), 'interim-draft': r => para(r.text), 'client-briefing': r => para(r.text),
+    'pleading-reply': r => para(r.text), 'interim-draft': r => para(r.text), 'client-briefing': r => para(r.text),
     'court-rules': r => `${r.summary ? para(r.summary) : ''}${r.issues.length ? r.issues.map(i => `<div class="ai-item"><strong>${esc(i.what)}</strong><small>${esc(i.where)}</small><p>${esc(i.fix)}</p></div>`).join('') : '<p class="hint">No problems listed.</p>'}`,
     'vulnerability-audit': r => `${r.impression ? para(r.impression) : ''}${r.risks.length ? r.risks.map(i => `<div class="ai-item"><span class="chip chip-amber">${esc(i.type)}</span> <strong>${esc(i.paragraph)}</strong><p>${esc(i.problem)}</p><p class="ai-fix">${esc(i.fix)}</p></div>`).join('') : '<p class="hint">No risks listed.</p>'}`,
     'devils-advocate': r => `${r.summary ? para(r.summary) : ''}${r.pushback.map(p => `<div class="ai-item"><span class="chip ${p.risk === 'High' ? 'chip-red' : p.risk === 'Low' ? 'chip-teal' : 'chip-amber'}">${esc(p.risk)} risk</span> <strong>${esc(p.argument)}</strong>
@@ -138,17 +134,18 @@ const AiUi = (() => {
     return `<div class="ai-field">${lab}<input class="wb-input" id="${id}-${f.name}" ${nm} type="${f.type === 'number' ? 'number' : 'text'}" value="${esc(pre)}"${ph}></div>`;
   }
 
-  function actionHtml(name, m) {
+  function actionHtml(name, m, bare = false) {
     const a = ACTIONS[name], scope = m ? m.id : 'global', k = key(scope, name), id = `ai-${scope}-${name}`;
     const res = ST.results[k];
-    return `<details class="ai-act" data-ai-key="${esc(k)}" ${ST.open.has(k) ? 'open' : ''}>
-      <summary><span>${esc(a.title)}</span>${a.needsModel === false ? '<span class="chip chip-teal">no key needed</span>' : ''}</summary>
+    const open = bare ? `<div class="ai-act ai-bare" data-ai-key="${esc(k)}">` : `<details class="ai-act" data-ai-key="${esc(k)}" ${ST.open.has(k) ? 'open' : ''}>
+      <summary><span>${esc(a.title)}</span>${a.needsModel === false ? '<span class="chip chip-teal">no key needed</span>' : ''}</summary>`;
+    return `${open}
       <div class="ai-body" data-ai-name="${name}" data-ai-scope="${esc(scope)}">
         <p class="hint">${esc(a.help)}</p>
         ${a.fields(m).map(f => fieldHtml(f, m, id)).join('')}
         <button class="btn btn-teal btn-sm" data-ai-run="${name}" ${ST.busy.has(k) ? 'disabled' : ''}>${ST.busy.has(k) ? 'Working…' : esc(a.run)}</button>
         <div class="ai-result" data-ai-result>${res ? resultHtml(name, res) : ''}</div>
-      </div></details>`;
+      </div>${bare ? '</div>' : '</details>'}`;
   }
 
   function resultHtml(name, res) {
@@ -194,7 +191,6 @@ const AiUi = (() => {
       case 'court-rules': return { draft: await draftText(root, m), court: val(root, 'court') };
       case 'vulnerability-audit': return { draft: await draftText(root, m) };
       case 'pleading-reply': return { paraNumber: Number(val(root, 'paraNumber')) || 1, averment: val(root, 'averment'), stance: val(root, 'stance'), facts: val(root, 'facts') };
-      case 'bail-petition': return { court: val(root, 'court'), fir: val(root, 'fir'), applicant: val(root, 'applicant') };
       case 'interim-draft': return { type: val(root, 'type'), court: val(root, 'court'), applicant: val(root, 'applicant'), opponent: val(root, 'opponent'), subject: val(root, 'subject') };
       case 'devils-advocate': return { matterTitle: m.title, court: m.court, arguments: (m.arguments || []).map(a => ({ point: a.point, support: a.support })) };
       case 'timeline-depositions': {
@@ -331,6 +327,9 @@ const AiUi = (() => {
     caselawCard: () => pageCard('query-rewrite', 'Not sure what to search for?'),
     deadlinesCard: () => pageCard('limitation-classify', 'Not sure which period applies?'),
     bindPage(key) { wire(); if (key === 'settings') bindSettings(); },
+    api, loadStatus, usable: () => !!ST.status?.usable, hasStatus: () => !!ST.status, banner, render: (name, r) => RENDER[name](r),
+    popupHtml(name, m) { wire(); if (!ST.status) loadStatus().then(() => { const el = document.querySelector('.ai-pop-banner'); if (el) el.innerHTML = banner(); }); return `<div class="ai-pop-banner">${banner()}</div>${actionHtml(name, m, true)}`; },
+    actionTitle: name => ACTIONS[name]?.title || name,
     _ACTIONS: ACTIONS
   };
 })();

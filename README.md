@@ -18,7 +18,7 @@ Real and tested:
   PDF links to the archive (no PDFs are stored).
 - The eCourts service's architecture and its **83 tests**.
 - All research code and results in `paper/`.
-- The workspace's working tools, all in the browser and each with unit and/or browser tests (**182 unit tests**,
+- The workspace's working tools, all in the browser and each with unit and/or browser tests (**186 unit tests**,
   `cd lawyerai && npm test`; the browser suites drive the real pages with Playwright):
   - **Build the case** tabs on a matter. *Research:* search judgments and pin authorities, keep notes, save an Ask AI answer as
     a note. *Evidence:* record documents, build a dated chronology, and read the documents' text (below). *Arguments:* points
@@ -80,13 +80,28 @@ running on your own computer (for example Ollama at `http://localhost:11434/v1`)
 
 | Where | What it does |
 |---|---|
-| Drafting | **Citation check** (no model, no key): finds every case name and number in a draft and looks each up in the Supreme Court database. Also: one reply paragraph, an anticipatory-bail application (s.482 BNSS), a caveat or injunction application, a filing-format check, and a deemed-admission audit of a reply. |
+| Drafting | See *The Drafting page* below. |
 | Arguments | The other side's strongest answer to each argument. |
 | Evidence | A chronology and cross-examination questions from the documents you have read; a comparison of witness statements; an English summary of a Hindi or Marathi document. |
 | Case status | A digest of an order; preparation for the next listing. |
 | Hearing prep | A WhatsApp update for the client in English, Hindi or Marathi (you send it yourself). |
 | Case law | Search words and provisions for a plain-language question. |
 | Limitation | Picks a period from the built-in 27 and the start date; the calculator then counts the dates. |
+
+**The Drafting page.** Choose the application first (anticipatory bail, written statement, plaint, affidavit, and the other
+formats under Document formats), then how to prepare it:
+
+- **Manual**: the editor, starting from the format with this matter's record filled in. This is what the page did before.
+- **Auto**: you give the court, parties, what happened and what you want; the AI writes every section of the chosen format. It may
+  cite only the authorities you pinned on the Research tab, lists only the matter's documents as annexures, leaves `[____]` where it
+  has no fact, and saves the earlier text in History ("Before the AI draft") so you can go back. The new text's citations are looked
+  up in the database straight away and the ones it cannot confirm are listed.
+- **Preview**: the finished document as it will print.
+
+A floating rail of tools sits at the right edge. Hover an icon for its name and what it does; click it for a popup. Check:
+**Completeness**, **Citation check** (no key), **Filing format check** (AI), **Deemed-admission audit** (AI). Write: **Reply to one
+paragraph** (AI), **Para-wise reply**, **Caveat or injunction** (AI). Manage: **Document formats**, **Court rules**, **History**,
+**Review comments**. Approving and exporting a draft work as before.
 
 What it does and does not do:
 - **A model never decides whether a case is real.** Citations are found with patterns and looked up in the database

@@ -13,7 +13,7 @@
 const WB_KEY = 'legalai.workbench.v1';
 const WB_FIELDS = ['authorities', 'documents', 'timeline', 'arguments', 'counterArgs', 'drafts', 'notes'];
 const wb = { touched: {}, formats: [], defaults: {}, profiles: [], defaultProfile: '', author: '', audit: [], warned: false };      // what is saved
-const wbUi = { draft: {}, mode: 'edit', results: null, req: 0, lastType: '', fmt: null };  // what is only on screen
+const wbUi = { draft: {}, mode: 'edit', results: null, req: 0, lastType: '', fmt: null, docType: {}, pickType: {}, auto: {}, autoResult: {}, autoBusy: {} };  // what is only on screen
 
 const wbIc = name => `<svg class="ic"><use href="#i-${name}"/></svg>`;
 const wbStr = (v, n = 500) => String(v ?? '').slice(0, n);
@@ -539,7 +539,11 @@ function wbOpenCounterForm(m, idx) {
 /* =============================================================================
    DRAFTING
    ============================================================================= */
-const wbDraftOf = m => m.drafts.find(d => d.id === wbUi.draft[m.id]) || m.drafts[0] || null;
+const wbDraftOf = m => {                                 // the draft of the application chosen on the Drafting page
+  const type = wbUi.docType[m.id], picked = m.drafts.find(d => d.id === wbUi.draft[m.id]);
+  if (type) return (picked && picked.docType === type ? picked : m.drafts.find(d => d.docType === type)) || null;
+  return picked || m.drafts[0] || null;
+};
 
 function wbSectionTools(prefix, i, last) {            // move up / down / remove — used by the draft editor and the format editor
   return `<div class="wb-row-actions">
@@ -572,61 +576,13 @@ function wbPaintChecks(m, d) {
   const r = Drafting.draftChecks(d, m, wbProfileOf(d)), box = $('#wbChecks'), ring = $('#wbRing');
   if (box) box.innerHTML = wbChecksHtml(r);
   if (ring) { ring.style.setProperty('--pct', r.pct); ring.firstElementChild.textContent = r.pct; }
+  const pct = $('#dsPct'); if (pct) pct.textContent = r.pct;
 }
 
-function tabDrafting(m) {
-  wbEnsure(m);
-  const d = wbDraftOf(m);
-  const bar = `
-  <div class="wb-bar">
-    <div class="wb-drafts" role="tablist" aria-label="Drafts for this matter">${m.drafts.map(x => `<button type="button" role="tab" class="wb-draft-tab${d && x.id === d.id ? ' active' : ''}" aria-selected="${!!d && x.id === d.id}" data-wb="draft-pick" data-id="${esc(x.id)}"><span>${esc(x.title)}</span>${x.status === 'Approved' ? '<i class="wb-ok" title="Approved"></i>' : ''}</button>`).join('')}</div>
-    <div class="wb-bar-actions">
-      <button type="button" class="btn btn-ghost" data-wb="formats-open">${wbIc('docs')}Document formats</button>
-      <button type="button" class="btn btn-ghost" data-wb="profiles-open">${wbIc('court')}Court rules</button>
-      <button type="button" class="btn btn-ghost" data-wb="pw-open">${wbIc('scale')}Para-wise reply</button>
-      <button type="button" class="btn btn-teal" data-wb="draft-new">${wbIc('plus')}New draft</button>
-    </div>
-  </div>`;
-  if (!d) {
-    return `${bar}<div class="card card-pad"><h2>No drafts yet</h2>
-      <p class="hint" style="max-width:600px">Pick a document and a format. LegalAI places this matter’s facts, chronology, authorities, arguments and annexures into the format, leaves a <b>[____]</b> wherever it has nothing, and you edit the rest. It does not write legal text for you.</p>
-      <p class="hint" style="max-width:600px">Set up how you like each document laid out under <b>Document formats</b> once, make it your default, and every new draft follows it.</p>
-      <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn btn-teal" data-wb="draft-new">${wbIc('plus')}New draft</button><button type="button" class="btn btn-ghost" data-wb="formats-open">${wbIc('docs')}Document formats</button></div></div>`;
-  }
-  const approved = d.status === 'Approved', edit = wbUi.mode === 'edit';
-  const r = Drafting.draftChecks(d, m, wbProfileOf(d));
-  return `${bar}
-  <div class="dash-grid">
-    <div class="card wb-draft">
-      <div class="wb-draft-head"><input class="wb-title" data-wb-input="draft-title" value="${esc(d.title)}" maxlength="120" aria-label="Draft title"${approved ? ' readonly' : ''} /><span class="chip ${approved ? 'chip-teal' : 'chip-amber'}">${approved ? 'Approved' : 'Draft'}</span></div>
-      <div class="wb-draft-sub"><span>Format: <b>${esc(d.formatName || 'Custom')}</b> · ${esc(d.docType)} · <button type="button" class="btn-text" data-wb="hist-open">${wbIc('clock')}History (${d.versions.length})</button></span>
-        <div class="wb-seg" role="group" aria-label="View"><button type="button" class="${edit ? 'on' : ''}" data-wb="mode" data-mode="edit" aria-pressed="${edit}">Edit</button><button type="button" class="${edit ? '' : 'on'}" data-wb="mode" data-mode="preview" aria-pressed="${!edit}">Preview</button></div></div>
-      ${approved ? '<p class="wb-banner">Approved and locked. Reopen the draft to change it; it will need approving again before it can be exported.</p>' : ''}
-      <div class="wb-draft-body">${edit ? wbEditorHtml(d, approved) : `<div class="wb-paper">${Drafting.renderDraftHtml(d)}</div>`}</div>
-      <div class="wb-draft-foot">${approved
-        ? `<span class="wb-approved">${wbIc('shield')}Approved ${esc(d.approvedAt)}</span><div class="wb-foot-actions"><button type="button" class="btn btn-teal btn-sm" data-wb="draft-word">${wbIc('download')}Download Word (.docx)</button><button type="button" class="btn btn-ghost btn-sm" data-wb="draft-print">Print / save as PDF</button><button type="button" class="btn-text" data-wb="draft-reopen">Reopen for editing</button></div>`
-        : `<span class="hint" style="margin:0">You approve every draft before it can be exported.</span><button type="button" class="btn btn-teal btn-sm" data-wb="draft-approve">Approve draft</button>`}</div>
-    </div>
-    <div class="card card-pad">
-      <div class="wb-ring-row"><div class="score-ring" id="wbRing" style="--pct:${r.pct}"><b>${r.pct}</b></div><div><strong style="font-size:13.5px">Completeness</strong><p style="font-size:12px;color:var(--muted);margin-top:3px">The share of sections that have text. The checks below are counted from this draft and this matter’s record.</p></div></div>
-      <label class="dl-field">Court rules<select data-wb-change="draft-profile"${approved ? ' disabled' : ''}><option value="">None</option>${wbProfiles().map(p => `<option value="${esc(p.id)}"${p.id === d.profileId ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}</select></label>
-      <p class="hint" style="margin:6px 0 4px">Sets the paper, margins and page numbers of the Word file, and checks the draft against the rules you have entered. <a href="#" data-wb="profiles-open">Set up court rules</a></p>
-      <div id="wbChecks">${wbChecksHtml(r)}</div>
-      ${wbReviewHtml(d)}
-      <button type="button" class="btn btn-ghost btn-block wb-danger-btn" data-wb="draft-del">Delete this draft</button>
-    </div>
-  </div>`;
-}
+function tabDrafting(m) { return DraftStudio.render(m); }       // draft-studio.js
 
-WB_CLICK['draft-pick'] = (el, m) => { wbUi.draft[m.id] = el.dataset.id; wbRefresh(); };
-WB_CLICK['mode'] = el => { wbUi.mode = el.dataset.mode === 'preview' ? 'preview' : 'edit'; wbRefresh(); };
-WB_CLICK['formats-open'] = (el, m) => wbOpenFormats(m);
-WB_CLICK['profiles-open'] = (el, m, e) => { e?.preventDefault(); wbOpenProfiles(m); };
-WB_CLICK['pw-open'] = (el, m) => wbOpenParaReply(m);
-WB_CLICK['hist-open'] = (el, m) => wbOpenHistory(m);
 WB_CLICK['sec-comment'] = (el, m) => wbOpenComments(m, el.dataset.sec);
 WB_CLICK['comment-open'] = (el, m) => wbOpenComments(m, el.dataset.sec || '');
-WB_CHANGE['draft-profile'] = (el, m) => { const d = wbDraftOf(m); if (d && d.status !== 'Approved') { d.profileId = el.value; wbSave(m.id); wbPaintChecks(m, d); } };
 WB_CLICK['draft-new'] = (el, m) => wbOpenNewDraft(m);
 WB_INPUT['draft-title'] = (el, m) => { const d = wbDraftOf(m); if (d && d.status !== 'Approved') { d.title = el.value; wbSaveSoon(m.id); } };
 WB_INPUT['sec-heading'] = (el, m) => { const d = wbDraftOf(m), s = d?.sections[+el.dataset.i]; if (s && d.status !== 'Approved') { s.heading = el.value; wbPaintChecks(m, d); wbSaveSoon(m.id); } };
@@ -686,7 +642,7 @@ function wbPrint(d) {                                 // print from a hidden fra
 
 function wbOpenNewDraft(m) {
   const types = Drafting.docTypes(wbFormats());
-  let type = [wbUi.lastType, wbDraftOf(m)?.docType].find(t => types.includes(t)) || types[0];
+  let type = [wbUi.docType[m.id], wbUi.lastType, wbDraftOf(m)?.docType].find(t => types.includes(t)) || types[0];
   const fmtOptions = t => {
     const all = wbFormats(), def = Drafting.defaultFormatFor(all, wb.defaults, t);
     return Drafting.formatsFor(all, t).map(f => `<option value="${esc(f.id)}"${def && f.id === def.id ? ' selected' : ''}>${esc(f.name)}${f.builtin ? '' : ' (yours)'}${def && f.id === def.id ? ' — default' : ''}</option>`).join('');
@@ -715,7 +671,7 @@ function wbOpenNewDraft(m) {
       if (!f) { showToast('Pick a format first.'); return; }
       const d = Drafting.createDraft(f, m, { title: els.title.value, extras: wbExtras(m), profileId: wbNewDraftProfile() });
       m.drafts.push(d);
-      wbUi.draft[m.id] = d.id; wbUi.mode = 'edit'; wbUi.lastType = f.docType;
+      wbUi.draft[m.id] = d.id; wbUi.docType[m.id] = f.docType; wbUi.mode = 'edit'; wbUi.lastType = f.docType;
       wbSave(m.id); closeModals(); wbRefresh();
       const gaps = Drafting.countGaps(d.sections.map(s => `${s.heading}\n${s.body}`).join('\n'));
       showToast(`Draft created from “${f.name}”.${gaps ? ` ${gaps} blank${gaps === 1 ? '' : 's'} to fill in.` : ''}`);

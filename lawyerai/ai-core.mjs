@@ -224,14 +224,37 @@ In opposingAuthorities list judgments as "Party v. Party (year)". If you are not
     }
   },
 
-  'bail-petition': {
-    json: false,
+  'draft-application': {
+    json: true,
     build(p) {
-      if (!str(p.fir)) throw new AiError('empty', 'Paste the FIR details.');
+      const sections = arr(p.sections, 30).map(x => { const layout = str(x?.layout, 20); return { id: str(x?.id, 60), heading: str(x?.heading, 200), layout, current: layout === 'center' || layout === 'signoff' ? str(x?.body, 1500) : '' }; }).filter(x => x.id);
+      if (!sections.length) throw new AiError('empty', 'This draft has no sections to fill.');
+      if (!str(p.facts) && !str(p.other) && !arr(p.chronology).length) throw new AiError('empty', 'Tell it what happened: give the facts, or add events to the chronology.');
+      const authorities = strs(p.authorities, 300, 20);
+      const type = str(p.docType, 120) || 'application';
+      const hint = /anticipatory/i.test(type) ? 'It is an application under section 482 of the Bharatiya Nagarik Suraksha Sanhita, 2023 (formerly section 438 CrPC).'
+        : /regular bail/i.test(type) ? 'It is an application under section 483 BNSS, 2023 (formerly section 439 CrPC).'
+        : /written statement/i.test(type) ? 'It is a written statement under Order VIII CPC: answer the plaint specifically and never with a bare general denial.'
+        : /plaint/i.test(type) ? 'It is a plaint under Order VII Rule 1 CPC.'
+        : /writ/i.test(type) ? 'It is a writ petition under Article 226 of the Constitution.'
+        : /affidavit/i.test(type) ? 'It is a sworn statement: each statement is a numbered paragraph in the first person.' : '';
+      const sectionList = sections.map(x => `- id: ${x.id} | heading: ${x.heading || '(none)'} | layout: ${x.layout || 'para'} | ${x.current ? `current text: ${JSON.stringify(x.current)}` : 'to be written'}`).join('\n');
       return {
         system: `You draft court papers for an Indian advocate. ${RULES}`,
-        user: `Draft an application for anticipatory bail under Section 482 of the Bharatiya Nagarik Suraksha Sanhita, 2023 (formerly Section 438 CrPC) for ${str(p.court, 200) || 'the High Court'}.\n${wrap('FIR', p.fir)}\n${wrap('APPLICANT', p.applicant)}\n\nInclude: cause title, facts, grounds, undertakings, prayer. Do not cite any judgment unless it appears in the material above; write "[authority to be added]" where one is needed. Where a fact is missing write [____].`
+        user: `Write the text of a ${type} for ${str(p.court, 200) || 'the court'}. ${hint}\nParties: ${str(p.parties, 300) || 'not stated'}\n${wrap('FACTS', p.facts)}\nRelief wanted: ${str(p.relief, 1200) || 'not stated'}\n${wrap('OTHER DETAILS', p.other)}\n${wrap('CHRONOLOGY', arr(p.chronology, 40).map(x => str(x, 300)).join('\n'))}\n${wrap('ARGUMENTS', arr(p.arguments, 20).map(x => str(x, 500)).join('\n'))}\n${wrap('AUTHORITIES', authorities.join('\n'))}\n${wrap('ANNEXURES', strs(p.documents, 200, 40).join('\n'))}\n\nThe only judgments you may cite are the ones in AUTHORITIES, written exactly as listed. Where a ground needs an authority that is not listed, write [authority to be added]. Do not cite any other judgment.\n\nWrite these sections. Use each id exactly once, and keep to the heading and layout:\n${sectionList}\n\nLayouts: numbered = one paragraph per line, without numbers (they are added later); list = one item per line, without numbers; para = ordinary lines; center or signoff = short lines exactly as they should appear. Write every section marked "to be written" from the material above, in proper pleading language, so that the facts, grounds and prayer follow what the advocate told you in FACTS, RELIEF and OTHER DETAILS and use the CHRONOLOGY and ARGUMENTS. For a section that has current text (a cause title or a signature block), keep its layout and change only what the material changes. An annexures section lists only the items in ANNEXURES, in that order. Where a name, date or fact is not in the material, write [____]. You may use **bold** for emphasis.\n${J}\n{"sections":[{"id":"an id from the list","body":"the section's text"}]}`
       };
+    },
+    clean(o, p) {
+      const layouts = new Map(arr(p.sections, 30).map(x => [String(x?.id), str(x?.layout, 20)]));
+      /* "numbered" and "list" sections are numbered by the page, so a model's own "1." or "(a)" in front of a line would show twice */
+      const unnumber = (layout, text) => (layout === 'numbered' || layout === 'list' ? text.split('\n').map(l => l.replace(/^\s*(?:\(?\d{1,3}[.)]|\([a-z]{1,2}\)|[-•*])\s+/i, '')).join('\n') : text);
+      const out = arr(o.sections, 40).filter(x => layouts.has(String(x?.id)) && typeof x?.body === 'string').map(x => ({ id: String(x.id), body: unnumber(layouts.get(String(x.id)), str(x.body, 8000)) }));
+      if (!out.length) throw new AiError('bad_model_output', 'The model did not fill any section. Try again, or choose a different model in Settings.', 502);
+      return { sections: out };
+    },
+    async after(r, ctx) {
+      try { r.citations = await citationReport(r.sections.map(x => x.body).join('\n'), ctx.lookup); } catch { r.citations = null; }       // the draft is still returned if the database is down
+      return r;
     }
   },
 
