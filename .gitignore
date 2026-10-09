@@ -1,5 +1,8 @@
 # --- dependencies and build output
 node_modules/
+.next/
+*.tsbuildinfo
+venv11/
 __pycache__/
 *.pyc
 .venv/
@@ -15,6 +18,7 @@ paper/ieee/*.toc
 paper/ieee/*.fls
 paper/ieee/*.fdb_latexmk
 paper/ieee/*.synctex.gz
+paper/ieee/renders/
 
 # --- data that is downloaded from the public AWS archive or rebuilt by the scripts (hundreds of MB; see README)
 paper/experiment/corpus/text/
