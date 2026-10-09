@@ -10,6 +10,8 @@ export default function CaseLawSection() {
   const [results, setResults] = useState<CaseLawItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
+  const [source, setSource] = useState<'database' | 'catalogue' | ''>('');
+  const [note, setNote] = useState('');
 
   const fetchCaseLaw = async (q: string, court: string) => {
     setLoading(true);
@@ -21,6 +23,8 @@ export default function CaseLawSection() {
       const data = await res.json();
       setResults(data.results || []);
       setTotal(data.total || 0);
+      setSource(data.source || '');
+      setNote(data.note || '');
     } catch {
       setResults([]);
     } finally {
@@ -102,8 +106,11 @@ export default function CaseLawSection() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            Found {total} relevant judgment{total === 1 ? '' : 's'}
+            Found {total.toLocaleString('en-IN')}{note.endsWith('matches') ? '+' : ''} relevant judgment{total === 1 ? '' : 's'}
+            {source === 'database' && ' · live database, 19.3 million judgments'}
+            {source === 'catalogue' && ' · built-in sample catalogue (database not connected)'}
           </span>
+          {note && <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{note}</span>}
         </div>
 
         {results.map((c) => (

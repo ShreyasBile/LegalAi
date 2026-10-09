@@ -1,5 +1,3 @@
-import { Pool } from 'pg';
-
 export interface CaseLawItem {
   id: string;
   title: string;
@@ -102,16 +100,12 @@ export const SAMPLE_CASELAW_CATALOGUE: CaseLawItem[] = [
   },
 ];
 
-let pgPool: Pool | null = null;
+/* Search runs against the case-law API (caselaw-db/api, port 8090), which owns the SQL, the timeouts and the typo fallback
+   over the 19.3 million-row database. If it cannot be reached, the built-in sample catalogue answers and the result says so. */
+const CASELAW_API = (process.env.CASELAW_API_URL || 'http://127.0.0.1:8090').replace(/\/+$/, '');
 
-function getPgPool(): Pool | null {
-  const dsn = process.env.CASELAW_DB;
-  if (!dsn) return null;
-  if (!pgPool) {
-    pgPool = new Pool({ connectionString: dsn, max: 4 });
-  }
-  return pgPool;
-}
+/* The page's court names -> the database's court codes */
+const COURT_CODES: Record<string, string> = { 'supreme court': 'SC', 'supreme court of india': 'SC', 'bombay high court': '27~1' };
 
 export interface CaseLawSearchParams {
   query?: string;
@@ -121,41 +115,66 @@ export interface CaseLawSearchParams {
   offset?: number;
 }
 
-export async function searchCaseLaw(params: CaseLawSearchParams): Promise<{
+export interface CaseLawSearchResult {
   total: number;
   results: CaseLawItem[];
-  source: 'postgres' | 'catalogue';
-}> {
-  const pool = getPgPool();
-  if (pool) {
-    try {
-      const q = params.query ? `%${params.query}%` : '%';
-      const sql = `
-        SELECT id, title, court_code as court, decision_date, year, cnr, neutral_citation, scr_citation, headnote
-        FROM case_laws
-        WHERE (title ILIKE $1 OR headnote ILIKE $1)
-        ORDER BY decision_date DESC NULLS LAST
-        LIMIT $2 OFFSET $3
-      `;
-      const res = await pool.query(sql, [q, params.limit || 20, params.offset || 0]);
-      return {
-        total: res.rowCount || 0,
-        results: res.rows.map((r) => ({
-          id: String(r.id),
-          title: r.title,
-          court: r.court,
-          year: r.year,
-          decisionDate: r.decision_date ? r.decision_date.toISOString().slice(0, 10) : '',
-          cnr: r.cnr,
-          neutralCitation: r.neutral_citation,
-          scrCitation: r.scr_citation,
-          headnote: r.headnote || '',
-        })),
-        source: 'postgres',
-      };
-    } catch {
-      // Fallback to built-in catalogue
-    }
+  source: 'database' | 'catalogue';
+  note?: string;
+}
+
+interface ApiCard {
+  key: string;
+  courtCode: string;
+  courtName: string;
+  year: number;
+  title: string;
+  cnr: string | null;
+  citation: string | null;
+  neutralCitation: string | null;
+  judges: string | null;
+  outcome: string | null;
+  snippet: string | null;
+  decisionDate: string | null;
+}
+
+async function searchDatabase(params: CaseLawSearchParams): Promise<CaseLawSearchResult> {
+  const limit = Math.min(Math.max(params.limit || 20, 1), 50);
+  const url = new URL(`${CASELAW_API}/api/caselaw/search`);
+  if (params.query) url.searchParams.set('q', params.query);
+  const code = params.court ? COURT_CODES[params.court.toLowerCase()] : undefined;
+  if (code) url.searchParams.set('court', code);
+  if (params.year) { url.searchParams.set('yearFrom', String(params.year)); url.searchParams.set('yearTo', String(params.year)); }
+  url.searchParams.set('pageSize', String(limit));
+  url.searchParams.set('page', String(Math.floor((params.offset || 0) / limit) + 1));
+  const res = await fetch(url, { signal: AbortSignal.timeout(30000), cache: 'no-store' });
+  if (!res.ok) throw new Error(`case-law API answered ${res.status}`);
+  const data = (await res.json()) as { total: number | null; totalCapped?: boolean; results: ApiCard[] };
+  return {
+    total: data.total ?? data.results.length,
+    source: 'database',
+    note: data.totalCapped ? `${data.total}+ matches` : undefined,
+    results: data.results.map((c) => ({
+      id: c.key,
+      title: c.title,
+      court: c.courtName,
+      year: c.year,
+      decisionDate: c.decisionDate || '',
+      cnr: c.cnr || undefined,
+      neutralCitation: c.neutralCitation || undefined,
+      scrCitation: c.citation || undefined,
+      judges: c.judges ? [c.judges] : undefined,
+      headnote: c.snippet || '',
+      outcome: c.outcome || undefined,
+    })),
+  };
+}
+
+export async function searchCaseLaw(params: CaseLawSearchParams): Promise<CaseLawSearchResult> {
+  let note: string | undefined;
+  try {
+    return await searchDatabase(params);
+  } catch (e) {
+    note = `The case-law database is not reachable (${e instanceof Error ? e.message : 'error'}); showing the built-in sample catalogue.`;
   }
 
   let filtered = [...SAMPLE_CASELAW_CATALOGUE];
@@ -182,5 +201,6 @@ export async function searchCaseLaw(params: CaseLawSearchParams): Promise<{
     total: filtered.length,
     results: filtered.slice(params.offset || 0, (params.offset || 0) + (params.limit || 20)),
     source: 'catalogue',
+    note,
   };
 }
