@@ -39,15 +39,14 @@ const DraftStudio = (() => {
     ] }
   ];
 
-  const toolHtml = (t, m, d, pct) => {
-    const off = t.needsDraft && !d;
-    return `<button type="button" class="ds-tool${t.ai && t.ai !== 'citation-check' ? ' ai' : ''}" data-wb="ds-tool" data-tool="${t.id}" aria-label="${esc(t.name)}: ${esc(t.fn)}"${off ? ' disabled' : ''}>
-      ${wbIc(t.icon)}${t.id === 'complete' && d ? `<em id="dsPct">${pct}</em>` : ''}
-      <span class="ds-tip" role="tooltip"><b>${esc(t.name)}${t.ai && t.ai !== 'citation-check' ? ' <i>AI</i>' : ''}</b>${esc(off ? 'Start a draft first.' : t.fn)}</span></button>`;
-  };
   const railHtml = (m, d) => {
     const pct = d ? Drafting.draftChecks(d, m, wbProfileOf(d)).pct : 0;
-    return `<nav class="ds-rail" aria-label="Drafting tools">${TOOLS.map(g => `<div class="ds-group" role="group" aria-label="${g.group}">${g.tools.map(t => toolHtml(t, m, d, pct)).join('')}</div>`).join('<i class="ds-sep"></i>')}</nav>`;
+    const groups = TOOLS.map(g => ({ group: g.group, tools: g.tools.map(t => ({
+      ...t, ai: !!t.ai && t.ai !== 'citation-check',
+      off: !!t.needsDraft && !d, offNote: 'Start a draft first.',
+      ...(t.id === 'complete' && d ? { badge: pct, badgeId: 'dsPct' } : {})
+    })) }));
+    return Studio.rail([...groups, Studio.matterTools(m)]);
   };
 
   /* ── the page ──────────────────────────────────────────────────────────── */
@@ -151,12 +150,13 @@ const DraftStudio = (() => {
     else if (active === 'auto') work = autoPanel(m, d, type);
     else if (d) work = draftCard(m, d, active === 'preview');
     else work = `<div class="card card-pad ds-empty"><h2>No ${esc(type.toLowerCase())} in this matter yet</h2><p class="hint">Choose <b>Manual</b> to start from the format with this matter's record filled in, or <b>Auto</b> to have AI write it from what you tell it.</p></div>`;
-    return `<div class="ds">
+    return `<div class="ds has-rail">
+      ${matterHead(m, 'drafting')}
       ${!type || wbUi.pickType[m.id]
-        ? `<section class="ds-step"><h2><span class="ds-n">1</span>Which application do you want to make?</h2>${typeCards(m, type)}</section>`
-        : `<section class="ds-step ds-done"><h2><span class="ds-n">1</span>Application</h2><strong class="ds-chosen">${esc(type)}</strong><button type="button" class="btn btn-ghost btn-sm" data-wb="ds-change">Change</button></section>`}
+        ? `<section class="ds-step"><div class="ds-step-h"><h2>Which application do you want to make?</h2></div>${typeCards(m, type)}</section>`
+        : `<section class="ds-step ds-done"><h2>Application</h2><strong class="ds-chosen">${esc(type)}</strong><button type="button" class="btn btn-ghost btn-sm" data-wb="ds-change">Change</button></section>`}
       ${draftTabs(m, d)}
-      ${type ? `<section class="ds-step"><h2><span class="ds-n">2</span>How do you want to prepare it?</h2>${modeCards(active, !!d)}</section>` : '<p class="hint ds-first">Pick an application above to begin.</p>'}
+      ${type ? `<section class="ds-step"><div class="ds-step-h"><h2>How do you want to prepare it?</h2></div>${modeCards(active, !!d)}</section>` : '<p class="hint ds-first">Pick an application above to begin.</p>'}
       ${work ? `<section class="ds-work">${work}</section>` : ''}
     </div>${railHtml(m, d)}`;
   }
@@ -262,12 +262,13 @@ const DraftStudio = (() => {
     history: m => wbOpenHistory(m),
     comments: m => wbOpenComments(m, '')
   };
-  WB_CLICK['ds-tool'] = (el, m) => {
-    const tool = TOOLS.flatMap(g => g.tools).find(t => t.id === el.dataset.tool);
-    if (!tool || (tool.needsDraft && !wbDraftOf(m))) return;
-    if (tool.ai) wbOpenModal({ eyebrow: tool.ai === 'citation-check' ? 'Check' : 'AI assistant', title: tool.name, focus: false, size: 'md', html: `<div class="wb-form">${AiUi.popupHtml(tool.ai, m)}</div>` });
-    else OPEN[tool.id]?.(m);
-  };
+  for (const tool of TOOLS.flatMap(g => g.tools)) {
+    Studio.on(tool.id, ({ m }) => {
+      if (!m || (tool.needsDraft && !wbDraftOf(m))) return;
+      if (tool.ai) Studio.popup({ eyebrow: tool.ai === 'citation-check' ? 'Check' : 'AI assistant', title: tool.name, html: AiUi.popupHtml(tool.ai, m) });
+      else OPEN[tool.id]?.(m);
+    });
+  }
 
   return { render };
 })();

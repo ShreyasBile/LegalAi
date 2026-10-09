@@ -3,8 +3,9 @@
    helpers on Case law and Limitation. The work is done by the server (/api/ai/*, ai-server.mjs);
    this file is the forms and how the answers are shown.
 
-   Loaded after app.js and workbench.js. app.js calls AiUi.withCard (matter tabs), AiUi.settingsCard,
-   AiUi.caselawCard and AiUi.deadlinesCard, and AiUi.bindPage after a page is drawn.
+   Loaded after app.js and workbench.js. Pages open its actions in popups from their rail
+   (Studio.onAi, AiUi.popupHtml); the Settings page draws AiUi.settingsCard; app.js calls AiUi.bindPage
+   after a page is drawn.
 
    What the answers are: a model's draft or opinion. Every one says so, names the model, and the
    cases a model mentions are looked up in the database and marked. Nothing here files or sends
@@ -65,13 +66,6 @@ const AiUi = (() => {
     'limitation-classify': { title: 'Suggest the limitation period', run: 'Suggest period', where: 'deadlines',
       help: 'Picks a period from the built-in list of 27 and the start date from your description. The dates are then counted by the calculator, not by the model. Check both against the statute.',
       fields: () => [{ name: 'summary', label: 'Describe the dispute and when things happened', type: 'textarea', rows: 4 }] }
-  };
-
-  const TAB_ACTIONS = {
-    arguments: ['devils-advocate'],
-    evidence: ['timeline-depositions', 'contradiction-matrix', 'vernacular-summary'],
-    hearing: ['client-briefing'],
-    status: ['order-digest', 'next-stage']
   };
 
   /* ── talking to the server ─────────────────────────────────────────────── */
@@ -165,17 +159,6 @@ const AiUi = (() => {
     return `<div class="ai-banner">${s.offline ? 'The workspace server did not answer.' : 'AI actions need an OpenRouter API key.'} <a href="#/settings">Add it in Settings</a>. Citation checking works without one.</div>`;
   }
 
-  function withCard(base, m, tab) {
-    const names = TAB_ACTIONS[tab];
-    if (!names) return base;
-    if (!ST.status) loadStatus().then(() => { const root = document.querySelector('#matterTabContent .ai-card .ai-banner-slot'); if (root) root.innerHTML = banner(); });
-    return `${base}<div class="card card-pad ai-card" id="aiCard">
-      <div class="card-head"><div><p class="eyebrow">AI assistant</p><h2>Drafts and checks from a language model</h2></div></div>
-      <p class="hint">These produce drafts and opinions for you to review. Nothing is filed or sent. Cases a model names are looked up in the database and marked.</p>
-      <div class="ai-banner-slot">${banner()}</div>
-      ${names.map(n => actionHtml(n, m)).join('')}</div>`;
-  }
-
   /* ── running an action ─────────────────────────────────────────────────── */
   const plainDraft = d => {
     try { return Drafting.layoutBlocks(d).blocks.map(b => (b.t === 'para' ? `${b.num ? `${b.num} ` : ''}${b.text}` : b.text || '')).join('\n').trim(); } catch { return ''; }
@@ -257,7 +240,10 @@ const AiUi = (() => {
         wbSave(m.id);
         showToast('Saved to this matter\'s notes (Research tab).');
       } else if (t.dataset.aiSearch !== undefined) {
-        location.hash = `#/caselaw?q=${encodeURIComponent(t.dataset.aiSearch)}`;
+        const words = t.dataset.aiSearch;
+        const box = document.querySelector('#clInput') || document.querySelector('.wb-search input[name="q"]');
+        if (box) { closeModals(); box.value = words; (box.form.requestSubmit ? box.form.requestSubmit() : box.form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))); }
+        else location.hash = `#/caselaw?q=${encodeURIComponent(words)}`;
       } else if (t.dataset.aiLimit !== undefined) {
         const [ruleId, start] = t.dataset.aiLimit.split('|');
         if (typeof dlUi === 'object') { dlUi.ruleId = ruleId; if (start) dlUi.start = start; }
@@ -280,14 +266,15 @@ const AiUi = (() => {
 
   /* ── Settings: the API key ─────────────────────────────────────────────── */
   function settingsCard() {
-    return `<div class="card card-pad ai-settings" id="aiSettings"><h2>AI model (OpenRouter)</h2>
-      <p class="hint">The AI buttons on matters, Case law and Limitation use a language model through OpenRouter. Your key is saved on this computer by the workspace server and is never shown here again or sent anywhere except OpenRouter.</p>
+    return Studio.sec({ title: 'AI model (OpenRouter)', pad: true, cls: 'ai-settings',
+      sub: 'The AI tools on matters, Case law and Limitation use a language model through OpenRouter. Your key is saved on this computer by the workspace server and is never shown here again or sent anywhere except OpenRouter.',
+      body: `<div id="aiSettings">
       <div id="aiStatusLine" class="ai-status">Checking…</div>
       <div class="ai-field"><label class="ai-label" for="aiKey">OpenRouter API key</label><input class="wb-input" id="aiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-or-v1-…"></div>
       <div class="ai-field"><label class="ai-label" for="aiModel">Model</label><input class="wb-input" id="aiModel" type="text" placeholder="openrouter/auto"><small class="hint">Any model id from openrouter.ai/models. The default lets OpenRouter choose.</small></div>
       <details class="ai-adv"><summary>Advanced</summary><div class="ai-field"><label class="ai-label" for="aiBase">API address</label><input class="wb-input" id="aiBase" type="text" placeholder="https://openrouter.ai/api/v1"><small class="hint">Leave blank for OpenRouter. A model on this computer (for example Ollama at http://localhost:11434/v1) needs no key.</small></div></details>
       <div class="ai-row"><button class="btn btn-teal btn-sm" id="aiSave">Save</button><button class="btn btn-ghost btn-sm" id="aiTest">Test connection</button><button class="btn btn-ghost btn-sm" id="aiClear">Remove key</button></div>
-      <div id="aiMsg" class="ai-msg" aria-live="polite"></div></div>`;
+      <div id="aiMsg" class="ai-msg" aria-live="polite"></div></div>` });
   }
   function paintStatus(s) {
     const line = document.querySelector('#aiStatusLine'); if (!line) return;
@@ -319,16 +306,8 @@ const AiUi = (() => {
     });
   }
 
-  /* ── single-action cards on other pages ────────────────────────────────── */
-  const pageCard = (name, title) => {
-    if (!ST.status) loadStatus().then(() => { const el = document.querySelector('.ai-banner-slot'); if (el) el.innerHTML = banner(); });
-    return `<div class="card card-pad ai-card" style="margin-top:18px"><div class="card-head"><div><p class="eyebrow">AI assistant</p><h2>${esc(title)}</h2></div></div><div class="ai-banner-slot">${banner()}</div>${actionHtml(name, null)}</div>`;
-  };
-
   return {
-    withCard, settingsCard, bindSettings, wire,
-    caselawCard: () => pageCard('query-rewrite', 'Not sure what to search for?'),
-    deadlinesCard: () => pageCard('limitation-classify', 'Not sure which period applies?'),
+    settingsCard, bindSettings, wire,
     bindPage(key) { wire(); if (key === 'settings') bindSettings(); },
     cite, api, loadStatus, usable: () => !!ST.status?.usable, hasStatus: () => !!ST.status, banner, render: (name, r) => RENDER[name](r),
     popupHtml(name, m) { wire(); if (!ST.status) loadStatus().then(() => { const el = document.querySelector('.ai-pop-banner'); if (el) el.innerHTML = banner(); }); return `<div class="ai-pop-banner">${banner()}</div>${actionHtml(name, m, true)}`; },

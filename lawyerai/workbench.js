@@ -222,36 +222,25 @@ function wbAuthorityRow(a, i) {
 
 function tabResearch(m) {
   wbEnsure(m);
-  const threads = CONVERSATIONS.filter(c => c.matterId === m.id);
   const q = wbUi.results?.matterId === m.id ? wbUi.results.q : '';
-  return `
-  <div class="dash-grid">
-    <div class="wb-col">
-      <div class="card card-pad">
-        <h2>Find authorities</h2>
-        <p class="hint">Search reported judgments and pin the ones this matter relies on. Pinned authorities flow into your drafts.</p>
-        <form class="wb-search" data-wb-submit="auth-search"><div class="search-box">${wbIc('research')}<input name="q" maxlength="200" autocomplete="off" aria-label="Search authorities" placeholder="Party name, citation or case number" value="${esc(q)}" /></div><button class="btn btn-teal btn-sm" type="submit">Search</button></form>
-        <div id="wbResults">${wbResultsHtml(m)}</div>
-      </div>
-      <div class="card card-pad">
-        <div class="card-head"><div><h2>Research history</h2><p class="hint">Conversations with LegalAI scoped to this matter.</p></div><a class="btn btn-ghost btn-sm" href="#/matters/${m.id}/chat">${wbIc('spark')}New question</a></div>
-        ${threads.length ? threads.map(t => `<a class="list-row" href="#/matters/${m.id}/chat/${t.id}" style="text-decoration:none;color:inherit"><div class="review-icon">${wbIc('spark')}</div><div class="review-text"><strong>${esc(t.title)}</strong><small>${esc(t.updated)} · ${t.messages.filter(x => x.role === 'ai').length} answer${t.messages.filter(x => x.role === 'ai').length === 1 ? '' : 's'}</small></div>${wbIc('chevron').replace('class="ic"', 'class="ic" style="color:var(--faint)"')}</a>`).join('') : '<p class="empty-note">No research yet for this matter. Ask LegalAI a question to get started.</p>'}
-      </div>
-    </div>
-    <div class="wb-col">
-      <div class="card card-pad">
-        <div class="card-head"><div><h2>Key authorities</h2><p class="hint">What this matter relies on, in the order you list it.</p></div><button type="button" class="btn btn-ghost btn-sm" data-wb="auth-add">${wbIc('plus')}Add</button></div>
-        ${m.authorities.length ? m.authorities.map(wbAuthorityRow).join('') : '<p class="empty-note">No authorities pinned yet. Search above, or add one by hand.</p>'}
-      </div>
-      <div class="card card-pad">
-        <h2>Research notes</h2>
-        <p class="hint">Propositions, doubts, things to check. Use “Save to matter” on an Ask AI answer to keep it here.</p>
-        <form class="wb-note-form" data-wb-submit="note-add"><textarea name="text" rows="3" maxlength="4000" aria-label="New research note" placeholder="Write a note…"></textarea><button class="btn btn-teal btn-sm" type="submit">Add note</button></form>
-        ${m.notes.length ? m.notes.map((n, i) => `<div class="wb-note-item"><p>${esc(n.text)}</p><div class="wb-note-meta"><span>${esc(n.createdAt)}${n.source === 'ask-ai' ? ' · From Ask AI' : ''}</span><button type="button" data-wb="note-del" data-i="${i}">Remove</button></div></div>`).join('') : '<p class="empty-note">No notes yet.</p>'}
-      </div>
-    </div>
-  </div>`;
+  return Studio.sec({ title: 'Authorities', sub: 'Search reported judgments and pin the ones this matter relies on. Pinned authorities flow into your drafts.',
+    body: `<form class="wb-search" data-wb-submit="auth-search"><div class="search-box">${wbIc('research')}<input name="q" maxlength="200" autocomplete="off" aria-label="Search authorities" placeholder="Party name, citation or case number" value="${esc(q)}" /></div><button class="btn btn-teal btn-sm" type="submit">Search</button></form>
+      <div id="wbResults">${wbResultsHtml(m)}</div>`
+      + Studio.part('Pinned for this matter', '<span class="ds-hint">In the order you list them.</span>')
+      + (m.authorities.length ? m.authorities.map(wbAuthorityRow).join('') : Studio.empty('No authorities pinned yet. Search above, or add one by hand.')) });
 }
+
+const wbNotesHtml = m => `<form class="wb-note-form" data-wb-submit="note-add"><textarea name="text" rows="3" maxlength="4000" aria-label="New research note" placeholder="Write a note…"></textarea><button class="btn btn-teal btn-sm" type="submit">Add note</button></form>
+  ${m.notes.length ? m.notes.map((n, i) => `<div class="wb-note-item"><p>${esc(n.text)}</p><div class="wb-note-meta"><span>${esc(n.createdAt)}${n.source === 'ask-ai' ? ' · From Ask AI' : ''}</span><button type="button" data-wb="note-del" data-i="${i}">Remove</button></div></div>`).join('') : Studio.empty('No notes yet.')}`;
+const wbHistoryHtml = m => {
+  const threads = CONVERSATIONS.filter(c => c.matterId === m.id), answers = t => t.messages.filter(x => x.role === 'ai').length;
+  return `<div class="ds-list"><a class="list-row" href="#/matters/${m.id}/chat" data-wb-close style="text-decoration:none;color:inherit"><div class="review-icon">${wbIc('plus')}</div><div class="review-text"><strong>New question</strong><small>Ask LegalAI about this matter</small></div></a>
+    ${threads.map(t => `<a class="list-row" href="#/matters/${m.id}/chat/${t.id}" data-wb-close style="text-decoration:none;color:inherit"><div class="review-icon">${wbIc('spark')}</div><div class="review-text"><strong>${esc(t.title)}</strong><small>${esc(t.updated)} · ${answers(t)} answer${answers(t) === 1 ? '' : 's'}</small></div>${wbIc('chevron')}</a>`).join('')}</div>
+    ${threads.length ? '' : Studio.empty('No research yet for this matter.')}`;
+};
+Studio.on('res-notes', ({ m }) => m && Studio.view({ eyebrow: m.title, title: 'Research notes', m, render: () => `<p class="hint">Propositions, doubts, things to check. Use “Save to matter” on an Ask AI answer to keep it here.</p>${wbNotesHtml(m)}` }));
+Studio.on('res-history', ({ m }) => m && Studio.popup({ eyebrow: m.title, title: 'Research history', html: wbHistoryHtml(m) }));
+Studio.on('res-add', ({ m }) => m && wbOpenAuthorityForm(m, null));
 
 WB_SUBMIT['auth-search'] = (form, m) => { const q = form.elements.q.value.trim(); if (q) wbSearchAuthorities(m, q); };
 WB_CLICK['auth-pin'] = (el, m) => {
@@ -345,27 +334,20 @@ function wbEventRow(t, i) {
 
 function tabEvidence(m) {
   wbEnsure(m);
-  const flagged = m.timeline.filter(t => t.flag);
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><h2>Documents</h2><p class="hint">Add the documents this case turns on, mark the key ones and put their dates into the chronology. Files are never uploaded or stored. If you choose “Read text”, the text is read on this computer and only that text is kept in this browser.</p></div><button type="button" class="btn btn-teal btn-sm" data-wb="ev-add">${wbIc('upload')}Add evidence</button></div>
-      ${m.documents.length ? m.documents.map(wbDocRow).join('') : '<p class="empty-note">No documents added yet.</p>'}
-    </div>
-    <div class="wb-col">
-      <div class="card card-pad">
-        <h2>Inconsistencies</h2>
-        ${flagged.length ? flagged.map(t => `<div class="contradiction" style="margin-top:12px"><div class="contradiction-icon">${wbIc('alert')}</div><div><p class="eyebrow" style="margin-bottom:3px">Flagged</p><strong style="font-size:13px">${esc(t.title)}</strong>${t.note ? `<p style="font-size:12px;margin-top:4px;color:var(--ink-soft)">${esc(t.note)}</p>` : ''}</div></div>`).join('') : '<p class="empty-note" style="text-align:left;padding:8px 0">None flagged. Flag a chronology event below when two documents disagree.</p>'}
-        <div class="grid-2" style="margin-top:16px"><div class="stat-card"><div class="stat-num" style="font-size:24px">${m.documents.length}</div><div class="stat-note">documents on file</div></div><div class="stat-card"><div class="stat-num" style="font-size:24px">${m.timeline.length}</div><div class="stat-note">events in chronology</div></div></div>
-      </div>
-      <div class="card card-pad">
-        <div class="card-head"><div><h2>Chronology</h2><p class="hint">Dated events in order. They feed the “Chronology” field in your drafts.</p></div><button type="button" class="btn btn-ghost btn-sm" data-wb="ev-event">${wbIc('plus')}Add event</button></div>
-        ${m.timeline.length ? m.timeline.map(wbEventRow).join('') : '<p class="empty-note">No events yet.</p>'}
-      </div>
-    </div>
-  </div>
-  ${evIndexShell(m)}`;
+  return Studio.sec({ title: 'Documents', sub: 'Add the documents this case turns on, mark the key ones and put their dates into the chronology. Files are never uploaded or stored. If you choose “Read text”, the text is read on this computer and only that text is kept in this browser.',
+    action: `<button type="button" class="btn btn-teal btn-sm" data-wb="ev-add">${wbIc('upload')}Add evidence</button>`,
+    body: m.documents.length ? m.documents.map(wbDocRow).join('') : Studio.empty('No documents added yet.') });
 }
+
+const wbChronoHtml = m => `<p class="hint">Dated events in order. They feed the “Chronology” field in your drafts.</p><div class="ds-list">${m.timeline.length ? m.timeline.map(wbEventRow).join('') : Studio.empty('No events yet.')}</div>
+  <button type="button" class="btn btn-ghost btn-sm" style="margin-top:12px" data-wb="ev-event">${wbIc('plus')}Add event</button>`;
+Studio.on('ev-chrono', ({ m }) => m && Studio.view({ eyebrow: m.title, title: 'Chronology', m, render: () => wbChronoHtml(m) }));
+Studio.on('ev-flags', ({ m }) => {
+  if (!m) return;
+  const flagged = m.timeline.filter(t => t.flag);
+  Studio.popup({ eyebrow: m.title, title: 'Inconsistencies', html: `<p class="hint">Events you flagged because two documents disagree.</p><div class="ds-list">${flagged.length ? flagged.map(t => `<div class="list-row"><div class="contradiction-icon" style="background:var(--amber-pale)">${wbIc('alert')}</div><div><strong style="font-size:13px">${esc(t.title)}</strong>${t.note ? `<p style="font-size:12px;margin:3px 0 0;color:var(--ink-soft)">${esc(t.note)}</p>` : ''}</div></div>`).join('') : Studio.empty('None flagged. Flag a chronology event when two documents disagree.')}</div>` });
+});
+Studio.on('ev-index', ({ m }) => m && Studio.view({ eyebrow: m.title, title: 'What the documents say', m, wide: true, render: () => evIndexShell(m), after: () => evPaint(m) }));
 
 WB_CLICK['ev-add'] = (el, m) => wbOpenEvidenceForm(m);
 WB_CLICK['ev-event'] = (el, m) => wbOpenEventForm(m, {});
@@ -454,23 +436,17 @@ function wbArgCard(m, a, i) {
 
 function tabArguments(m) {
   wbEnsure(m);
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><h2>Structured arguments</h2><p class="hint">The points you will press, each with the authorities behind it and the risks you expect. Strength is your own rating. They flow into your drafts.</p></div><button type="button" class="btn btn-teal btn-sm" data-wb="arg-add">${wbIc('plus')}Add argument</button></div>
-      ${m.arguments.length ? m.arguments.map((a, i) => wbArgCard(m, a, i)).join('') : '<p class="empty-note">No arguments yet. Add the first point you will press.</p>'}
-    </div>
-    <div class="wb-col">
-      <div class="card card-pad">
-        <div class="card-head"><div><h2>Anticipated counter-arguments</h2><p class="hint">What the other side is likely to raise, and your answer.</p></div><button type="button" class="btn btn-ghost btn-sm" data-wb="counter-add">${wbIc('plus')}Add</button></div>
-        ${m.counterArgs.length ? m.counterArgs.map((c, i) => `
-          <div class="counter-card"><p class="counter-point">${wbIc('alert')}${esc(c.point)}</p>${c.rebuttal ? `<p class="counter-rebuttal">${wbIc('check')}${esc(c.rebuttal)}</p>` : ''}
-            <div class="wb-row-actions wb-counter-actions"><button type="button" class="icon-btn" data-wb="counter-edit" data-i="${i}" aria-label="Edit counter-argument">${wbIc('edit')}</button><button type="button" class="icon-btn" data-wb="counter-del" data-i="${i}" aria-label="Remove counter-argument">${wbIc('close')}</button></div></div>`).join('') : '<p class="empty-note">None added yet.</p>'}
-      </div>
-      <div class="card card-pad"><h2>Use them in a draft</h2><p class="hint">In Drafting, the fields <b>Arguments</b> and <b>Counter-arguments</b> pull these in, one paragraph each.</p><a class="btn btn-ghost btn-sm" href="#/matters/${m.id}/drafting">${wbIc('draft')}Open Drafting</a></div>
-    </div>
-  </div>`;
+  return Studio.sec({ title: 'Your arguments', sub: 'The points you will press, each with the authorities behind it and the risks you expect. Strength is your own rating.',
+    action: `<button type="button" class="btn btn-teal btn-sm" data-wb="arg-add">${wbIc('plus')}Add argument</button>`,
+    body: m.arguments.length ? m.arguments.map((a, i) => wbArgCard(m, a, i)).join('') : Studio.empty('No arguments yet. Add the first point you will press.') });
 }
+
+const wbCounterHtml = m => `<p class="hint">Likely counter-arguments and your answer to each. In Drafting, the fields Arguments and Counter-arguments pull both lists in.</p>
+  ${m.counterArgs.length ? m.counterArgs.map((c, i) => `
+    <div class="counter-card"><p class="counter-point">${wbIc('alert')}${esc(c.point)}</p>${c.rebuttal ? `<p class="counter-rebuttal">${wbIc('check')}${esc(c.rebuttal)}</p>` : ''}
+      <div class="wb-row-actions wb-counter-actions"><button type="button" class="icon-btn" data-wb="counter-edit" data-i="${i}" aria-label="Edit counter-argument">${wbIc('edit')}</button><button type="button" class="icon-btn" data-wb="counter-del" data-i="${i}" aria-label="Remove counter-argument">${wbIc('close')}</button></div></div>`).join('') : Studio.empty('None added yet.')}
+  <button type="button" class="btn btn-ghost btn-sm" style="margin-top:12px" data-wb="counter-add">${wbIc('plus')}Add</button>`;
+Studio.on('arg-counter', ({ m }) => m && Studio.view({ eyebrow: m.title, title: 'What the other side will say', m, render: () => wbCounterHtml(m) }));
 
 WB_CLICK['arg-add'] = (el, m) => wbOpenArgForm(m, null);
 WB_CLICK['arg-edit'] = (el, m) => wbOpenArgForm(m, +el.dataset.i);

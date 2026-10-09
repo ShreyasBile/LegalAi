@@ -18,7 +18,7 @@ Real and tested:
   PDF links to the archive (no PDFs are stored).
 - The eCourts service's architecture and its **83 tests**.
 - All research code and results in `paper/`.
-- The workspace's working tools, all in the browser and each with unit and/or browser tests (**186 unit tests**,
+- The workspace's working tools, all in the browser and each with unit and/or browser tests (**195 unit tests**,
   `cd lawyerai && npm test`; the browser suites drive the real pages with Playwright):
   - **Build the case** tabs on a matter. *Research:* search judgments and pin authorities, keep notes, save an Ask AI answer as
     a note. *Evidence:* record documents, build a dated chronology, and read the documents' text (below). *Arguments:* points
@@ -102,6 +102,29 @@ A floating rail of tools sits at the right edge. Hover an icon for its name and 
 **Completeness**, **Citation check** (no key), **Filing format check** (AI), **Deemed-admission audit** (AI). Write: **Reply to one
 paragraph** (AI), **Para-wise reply**, **Caveat or injunction** (AI). Manage: **Document formats**, **Court rules**, **History**,
 **Review comments**. Approving and exporting a draft work as before.
+
+### How the pages are laid out
+
+Every page follows the Drafting page's layout: **one main feature fills the page, and everything else sits on the right-hand rail**
+as icons (hover for the name and what it does, click for a popup; a number on an icon is a count, such as open tasks or notes).
+Nothing is split into side-by-side blocks. For example:
+
+| Page | The main feature | On the rail |
+|---|---|---|
+| Today | The next step and today's court list | Waiting for approval, deadlines, the numbers, quick question, new matter |
+| Matter: Overview | The case and how strong each issue is | Open tasks, next hearing |
+| Matter: Research | Search and the authorities pinned for the matter | Notes, history, add by hand, AI search help |
+| Matter: Evidence | The documents | Chronology, inconsistencies, what the documents say, three AI tools |
+| Matter: Arguments | Your arguments | The other side's arguments, argue the other side (AI) |
+| Matter: Hearing prep, Case status, Post-judgment | The brief, the eCourts record, the outcome | Client update, re-sync, digest an order, appeal window |
+| Case law | Search, filters and results | AI search help |
+| Limitation | The calculator and its answer | Saved deadlines, closed days, your own periods, AI period suggestion |
+| eCourts | Your matters and where each stands | Look up any case, today's cause list |
+| Reminders | What to send | Next message, client contacts, wording |
+| Knowledge base, Settings | The graph; the AI model | The lists behind them; profile; how the AI behaves |
+
+Every matter page also has the same three tools: ask about the matter, add evidence, limitation dates. The layout code is
+`lawyerai/studio.js` (tested in `test/studio.test.js`).
 
 What it does and does not do:
 - **A model never decides whether a case is real.** Citations are found with patterns and looked up in the database

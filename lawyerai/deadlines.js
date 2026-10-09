@@ -96,28 +96,34 @@ function dlFormHtml() {
     ${rule.copy ? `<label class="dl-field">Days taken to get the certified copy<input type="number" min="0" max="3650" data-dl-input="exclude" value="${dlUi.exclude || ''}" placeholder="0" /></label><p class="hint" style="margin:4px 0 0">From the day you applied to the day the copy was ready, both counted. Confirm the counting practice of your court.</p>` : ''}`;
 }
 
+const dlOpenCount = () => dl.saved.filter(d => !d.done).length;
 function pageDeadlines(query) {
   const rules = dlRules();
   if (query.get('rule') && rules.some(r => r.id === query.get('rule'))) dlUi.ruleId = query.get('rule');
   if (query.get('matter') && matterById(query.get('matter'))) dlUi.matterId = query.get('matter');
   if (query.get('date') && dlIsoOk(query.get('date'))) dlUi.start = query.get('date');
-  return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Court &amp; clients</p><h1>Limitation &amp; deadlines</h1><p class="lede">Work out the last date for an appeal, a filing or a suit. It shows how the date was counted, allows for the court’s closed days, and saves the date to the matter’s calendar and reminders.</p></div></div>
-  <p class="wb-flag">${wbIc('alert')}<span>This is an aid for counting, not legal advice. The periods are a starting set written from the statutes — check each against the current text, and the court’s own holidays, before you rely on it. Criminal appeals, writ petitions and tax statutes are not included; add your own periods for those.</span></p>
-  <div class="dash-grid" id="dlRoot">
-    <div class="wb-col">
-      <div class="card card-pad"><h2>Calculate</h2><div id="dlForm">${dlFormHtml()}</div></div>
-      <div class="card card-pad" id="dlResult">${dlResultHtml()}</div>
-    </div>
-    <div class="wb-col">
-      <div class="card card-pad"><h2>Saved deadlines</h2><p class="hint">These appear on the Calendar, the Today page and Reminders.</p><div id="dlSaved">${dlSavedHtml()}</div></div>
-      <div class="card card-pad"><h2>When the court is closed</h2><div id="dlClosures">${dlClosuresHtml()}</div></div>
-      <div class="card card-pad"><h2>Your own periods</h2><div id="dlCustom">${dlCustomHtml()}</div></div>
-    </div>
-  </div>`;
+  return Studio.page(
+    Studio.head({ eyebrow: 'Court &amp; clients', title: 'Limitation & deadlines', lede: 'Work out the last date for an appeal, a filing or a suit. It shows how the date was counted, allows for the court’s closed days, and saves the date to the matter’s calendar and reminders.' })
+    + `<p class="wb-flag">${wbIc('alert')}<span>This is an aid for counting, not legal advice. The periods are a starting set written from the statutes — check each against the current text, and the court’s own holidays, before you rely on it. Criminal appeals, writ petitions and tax statutes are not included; add your own periods for those.</span></p>`
+    + Studio.sec({ title: 'Calculate', sub: 'Pick the period and the day it starts from. The last date appears below.',
+      body: `<div id="dlRoot"><div class="ds-block" id="dlForm">${dlFormHtml()}</div>${Studio.part('The last date')}<div class="ds-block" id="dlResult">${dlResultHtml()}</div></div>` }),
+    [{ group: 'Limitation', tools: [
+      { id: 'dl-saved', icon: 'calendar', name: 'Saved deadlines', fn: 'Dates you saved. They appear on the Calendar, Today and Reminders.', badge: dlOpenCount(), badgeId: 'dlSavedN' },
+      { id: 'dl-closed', icon: 'court', name: 'When the court is closed', fn: 'Saturdays, vacations and holidays that move a last date.' },
+      { id: 'dl-custom', icon: 'book', name: 'Your own periods', fn: 'Add a period that is not in the list.' },
+      { id: 'dl-ai', icon: 'spark', name: 'Suggest the period', fn: 'AI picks a period from the list and the start date from your description. The dates are counted by the calculator.', ai: true }
+    ] }]);
 }
+Studio.onAi('dl-ai', 'limitation-classify');
+/* these three open as popups, so their clicks need the same handlers as the page */
+const dlPop = (title, body) => { Studio.popup({ eyebrow: 'Limitation', title, html: body }); const modal = $('#wbModal'); if (modal && !modal._dl) { modal._dl = true; dlAttach(modal); } };
+Studio.on('dl-saved', () => dlPop('Saved deadlines', `<p class="hint">These appear on the Calendar, the Today page and Reminders.</p><div id="dlSaved">${dlSavedHtml()}</div>`));
+Studio.on('dl-closed', () => dlPop('When the court is closed', `<div id="dlClosures">${dlClosuresHtml()}</div>`));
+Studio.on('dl-custom', () => dlPop('Your own periods', `<div id="dlCustom">${dlCustomHtml()}</div>`));
+Studio.onAi('dl-ai', 'limitation-classify');
 
 const dlPaint = () => {
+  Studio.setBadge('dlSavedN', dlOpenCount());
   for (const [id, fn] of [['dlResult', dlResultHtml], ['dlSaved', dlSavedHtml], ['dlClosures', dlClosuresHtml], ['dlCustom', dlCustomHtml], ['dlForm', dlFormHtml]]) {
     const el = $(`#${id}`);
     if (el) el.innerHTML = fn();
@@ -170,8 +176,7 @@ function dlOpenCustom() {
   });
 }
 
-function bindDeadlines() {
-  const root = $('#dlRoot');
+function dlAttach(root) {
   if (!root) return;
   root.addEventListener('click', e => {
     const el = e.target.closest('[data-dl]');
@@ -216,5 +221,7 @@ function bindDeadlines() {
     dlSave(); dlPaint();
   });
 }
+
+function bindDeadlines() { dlAttach($('#dlRoot')); }
 
 dlLoad();

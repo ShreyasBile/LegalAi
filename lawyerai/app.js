@@ -457,10 +457,10 @@ function route() {
   if (key === 'today') { content = pageToday(); crumb = 'Today'; }
   else if (key === 'ask') { content = pageAsk(parts[1], query); flush = true; crumb = 'Ask LegalAI'; }
   else if (key === 'case-chat') { content = pageCaseChat(parts[1], query); flush = true; crumb = 'Case Chat'; }
-  else if (key === 'caselaw') { content = pageCaseLaw(query) + AiUi.caselawCard(); crumb = 'Case law'; }
+  else if (key === 'caselaw') { content = pageCaseLaw(query); crumb = 'Case law'; }
   else if (key === 'ecourts') { content = pageECourts(); crumb = 'eCourts'; }
   else if (key === 'reminders') { content = pageReminders(); crumb = 'Reminders'; }
-  else if (key === 'deadlines') { content = pageDeadlines(query) + AiUi.deadlinesCard(); crumb = 'Limitation & deadlines'; }
+  else if (key === 'deadlines') { content = pageDeadlines(query); crumb = 'Limitation & deadlines'; }
   else if (key === 'matters' && parts[1]) {
     matterCtx = matterById(parts[1]);
     matterTab = parts[2] || 'overview';
@@ -796,85 +796,56 @@ function bindIntakeModal() {
 /* =============================================================================
    PAGE: TODAY
    ============================================================================= */
+const closing = html => html.replace(/<a /g, '<a data-wb-close ');             // a link inside a popup also closes the popup
+const todayReviewRows = () => `
+    <div class="review-item"><div class="review-icon"><svg class="ic"><use href="#i-draft"/></svg></div><div class="review-text"><strong>Anticipatory bail application</strong><small>Sharma v. State · 18 citations verified</small></div><a class="btn btn-ghost btn-sm" href="#/matters/m1/drafting">Review</a></div>
+    <div class="review-item"><div class="review-icon amber"><svg class="ic"><use href="#i-timeline"/></svg></div><div class="review-text"><strong>Evidence chronology</strong><small>Aarohi Estates · agent still processing</small></div><a class="btn btn-ghost btn-sm" href="#/matters/m2/evidence">View</a></div>
+    <div class="review-item"><div class="review-icon"><svg class="ic"><use href="#i-research"/></svg></div><div class="review-text"><strong>Limitation research note</strong><small>General · ready for review</small></div><a class="btn btn-ghost btn-sm" href="#/ask/c3">View</a></div>`;
+const todayDeadlineRows = () => DEADLINES.map(d => {
+  const b = dayBadge(d.date);
+  return `<a class="deadline-row" href="#/calendar/${d.date}" style="text-decoration:none;color:inherit"><div class="deadline-date"><b>${b.num}</b><span>${b.mon}</span></div><div class="deadline-copy"><strong>${esc(d.title)}</strong><small>${esc(matterById(d.matterId)?.title || '')} · ${esc(d.type)}</small></div></a>`;
+}).join('') || Studio.empty('No deadlines this month.');
+
 function pageToday() {
   const today = hearingsOn(TODAY_ISO);
-  const primary = matterById('m1');
-  return `
-  <div class="page-head">
-    <div class="page-head-text"><p class="eyebrow">Friday, 11 September</p><h1>Good afternoon, Shreyas.</h1>
-      <p class="lede">Three items need your review today. Everything below was prepared by an agent and is waiting for your approval — nothing is filed or sent without you.</p></div>
-    <button class="btn btn-primary" data-action="open-new-matter"><svg class="ic"><use href="#i-plus"/></svg>New matter</button>
-  </div>
-
-  <section class="brief-banner">
+  const hearingRows = today.length ? today.map(h => {
+    const m = matterById(h.matterId);
+    const statusCopy = { ready: ['check', 'Brief ready'], prep: ['spark', 'Preparing'], risk: ['clock', 'Needs review'] }[h.status];
+    return `<a class="hearing-item" href="#/matters/${m.id}/hearing" style="text-decoration:none;color:inherit">
+      <div class="hearing-time mono">${h.time}</div>
+      <div><div class="hearing-court">${esc(h.court)}</div><div class="hearing-title">${esc(m.title)}</div><div class="hearing-sub">${esc(h.purpose)}</div></div>
+      <span class="hearing-status ${h.status}"><svg class="ic"><use href="#i-${statusCopy[0]}"/></svg>${statusCopy[1]}</span>
+    </a>`;
+  }).join('') : Studio.empty('Nothing on the cause list today.');
+  const hero = `<section class="brief-banner ds-hero">
     <span class="brief-eyebrow"><svg class="ic"><use href="#i-spark"/></svg>Recommended next step</span>
     <h2>Prepare the Sharma hearing brief</h2>
     <p>Your hearing is at <b>10:30 AM</b> in Bombay High Court. The brief is written and 18 sources are verified — one evidence check is still open.</p>
-    <div class="brief-meta">
-      <span><svg class="ic"><use href="#i-clock"/></svg>~8 min to review</span>
-      <span><svg class="ic"><use href="#i-shield"/></svg>18 verified sources</span>
-      <span><svg class="ic"><use href="#i-alert"/></svg>1 open task</span>
-    </div>
-    <div class="brief-actions">
-      <a class="brief-btn" href="#/matters/m1/hearing"><svg class="ic"><use href="#i-gavel"/></svg>Open hearing prep</a>
-      <a class="brief-btn ghost2" href="#/matters/m1/chat"><svg class="ic"><use href="#i-spark"/></svg>Ask about this matter</a>
-    </div>
-  </section>
-
-  <div class="grid-3 section">
-    <div class="stat-card"><div class="stat-top"><span>Active matters</span><svg class="ic"><use href="#i-matters"/></svg></div><div class="stat-num">8</div><div class="stat-note"><b>+2</b> added this month</div></div>
-    <div class="stat-card"><div class="stat-top"><span>Waiting for your review</span><svg class="ic"><use href="#i-docs"/></svg></div><div class="stat-num">3</div><div class="stat-note">Drafts &amp; findings to approve</div></div>
-    <div class="stat-card"><div class="stat-top"><span>Research time saved</span><svg class="ic"><use href="#i-clock"/></svg></div><div class="stat-num">14.5<em>h</em></div><div class="stat-note"><b>+3.2h</b> this week</div></div>
-  </div>
-
-  <div class="dash-grid section">
-    <div class="card card-pad">
-      <div class="card-head"><div><p class="eyebrow">Today’s court list</p><h2>Where you need to be</h2></div><a class="btn-text" href="#/calendar/${TODAY_ISO}">Full calendar<svg class="ic"><use href="#i-arrow"/></svg></a></div>
-      ${today.length ? today.map(h => {
-        const m = matterById(h.matterId);
-        const statusCopy = { ready: ['check', 'Brief ready'], prep: ['spark', 'Preparing'], risk: ['clock', 'Needs review'] }[h.status];
-        return `<a class="hearing-item" href="#/matters/${m.id}/hearing" style="text-decoration:none;color:inherit">
-          <div class="hearing-time mono">${h.time}</div>
-          <div><div class="hearing-court">${esc(h.court)}</div><div class="hearing-title">${esc(m.title)}</div><div class="hearing-sub">${esc(h.purpose)}</div></div>
-          <span class="hearing-status ${h.status}"><svg class="ic"><use href="#i-${statusCopy[0]}"/></svg>${statusCopy[1]}</span>
-        </a>`;
-      }).join('') : '<p class="empty-note">Nothing on the cause list today.</p>'}
-    </div>
-
-    <div class="card card-pad">
-      <div class="card-head"><div><p class="eyebrow">Review queue</p><h2>Awaiting your approval</h2></div><span class="chip chip-amber">3</span></div>
-      <div class="review-item"><div class="review-icon"><svg class="ic"><use href="#i-draft"/></svg></div><div class="review-text"><strong>Anticipatory bail application</strong><small>Sharma v. State · 18 citations verified</small></div><a class="btn btn-ghost btn-sm" href="#/matters/m1/drafting">Review</a></div>
-      <div class="review-item"><div class="review-icon amber"><svg class="ic"><use href="#i-timeline"/></svg></div><div class="review-text"><strong>Evidence chronology</strong><small>Aarohi Estates · agent still processing</small></div><a class="btn btn-ghost btn-sm" href="#/matters/m2/evidence">View</a></div>
-      <div class="review-item"><div class="review-icon"><svg class="ic"><use href="#i-research"/></svg></div><div class="review-text"><strong>Limitation research note</strong><small>General · ready for review</small></div><a class="btn btn-ghost btn-sm" href="#/ask/c3">View</a></div>
-    </div>
-  </div>
-
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><p class="eyebrow">Upcoming deadlines</p><h2>This month</h2></div><a class="btn-text" href="#/calendar">Open calendar<svg class="ic"><use href="#i-arrow"/></svg></a></div>
-      ${DEADLINES.map(d => {
-        const b = dayBadge(d.date);
-        return `<a class="deadline-row" href="#/calendar/${d.date}" style="text-decoration:none;color:inherit"><div class="deadline-date"><b>${b.num}</b><span>${b.mon}</span></div><div class="deadline-copy"><strong>${esc(d.title)}</strong><small>${esc(matterById(d.matterId)?.title || '')} · ${esc(d.type)}</small></div></a>`;
-      }).join('')}
-    </div>
-    <div class="card card-pad">
-      <div class="card-head"><div><p class="eyebrow">Ask LegalAI</p><h2>Quick question?</h2></div></div>
-      <p class="hint">Get a grounded answer with sources in seconds, without leaving your dashboard.</p>
-      <form id="quickAskForm">
-        <div class="search-box" style="height:44px"><svg class="ic"><use href="#i-spark"/></svg><input id="quickAskInput" placeholder="e.g. What’s the limitation period for…" /></div>
-        <button class="btn btn-primary btn-block" style="margin-top:10px" type="submit">Ask LegalAI<svg class="ic"><use href="#i-arrow"/></svg></button>
-      </form>
-    </div>
-  </div>`;
+    <div class="brief-meta"><span><svg class="ic"><use href="#i-clock"/></svg>~8 min to review</span><span><svg class="ic"><use href="#i-shield"/></svg>18 verified sources</span><span><svg class="ic"><use href="#i-alert"/></svg>1 open task</span></div>
+    <div class="brief-actions"><a class="brief-btn" href="#/matters/m1/hearing"><svg class="ic"><use href="#i-gavel"/></svg>Open hearing prep</a><a class="brief-btn ghost2" href="#/matters/m1/chat"><svg class="ic"><use href="#i-spark"/></svg>Ask about this matter</a></div>
+  </section>`;
+  return Studio.page(
+    Studio.head({ eyebrow: 'Friday, 11 September', title: 'Good afternoon, Shreyas.', lede: 'Three items need your review today. Everything below was prepared by an agent and is waiting for your approval — nothing is filed or sent without you.', chips: [{ text: '8 active matters' }, { text: '3 to review', tone: 'amber' }] })
+    + hero
+    + Studio.sec({ title: 'Today’s court list', sub: 'Where you need to be.', action: `<a class="btn-text" href="#/calendar/${TODAY_ISO}">Full calendar<svg class="ic"><use href="#i-arrow"/></svg></a>`, body: hearingRows }),
+    [{ group: 'Today', tools: [
+      { id: 'today-approve', icon: 'draft', name: 'Waiting for your approval', fn: 'Drafts and findings prepared for you.', badge: 3 },
+      { id: 'today-soon', icon: 'clock', name: 'Coming up', fn: 'Deadlines this month.' },
+      { id: 'today-numbers', icon: 'timeline', name: 'The numbers', fn: 'Active matters, items to review, research time saved.' },
+      { id: 'today-ask', icon: 'spark', name: 'Quick question', fn: 'Ask LegalAI a question without leaving the dashboard.' },
+      { id: 'today-new', icon: 'plus', name: 'New matter', fn: 'Start a matter with the guided intake.' },
+      { id: 'today-cal', icon: 'calendar', name: 'Calendar', fn: 'Hearings and deadlines by day, week, month or year.', href: '#/calendar' },
+      { id: 'today-lim', icon: 'scale', name: 'Limitation', fn: 'Work out the last date for a filing, appeal or suit.', href: '#/deadlines' }
+    ] }]);
 }
+Studio.on('today-approve', () => Studio.popup({ eyebrow: 'Today', title: 'Waiting for your approval', html: `<p class="hint">Prepared for you and waiting for your decision.</p><div class="ds-list">${closing(todayReviewRows())}</div>` }));
+Studio.on('today-soon', () => Studio.popup({ eyebrow: 'Today', title: 'Coming up', html: `<p class="hint">Deadlines this month.</p><div class="ds-list">${closing(todayDeadlineRows())}</div><a class="btn-text" href="#/calendar" data-wb-close>Open the calendar<svg class="ic"><use href="#i-arrow"/></svg></a>` }));
+Studio.on('today-numbers', () => Studio.popup({ eyebrow: 'Today', title: 'The numbers', html: Studio.kv([['Active matters', `<b>8</b> · +2 added this month`], ['Waiting for your review', `<b>3</b> · drafts and findings to approve`], ['Research time saved', `<b>14.5 h</b> · +3.2 h this week`]]) + '<p class="hint" style="margin-top:12px">Sample figures for this demo.</p>' }));
+Studio.on('today-new', () => { resetIntake(); refreshIntake(); openModal('#matterModal'); });
+Studio.on('today-ask', () => Studio.popup({ eyebrow: 'Ask LegalAI', title: 'Quick question',
+  html: `<p class="hint">Opens the Ask LegalAI page with your question. In this demo its answers are scripted examples.</p><form id="quickAskForm"><label class="ai-label" for="quickAskInput">Your question</label><div class="search-box" style="height:44px;width:100%"><svg class="ic"><use href="#i-spark"/></svg><input id="quickAskInput" placeholder="e.g. What’s the limitation period for…" autofocus /></div><button class="btn btn-teal" style="margin-top:14px" type="submit">Ask LegalAI<svg class="ic"><use href="#i-arrow"/></svg></button></form>`,
+  onSubmit: ev => { const q = ev.target.elements.quickAskInput?.value.trim(); closeModals(); navigate(`#/ask${q ? `?q=${encodeURIComponent(q)}` : ''}`); } }));
 
-function bindToday() {
-  $('#quickAskForm')?.addEventListener('submit', e => {
-    e.preventDefault();
-    const q = $('#quickAskInput').value.trim();
-    navigate(`#/ask${q ? `?q=${encodeURIComponent(q)}` : ''}`);
-  });
-}
 
 /* =============================================================================
    PAGE: ASK LEGALAI  (dedicated chat page — centerpiece)
@@ -1187,22 +1158,12 @@ function bindMatterChat(m, threadId) { if (m) bindAskPage({ threadId, basePath: 
    PAGE: MATTERS LIST
    ============================================================================= */
 function pageMattersList() {
-  return `
-  <div class="page-head">
-    <div class="page-head-text"><p class="eyebrow">Matter management</p><h1>Matters</h1><p class="lede">Every case you and your team are running, and where each one sits in the workflow.</p></div>
-    <button class="btn btn-primary" data-action="open-new-matter"><svg class="ic"><use href="#i-plus"/></svg>New matter</button>
-  </div>
-  <div class="toolbar">
-    <div class="search-box"><svg class="ic"><use href="#i-research"/></svg><input id="mattersSearch" placeholder="Search by party, matter number or court" /></div>
-    <button class="select-box"><svg class="ic"><use href="#i-filter"/></svg>Filters</button>
-    <span class="toolbar-count">${MATTERS.length} active matters</span>
-  </div>
-  <div class="card" style="padding:0;overflow:hidden">
-    <table class="table" id="mattersTable">
-      <thead><tr><th>Matter</th><th>Stage</th><th>Last activity</th><th>Lead</th><th></th></tr></thead>
-      <tbody>${MATTERS.map(matterRow).join('')}</tbody>
-    </table>
-  </div>`;
+  return Studio.page(
+    Studio.head({ eyebrow: 'Matter management', title: 'Matters', lede: 'Every case you and your team are running, and where each one sits in the workflow.',
+      actions: `<button class="btn btn-primary" data-action="open-new-matter"><svg class="ic"><use href="#i-plus"/></svg>New matter</button>` })
+    + Studio.sec({ title: 'All matters', sub: `${MATTERS.length} active matters. Open one to work on it.`,
+      action: `<div class="search-box" style="height:36px;width:min(300px,100%)"><svg class="ic"><use href="#i-research"/></svg><input id="mattersSearch" placeholder="Search by party, number or court" /></div>`, panel: false,
+      body: `<div class="ds-panel flush"><table class="table" id="mattersTable"><thead><tr><th>Matter</th><th>Stage</th><th>Last activity</th><th>Lead</th><th></th></tr></thead><tbody>${MATTERS.map(matterRow).join('')}</tbody></table></div>` }));
 }
 
 function matterRow(m) {
@@ -1232,125 +1193,127 @@ const TAB_LABELS = { overview: 'Overview', chat: 'Ask AI', research: 'Research',
 
 function pageMatterDetail(id, tab) {
   const m = matterById(id);
-  if (!m) return `<div class="card card-pad"><h2>Matter not found</h2><p class="hint">This matter may have been removed.</p><a class="btn-text" href="#/matters">Back to matters<svg class="ic"><use href="#i-arrow"/></svg></a></div>`;
-
-  return `
-  <div class="matter-subhead">
-    <div class="matter-subhead-text">
-      <p class="eyebrow">${esc(m.area)} · <span class="mono">${esc(m.caseNo)}</span></p>
-      <h1>${esc(TAB_LABELS[tab] || 'Overview')}</h1>
-    </div>
-    <div class="matter-actions">
-      <a class="btn btn-teal" href="#/matters/${m.id}/chat"><svg class="ic"><use href="#i-spark"/></svg>Ask about this matter</a>
-      <button class="btn btn-ghost" data-action="add-evidence"><svg class="ic"><use href="#i-upload"/></svg>Add evidence</button>
-    </div>
-  </div>
-  <div id="matterTabContent">${matterTab(m, tab)}</div>`;
+  if (!m) return Studio.page(Studio.sec({ title: 'Matter not found', pad: true, body: `<p class="hint">This matter may have been removed.</p><a class="btn-text" href="#/matters">Back to matters<svg class="ic"><use href="#i-arrow"/></svg></a>` }));
+  return `<div id="matterTabContent">${matterTab(m, tab)}</div>`;
 }
+
+/* The header every matter page shares: what the case is, where it stands. */
+function matterHead(m, tab) {
+  return Studio.head({
+    eyebrow: `${esc(m.area)} · <span class="mono">${esc(m.caseNo)}</span>`,
+    title: TAB_LABELS[tab] || 'Overview',
+    chips: [{ text: m.court }, { text: `Stage: ${STAGE_LABELS[m.stage]}`, tone: 'navy' }, m.nextHearing ? { text: `Next hearing ${m.nextHearing.date}`, tone: 'amber' } : null]
+  });
+}
+
+/* The rail of a matter page: the tools of this page, then the ones every matter page has. */
+function matterRail(m, tab) {
+  const e = ECOURTS[m.id], pj = m.postJudgment;
+  const flagged = m.timeline.filter(t => t.flag).length;
+  const own = {
+    overview: [
+      { id: 'ov-tasks', icon: 'check', name: 'Open tasks', fn: 'What is still to do on this matter.', badge: m.tasks.filter(t => !t.done).length },
+      m.nextHearing ? { id: 'ov-hearing', icon: 'gavel', name: 'Next hearing', fn: 'When and where the matter is listed next.' } : null
+    ],
+    research: [
+      { id: 'res-notes', icon: 'edit', name: 'Research notes', fn: 'Propositions, doubts and things to check.', badge: m.notes.length },
+      { id: 'res-history', icon: 'chat', name: 'Research history', fn: 'Your conversations with LegalAI about this matter.' },
+      { id: 'res-add', icon: 'plus', name: 'Add an authority by hand', fn: 'Record a judgment: its title, citation and a note.' },
+      { id: 'ai-rewrite', icon: 'spark', name: 'Improve my search', fn: 'AI turns a plain question into search words and statutory provisions.', ai: true }
+    ],
+    evidence: [
+      { id: 'ev-chrono', icon: 'timeline', name: 'Chronology', fn: 'Dated events in order. They feed your drafts.', badge: m.timeline.length },
+      { id: 'ev-flags', icon: 'alert', name: 'Inconsistencies', fn: 'Events you flagged because two documents disagree.', badge: flagged },
+      { id: 'ev-index', icon: 'research', name: 'What the documents say', fn: 'Search the text you have read, and see every date and amount.' },
+      { id: 'ai-timeline', icon: 'timeline', name: 'Chronology and questions', fn: 'AI builds a chronology and cross-examination questions from the documents you have read.', ai: true },
+      { id: 'ai-contradict', icon: 'scale', name: 'Compare witness statements', fn: 'AI lists the points on which two witnesses say different things.', ai: true },
+      { id: 'ai-vernacular', icon: 'docs', name: 'Summarise a Hindi or Marathi document', fn: 'AI translates and summarises it in English for you to check.', ai: true }
+    ],
+    arguments: [
+      { id: 'arg-counter', icon: 'alert', name: 'What the other side will say', fn: 'Likely counter-arguments and your answer to each.', badge: m.counterArgs.length },
+      { id: 'arg-draft', icon: 'draft', name: 'Use them in a draft', fn: 'Drafting pulls the arguments and counter-arguments in.', href: `#/matters/${m.id}/drafting` },
+      { id: 'ai-devil', icon: 'spark', name: 'Argue the other side', fn: 'AI argues against each of your arguments. The cases it names are looked up and marked.', ai: true }
+    ],
+    hearing: [{ id: 'ai-briefing', icon: 'whatsapp', name: 'Client update', fn: 'AI writes a short update for your client in English, Hindi or Marathi.', ai: true }],
+    status: [
+      { id: 'status-sync', icon: 'sync', name: 'Re-sync now', fn: 'Ask the eCourts service for this matter\'s latest record.' },
+      e ? { id: 'status-cal', icon: 'calendar', name: 'View on calendar', fn: 'Open the next listing on the calendar.', href: `#/calendar/${e.nextDate}` } : null,
+      { id: 'ai-digest', icon: 'docs', name: 'Digest a court order', fn: 'AI pulls out the direction, deadlines and what counsel should do.', ai: true },
+      { id: 'ai-next', icon: 'gavel', name: 'Prepare for the next listing', fn: 'AI suggests what to have ready, from the hearing history. Not a forecast.', ai: true }
+    ],
+    postjudgment: pj ? [{ id: 'pj-window', icon: 'clock', name: 'Appeal window', fn: 'Days left to appeal, and the next steps.' }] : []
+  }[tab] || [];
+  return [{ group: 'This page', tools: own.filter(Boolean) }, Studio.matterTools(m)];
+}
+
+/* what each rail tool does */
+Studio.onAi('ai-rewrite', 'query-rewrite');
+Studio.onAi('ai-timeline', 'timeline-depositions');
+Studio.onAi('ai-contradict', 'contradiction-matrix');
+Studio.onAi('ai-vernacular', 'vernacular-summary');
+Studio.onAi('ai-devil', 'devils-advocate');
+Studio.onAi('ai-briefing', 'client-briefing');
+Studio.onAi('ai-digest', 'order-digest');
+Studio.onAi('ai-next', 'next-stage');
+Studio.on('status-sync', ({ m }) => { if (m) syncCaseStatusFromService(m.id); });
+Studio.on('ov-tasks', ({ m }) => m && Studio.popup({ eyebrow: m.title, title: 'Open tasks', html: `<div class="ds-list">${taskRows(m.tasks, 'No open tasks.')}</div>` }));
+Studio.on('ov-hearing', ({ m }) => m?.nextHearing && Studio.popup({ eyebrow: m.title, title: 'Next hearing', html: `<div class="ds-list">${hearingRow(m.nextHearing, m)}</div>` }));
+Studio.on('pj-window', ({ m }) => {
+  const pj = m?.postJudgment;
+  if (!pj) return;
+  const deadline = parseISODateStr(pj.appealDeadline), daysLeft = Math.round((deadline - parseISODateStr(TODAY_ISO)) / 86400000);
+  Studio.popup({ eyebrow: m.title, title: 'Appeal window', html: `<p class="hint">Deadline: ${esc(deadline.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }))}. Work out the exact last date in the <a href="#/deadlines?matter=${m.id}" data-wb-close>limitation calculator</a>.</p>
+    <div class="pj-countdown" style="margin:6px 0 14px"><b>${daysLeft}</b><span>day${daysLeft === 1 ? '' : 's'} remaining</span></div><div class="ds-list">${taskRows(pj.nextSteps, 'No steps recorded.')}</div>` });
+});
 
 function matterTab(m, tab) {
-  return AiUi.withCard(matterTabBase(m, tab), m, tab);
+  if (tab === 'drafting') return tabDrafting(m);                       // builds its own header and rail (draft-studio.js)
+  const body = { research: tabResearch, evidence: tabEvidence, arguments: tabArguments, hearing: tabHearing, status: tabStatus, postjudgment: tabPostJudgment, timeline: tabTimeline }[tab] || tabOverview;
+  return Studio.page(matterHead(m, tab) + body(m), matterRail(m, tab));
 }
 
-function matterTabBase(m, tab) {
-  if (tab === 'research') return tabResearch(m);
-  if (tab === 'evidence') return tabEvidence(m);
-  if (tab === 'drafting') return tabDrafting(m);
-  if (tab === 'arguments') return tabArguments(m);
-  if (tab === 'hearing') return tabHearing(m);
-  if (tab === 'status') return tabStatus(m);
-  if (tab === 'postjudgment') return tabPostJudgment(m);
-  if (tab === 'timeline') return tabTimeline(m);
-  return tabOverview(m);
-}
+const scoreRows = list => list.map(s => `<div class="strength-card"><div class="strength-top"><span>${esc(s.label)}</span><b>${s.score}<em>/100</em></b></div><div class="score-bar ${s.tone === 'good' ? '' : s.tone === 'mid' ? 'mid' : 'low'}"><i style="width:${s.score}%"></i></div><p>${esc(s.note)}</p></div>`).join('');
+const taskRows = (list, empty) => (list.length ? list.map(t => `<label class="list-row"><input type="checkbox" ${t.done ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--teal)" /><span style="font-size:13px;${t.done ? 'color:var(--faint);text-decoration:line-through' : ''}">${esc(t.label)}</span></label>`).join('') : Studio.empty(empty));
+const authorityRows = list => list.map((a, i) => `<div class="authority-row"><div class="authority-num mono">${i + 1}</div><div class="authority-copy"><strong>${esc(a.title)}</strong><small>${esc(a.meta)}</small></div></div>`).join('');
+const hearingRow = (h, m) => `<a class="hearing-item" href="#/calendar/${h.dateISO || ''}" data-wb-close style="text-decoration:none;color:inherit"><div class="hearing-time mono">${esc(h.time)}</div><div><div class="hearing-court">${esc(h.court2)}</div><div class="hearing-title">${esc(h.purpose)}</div><div class="hearing-sub">${esc(h.date)}</div></div><span class="hearing-status ready"><svg class="ic"><use href="#i-calendar"/></svg>Calendar</span></a>`;
 
 function tabOverview(m) {
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <h2>Case facts</h2>
-      <div style="margin-top:14px">
-        <div class="fact-item"><div class="fact-label">Objective</div><div class="fact-value">${esc(m.facts.objective || '—')}</div></div>
-        <div class="fact-item"><div class="fact-label">Relief sought</div><div class="fact-value">${esc(m.facts.relief || '—')}</div></div>
-        <div class="fact-item"><div class="fact-label">Key issue</div><div class="fact-value">${esc(m.facts.issue || '—')}</div></div>
-      </div>
-      ${m.strengths.length ? `<h2 style="margin-top:22px">Case strength</h2><p class="hint">A score for each issue, based only on authorities and evidence already in the file.</p>
-        <div class="grid-3">${m.strengths.map(s => `<div class="strength-card"><div class="strength-top"><span>${esc(s.label)}</span><b>${s.score}<em>/100</em></b></div><div class="score-bar ${s.tone === 'good' ? '' : s.tone === 'mid' ? 'mid' : 'low'}"><i style="width:${s.score}%"></i></div><p>${esc(s.note)}</p></div>`).join('')}</div>` : ''}
-    </div>
-    <div class="card card-pad">
-      <h2>Open tasks</h2>
-      <div style="margin-top:12px">${m.tasks.length ? m.tasks.map(t => `<div class="list-row"><input type="checkbox" ${t.done ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--teal)" /><span style="font-size:13px;${t.done ? 'color:var(--faint);text-decoration:line-through' : ''}">${esc(t.label)}</span></div>`).join('') : '<p class="empty-note">No open tasks.</p>'}</div>
-      ${m.nextHearing ? `<div class="card-head" style="margin-top:22px"><h2>Next hearing</h2><a class="btn-text" href="#/calendar/${m.nextHearing.dateISO || ''}">View on calendar<svg class="ic"><use href="#i-arrow"/></svg></a></div><a class="cal-event" href="#/calendar/${m.nextHearing.dateISO || ''}" style="margin-top:12px;text-decoration:none;color:inherit"><div class="cal-event-time mono">${esc(m.nextHearing.time)}</div><div class="cal-event-copy"><strong>${esc(m.nextHearing.purpose)}</strong><small>${esc(m.nextHearing.date)} · ${esc(m.nextHearing.court2)}</small></div></a>` : ''}
-    </div>
-  </div>`;
+  return Studio.sec({ title: 'The case', sub: 'What this matter is about and how strong each issue is, as recorded on it.',
+    body: Studio.kv([['Objective', esc(m.facts.objective || '—')], ['Relief sought', esc(m.facts.relief || '—')], ['Key issue', esc(m.facts.issue || '—')]])
+      + (m.strengths.length ? Studio.part('How strong is it') + `<p class="ds-note">A score for each issue, based only on authorities and evidence already in the file.</p>${scoreRows(m.strengths)}` : '') });
 }
 
 /* Research, Evidence, Drafting and Arguments (the "Build the case" tabs) live in workbench.js. */
 
 function tabHearing(m) {
-  if (!m.nextHearing) return `<div class="card card-pad"><h2>No hearing scheduled</h2><p class="hint">This matter has no upcoming listing yet.</p></div>`;
-  return `
-  <div class="dash-grid">
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:20px 22px;background:linear-gradient(135deg,var(--navy),#132540);color:#fff;display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
-        <div><span style="display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#9FD9C7"><span class="dot" style="background:#7BD3B4"></span>Next hearing · ${esc(m.nextHearing.time)}</span>
-        <h2 style="color:#fff;margin-top:10px">${esc(m.title)}</h2>
-        <p style="color:#C9D2DF;font-size:13px;margin-top:4px">${esc(m.nextHearing.court2)}</p></div>
-        <a href="#/calendar/${m.nextHearing.dateISO || ''}" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;color:#fff;font-size:12px;font-weight:600;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:7px 11px;border-radius:8px"><svg class="ic" style="width:14px"><use href="#i-calendar"/></svg>Calendar</a>
-      </div>
-      <div class="grid-2" style="padding:22px">
-        <div><p class="eyebrow">Hearing objective</p><p style="font-size:13.5px;color:var(--ink-soft);line-height:1.55">${esc(m.facts.objective)}</p>
-          <p class="eyebrow" style="margin-top:18px">Key authorities</p>
-          ${m.authorities.map((a, i) => `<div class="authority-row"><div class="authority-num mono">${i + 1}</div><div class="authority-copy"><strong>${esc(a.title)}</strong><small>${esc(a.meta)}</small></div></div>`).join('') || '<p class="empty-note" style="text-align:left;padding:6px 0">None pinned yet.</p>'}
-        </div>
-        <div><div class="card-head" style="margin-bottom:2px"><p class="eyebrow" style="margin:0">Argument prep</p><a class="btn-text" href="#/matters/${m.id}/arguments">Open full workspace<svg class="ic"><use href="#i-arrow"/></svg></a></div>
-          ${(m.counterArgs && m.counterArgs.length) ? `<p style="font-size:12.5px;color:var(--muted);margin:4px 0 10px">${m.counterArgs.length} anticipated counter-argument${m.counterArgs.length === 1 ? '' : 's'}, each with a rebuttal already prepared.</p><div class="counter-card" style="margin-bottom:8px"><p class="counter-point"><svg class="ic"><use href="#i-alert"/></svg>${esc(m.counterArgs[0].point)}</p><p class="counter-rebuttal"><svg class="ic"><use href="#i-check"/></svg>${esc(m.counterArgs[0].rebuttal)}</p></div>` : '<p class="empty-note" style="text-align:left;padding:6px 0">No counter-arguments prepared yet.</p>'}
-          <p class="eyebrow" style="margin-top:18px">Open tasks before hearing</p>
-          ${m.tasks.filter(t => !t.done).map(t => `<label style="display:flex;gap:9px;align-items:center;font-size:13px;padding:5px 0"><input type="checkbox" style="width:16px;height:16px;accent-color:var(--teal)" />${esc(t.label)}</label>`).join('') || '<p class="empty-note" style="text-align:left;padding:6px 0">All tasks complete.</p>'}
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 22px;border-top:1px solid var(--line)"><span style="display:inline-flex;align-items:center;gap:7px;color:var(--teal-ink);font-size:13px;font-weight:500"><svg class="ic"><use href="#i-shield"/></svg>Built from ${m.documents.length + m.authorities.length} verified records</span><a class="btn-text" href="#/matters/${m.id}/drafting">Open written submissions<svg class="ic"><use href="#i-arrow"/></svg></a></div>
-    </div>
-    <div class="card card-pad">
-      <h2>Ask about this hearing</h2>
-      <p class="hint">Anticipate a question the bench might ask.</p>
-      <a class="btn btn-teal btn-block" href="#/matters/${m.id}/chat"><svg class="ic"><use href="#i-spark"/></svg>Ask LegalAI</a>
-    </div>
-  </div>`;
+  if (!m.nextHearing) return Studio.sec({ title: 'No hearing scheduled', pad: true, body: '<p class="hint" style="margin:0">This matter has no upcoming listing yet.</p>' });
+  const open = m.tasks.filter(t => !t.done);
+  const hero = `<section class="brief-banner ds-hero"><span class="brief-eyebrow"><svg class="ic"><use href="#i-gavel"/></svg>Next hearing · ${esc(m.nextHearing.time)}</span>
+      <h2>${esc(m.title)}</h2><p>${esc(m.nextHearing.court2)} · ${esc(m.nextHearing.date)}</p>
+      <p style="margin-top:10px">${esc(m.facts.objective)}</p>
+      <div class="brief-meta"><span><svg class="ic"><use href="#i-shield"/></svg>Built from ${m.documents.length + m.authorities.length} recorded items</span><span><svg class="ic"><use href="#i-alert"/></svg>${open.length} open task${open.length === 1 ? '' : 's'}</span></div>
+      <div class="brief-actions"><a class="brief-btn" href="#/matters/${m.id}/drafting"><svg class="ic"><use href="#i-draft"/></svg>Open the drafts</a><a class="brief-btn ghost2" href="#/calendar/${m.nextHearing.dateISO || ''}"><svg class="ic"><use href="#i-calendar"/></svg>Calendar</a></div></section>`;
+  return hero + Studio.sec({ title: 'The brief', sub: 'Everything to have in hand when the matter is called.',
+    body: Studio.part('Key authorities', `<a class="btn-text" href="#/matters/${m.id}/research">Open research<svg class="ic"><use href="#i-arrow"/></svg></a>`) + (authorityRows(m.authorities) || Studio.empty('None pinned yet.'))
+      + Studio.part('Argument prep', `<a class="btn-text" href="#/matters/${m.id}/arguments">Open the arguments<svg class="ic"><use href="#i-arrow"/></svg></a>`)
+      + ((m.counterArgs && m.counterArgs.length) ? m.counterArgs.slice(0, 3).map(c => `<div class="counter-card"><p class="counter-point"><svg class="ic"><use href="#i-alert"/></svg>${esc(c.point)}</p><p class="counter-rebuttal"><svg class="ic"><use href="#i-check"/></svg>${esc(c.rebuttal)}</p></div>`).join('') : Studio.empty('No counter-arguments prepared yet.'))
+      + Studio.part('Before you go') + taskRows(open, 'All tasks complete.') });
 }
 
 /* ---- Case status: this matter's record as synced from eCourts. ---- */
 function tabStatus(m) {
   const e = ECOURTS[m.id];
   if (!e) {
-    return `<div class="card card-pad"><h2>Not yet synced with eCourts</h2><p class="hint">This matter has no eCourts record linked yet. Once a CNR number is available, the case status, cause-list entries and order sheets will appear here automatically.</p><button class="btn btn-teal" style="margin-top:12px" data-action="sync-case" data-matter="${m.id}"><svg class="ic"><use href="#i-sync"/></svg>Sync with eCourts</button></div>`;
+    return Studio.sec({ title: 'Not yet synced with eCourts', pad: true, body: `<p class="hint">This matter has no eCourts record linked yet. Once a CNR number is available, the case status, cause-list entries and order sheets will appear here automatically.</p><button class="btn btn-teal" data-action="sync-case" data-matter="${m.id}"><svg class="ic"><use href="#i-sync"/></svg>Sync with eCourts</button>` });
   }
   const statusChip = /dispos/i.test(e.status) ? 'chip-red' : /adjourn/i.test(e.status) ? 'chip-amber' : 'chip-teal';
-  const next = parseISODateStr(e.nextDate);
-  const daysLeft = Math.round((next - parseISODateStr(TODAY_ISO)) / 86400000);
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><p class="eyebrow">eCourts record</p><h2>${esc(e.stage)}</h2></div><span class="chip ${statusChip}">${esc(e.status)}</span></div>
-      <div class="ecourt-facts">
-        <div class="fact-item"><div class="fact-label">CNR number</div><div class="fact-value mono">${esc(e.cnr)}</div></div>
-        <div class="fact-item"><div class="fact-label">Filed</div><div class="fact-value">${esc(fmtDate(e.filed))}</div></div>
-        <div class="fact-item"><div class="fact-label">Registered</div><div class="fact-value">${esc(fmtDate(e.regDate))}</div></div>
-        <div class="fact-item"><div class="fact-label">Court</div><div class="fact-value">${esc(m.court)}</div></div>
-      </div>
-      <h2 style="margin-top:22px">Order sheet</h2>
-      <div class="timeline-v" style="margin-top:10px">${e.orders.map(o => `<article><time class="mono">${esc(fmtDate(o.date, true))}</time><span class="tl-dot"></span><div class="tl-copy"><p>${esc(o.text)}</p><a class="btn-text" href="#/deadlines?matter=${m.id}&date=${esc(o.date)}">Work out a limitation date from this order<svg class="ic"><use href="#i-arrow"/></svg></a></div></article>`).join('')}</div>
-    </div>
-    <div class="card card-pad">
-      <p class="eyebrow">Next listing</p>
-      <div class="pj-countdown"><b>${daysLeft}</b><span>day${daysLeft === 1 ? '' : 's'} away</span></div>
-      <p class="hint" style="margin-top:2px">${esc(fmtDate(e.nextDate))} · ${esc(e.nextPurpose)}</p>
-      <div class="settings-row" style="margin-top:14px"><div class="settings-copy"><strong>Bench</strong><small>${esc(e.bench)}</small></div></div>
-      <a class="btn btn-ghost btn-block" style="margin-top:10px" href="#/calendar/${e.nextDate}"><svg class="ic"><use href="#i-calendar"/></svg>View on calendar</a>
-      <button class="btn btn-teal btn-block" style="margin-top:10px" data-action="sync-case" data-matter="${m.id}"><svg class="ic"><use href="#i-sync"/></svg>Re-sync now</button>
-      <p class="hint" style="margin-top:10px;font-size:11px">${e.live ? 'Synced live from the eCourts service' + (e.syncedAt ? ' · ' + esc(e.syncedAt) : '') + '.' : e.sample ? 'Sample record from the eCourts service’s fixture source, not live court data.' : 'Built-in sample data — hit Re-sync to ask the eCourts service.'}</p>
-    </div>
-  </div>`;
+  const daysLeft = Math.round((parseISODateStr(e.nextDate) - parseISODateStr(TODAY_ISO)) / 86400000);
+  const source = e.live ? 'Synced live from the eCourts service' + (e.syncedAt ? ' · ' + esc(e.syncedAt) : '') + '.' : e.sample ? 'Sample record from the eCourts service’s fixture source, not live court data.' : 'Built-in sample data. Use Re-sync now to ask the eCourts service.';
+  return Studio.sec({ title: 'The eCourts record', sub: source, action: `<span class="chip ${statusChip}">${esc(e.status)}</span>`,
+    body: Studio.kv([['Stage', esc(e.stage)], ['CNR number', `<span class="mono">${esc(e.cnr)}</span>`], ['Filed', esc(fmtDate(e.filed))], ['Registered', esc(fmtDate(e.regDate))], ['Court', esc(m.court)], ['Bench', esc(e.bench)],
+        ['Next listing', `${esc(fmtDate(e.nextDate))} · ${esc(e.nextPurpose)} <span class="chip chip-navy" style="margin-left:6px">${daysLeft === 0 ? 'today' : `${daysLeft} day${daysLeft === 1 ? '' : 's'} away`}</span>`]])
+      + Studio.part('Order sheet', '<span class="ds-hint">Newest first. Each order can start a limitation count.</span>')
+      + `<div class="timeline-v">${e.orders.map(o => `<article><time class="mono">${esc(fmtDate(o.date, true))}</time><span class="tl-dot"></span><div class="tl-copy"><p>${esc(o.text)}</p><a class="btn-text" href="#/deadlines?matter=${m.id}&date=${esc(o.date)}">Work out a limitation date from this order<svg class="ic"><use href="#i-arrow"/></svg></a></div></article>`).join('')}</div>` });
 }
 
 /* ---- Post-judgment analysis: outcome review + appeal assessment — the
@@ -1358,36 +1321,16 @@ function tabStatus(m) {
 function tabPostJudgment(m) {
   const pj = m.postJudgment;
   if (!pj) {
-    return `<div class="card card-pad"><h2>No judgment yet</h2><p class="hint">This matter is still at the ${esc(STAGE_LABELS[m.stage] || 'Intake')} stage. Once a judgment or award is delivered, outcome review and appeal assessment will appear here.</p></div>`;
+    return Studio.sec({ title: 'No judgment yet', pad: true, body: `<p class="hint" style="margin:0">This matter is still at the ${esc(STAGE_LABELS[m.stage] || 'Intake')} stage. Once a judgment or award is delivered, outcome review and appeal assessment will appear here.</p>` });
   }
   const outcomeChip = { granted: 'chip-teal', partial: 'chip-amber', dismissed: 'chip-red' }[pj.outcome] || 'chip-navy';
-  const deadline = parseISODateStr(pj.appealDeadline);
-  const daysLeft = Math.round((deadline - parseISODateStr(TODAY_ISO)) / 86400000);
-  return `
-  <div class="dash-grid">
-    <div class="card card-pad">
-      <div class="card-head"><div><p class="eyebrow">Outcome</p><h2>${esc(pj.outcomeLabel)}</h2></div><span class="chip ${outcomeChip}">${esc(pj.judgmentDate)}</span></div>
-      <p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin-top:10px">${esc(pj.summary)}</p>
-      <h2 style="margin-top:22px">Appeal grounds — strength assessment</h2>
-      <p class="hint">Scored only against what’s already in the award and the case file.</p>
-      <div class="grid-3">${pj.grounds.map(g => `<div class="strength-card"><div class="strength-top"><span>${esc(g.label)}</span><b>${g.score}<em>/100</em></b></div><div class="score-bar ${g.tone === 'good' ? '' : g.tone === 'mid' ? 'mid' : 'low'}"><i style="width:${g.score}%"></i></div><p>${esc(g.note)}</p></div>`).join('')}</div>
-    </div>
-    <div class="card card-pad">
-      <p class="eyebrow">Appeal window</p>
-      <a class="btn-text" href="#/deadlines?matter=${m.id}" style="float:right">Work out the exact last date<svg class="ic"><use href="#i-arrow"/></svg></a>
-      <div class="pj-countdown"><b>${daysLeft}</b><span>day${daysLeft === 1 ? '' : 's'} remaining</span></div>
-      <p class="hint" style="margin-top:2px">Deadline: ${esc(deadline.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }))}</p>
-      <h2 style="margin-top:20px">Next steps</h2>
-      ${pj.nextSteps.map(s => `<label style="display:flex;gap:9px;align-items:center;font-size:13px;padding:6px 0"><input type="checkbox" ${s.done ? 'checked' : ''} style="width:16px;height:16px;accent-color:var(--teal)" />${esc(s.label)}</label>`).join('')}
-      <a class="btn btn-teal btn-block" style="margin-top:14px" href="#/matters/${m.id}/chat"><svg class="ic"><use href="#i-spark"/></svg>Ask about appeal prospects</a>
-    </div>
-  </div>`;
+  return Studio.sec({ title: pj.outcomeLabel, sub: 'The outcome, and how each ground of appeal stands.', action: `<span class="chip ${outcomeChip}">${esc(pj.judgmentDate)}</span>`,
+    body: `<p class="ds-lead">${esc(pj.summary)}</p>` + Studio.part('Appeal grounds') + `<p class="ds-note">Scored only against what is already in the award and the case file.</p>${scoreRows(pj.grounds)}` });
 }
 
 function tabTimeline(m) {
-  return `<div class="card card-pad"><h2>Case timeline</h2>
-    <div class="timeline-v">${m.timeline.length ? m.timeline.map(t => `<article><time class="mono">${esc(t.date)}</time><span class="tl-dot ${t.flag ? 'warn' : ''}"></span><div class="tl-copy"><strong>${esc(t.title)}</strong><p>${esc(t.note)}</p>${t.flag ? '<small class="flag">Potential contradiction</small>' : ''}</div></article>`).join('') : '<p class="empty-note">No events recorded yet.</p>'}</div>
-  </div>`;
+  return Studio.sec({ title: 'Case timeline', sub: 'Every dated event on this matter. Flagged ones may contradict each other.', pad: true,
+    body: `<div class="timeline-v">${m.timeline.length ? m.timeline.map(t => `<article><time class="mono">${esc(t.date)}</time><span class="tl-dot ${t.flag ? 'warn' : ''}"></span><div class="tl-copy"><strong>${esc(t.title)}</strong><p>${esc(t.note)}</p>${t.flag ? '<small class="flag">Potential contradiction</small>' : ''}</div></article>`).join('') : Studio.empty('No events recorded yet.')}</div>` });
 }
 
 function bindMatterDetail() { wbBindMatterDetail(); }
@@ -1434,12 +1377,8 @@ function monthMatrix(year, month) {
 
 function pageCalendar(dateParam) {
   applyCalParam(dateParam);
-  return `
-  <div class="cal-head">
-    <h1>Calendar</h1>
-    <div class="cal-sync-note"><svg class="ic"><use href="#i-refresh"/></svg>Sample cause lists · demo data, not synced from any court</div>
-  </div>
-  <div id="calWrap">${calendarBody()}</div>`;
+  return `<div class="ds">${Studio.head({ eyebrow: 'Court &amp; clients', title: 'Calendar', lede: 'Hearings, deadlines and notes by day, week, month or year.', chips: [{ text: 'Sample cause lists · demo data, not synced from any court', tone: 'amber' }] })}
+  <div id="calWrap">${calendarBody()}</div></div>`;
 }
 
 function calHeaderTitle() {
@@ -1661,10 +1600,12 @@ function docRow(d) {
 
 function pageDocuments() {
   const rows = MATTERS.flatMap(m => m.documents.map(d => ({ ...d, matter: m.title, matterId: m.id })));
-  return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Document library</p><h1>Documents</h1><p class="lede">Every document added to a matter, in one place. Search by name, matter or status; to search inside a document, read its text on the matter’s Evidence tab.</p></div><button class="btn btn-primary" data-action="upload-doc"><svg class="ic"><use href="#i-upload"/></svg>Upload</button></div>
-  <div class="toolbar"><div class="search-box"><svg class="ic"><use href="#i-research"/></svg><input id="docsSearch" placeholder="Search by file name, matter or status" /></div><span class="toolbar-count" id="docsCount">${rows.length} documents</span></div>
-  <div class="card" style="padding:0;overflow:hidden" id="docsList">${rows.map(docRow).join('')}</div>`;
+  return Studio.page(
+    Studio.head({ eyebrow: 'Document library', title: 'Documents', lede: 'Every document added to a matter, in one place. To search inside a document, read its text on the matter’s Evidence tab.',
+      actions: `<button class="btn btn-teal" data-action="upload-doc"><svg class="ic"><use href="#i-upload"/></svg>Add evidence</button>` })
+    + Studio.sec({ title: 'Library', sub: 'Search by file name, matter or status.', panel: false,
+      action: `<div class="search-box" style="height:36px;width:min(300px,100%)"><svg class="ic"><use href="#i-research"/></svg><input id="docsSearch" placeholder="Search by file, matter or status" /></div><span class="toolbar-count" id="docsCount" style="margin:0">${rows.length} documents</span>`,
+      body: `<div class="ds-panel flush" id="docsList">${rows.map(docRow).join('')}</div>` }));
 }
 
 let docsRefresh = null;                               // repaints the library list in place, so adding a file does not rebuild the page (and close the dialog)
@@ -1684,21 +1625,20 @@ function bindDocuments() {
    PAGE: KNOWLEDGE BASE
    ============================================================================= */
 function pageKnowledge() {
-  return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Trust &amp; sources</p><h1>Knowledge base</h1><p class="lede">The statutes and precedents LegalAI grounds every answer in — this is what "verified" means.</p></div></div>
-
-  <div class="card card-pad section">
-    <div class="card-head"><div><h2>Knowledge graph</h2><p class="hint">How your matters connect to the statutes and precedents that ground them. Click a matter to open it.</p></div></div>
-    <div class="kg-wrap">${renderKnowledgeGraph()}</div>
-    <div class="cal-legend" style="margin-top:4px"><span><i class="kg-dot violet"></i>Matter</span><span><i class="kg-dot teal"></i>Precedent</span><span><i class="kg-dot amber"></i>Statute</span></div>
-  </div>
-
-  <div class="grid-2">
-    <div class="card card-pad"><h2>Statutes indexed</h2>${KNOWLEDGE.statutes.map(s => `<div class="kb-entry" id="kb-${s.key}"><div class="kb-entry-top"><strong>${esc(s.title)}</strong><span class="chip chip-teal">${s.used} uses</span></div><p>${esc(s.body)}</p></div>`).join('')}</div>
-    <div class="card card-pad"><h2>Reported precedents</h2>${KNOWLEDGE.precedents.map(p => `<div class="kb-entry" id="kb-${p.key}"><div class="kb-entry-top"><strong>${esc(p.title)}</strong><span class="chip chip-teal">${p.used} uses</span></div><p>${esc(p.body)}</p></div>`).join('')}</div>
-  </div>
-  <div class="card card-pad section" style="margin-top:18px"><h2>How grounding works</h2><p class="hint" style="max-width:640px">Every answer combines dense retrieval over this corpus with a knowledge graph that models statute–precedent–fact relationships. A citation is only shown if it resolves to a real node in that graph — otherwise it’s flagged, not surfaced.</p></div>`;
+  return Studio.page(
+    Studio.head({ eyebrow: 'Trust &amp; sources', title: 'Knowledge base', lede: 'How your matters connect to the statutes and precedents behind them. In this demo they are sample entries.' })
+    + Studio.sec({ title: 'Knowledge graph', sub: 'Click a matter to open it.', pad: true,
+      body: `<div class="kg-wrap">${renderKnowledgeGraph()}</div><div class="cal-legend" style="margin-top:4px"><span><i class="kg-dot violet"></i>Matter</span><span><i class="kg-dot teal"></i>Precedent</span><span><i class="kg-dot amber"></i>Statute</span></div>` }),
+    [{ group: 'Knowledge', tools: [
+      { id: 'kb-statutes', icon: 'book', name: 'Statutes indexed', fn: 'The statutes the sample matters rely on.', badge: KNOWLEDGE.statutes.length },
+      { id: 'kb-precedents', icon: 'scale', name: 'Reported precedents', fn: 'The judgments the sample matters rely on.', badge: KNOWLEDGE.precedents.length },
+      { id: 'kb-how', icon: 'shield', name: 'How grounding works', fn: 'What is checked, and what is only sample data.' }
+    ] }]);
 }
+const kbEntries = list => list.map(x => `<div class="kb-entry" id="kb-${x.key}"><div class="kb-entry-top"><strong>${esc(x.title)}</strong><span class="chip chip-teal">${x.used} uses</span></div><p>${esc(x.body)}</p></div>`).join('');
+Studio.on('kb-statutes', () => Studio.popup({ eyebrow: 'Knowledge base', title: 'Statutes indexed', html: `<div class="ds-list">${kbEntries(KNOWLEDGE.statutes)}</div>` }));
+Studio.on('kb-precedents', () => Studio.popup({ eyebrow: 'Knowledge base', title: 'Reported precedents', html: `<div class="ds-list">${kbEntries(KNOWLEDGE.precedents)}</div>` }));
+Studio.on('kb-how', () => Studio.popup({ eyebrow: 'Knowledge base', title: 'How grounding works', html: `<p class="hint">The citation check on a matter's Drafting tab looks every case name and number up in the Supreme Court database (19.3 million records across all courts) and marks the ones it cannot confirm. This page and its graph are a sample, not a live index.</p>` }));
 
 /* Small hand-laid-out SVG showing matter → precedent → statute connections,
    derived from the same data the app already uses (no parallel dataset). */
@@ -1919,18 +1859,14 @@ function ecFieldsWrapHtml() {
     <div id="ecLocationWrap">${ecLocationHtml()}</div>`;
 }
 
-function ecSearchCardHtml() {
-  return `
-  <div class="card card-pad section ec-lookup-card">
-    <div class="card-head"><div><p class="eyebrow">Look up any case</p><h2>Search eCourts</h2></div></div>
-    <p class="hint">Not limited to matters you already track — search live by case number, party name, filing number, FIR number, advocate, act, case type, caveat, or a pending pre-trial application.</p>
+function ecSearchBody() {
+  return `<p class="hint">Not limited to matters you already track: search by case number, party name, filing number, FIR number, advocate, act, case type, caveat, or a pending pre-trial application.</p>
     <div class="ec-mode-pills" id="ecModePills">${ecModePillsHtml()}</div>
     <form class="ec-search-form" id="ecSearchForm">
       <div class="ec-fields" id="ecFieldsWrap">${ecFieldsWrapHtml()}</div>
       <button class="btn btn-primary" type="submit"><svg class="ic"><use href="#i-research"/></svg>Search</button>
     </form>
-    <div id="ecLookupResult"></div>
-  </div>`;
+    <div id="ecLookupResult"></div>`;
 }
 
 function ecResultCardHtml(mode, item, idx) {
@@ -2072,36 +2008,29 @@ function ecMatterRowHtml(m) {
   </tr>`;
 }
 
+function ecCauseRows() {
+  const today = hearingsOn(TODAY_ISO);
+  return today.length ? today.map(h => { const m = matterById(h.matterId); const e = ECOURTS[m.id];
+    return `<a class="cause-row" href="#/matters/${m.id}/status" data-wb-close style="text-decoration:none;color:inherit"><div class="hearing-time mono">${h.time}</div><div class="cause-copy"><strong>${esc(m.title)}</strong><small>${esc(h.court)} · ${esc(h.purpose)}</small>${e ? `<small class="mono cause-cnr">${esc(e.cnr)}</small>` : ''}</div><span class="chip ${e ? ecStatusChip(e.status) : 'chip-teal'}">${e ? esc(e.status) : 'Listed'}</span></a>`;
+  }).join('') : Studio.empty('Nothing on the cause list today.');
+}
 function pageECourts() {
   const today = hearingsOn(TODAY_ISO);
   const synced = MATTERS.filter(m => ECOURTS[m.id]);
-  return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Court &amp; clients</p><h1>eCourts</h1><p class="lede">Case status, cause lists and order sheets pulled from the National Judicial Data Grid — no more manual checking on the portal.</p></div><button class="btn btn-primary" data-action="sync-ecourts"><svg class="ic"><use href="#i-sync"/></svg>Sync all</button></div>
-
-  ${ecSearchCardHtml()}
-
-  <div class="grid-3 section">
-    <div class="stat-card"><div class="stat-top"><span>Linked to eCourts</span><svg class="ic"><use href="#i-court"/></svg></div><div class="stat-num">${synced.length}</div><div class="stat-note">of ${MATTERS.length} matters</div></div>
-    <div class="stat-card"><div class="stat-top"><span>Listed today</span><svg class="ic"><use href="#i-calendar"/></svg></div><div class="stat-num">${today.length}</div><div class="stat-note">on today’s cause list</div></div>
-    <div class="stat-card"><div class="stat-top"><span>Next 7 days</span><svg class="ic"><use href="#i-clock"/></svg></div><div class="stat-num">${countUpcomingListings(7)}</div><div class="stat-note">upcoming listings</div></div>
-  </div>
-
-  <div class="card card-pad section">
-    <div class="card-head"><div><p class="eyebrow">Today’s cause list</p><h2>${esc(fmtDate(TODAY_ISO))}</h2></div></div>
-    ${today.length ? today.map(h => { const m = matterById(h.matterId); const e = ECOURTS[m.id];
-      return `<a class="cause-row" href="#/matters/${m.id}/status" style="text-decoration:none;color:inherit"><div class="hearing-time mono">${h.time}</div><div class="cause-copy"><strong>${esc(m.title)}</strong><small>${esc(h.court)} · ${esc(h.purpose)}</small>${e ? `<small class="mono cause-cnr">${esc(e.cnr)}</small>` : ''}</div><span class="chip ${e ? ecStatusChip(e.status) : 'chip-teal'}">${e ? esc(e.status) : 'Listed'}</span></a>`;
-    }).join('') : '<p class="empty-note">Nothing on the cause list today.</p>'}
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden">
-    <div class="card-head" style="padding:16px 20px 12px"><div><p class="eyebrow">All matters</p><h2>Case status</h2></div></div>
-    <div class="toolbar" style="padding:0 20px 14px"><div class="search-box"><svg class="ic"><use href="#i-research"/></svg><input id="ecTableSearch" placeholder="Search by matter, CNR, court or stage" /></div><span class="toolbar-count" id="ecTableCount">${MATTERS.length} matters</span></div>
-    <table class="table" style="margin-top:0">
-      <thead><tr><th>Matter</th><th>CNR</th><th>Stage</th><th>Next date</th><th>Status</th></tr></thead>
-      <tbody id="ecTableBody">${MATTERS.map(ecMatterRowHtml).join('')}</tbody>
-    </table>
-  </div>`;
+  return Studio.page(
+    Studio.head({ eyebrow: 'Court &amp; clients', title: 'eCourts', lede: 'Case status for your matters. In this demo it comes from sample records, not the live court portal.',
+      chips: [{ text: `${synced.length} of ${MATTERS.length} matters linked` }, { text: `${today.length} listed today`, tone: 'amber' }, { text: `${countUpcomingListings(7)} listings in the next 7 days` }],
+      actions: `<button class="btn btn-primary" data-action="sync-ecourts"><svg class="ic"><use href="#i-sync"/></svg>Sync all</button>` })
+    + Studio.sec({ title: 'Your matters', sub: 'Every matter and where it stands. Open one for its order sheet.', flush: true,
+      action: `<div class="search-box" style="height:36px;width:min(300px,100%)"><svg class="ic"><use href="#i-research"/></svg><input id="ecTableSearch" placeholder="Search by matter, CNR, court or stage" /></div><span class="toolbar-count" id="ecTableCount" style="margin:0">${MATTERS.length} matters</span>`,
+      body: `<table class="table"><thead><tr><th>Matter</th><th>CNR</th><th>Stage</th><th>Next date</th><th>Status</th></tr></thead><tbody id="ecTableBody">${MATTERS.map(ecMatterRowHtml).join('')}</tbody></table>` }),
+    [{ group: 'eCourts', tools: [
+      { id: 'ec-lookup', icon: 'research', name: 'Look up any case', fn: 'Search by case number, party, filing number, FIR, advocate, act, case type or caveat.' },
+      { id: 'ec-cause', icon: 'gavel', name: 'Today’s cause list', fn: 'Where your matters are listed today.', badge: today.length }
+    ] }]);
 }
+Studio.on('ec-lookup', () => { Studio.popup({ eyebrow: 'eCourts', title: 'Look up any case', html: ecSearchBody(), wide: true }); bindEcSearchCard(); });
+Studio.on('ec-cause', () => Studio.popup({ eyebrow: 'eCourts', title: 'Today’s cause list', html: `<p class="hint">${esc(fmtDate(TODAY_ISO))}</p><div class="ds-list">${ecCauseRows()}</div>` }));
 
 function bindECourts() {
   $$('tr.clickable[data-href]').forEach(tr => tr.addEventListener('click', () => navigate(tr.dataset.href)));
@@ -2117,7 +2046,6 @@ function bindECourts() {
     $$('tr.clickable[data-href]').forEach(tr => tr.addEventListener('click', () => navigate(tr.dataset.href)));
   });
 
-  bindEcSearchCard();
 }
 
 /* =============================================================================
@@ -2224,21 +2152,21 @@ function clCorpusLine() {
 /* ── page shell ──────────────────────────────────────────────────────────── */
 function pageCaseLaw(query) {
   clState = clStateFromQuery(query);
-  return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Research</p><h1>Case law</h1><p class="lede">Search judgments and orders of the Supreme Court and every High Court. Open the original PDF, or save a judgment into a matter’s authorities.</p><p class="cl-corpus" id="clCorpus">${clCorpusLine()}</p></div></div>
-  <form class="cl-form" id="clForm" role="search">
-    <div class="search-box cl-search"><svg class="ic"><use href="#i-research"/></svg><input id="clInput" type="search" maxlength="200" autocomplete="off" aria-label="Search case law" placeholder="Party name, citation or case number — e.g. Kesavananda Bharati" value="${esc(clState.q)}" /></div>
-    <button class="btn btn-primary" type="submit">Search</button>
-  </form>
-  <p class="cl-scope">Searches case titles, party names, citations and case numbers. Judgment text isn’t searchable yet.</p>
-  <div class="cl-filters" id="clFilters">${clFiltersHtml()}</div>
-  <p class="cl-status" id="clStatus" role="status" aria-live="polite"></p>
-  <div id="clBody">
-    <div class="caselaw-list" id="clResults"></div>
-    <nav class="cl-pager" id="clPager" aria-label="Result pages"></nav>
-  </div>
-  <p class="cl-attrib">Judgments and orders: Supreme Court of India and the High Courts, published on the AWS Open Data registry under CC-BY-4.0. Entries are catalogue records — verify every citation against the official record before relying on it. PDFs open from the public archive; LegalAI does not store them.</p>`;
+  return Studio.page(
+    Studio.head({ eyebrow: 'Research', title: 'Case law', lede: 'Search judgments and orders of the Supreme Court and every High Court. Open the original PDF, or save a judgment into a matter’s authorities.' })
+    + Studio.sec({ panel: false, body: `<div class="ds-panel">
+        <div class="ds-block"><form class="cl-form" id="clForm" role="search">
+          <div class="search-box cl-search"><svg class="ic"><use href="#i-research"/></svg><input id="clInput" type="search" maxlength="200" autocomplete="off" aria-label="Search case law" placeholder="Party name, citation or case number — e.g. Kesavananda Bharati" value="${esc(clState.q)}" /></div>
+          <button class="btn btn-primary" type="submit">Search</button></form>
+          <p class="cl-corpus" id="clCorpus">${clCorpusLine()}</p>
+          <div class="cl-filters" id="clFilters">${clFiltersHtml()}</div>
+          <p class="hint" style="margin:10px 0 0">Searches case titles, party names, citations and case numbers. Judgment text isn’t searchable yet.</p></div>
+        <p class="cl-status" id="clStatus" role="status" aria-live="polite"></p>
+        <div id="clBody"><div class="caselaw-list" id="clResults"></div><nav class="cl-pager" id="clPager" aria-label="Result pages"></nav></div></div>
+        <p class="cl-attrib">Judgments and orders: Supreme Court of India and the High Courts, published on the AWS Open Data registry under CC-BY-4.0. Entries are catalogue records — verify every citation against the official record before relying on it. PDFs open from the public archive; LegalAI does not store them.</p>` }),
+    [{ group: 'Case law', tools: [{ id: 'cl-ai', icon: 'spark', name: 'Improve my search', fn: 'AI turns a plain question into search words and statutory provisions.', ai: true }] }]);
 }
+Studio.onAi('cl-ai', 'query-rewrite');
 
 /* ── result cards ────────────────────────────────────────────────────────── */
 function clMatterSelect(i) {
@@ -2452,9 +2380,9 @@ async function clToggleOrders(btn) {
    PAGE: AUDIT TRAIL
    ============================================================================= */
 function pageAudit() {
-  return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Trust &amp; sources</p><h1>Audit trail</h1><p class="lede">Every agent action and every lawyer decision, in one accountable log. Entries with a reasoning trace can be expanded.</p></div></div>
-  <div class="card card-pad">${AUDIT_LOG.map((a, i) => `
+  return Studio.page(
+    Studio.head({ eyebrow: 'Trust &amp; sources', title: 'Audit trail', lede: 'Every agent action and every lawyer decision, in one log. Entries with a reasoning trace can be expanded.' })
+    + Studio.sec({ title: 'Activity', sub: 'Newest first.', body: AUDIT_LOG.map((a, i) => `
     <div class="audit-block${a.trace ? ' has-trace' : ''}">
       <button type="button" class="audit-row${a.trace ? ' clickable' : ''}" ${a.trace ? `data-action="toggle-audit" data-idx="${i}"` : 'disabled'}>
         <div class="audit-time">${esc(a.time)}</div>
@@ -2463,29 +2391,26 @@ function pageAudit() {
         ${a.trace ? '<svg class="ic audit-chevron" id="auditChevron' + i + '"><use href="#i-chevron-down"/></svg>' : '<span></span>'}
       </button>
       ${a.trace ? `<div class="audit-trace" id="auditTrace${i}" hidden>${a.trace.map((t, ti) => `<div class="trace-step done"><span><svg class="ic"><use href="#i-check"/></svg></span><div class="trace-copy"><strong>Step ${ti + 1}</strong><small>${esc(t)}</small></div></div>`).join('')}</div>` : ''}
-    </div>`).join('')}</div>`;
+    </div>`).join('') }));
 }
 
 /* =============================================================================
    PAGE: SETTINGS
    ============================================================================= */
+const settingsRow = (title, text, right = '') => `<div class="settings-row"><div class="settings-copy"><strong>${title}</strong><small>${text}</small></div>${right}</div>`;
 function pageSettings() {
-  return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Workspace</p><h1>Settings</h1><p class="lede">Your profile and how LegalAI behaves in this workspace.</p></div></div>
-  ${AiUi.settingsCard()}
-  <div class="grid-2" style="margin-top:18px">
-    <div class="card card-pad"><h2>Profile</h2>
-      <div class="settings-row"><div class="settings-copy"><strong>Name</strong><small>Shreyas A. · Senior associate</small></div><button class="btn btn-ghost btn-sm">Edit</button></div>
-      <div class="settings-row"><div class="settings-copy"><strong>Firm</strong><small>Kamat &amp; Partners</small></div><button class="btn btn-ghost btn-sm">Edit</button></div>
-      <div class="settings-row"><div class="settings-copy"><strong>Email notifications</strong><small>Hearing reminders and review-queue digests.</small></div><button class="switch on" data-action="toggle-switch"></button></div>
-    </div>
-    <div class="card card-pad"><h2>AI behaviour</h2>
-      <div class="settings-row"><div class="settings-copy"><strong>Citation check</strong><small>On each matter's Drafting tab. It looks every case name and number up in the Supreme Court database and marks the ones it cannot confirm. Ask AI's answers are scripted examples and are not checked.</small></div></div>
-      <div class="settings-row"><div class="settings-copy"><strong>Require my approval before export</strong><small>No draft can be exported or filed without your explicit approval.</small></div><button class="switch on locked"></button></div>
-      <div class="settings-row"><div class="settings-copy"><strong>Suggest research proactively</strong><small>Let agents surface relevant precedent while you work.</small></div><button class="switch on" data-action="toggle-switch"></button></div>
-    </div>
-  </div>`;
+  return Studio.page(
+    Studio.head({ eyebrow: 'Workspace', title: 'Settings', lede: 'The AI model, and what this workspace does with your work.' }) + AiUi.settingsCard(),
+    [{ group: 'Settings', tools: [
+      { id: 'set-profile', icon: 'users', name: 'Your profile', fn: 'A sample profile for this demo. It is not saved anywhere.' },
+      { id: 'set-ai', icon: 'shield', name: 'How the AI behaves', fn: 'What is true of this workspace today.' }
+    ] }]);
 }
+Studio.on('set-profile', () => Studio.popup({ eyebrow: 'Settings', title: 'Your profile', html: `<p class="hint">A sample profile for this demo. It is not saved anywhere.</p>${settingsRow('Name', 'Shreyas A. · Senior associate')}${settingsRow('Firm', 'Kamat &amp; Partners')}` }));
+Studio.on('set-ai', () => Studio.popup({ eyebrow: 'Settings', title: 'How the AI behaves', html:
+  settingsRow('Every draft is approved by you', 'No draft can be exported until you approve it. This cannot be turned off.', '<span class="chip chip-teal">Always on</span>')
+  + settingsRow('Citation check', 'On each matter’s Drafting tab. It looks every case name and number up in the Supreme Court database and marks the ones it cannot confirm.', '<span class="chip chip-teal">Available</span>')
+  + settingsRow('Ask AI', 'The chat pages give scripted example answers. They are not written by a model and are not checked.', '<span class="chip chip-amber">Demo</span>') }));
 
 /* ---------------------------------------------------------------------------
    Page-level binder dispatch
@@ -2505,8 +2430,7 @@ function bindPage(key, parts, query) {
   $$('[data-action="sync-case"]').forEach(b => b.addEventListener('click', () => syncCaseStatusFromService(b.dataset.matter)));
   $$('[data-action="upload-doc"]').forEach(b => b.addEventListener('click', () => wbOpenEvidenceForm(null)));
 
-  if (key === 'today') bindToday();
-  else if (key === 'ask') bindAsk(parts[1]);
+  if (key === 'ask') bindAsk(parts[1]);
   else if (key === 'case-chat') bindCaseChat(parts[1]);
   else if (key === 'caselaw') bindCaseLaw();
   else if (key === 'reminders') bindReminders();

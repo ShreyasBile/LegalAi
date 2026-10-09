@@ -79,10 +79,10 @@ function rmCard(r) {
 
 function rmListsHtml(list) {
   const due = list.filter(r => r.status === 'due'), up = list.filter(r => r.status === 'upcoming'), rest = list.filter(r => r.status === 'sent' || r.status === 'off');
-  const section = (eyebrow, title, rows, empty, extra = '') => `<div class="card card-pad"><div class="card-head"><div><p class="eyebrow">${eyebrow}</p><h2>${title}</h2></div><span class="chip chip-navy">${rows.length}</span></div>${rows.length ? rows.map(rmCard).join('') : `<p class="empty-note">${empty}</p>`}${extra}</div>`;
-  return `${section('Today', 'Due now', due, 'Nothing is due. Reminders appear here on the day they should go out.')}
-    ${section('Scheduled', 'Upcoming', up, 'No upcoming reminders.')}
-    ${rest.length ? section('History', 'Sent and switched off', rest, '') : ''}`;
+  const section = (title, rows, empty, extra = '') => `<div class="rm-group"><div class="rm-group-h"><h3>${title}</h3><span class="chip chip-navy">${rows.length}</span></div>${rows.length ? rows.map(rmCard).join('') : `<p class="empty-note">${empty}</p>`}${extra}</div>`;
+  return `<div class="ds-panel">${section('Due now', due, 'Nothing is due. Reminders appear here on the day they should go out.')}
+    ${section('Upcoming', up, 'No upcoming reminders.')}
+    ${rest.length ? section('Sent and switched off', rest, '') : ''}</div>`;
 }
 
 function rmPreviewHtml(list) {
@@ -111,20 +111,26 @@ function rmTemplatesHtml() {
     <label class="rm-field">Your WhatsApp number<input data-rm-change="me-phone" maxlength="30" value="${esc(rm.me.phone)}" placeholder="So reminders to you open your own chat" /></label>`;
 }
 
+const RM_BANNER = `<div class="wa-banner section"><div class="wa-banner-icon">${wbIc('whatsapp')}</div><div class="wa-banner-copy"><strong>You tap Send — LegalAI does not send by itself</strong><small>Sending on its own needs the WhatsApp Business platform and a server, which this app does not have. Reminders are prepared and tracked here; the message goes from your own WhatsApp.</small></div></div>`;
+
 function pageReminders() {
   const list = rmBuild();
-  return `
-  <div class="page-head"><div class="page-head-text"><p class="eyebrow">Court &amp; clients</p><h1>Reminders</h1><p class="lede">Hearing and deadline reminders, prepared for you and your clients. Tap <b>Send on WhatsApp</b> and WhatsApp opens with the message already typed.</p></div><button class="btn btn-primary" data-rm="new" type="button">${wbIc('plus')}New reminder</button></div>
-  <div class="wa-banner section"><div class="wa-banner-icon">${wbIc('whatsapp')}</div><div class="wa-banner-copy"><strong>You tap Send — LegalAI does not send by itself</strong><small>Sending on its own needs the WhatsApp Business platform and a server, which this app does not have. Reminders are prepared and tracked here; the message goes from your own WhatsApp.</small></div></div>
-  <div class="dash-grid" id="rmRoot">
-    <div class="wb-col" id="rmLists">${rmListsHtml(list)}</div>
-    <div class="wb-col">
-      <div class="card card-pad"><p class="eyebrow">Preview</p><h2 style="margin-bottom:2px">Next message</h2><div id="rmPreview">${rmPreviewHtml(list)}</div></div>
-      <div class="card card-pad"><h2>Client contacts</h2><p class="hint">A client message needs a WhatsApp number and the client’s agreement to receive it.</p><div id="rmContacts">${rmContactsHtml()}</div></div>
-      <div class="card card-pad"><h2>Messages and your details</h2><div id="rmTemplates">${rmTemplatesHtml()}</div></div>
-    </div>
-  </div>`;
+  return Studio.page(
+    Studio.head({ eyebrow: 'Court &amp; clients', title: 'Reminders', lede: 'Hearing and deadline reminders, prepared for you and your clients. Tap Send on WhatsApp and WhatsApp opens with the message already typed.',
+      actions: `<button class="btn btn-primary" data-rm="new" type="button">${wbIc('plus')}New reminder</button>` })
+    + RM_BANNER
+    + Studio.sec({ title: 'What to send', sub: 'Due now first, then what is coming up.', panel: false, body: `<div id="rmRoot"><div id="rmLists">${rmListsHtml(list)}</div></div>` }),
+    [{ group: 'Reminders', tools: [
+      { id: 'rm-preview', icon: 'whatsapp', name: 'Next message', fn: 'See how the next reminder will look in WhatsApp.' },
+      { id: 'rm-contacts', icon: 'users', name: 'Client contacts', fn: 'A client message needs a WhatsApp number and the client’s agreement.' },
+      { id: 'rm-templates', icon: 'edit', name: 'Messages and your details', fn: 'Edit the wording of the reminders and your own number.' }
+    ] }]);
 }
+/* these open as popups, so their clicks need the same handlers as the page */
+const rmPop = (title, body) => { Studio.popup({ eyebrow: 'Reminders', title, html: body }); const modal = $('#wbModal'); if (modal && !modal._rm) { modal._rm = true; rmAttach(modal); } };
+Studio.on('rm-preview', () => rmPop('Next message', `<div id="rmPreview">${rmPreviewHtml(rmBuild())}</div>`));
+Studio.on('rm-contacts', () => rmPop('Client contacts', `<p class="hint">A client message needs a WhatsApp number and the client’s agreement to receive it.</p><div id="rmContacts">${rmContactsHtml()}</div>`));
+Studio.on('rm-templates', () => rmPop('Messages and your details', `<div id="rmTemplates">${rmTemplatesHtml()}</div>`));
 
 function rmPaint(all = false) {
   const list = rmBuild();
@@ -192,10 +198,8 @@ function rmOpenEdit(r) {
   });
 }
 
-function bindReminders() {
-  const root = $('#rmRoot');
+function rmAttach(root) {
   if (!root) return;
-  $('[data-rm="new"]')?.addEventListener('click', rmOpenNew);
   const find = key => rmBuild().find(r => r.key === key);
   root.addEventListener('click', e => {
     const el = e.target.closest('[data-rm]');
@@ -228,5 +232,7 @@ function bindReminders() {
     rmSave(); rmPaint(true);
   });
 }
+
+function bindReminders() { $('[data-rm="new"]')?.addEventListener('click', rmOpenNew); rmAttach($('#rmRoot')); }
 
 rmLoad();

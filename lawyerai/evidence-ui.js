@@ -194,12 +194,10 @@ async function evOpenViewer(m, d, { query = '' } = {}) {
 }
 
 /* ── what the documents say: search, dates, amounts, possible inconsistencies ─ */
-function evIndexShell(m) {
+function evIndexShell(m) {                           // the body of the "What the documents say" popup
   const any = m.documents.some(d => d.read);
-  return `<div class="card card-pad ev-index" id="evIndex">
-    <div class="card-head"><div><h2>What the documents say</h2><p class="hint">Built only from the text you have read. Dates, amounts and “possible inconsistencies” are found by pattern, so treat each as a place to look and check it against the original — OCR can misread a digit.</p></div></div>
-    <div id="evIndexBody">${any ? '<p class="empty-note">Loading the stored text…</p>' : '<p class="empty-note" style="text-align:left">Nothing has been read yet. Use “Read text…” on a document above (or tick “Read the text now” when adding one). Then you can search across the documents, see every date and amount they mention, and see where two documents give different dates or amounts for the same thing.</p>'}</div>
-  </div>`;
+  return `<p class="hint">Built only from the text you have read. Dates, amounts and “possible inconsistencies” are found by pattern, so treat each as a place to look and check it against the original: OCR can misread a digit.</p>
+    <div id="evIndexBody">${any ? '<p class="empty-note">Loading the stored text…</p>' : '<p class="empty-note" style="text-align:left">Nothing has been read yet. Use “Read text…” on a document (or tick “Read the text now” when adding one). Then you can search across the documents, see every date and amount they mention, and see where two documents give different dates or amounts for the same thing.</p>'}</div>`;
 }
 
 function evAfterRender(root) {
