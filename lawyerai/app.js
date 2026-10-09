@@ -457,10 +457,10 @@ function route() {
   if (key === 'today') { content = pageToday(); crumb = 'Today'; }
   else if (key === 'ask') { content = pageAsk(parts[1], query); flush = true; crumb = 'Ask LegalAI'; }
   else if (key === 'case-chat') { content = pageCaseChat(parts[1], query); flush = true; crumb = 'Case Chat'; }
-  else if (key === 'caselaw') { content = pageCaseLaw(query); crumb = 'Case law'; }
+  else if (key === 'caselaw') { content = pageCaseLaw(query) + AiUi.caselawCard(); crumb = 'Case law'; }
   else if (key === 'ecourts') { content = pageECourts(); crumb = 'eCourts'; }
   else if (key === 'reminders') { content = pageReminders(); crumb = 'Reminders'; }
-  else if (key === 'deadlines') { content = pageDeadlines(query); crumb = 'Limitation & deadlines'; }
+  else if (key === 'deadlines') { content = pageDeadlines(query) + AiUi.deadlinesCard(); crumb = 'Limitation & deadlines'; }
   else if (key === 'matters' && parts[1]) {
     matterCtx = matterById(parts[1]);
     matterTab = parts[2] || 'overview';
@@ -1249,6 +1249,10 @@ function pageMatterDetail(id, tab) {
 }
 
 function matterTab(m, tab) {
+  return AiUi.withCard(matterTabBase(m, tab), m, tab);
+}
+
+function matterTabBase(m, tab) {
   if (tab === 'research') return tabResearch(m);
   if (tab === 'evidence') return tabEvidence(m);
   if (tab === 'drafting') return tabDrafting(m);
@@ -2468,14 +2472,15 @@ function pageAudit() {
 function pageSettings() {
   return `
   <div class="page-head"><div class="page-head-text"><p class="eyebrow">Workspace</p><h1>Settings</h1><p class="lede">Your profile and how LegalAI behaves in this workspace.</p></div></div>
-  <div class="grid-2">
+  ${AiUi.settingsCard()}
+  <div class="grid-2" style="margin-top:18px">
     <div class="card card-pad"><h2>Profile</h2>
       <div class="settings-row"><div class="settings-copy"><strong>Name</strong><small>Shreyas A. · Senior associate</small></div><button class="btn btn-ghost btn-sm">Edit</button></div>
       <div class="settings-row"><div class="settings-copy"><strong>Firm</strong><small>Kamat &amp; Partners</small></div><button class="btn btn-ghost btn-sm">Edit</button></div>
       <div class="settings-row"><div class="settings-copy"><strong>Email notifications</strong><small>Hearing reminders and review-queue digests.</small></div><button class="switch on" data-action="toggle-switch"></button></div>
     </div>
     <div class="card card-pad"><h2>AI behaviour</h2>
-      <div class="settings-row"><div class="settings-copy"><strong>Mandatory citation verification</strong><small>Every citation must resolve to a real source before it is shown. This cannot be turned off.</small></div><button class="switch on locked"></button></div>
+      <div class="settings-row"><div class="settings-copy"><strong>Citation check</strong><small>On each matter's Drafting tab. It looks every case name and number up in the Supreme Court database and marks the ones it cannot confirm. Ask AI's answers are scripted examples and are not checked.</small></div></div>
       <div class="settings-row"><div class="settings-copy"><strong>Require my approval before export</strong><small>No draft can be exported or filed without your explicit approval.</small></div><button class="switch on locked"></button></div>
       <div class="settings-row"><div class="settings-copy"><strong>Suggest research proactively</strong><small>Let agents surface relevant precedent while you work.</small></div><button class="switch on" data-action="toggle-switch"></button></div>
     </div>
@@ -2486,6 +2491,7 @@ function pageSettings() {
    Page-level binder dispatch
    ------------------------------------------------------------------------- */
 function bindPage(key, parts, query) {
+  AiUi.bindPage(key);
   $$('[data-action="open-new-matter"]').forEach(b => b.addEventListener('click', () => { resetIntake(); refreshIntake(); openModal('#matterModal'); }));
   $$('[data-action="toggle-switch"]').forEach(b => b.addEventListener('click', () => { b.classList.toggle('on'); showToast(b.classList.contains('on') ? 'Setting enabled.' : 'Setting disabled.'); }));
   $$('[data-action="toggle-audit"]').forEach(b => b.addEventListener('click', () => {

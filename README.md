@@ -18,7 +18,7 @@ Real and tested:
   PDF links to the archive (no PDFs are stored).
 - The eCourts service's architecture and its **83 tests**.
 - All research code and results in `paper/`.
-- The workspace's working tools, all in the browser and each with unit and/or browser tests (**141 unit tests**,
+- The workspace's working tools, all in the browser and each with unit and/or browser tests (**182 unit tests**,
   `cd lawyerai && npm test`; the browser suites drive the real pages with Playwright):
   - **Build the case** tabs on a matter. *Research:* search judgments and pin authorities, keep notes, save an Ask AI answer as
     a note. *Evidence:* record documents, build a dated chronology, and read the documents' text (below). *Arguments:* points
@@ -54,21 +54,54 @@ Real and tested:
   guided intake is itself not saved, so what you add to it is lost on reload.
 - **Comments and approvals are not multi-user.** A reviewer's name is typed in, not signed in, and a draft's history lives on
   one computer. Real senior-review workflow needs accounts and a server.
-- **Drafting does not use AI.** A draft is your chosen format filled with what is already recorded for the matter; where the
+- **The editor does not use AI.** A draft is your chosen format filled with what is already recorded for the matter; where the
   matter has nothing it leaves a visible `[____]`, and you write the rest. The built-in formats are general starting points,
-  not legal advice. Export is allowed only after you approve a draft.
+  not legal advice. Export is allowed only after you approve a draft. The AI assistant below is separate and optional.
 - **No translation.** Translating orders or drafts (for example between English, Hindi and Marathi) is not built: doing it
   honestly needs a translation model or service, and nothing here calls one. OCR can read Hindi and Marathi text; it does not
   translate it.
 - **OCR quality varies.** It was checked on clean, typed Hindi, Marathi and English pages and read them correctly, including
   digits. Handwriting, poor photographs, stamps and skewed scans will be read worse; the reader shows an overall confidence
   and the text can be corrected by hand.
-- **"Ask AI" is not an AI.** Its replies come from keyword matching in the browser. Text such as "verified against the
-  knowledge graph" is a fixed label.
+- **"Ask AI" (the chat page) is not an AI.** Its replies come from keyword matching in the browser. Text such as "verified
+  against the knowledge graph" is a fixed label. The real AI is in the assistant cards described below.
 - "Save to matter" and "export" on the sample pages only show a confirmation message.
 - The eCourts service answers from saved HTML fixtures and a made-up index of 8 cases. Its live mode (Playwright plus a
   CAPTCHA solver) was written but **never run** against the real portal.
-- The retriever, verifier and language models in `paper/` are **not** connected to the workspace.
+- The retriever and the frozen verifier in `paper/` are **not** connected to the workspace. The citation check below uses a
+  simpler lookup against the same database, and it says so.
+
+### The AI assistant (optional)
+
+Cards on the matter tabs, Case law and Limitation call a language model through [OpenRouter](https://openrouter.ai). Add your key
+under **Settings → AI model**. It is saved by the workspace server in `.local/ai.json` (git-ignored, outside the web root), is
+never sent back to the browser (which sees only its last four characters) and is used only for requests to OpenRouter. A model
+running on your own computer (for example Ollama at `http://localhost:11434/v1`) needs no key: set its address under Advanced.
+
+| Where | What it does |
+|---|---|
+| Drafting | **Citation check** (no model, no key): finds every case name and number in a draft and looks each up in the Supreme Court database. Also: one reply paragraph, an anticipatory-bail application (s.482 BNSS), a caveat or injunction application, a filing-format check, and a deemed-admission audit of a reply. |
+| Arguments | The other side's strongest answer to each argument. |
+| Evidence | A chronology and cross-examination questions from the documents you have read; a comparison of witness statements; an English summary of a Hindi or Marathi document. |
+| Case status | A digest of an order; preparation for the next listing. |
+| Hearing prep | A WhatsApp update for the client in English, Hindi or Marathi (you send it yourself). |
+| Case law | Search words and provisions for a plain-language question. |
+| Limitation | Picks a period from the built-in 27 and the start date; the calculator then counts the dates. |
+
+What it does and does not do:
+- **A model never decides whether a case is real.** Citations are found with patterns and looked up in the database
+  (`ai-core.mjs`). Every case a model names is looked up too and marked *in the database*, *parties found*, or *not confirmed*.
+  The check covers **Supreme Court** judgments only (the database has no citation numbers for High Courts), matches names loosely
+  (it can miss an abbreviation and it uses the year when one is given), and confirms **that a case exists, not that it says what
+  you cite it for**. The result says so.
+- **Nothing is made up when a model fails.** An error is shown as an error. The earlier Next.js prototype returned canned
+  answers, including invented "verified" citations, whenever a call failed; that is not carried over. It also asked a model for
+  percentages (risk, chance of adjournment); those are not carried over either.
+- The next-stage view is preparation advice from the hearing history, not a forecast of what a court will do.
+- Everything a model writes is labelled with the model's name and is a draft for you to check. Nothing is filed or sent.
+- Tested with a fake provider, a fake case-law API and a real local model (qwen2.5-vl 7B via Ollama). The first call to OpenRouter
+  with a real key has not been made by the author; with an invalid key the provider's refusal is shown correctly.
+- Your documents' text is sent to the model provider when you run an action on it. Do not use it for material you may not share.
 
 The original proposal also described LangGraph/CrewAI agents, a Neo4j knowledge graph and a vector store inside the product.
 None of that is implemented.
@@ -81,6 +114,9 @@ Requires Node.js 20+. Python 3.13 for the data scripts.
 # workspace (http://localhost:4173) and its unit tests
 cd lawyerai && node server.mjs
 cd lawyerai && npm test
+
+# everything at once on Windows (Docker, database, case-law API, eCourts, workspace, then the browser):
+powershell -ExecutionPolicy Bypass -File start-legalai.ps1
 
 # eCourts service on sample data (http://localhost:8080) and its tests
 cd ecourts-service && cp .env.example .env && npm start

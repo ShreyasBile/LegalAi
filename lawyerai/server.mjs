@@ -2,16 +2,24 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createAiHandler } from './ai-server.mjs';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 const port = Number(process.env.PORT || 4173);
 const host = process.env.HOST || '127.0.0.1';      // this machine only; set HOST=0.0.0.0 to share it on your network
 const mime = { '.css': 'text/css', '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg' };
 
-createServer((request, response) => {
+const ai = createAiHandler();
+
+/* Only the page's own files are served: no dot-folders, no server modules, no tests, no package.json. */
+const servable = pathname => !pathname.split('/').some(seg => seg.startsWith('.')) && !/\.mjs$|^\/test\/|^\/package(-lock)?\.json$/i.test(pathname);
+
+createServer(async (request, response) => {
   let pathname;
   try { pathname = decodeURIComponent(request.url.split('?')[0]); }
   catch { response.writeHead(400); response.end('Bad request'); return; }       // e.g. /%E0%A4
+  if (await ai(request, response, pathname)) return;
+  if (!servable(pathname)) { response.writeHead(404); response.end('Not found'); return; }
   const path = normalize(join(root, pathname === '/' ? 'index.html' : pathname));
   if (!path.startsWith(root) || !existsSync(path) || statSync(path).isDirectory()) {
     response.writeHead(404); response.end('Not found'); return;
