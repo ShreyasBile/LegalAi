@@ -620,8 +620,8 @@ function onGlobalKeydown(e) {
 }
 document.removeEventListener?.('keydown', onGlobalKeydown);
 
-function openModal(id) { $('#modalBackdrop').classList.add('open'); $(id).classList.add('open'); }
-function closeModals() { $('#modalBackdrop').classList.remove('open'); $$('.modal.open').forEach(m => m.classList.remove('open')); }
+function openModal(id) { $('#modalBackdrop').classList.add('open'); $(id).classList.add('open'); document.documentElement.classList.add('modal-open'); }
+function closeModals() { $('#modalBackdrop').classList.remove('open'); $$('.modal.open').forEach(m => m.classList.remove('open')); document.documentElement.classList.remove('modal-open'); }
 function openCmdk() { openModal('#cmdkModal'); renderCmdkResults(); setTimeout(() => $('#cmdkInput')?.focus(), 60); }
 
 const CMDK_NAV = [

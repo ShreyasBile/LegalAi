@@ -1450,3 +1450,9 @@ p.ev-snip{margin:6px 0 0}
 .ai-checks{margin-top:14px}
 .ai-checks-h{margin:0 0 2px}
 @media (max-width:560px){.ai-summary{grid-template-columns:1fr 1fr}.modal .wb-form:not(form){padding:6px 16px 20px}}
+
+/* a popup never lets the page behind it scroll; the gutter stays so nothing shifts */
+html.modal-open{overflow:hidden;scrollbar-gutter:stable}
+.ai-act.ai-bare{border:0;border-radius:0;background:none;margin:0}
+.ai-bare .ai-field select+textarea{margin-top:8px}
+.ai-bare .hint{margin:0 0 6px}
