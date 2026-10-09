@@ -42,3 +42,9 @@ paper/numbers.md
 .idea/
 Thumbs.db
 .DS_Store
+
+# launcher logs
+.logs/
+
+# local settings, including the saved AI key
+.local/
