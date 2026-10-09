@@ -97,13 +97,16 @@ const AiUi = (() => {
   const list = (items, cls = '') => (items && items.length ? `<ul class="ai-list ${cls}">${items.map(i => `<li>${esc(i)}</li>`).join('')}</ul>` : '<p class="hint">None.</p>');
   const para = t => `<p class="ai-p">${esc(t).replace(/\n/g, '<br>')}</p>`;
   const sub = t => `<p class="eyebrow" style="margin:14px 0 6px">${esc(t)}</p>`;
-  const matchLine = c => (c ? `<small class="ai-match">${esc(c.title)}${c.citation ? ` · ${esc(c.citation)}` : ''}${c.neutralCitation ? ` · ${esc(c.neutralCitation)}` : ''}${c.pdfUrl ? ` · <a href="${esc(c.pdfUrl)}" target="_blank" rel="noopener">judgment PDF</a>` : ''}</small>` : '');
-  const checks = (cs, label) => (cs && cs.length ? `<div class="ai-checks"><p class="ai-checks-h">${esc(label)}</p>${cs.map(c => `<div class="ai-check">${badge(c.status)} <span>${esc(c.text)}</span>${matchLine(c.match)}${c.status === 'not-found' ? '<small class="ai-warn">' + esc(c.message) + '</small>' : ''}</div>`).join('')}</div>` : '');
+  /* one looked-up case or citation, as a card: how it came out, what was cited, what the database holds */
+  const BAD = new Set(['misattributed', 'wrong-number', 'not-found']);
+  const matchBlock = c => (c ? `<div class="ai-cite-match"><strong>${esc(c.title)}</strong><small>${[c.citation, c.neutralCitation].filter(Boolean).map(esc).join(' · ')}</small>${c.pdfUrl ? `<a href="${esc(c.pdfUrl)}" target="_blank" rel="noopener">Open the judgment (PDF)</a>` : ''}</div>` : '');
+  const cite = (status, raw, message, match) => `<div class="ai-cite${BAD.has(status) ? ' bad' : ''}"><div>${badge(status)}</div><div class="ai-cite-raw">${esc(raw)}</div><p class="ai-cite-msg">${esc(message)}</p>${matchBlock(match)}</div>`;
+  const checks = (cs, label) => (cs && cs.length ? `<div class="ai-checks"><p class="ai-checks-h">${esc(label)}</p>${cs.map(c => cite(c.status, c.text, c.message, c.match)).join('')}</div>` : '');
 
   const RENDER = {
     'citation-check': r => `${r.items.length ? '' : '<p class="hint">No case names or citation numbers were found in this text.</p>'}
-      ${r.items.length ? `<p class="ai-sum"><strong>${r.summary.found}</strong> citation${r.summary.found === 1 ? '' : 's'} found · <strong>${r.summary.verified}</strong> confirmed · <strong class="${r.summary.problems ? 'ai-bad' : ''}">${r.summary.problems}</strong> not confirmed · ${r.summary.uncheckable} cannot be checked here</p>` : ''}
-      ${r.items.map(i => `<div class="ai-check">${badge(i.status)} <span class="mono">${esc(i.raw)}</span><small>${esc(i.message)}</small>${matchLine(i.match)}</div>`).join('')}
+      ${r.items.length ? `<div class="ai-summary"><span><b>${r.summary.found}</b>found</span><span class="ok"><b>${r.summary.verified}</b>confirmed</span><span class="${r.summary.problems ? 'bad' : ''}"><b>${r.summary.problems}</b>not confirmed</span><span><b>${r.summary.uncheckable}</b>cannot be checked here</span></div>` : ''}
+      ${r.items.map(i => cite(i.status, i.kind === 'name' ? i.raw : [i.name, i.raw].filter(Boolean).join(' · '), i.message, i.match)).join('')}
       <p class="ai-foot">${esc(r.note)}</p>`,
     'pleading-reply': r => para(r.text), 'interim-draft': r => para(r.text), 'client-briefing': r => para(r.text),
     'court-rules': r => `${r.summary ? para(r.summary) : ''}${r.issues.length ? r.issues.map(i => `<div class="ai-item"><strong>${esc(i.what)}</strong><small>${esc(i.where)}</small><p>${esc(i.fix)}</p></div>`).join('') : '<p class="hint">No problems listed.</p>'}`,
@@ -327,7 +330,7 @@ const AiUi = (() => {
     caselawCard: () => pageCard('query-rewrite', 'Not sure what to search for?'),
     deadlinesCard: () => pageCard('limitation-classify', 'Not sure which period applies?'),
     bindPage(key) { wire(); if (key === 'settings') bindSettings(); },
-    api, loadStatus, usable: () => !!ST.status?.usable, hasStatus: () => !!ST.status, banner, render: (name, r) => RENDER[name](r),
+    cite, api, loadStatus, usable: () => !!ST.status?.usable, hasStatus: () => !!ST.status, banner, render: (name, r) => RENDER[name](r),
     popupHtml(name, m) { wire(); if (!ST.status) loadStatus().then(() => { const el = document.querySelector('.ai-pop-banner'); if (el) el.innerHTML = banner(); }); return `<div class="ai-pop-banner">${banner()}</div>${actionHtml(name, m, true)}`; },
     actionTitle: name => ACTIONS[name]?.title || name,
     _ACTIONS: ACTIONS

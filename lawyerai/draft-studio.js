@@ -130,7 +130,7 @@ const DraftStudio = (() => {
     return `<div class="ds-result"><p class="ai-label-ai">Written by a model (${esc(res.model)}). Check every fact, date and citation before you rely on it.</p>
       <p><strong>${res.count}</strong> section${res.count === 1 ? '' : 's'} written into the draft.</p>
       ${c ? `<p class="ai-sum"><strong>${c.summary.found}</strong> citation${c.summary.found === 1 ? '' : 's'} in the new text · <strong>${c.summary.verified}</strong> confirmed in the database · <strong class="${c.summary.problems ? 'ai-bad' : ''}">${c.summary.problems}</strong> not confirmed</p>
-        ${c.items.filter(i => ['misattributed', 'wrong-number', 'not-found'].includes(i.status)).map(i => `<div class="ai-check"><span class="chip chip-red">Not confirmed</span> <span class="mono">${esc(i.raw)}</span><small>${esc(i.message)}</small></div>`).join('')}`
+        ${c.items.filter(i => ['misattributed', 'wrong-number', 'not-found'].includes(i.status)).map(i => AiUi.cite(i.status, i.kind === 'name' ? i.raw : [i.name, i.raw].filter(Boolean).join(' · '), i.message, i.match)).join('')}`
         : '<p class="hint">The case-law database could not be reached, so the citations were not checked. Start it and use the Citation check tool.</p>'}
       <div class="ds-actions"><button type="button" class="btn btn-teal btn-sm" data-wb="ds-mode" data-mode="edit">Review in Manual</button><button type="button" class="btn btn-ghost btn-sm" data-wb="ds-mode" data-mode="preview">Preview</button><button type="button" class="btn btn-ghost btn-sm" data-wb="ds-tool" data-tool="citations">Full citation check</button></div></div>`;
   }
@@ -244,7 +244,7 @@ const DraftStudio = (() => {
     };
     const paint = () => { const box = $('#dsComplete'); if (box) box.innerHTML = body(); const pct = $('#dsPct'); if (pct) pct.textContent = Drafting.draftChecks(d, m, wbProfileOf(d)).pct; };
     wbOpenModal({
-      eyebrow: 'Draft checks', title: 'Completeness', focus: false, html: `<div class="wb-form" id="dsComplete">${body()}</div>`,
+      eyebrow: 'Draft checks', title: 'Completeness', focus: false, size: 'md', html: `<div class="wb-form" id="dsComplete">${body()}</div>`,
       onChange: e => { if (e.target.name === 'profile' && d.status !== 'Approved') { d.profileId = e.target.value; wbSave(m.id); paint(); } },
       onClick: e => {
         if (e.target.closest('[data-ds-rules]')) { e.preventDefault(); wbOpenProfiles(m); return; }
@@ -265,7 +265,7 @@ const DraftStudio = (() => {
   WB_CLICK['ds-tool'] = (el, m) => {
     const tool = TOOLS.flatMap(g => g.tools).find(t => t.id === el.dataset.tool);
     if (!tool || (tool.needsDraft && !wbDraftOf(m))) return;
-    if (tool.ai) wbOpenModal({ eyebrow: tool.ai === 'citation-check' ? 'Check' : 'AI assistant', title: tool.name, focus: false, html: `<div class="wb-form">${AiUi.popupHtml(tool.ai, m)}</div>` });
+    if (tool.ai) wbOpenModal({ eyebrow: tool.ai === 'citation-check' ? 'Check' : 'AI assistant', title: tool.name, focus: false, size: 'md', html: `<div class="wb-form">${AiUi.popupHtml(tool.ai, m)}</div>` });
     else OPEN[tool.id]?.(m);
   };
 

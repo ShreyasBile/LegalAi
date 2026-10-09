@@ -131,10 +131,11 @@ function wbBindMatterDetail() {
 }
 
 /* One dialog element serves every form here. Its handlers are replaced on each open, so they never pile up. */
-function wbOpenModal({ eyebrow, title, html, wide = false, focus = true, onSubmit, onClick, onInput, onChange, onFocus }) {
+function wbOpenModal({ eyebrow, title, html, wide = false, size = '', focus = true, onSubmit, onClick, onInput, onChange, onFocus }) {
   const modal = $('#wbModal');
   if (!modal) return;
   modal.classList.toggle('wb-wide', wide);
+  modal.classList.toggle('wb-md', size === 'md');
   modal.setAttribute('aria-label', title);
   modal.innerHTML = `<header><div><p class="eyebrow">${esc(eyebrow)}</p><h2>${esc(title)}</h2></div><button type="button" class="icon-btn" data-wb-close aria-label="Close">${wbIc('close')}</button></header><div class="wb-modal-body">${html}</div>`;
   modal.onclick = e => { if (e.target.closest('[data-wb-close]')) { closeModals(); return; } onClick?.(e); };

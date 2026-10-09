@@ -112,10 +112,10 @@ export async function verifyCitation(e, lookup) {
     const cards = await lookup(e.value);
     const hit = cards[0];
     if (hit) {
-      if (!e.name) return { ...base, status: 'number-found', message: `This number belongs to ${hit.title}. Check that is the case you meant.`, match: cardInfo(hit) };
+      if (!e.name) return { ...base, status: 'number-found', message: `This number belongs to ${hit.title.replace(/[.\s]+$/, '')}. Check that is the case you meant.`, match: cardInfo(hit) };
       return nameOverlap(e.name, hit.title) >= MATCH_BAR
         ? { ...base, status: 'verified', message: 'The citation and the parties match a Supreme Court judgment in the database. This confirms the case exists, not that it supports your point.', match: cardInfo(hit) }
-        : { ...base, status: 'misattributed', message: `This number belongs to a different case: ${hit.title}.`, match: cardInfo(hit) };
+        : { ...base, status: 'misattributed', message: `This number belongs to a different case: ${hit.title.replace(/[.\s]+$/, '')}.`, match: cardInfo(hit) };
     }
     const byName = e.name ? await findByName(e.name, lookup) : null;
     return byName
@@ -137,7 +137,7 @@ function mergeParallel(items, text) {
     const prev = out[out.length - 1];
     const gap = prev ? text.slice(prev.end, it.index) : '';
     if (prev && !it.name && it.match && prev.match && it.match.title === prev.match.title && gap.length <= 8 && !/[.;]/.test(gap)) {
-      prev.raw = `${prev.raw} ${gap.trim()} ${it.raw}`.replace(/\s+/g, ' ').trim(); prev.end = it.end;
+      prev.raw = `${prev.raw} · ${it.raw}`; prev.end = it.end;
     } else out.push({ ...it });
   }
   return out;
