@@ -24,7 +24,7 @@ export default function Home() {
       {/* Top Application Bar */}
       <header className="top-nav">
         <div className="nav-brand">
-          <div className="brand-badge">LEGAL AI</div>
+          <div className="brand-badge">VAKILBUDDY</div>
           <div>
             <h1 className="brand-title">Advocate Litigation Workspace</h1>
             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
@@ -113,7 +113,7 @@ export default function Home() {
         }}
       >
         <div>
-          <span>LegalAI Platform · 15 Advanced Autonomous Agent Workflows Operational</span>
+          <span>VakilBuddy Platform · 15 Advanced Autonomous Agent Workflows Operational</span>
         </div>
         <div style={{ display: 'flex', gap: '1.5rem' }}>
           <span>Limitation Act, 1963</span>

@@ -6,7 +6,7 @@ record with a link to the original PDF in the public AWS Open Data buckets
 (`indian-supreme-court-judgments`, `indian-high-court-judgments`, CC-BY-4.0).
 
 ```
-AWS metadata parquet ──load_metadata.py──▶ Postgres 17 (Docker, data on D:) ◀──api/server.js──▶ LegalAI "Case law" page
+AWS metadata parquet ──load_metadata.py──▶ Postgres 17 (Docker, data on D:) ◀──api/server.js──▶ VakilBuddy "Case law" page
 ```
 
 ## Run

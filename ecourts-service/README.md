@@ -1,6 +1,6 @@
 # ecourts-service
 
-A small, self-contained microservice that turns an Indian **eCourts** case lookup into a clean JSON API. The LegalAI frontend (and any number of other customers) call **this** service instead of scraping eCourts themselves — the hard, fragile, rate-limited part lives here, once.
+A small, self-contained microservice that turns an Indian **eCourts** case lookup into a clean JSON API. The VakilBuddy frontend (and any number of other customers) call **this** service instead of scraping eCourts themselves — the hard, fragile, rate-limited part lives here, once.
 
 ```
 frontend / customers ──HTTP──▶ ecourts-service ──▶ [ cache ] ──▶ source ──▶ eCourts
@@ -69,4 +69,4 @@ Everything else — API, cache, rate limiting, health, the parser — is identic
 
 ## Security note
 
-The `x-api-key` model is **server-to-server**: your customers' backends hold the key and call this service. A browser frontend should call *its own* backend, which then calls this service — never ship the key to the browser. (The LegalAI prototype calls it directly from the browser with a demo key purely for local demonstration.)
+The `x-api-key` model is **server-to-server**: your customers' backends hold the key and call this service. A browser frontend should call *its own* backend, which then calls this service — never ship the key to the browser. (The VakilBuddy prototype calls it directly from the browser with a demo key purely for local demonstration.)

@@ -1,6 +1,6 @@
 # Starts the whole project and opens it in a new browser window:
 #   Docker Desktop + the caselaw-pg database, the case-law API (8090), the eCourts sample service (8080) and the workspace (4173).
-# Run it by double-clicking the "LegalAI" desktop shortcut, or:  powershell -ExecutionPolicy Bypass -File start-legalai.ps1
+# Run it by double-clicking the "VakilBuddy" desktop shortcut, or:  powershell -ExecutionPolicy Bypass -File start-vakilbuddy.ps1
 # The database password is not in this file. It comes from the PGPASSWORD environment variable or from a line
 # PGPASSWORD=... in the git-ignored file .env next to this script.
 
@@ -9,7 +9,7 @@ $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $log = Join-Path $root '.logs'
 New-Item -ItemType Directory -Force $log | Out-Null
 
-function Say($m) { Write-Host ("[LegalAI] " + $m) }
+function Say($m) { Write-Host ("[VakilBuddy] " + $m) }
 function PortUp($p) { [bool](Get-NetTCPConnection -State Listen -LocalPort $p -ErrorAction SilentlyContinue) }
 function WaitFor($what, [scriptblock]$test, $seconds) {
     for ($i = 0; $i -lt $seconds; $i += 2) { if (& $test) { return $true }; Start-Sleep 2 }

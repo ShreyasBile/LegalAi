@@ -1,7 +1,7 @@
 {
   "name": "ecourts-service",
   "version": "1.0.0",
-  "description": "eCourts case-status integration microservice — CNR lookup with caching, multi-tenant API keys, rate limiting, response-shape validation and markup-drift detection. Frontends (e.g. LegalAI) call this service instead of scraping eCourts directly.",
+  "description": "eCourts case-status integration microservice — CNR lookup with caching, multi-tenant API keys, rate limiting, response-shape validation and markup-drift detection. Frontends (e.g. VakilBuddy) call this service instead of scraping eCourts directly.",
   "type": "module",
   "engines": {
     "node": ">=20"

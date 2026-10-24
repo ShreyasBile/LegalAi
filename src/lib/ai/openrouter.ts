@@ -35,7 +35,7 @@ export async function callOpenRouter(
       Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
       'HTTP-Referer': 'http://localhost:3000',
-      'X-Title': 'LegalAI Litigation Platform',
+      'X-Title': 'VakilBuddy Litigation Platform',
     },
     body: JSON.stringify({
       model,

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'LegalAI — Indian Advocate Litigation Workspace',
+  title: 'VakilBuddy — Indian Advocate Litigation Workspace',
   description:
     'Full-stack Next.js legal workspace for Indian advocates: matters, calendar, multilingual OCR evidence miner, limitation calculator, eCourts case status, and case law search.',
 };

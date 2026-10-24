@@ -2,7 +2,7 @@
    this cascade before every non-CNR search (party name, advocate, FIR, etc.) —
    there are 700+ court complexes nationally. Replicating all of them is a data-
    sourcing project on its own, so this is a small, REAL, representative subset
-   covering the courts already used by the LegalAI demo matters. Extending
+   covering the courts already used by the VakilBuddy demo matters. Extending
    coverage later means adding entries here — nothing else changes. */
 
 export const COURT_HIERARCHY = {

@@ -1,7 +1,10 @@
-# LegalAI
+<img src="lawyerai/assets/vakilbuddy-icon-192.png" alt="VakilBuddy logo: a balance scale shaped like an advocate in a black coat with white neck bands" width="120" align="right" />
+
+# VakilBuddy
 
 A litigation-workspace prototype for Indian advocates, the data services behind it, and research on how reliably
-language models cite Indian Supreme Court judgments. It has four parts:
+language models cite Indian Supreme Court judgments. It has four parts. (The project was called LegalAI until October 2026; the browser
+storage keys, package names and the `window.LEGALAI_LIBS` setting still use the old name so that saved work keeps loading.)
 
 | Folder | What it is | Status |
 |---|---|---|
@@ -18,7 +21,7 @@ Real and tested:
   PDF links to the archive (no PDFs are stored).
 - The eCourts service's architecture and its **83 tests**.
 - All research code and results in `paper/`.
-- The workspace's working tools, all in the browser and each with unit and/or browser tests (**195 unit tests**,
+- The workspace's working tools, all in the browser and each with unit and/or browser tests (**206 unit tests**,
   `cd lawyerai && npm test`; the browser suites drive the real pages with Playwright):
   - **Build the case** tabs on a matter. *Research:* search judgments and pin authorities, keep notes, save an Ask AI answer as
     a note. *Evidence:* record documents, build a dated chronology, and read the documents' text (below). *Arguments:* points
@@ -153,8 +156,11 @@ Requires Node.js 20+. Python 3.13 for the data scripts.
 cd lawyerai && node server.mjs
 cd lawyerai && npm test
 
+# a real case to try every feature on (matter "Rajendra Kolhe v. State of Maharashtra" and the files in sample-case/):
+#   see sample-case/README.md
+
 # everything at once on Windows (Docker, database, case-law API, eCourts, workspace, then the browser):
-powershell -ExecutionPolicy Bypass -File start-legalai.ps1
+powershell -ExecutionPolicy Bypass -File start-vakilbuddy.ps1
 
 # eCourts service on sample data (http://localhost:8080) and its tests
 cd ecourts-service && cp .env.example .env && npm start

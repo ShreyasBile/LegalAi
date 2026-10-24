@@ -1,5 +1,5 @@
 /* Mock "national case index" backing every non-CNR search mode. Mirrors the
-   8 demo matters used by the LegalAI frontend (same CNRs where the frontend
+   8 demo matters used by the VakilBuddy frontend (same CNRs where the frontend
    already tracks one), so a party-name/advocate/FIR/act search here surfaces
    cases the lawyer recognises. This is what the fixture/live source split is
    for real lookups — this index is the equivalent for the *search* modes,

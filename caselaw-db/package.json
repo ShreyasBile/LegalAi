@@ -1,7 +1,7 @@
 {
   "name": "caselaw-api",
   "version": "1.0.0",
-  "description": "Read-only search API over the case-law metadata database (Supreme Court + 25 High Courts). Serves the LegalAI Case law page.",
+  "description": "Read-only search API over the case-law metadata database (Supreme Court + 25 High Courts). Serves the VakilBuddy Case law page.",
   "type": "module",
   "engines": { "node": ">=20" },
   "scripts": {
