@@ -55,7 +55,7 @@ export function createAiHandler({
     try {
       res = await fetch(`${e.baseUrl}/chat/completions`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...(e.apiKey ? { Authorization: `Bearer ${e.apiKey}` } : {}), 'X-Title': 'LegalAI workspace' },
+        headers: { 'Content-Type': 'application/json', ...(e.apiKey ? { Authorization: `Bearer ${e.apiKey}` } : {}), 'X-Title': 'VakilBuddy workspace' },
         body: JSON.stringify({ model: e.model, messages, temperature: 0.2, max_tokens: maxTokens, stream: false }),
         signal: AbortSignal.timeout(180_000)
       });

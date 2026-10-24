@@ -1,5 +1,5 @@
 /* ============================================================================
-   LegalAI — Litigation Workspace
+   VakilBuddy — Litigation Workspace
    Vanilla JS hash-router SPA. No frameworks, no build step.
    ============================================================================ */
 
@@ -260,7 +260,7 @@ const KNOWLEDGE = {
    These are the last-known values shown instantly; the live values come from the
    ecourts-service microservice (sibling repo) when the user hits "Re-sync". If
    that service is offline, the UI falls back to what's here — the demo never
-   breaks. In production this fetch would run on the LegalAI backend, not the
+   breaks. In production this fetch would run on the VakilBuddy backend, not the
    browser, so the API key never ships to the client.
    ------------------------------------------------------------------------- */
 const ECOURTS_SERVICE = { url: 'http://localhost:8080', key: 'demo-key-firm-a' };
@@ -344,7 +344,7 @@ const CLIENTS = {
 };
 
 /* ---------------------------------------------------------------------------
-   Conversations (Ask LegalAI)
+   Conversations (Ask VakilBuddy)
    ------------------------------------------------------------------------- */
 const CONVERSATIONS = [
   {
@@ -390,7 +390,7 @@ const CONVERSATIONS = [
 ];
 
 /* ---------------------------------------------------------------------------
-   Response generation for Ask LegalAI (simulated agent pipeline)
+   Response generation for Ask VakilBuddy (simulated agent pipeline)
    ------------------------------------------------------------------------- */
 function generateResponse(text, matter) {
   const t = text.toLowerCase();
@@ -455,7 +455,7 @@ function route() {
   let content = '', flush = false, crumb = '', matterCtx = null, matterTab = null;
 
   if (key === 'today') { content = pageToday(); crumb = 'Today'; }
-  else if (key === 'ask') { content = pageAsk(parts[1], query); flush = true; crumb = 'Ask LegalAI'; }
+  else if (key === 'ask') { content = pageAsk(parts[1], query); flush = true; crumb = 'Ask VakilBuddy'; }
   else if (key === 'case-chat') { content = pageCaseChat(parts[1], query); flush = true; crumb = 'Case Chat'; }
   else if (key === 'caselaw') { content = pageCaseLaw(query); crumb = 'Case law'; }
   else if (key === 'ecourts') { content = pageECourts(); crumb = 'eCourts'; }
@@ -492,7 +492,7 @@ function navItem(href, active, icon, label, badge) {
 function globalSidebar(activeKey) {
   const calCount = hearingsOn(TODAY_ISO).length + deadlinesOn(TODAY_ISO).length;
   return `
-    <a class="ask-launch" href="#/ask"><svg class="ic"><use href="#i-spark"/></svg><span class="ask-launch-copy"><strong>Ask LegalAI</strong><small>General research &amp; drafting chat</small></span></a>
+    <a class="ask-launch" href="#/ask"><svg class="ic"><use href="#i-spark"/></svg><span class="ask-launch-copy"><strong>Ask VakilBuddy</strong><small>General research &amp; drafting chat</small></span></a>
     <div class="side-scroll">
       <div class="side-section">
         <p class="side-label">Workspace</p>
@@ -560,7 +560,7 @@ function shell({ activeKey, crumb, content, flush, matterCtx, matterTab, pageCla
   return `
   <div class="app-shell">
     <aside class="sidebar${matterCtx ? ' sidebar-case' : ''}" id="sidebar">
-      <div class="brand"><span class="brand-mark">L</span><span class="brand-word">Legal<em>AI</em></span></div>
+      <div class="brand"><img class="brand-logo" src="assets/vakilbuddy-icon-192.png" alt="" width="38" height="38" /><span class="brand-word">Vakil<em>Buddy</em></span></div>
       <div class="brand-sub">Litigation workspace</div>
       ${sidebarInner}
       <div class="sidebar-foot">
@@ -575,7 +575,7 @@ function shell({ activeKey, crumb, content, flush, matterCtx, matterTab, pageCla
     <div class="main">
       <header class="topbar">
         <button class="menu-toggle" id="menuToggle" aria-label="Open navigation"><svg class="ic"><use href="#i-menu"/></svg></button>
-        <div class="crumb"><a href="#/today"><b>LegalAI</b></a>${matterCtx
+        <div class="crumb"><a href="#/today"><b>VakilBuddy</b></a>${matterCtx
           ? `<svg class="ic"><use href="#i-chevron"/></svg><a href="#/matters">Matters</a><svg class="ic"><use href="#i-chevron"/></svg><a href="#/matters/${matterCtx.id}/overview">${esc(matterCtx.title)}</a><svg class="ic"><use href="#i-chevron"/></svg><span>${esc(TAB_LABELS[matterTab] || 'Overview')}</span>`
           : `<svg class="ic"><use href="#i-chevron"/></svg><span>${esc(crumb)}</span>`}</div>
         <button class="topbar-search" id="openCmdk"><svg class="ic"><use href="#i-research"/></svg><span>Search or jump to anything…</span><kbd>⌘K</kbd></button>
@@ -654,7 +654,7 @@ function renderCmdkResults() {
     ${matterHits.length ? `<p class="cmdk-label">Matters</p>${matterHits.map(m => item(`#/matters/${m.id}`, 'matters', esc(m.title), `${esc(m.area)} · ${esc(m.caseNo)}`)).join('')}` : ''}
     ${docHits.length ? `<p class="cmdk-label">Documents</p>${docHits.map(d => item(`#/matters/${d.matterId}/evidence`, 'docs', esc(d.name), esc(d.matter))).join('')}` : ''}
     ${q ? `<p class="cmdk-label">Case law</p>${item(`#/caselaw?q=${encodeURIComponent(raw.trim())}`, 'book', `Search case law for “${esc(raw.trim())}”`, 'Supreme Court &amp; every High Court')}` : ''}
-    <p class="cmdk-label">Ask LegalAI</p>
+    <p class="cmdk-label">Ask VakilBuddy</p>
     ${item(`#/ask?q=${encodeURIComponent(raw)}`, 'spark', q ? `Ask: “${esc(raw)}”` : 'Start a new conversation', 'Grounded research &amp; drafting')}
   `;
   $$('.cmdk-item', results).forEach(a => a.addEventListener('click', closeModals));
@@ -825,14 +825,14 @@ function pageToday() {
     <div class="brief-actions"><a class="brief-btn" href="#/matters/m1/hearing"><svg class="ic"><use href="#i-gavel"/></svg>Open hearing prep</a><a class="brief-btn ghost2" href="#/matters/m1/chat"><svg class="ic"><use href="#i-spark"/></svg>Ask about this matter</a></div>
   </section>`;
   return Studio.page(
-    Studio.head({ eyebrow: 'Friday, 11 September', title: 'Good afternoon, Shreyas.', lede: 'Three items need your review today. Everything below was prepared by an agent and is waiting for your approval — nothing is filed or sent without you.', chips: [{ text: '8 active matters' }, { text: '3 to review', tone: 'amber' }] })
+    Studio.head({ eyebrow: 'Friday, 11 September', title: 'Good afternoon, Shreyas.', lede: 'Three items need your review today. Everything below was prepared by an agent and is waiting for your approval — nothing is filed or sent without you.', chips: [{ text: `${MATTERS.length} active matters` }, { text: '3 to review', tone: 'amber' }] })
     + hero
     + Studio.sec({ title: 'Today’s court list', sub: 'Where you need to be.', action: `<a class="btn-text" href="#/calendar/${TODAY_ISO}">Full calendar<svg class="ic"><use href="#i-arrow"/></svg></a>`, body: hearingRows }),
     [{ group: 'Today', tools: [
       { id: 'today-approve', icon: 'draft', name: 'Waiting for your approval', fn: 'Drafts and findings prepared for you.', badge: 3 },
       { id: 'today-soon', icon: 'clock', name: 'Coming up', fn: 'Deadlines this month.' },
       { id: 'today-numbers', icon: 'timeline', name: 'The numbers', fn: 'Active matters, items to review, research time saved.' },
-      { id: 'today-ask', icon: 'spark', name: 'Quick question', fn: 'Ask LegalAI a question without leaving the dashboard.' },
+      { id: 'today-ask', icon: 'spark', name: 'Quick question', fn: 'Ask VakilBuddy a question without leaving the dashboard.' },
       { id: 'today-new', icon: 'plus', name: 'New matter', fn: 'Start a matter with the guided intake.' },
       { id: 'today-cal', icon: 'calendar', name: 'Calendar', fn: 'Hearings and deadlines by day, week, month or year.', href: '#/calendar' },
       { id: 'today-lim', icon: 'scale', name: 'Limitation', fn: 'Work out the last date for a filing, appeal or suit.', href: '#/deadlines' }
@@ -840,15 +840,15 @@ function pageToday() {
 }
 Studio.on('today-approve', () => Studio.popup({ eyebrow: 'Today', title: 'Waiting for your approval', html: `<p class="hint">Prepared for you and waiting for your decision.</p><div class="ds-list">${closing(todayReviewRows())}</div>` }));
 Studio.on('today-soon', () => Studio.popup({ eyebrow: 'Today', title: 'Coming up', html: `<p class="hint">Deadlines this month.</p><div class="ds-list">${closing(todayDeadlineRows())}</div><a class="btn-text" href="#/calendar" data-wb-close>Open the calendar<svg class="ic"><use href="#i-arrow"/></svg></a>` }));
-Studio.on('today-numbers', () => Studio.popup({ eyebrow: 'Today', title: 'The numbers', html: Studio.kv([['Active matters', `<b>8</b> · +2 added this month`], ['Waiting for your review', `<b>3</b> · drafts and findings to approve`], ['Research time saved', `<b>14.5 h</b> · +3.2 h this week`]]) + '<p class="hint" style="margin-top:12px">Sample figures for this demo.</p>' }));
+Studio.on('today-numbers', () => Studio.popup({ eyebrow: 'Today', title: 'The numbers', html: Studio.kv([['Active matters', `<b>${MATTERS.length}</b>`], ['Waiting for your review', `<b>3</b> · drafts and findings to approve`], ['Research time saved', `<b>14.5 h</b> · +3.2 h this week`]]) + '<p class="hint" style="margin-top:12px">Sample figures for this demo.</p>' }));
 Studio.on('today-new', () => { resetIntake(); refreshIntake(); openModal('#matterModal'); });
-Studio.on('today-ask', () => Studio.popup({ eyebrow: 'Ask LegalAI', title: 'Quick question',
-  html: `<p class="hint">Opens the Ask LegalAI page with your question. In this demo its answers are scripted examples.</p><form id="quickAskForm"><label class="ai-label" for="quickAskInput">Your question</label><div class="search-box" style="height:44px;width:100%"><svg class="ic"><use href="#i-spark"/></svg><input id="quickAskInput" placeholder="e.g. What’s the limitation period for…" autofocus /></div><button class="btn btn-teal" style="margin-top:14px" type="submit">Ask LegalAI<svg class="ic"><use href="#i-arrow"/></svg></button></form>`,
+Studio.on('today-ask', () => Studio.popup({ eyebrow: 'Ask VakilBuddy', title: 'Quick question',
+  html: `<p class="hint">Opens the Ask VakilBuddy page with your question. In this demo its answers are scripted examples.</p><form id="quickAskForm"><label class="ai-label" for="quickAskInput">Your question</label><div class="search-box" style="height:44px;width:100%"><svg class="ic"><use href="#i-spark"/></svg><input id="quickAskInput" placeholder="e.g. What’s the limitation period for…" autofocus /></div><button class="btn btn-teal" style="margin-top:14px" type="submit">Ask VakilBuddy<svg class="ic"><use href="#i-arrow"/></svg></button></form>`,
   onSubmit: ev => { const q = ev.target.elements.quickAskInput?.value.trim(); closeModals(); navigate(`#/ask${q ? `?q=${encodeURIComponent(q)}` : ''}`); } }));
 
 
 /* =============================================================================
-   PAGE: ASK LEGALAI  (dedicated chat page — centerpiece)
+   PAGE: ASK VAKILBUDDY  (dedicated chat page — centerpiece)
    ============================================================================= */
 function caseScopePickerHtml(idAttr) {
   return `<select class="ask-scope-select" id="${idAttr}">
@@ -899,7 +899,7 @@ const ASK_PROMPT_CARDS = `
   <button class="prompt-card" data-action="use-prompt" data-prompt="Draft a reply to the legal notice we received."><svg class="ic"><use href="#i-draft"/></svg><strong>Draft a first version</strong><small>Court-format drafts, citing verified sources</small></button>
   <button class="prompt-card" data-action="use-prompt" data-prompt="What is the limitation period for a suit with no specific limitation clause?"><svg class="ic"><use href="#i-clock"/></svg><strong>Check a deadline</strong><small>Limitation periods &amp; procedural timelines</small></button>`;
 
-/* Ask LegalAI — general research, not tied to any one matter */
+/* Ask VakilBuddy — general research, not tied to any one matter */
 function pageAsk(threadId, query) {
   let convo = threadId ? CONVERSATIONS.find(c => c.id === threadId && !c.matterId) : null;
   const presetQ = query.get('q');
@@ -918,7 +918,7 @@ function pageAsk(threadId, query) {
 
   const threadsPane = `
     <aside class="ask-threads" id="askThreads">
-      <div class="ask-threads-head"><h1>Ask LegalAI</h1>
+      <div class="ask-threads-head"><h1>Ask VakilBuddy</h1>
         <p class="ask-threads-sub">General research, not tied to a specific case.</p>
         <button class="new-chat-btn" data-action="new-chat"><svg class="ic"><use href="#i-plus"/></svg>New conversation</button>
       </div>
@@ -931,7 +931,7 @@ function pageAsk(threadId, query) {
     <div class="ask-main">
       <div class="ask-empty">
         <div class="ask-empty-mark"><svg class="ic"><use href="#i-spark"/></svg></div>
-        <h1>Ask LegalAI anything about statutes &amp; precedent</h1>
+        <h1>Ask VakilBuddy anything about statutes &amp; precedent</h1>
         <p>General legal research that isn’t tied to one matter — cites its sources, and waits for your review before it’s used in any filing. Need to discuss a specific case instead? Head to <a href="#/case-chat">Case Chat</a>.</p>
         <div class="prompt-grid">${ASK_PROMPT_CARDS}</div>
       </div>
@@ -986,7 +986,7 @@ function pageCaseChat(threadId, query) {
     <div class="ask-main">
       <div class="ask-empty">
         <div class="ask-empty-mark"><svg class="ic"><use href="#i-network"/></svg></div>
-        <h1>Chat with LegalAI about a specific case</h1>
+        <h1>Chat with VakilBuddy about a specific case</h1>
         <p>Every answer is grounded in the matter’s own facts, Indian statutes and reported judgments, cites its sources, and waits for your review before it’s used in any filing.</p>
         <div class="ask-empty-scope"><label>Which case?</label>${caseScopePickerHtml('caseScopeSelectEmpty')}</div>
         <div class="prompt-grid">${ASK_PROMPT_CARDS}</div>
@@ -1217,7 +1217,7 @@ function matterRail(m, tab) {
     ],
     research: [
       { id: 'res-notes', icon: 'edit', name: 'Research notes', fn: 'Propositions, doubts and things to check.', badge: m.notes.length },
-      { id: 'res-history', icon: 'chat', name: 'Research history', fn: 'Your conversations with LegalAI about this matter.' },
+      { id: 'res-history', icon: 'chat', name: 'Research history', fn: 'Your conversations with VakilBuddy about this matter.' },
       { id: 'res-add', icon: 'plus', name: 'Add an authority by hand', fn: 'Record a judgment: its title, citation and a note.' },
       { id: 'ai-rewrite', icon: 'spark', name: 'Improve my search', fn: 'AI turns a plain question into search words and statutory provisions.', ai: true }
     ],
@@ -1241,7 +1241,7 @@ function matterRail(m, tab) {
       { id: 'ai-digest', icon: 'docs', name: 'Digest a court order', fn: 'AI pulls out the direction, deadlines and what counsel should do.', ai: true },
       { id: 'ai-next', icon: 'gavel', name: 'Prepare for the next listing', fn: 'AI suggests what to have ready, from the hearing history. Not a forecast.', ai: true }
     ],
-    postjudgment: pj ? [{ id: 'pj-window', icon: 'clock', name: 'Appeal window', fn: 'Days left to appeal, and the next steps.' }] : []
+    postjudgment: pj && pj.appealDeadline ? [{ id: 'pj-window', icon: 'clock', name: 'Appeal window', fn: 'Days left to appeal, and the next steps.' }] : []
   }[tab] || [];
   return [{ group: 'This page', tools: own.filter(Boolean) }, Studio.matterTools(m)];
 }
@@ -1260,10 +1260,10 @@ Studio.on('ov-tasks', ({ m }) => m && Studio.popup({ eyebrow: m.title, title: 'O
 Studio.on('ov-hearing', ({ m }) => m?.nextHearing && Studio.popup({ eyebrow: m.title, title: 'Next hearing', html: `<div class="ds-list">${hearingRow(m.nextHearing, m)}</div>` }));
 Studio.on('pj-window', ({ m }) => {
   const pj = m?.postJudgment;
-  if (!pj) return;
+  if (!pj || !pj.appealDeadline) return;
   const deadline = parseISODateStr(pj.appealDeadline), daysLeft = Math.round((deadline - parseISODateStr(TODAY_ISO)) / 86400000);
   Studio.popup({ eyebrow: m.title, title: 'Appeal window', html: `<p class="hint">Deadline: ${esc(deadline.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }))}. Work out the exact last date in the <a href="#/deadlines?matter=${m.id}" data-wb-close>limitation calculator</a>.</p>
-    <div class="pj-countdown" style="margin:6px 0 14px"><b>${daysLeft}</b><span>day${daysLeft === 1 ? '' : 's'} remaining</span></div><div class="ds-list">${taskRows(pj.nextSteps, 'No steps recorded.')}</div>` });
+    <div class="pj-countdown" style="margin:6px 0 4px"><b>${daysLeft}</b><span>day${daysLeft === 1 ? '' : 's'} remaining</span></div>` });
 });
 
 function matterTab(m, tab) {
@@ -1325,7 +1325,9 @@ function tabPostJudgment(m) {
   }
   const outcomeChip = { granted: 'chip-teal', partial: 'chip-amber', dismissed: 'chip-red' }[pj.outcome] || 'chip-navy';
   return Studio.sec({ title: pj.outcomeLabel, sub: 'The outcome, and how each ground of appeal stands.', action: `<span class="chip ${outcomeChip}">${esc(pj.judgmentDate)}</span>`,
-    body: `<p class="ds-lead">${esc(pj.summary)}</p>` + Studio.part('Appeal grounds') + `<p class="ds-note">Scored only against what is already in the award and the case file.</p>${scoreRows(pj.grounds)}` });
+    body: `<p class="ds-lead">${esc(pj.summary)}</p>`
+      + (pj.grounds.length ? Studio.part('Appeal grounds') + `<p class="ds-note">Scored only against what is already in the award and the case file.</p>${scoreRows(pj.grounds)}` : '')
+      + Studio.part('Next steps') + taskRows(pj.nextSteps || [], 'No steps recorded.') });
 }
 
 function tabTimeline(m) {
@@ -2163,7 +2165,7 @@ function pageCaseLaw(query) {
           <p class="hint" style="margin:10px 0 0">Searches case titles, party names, citations and case numbers. Judgment text isn’t searchable yet.</p></div>
         <p class="cl-status" id="clStatus" role="status" aria-live="polite"></p>
         <div id="clBody"><div class="caselaw-list" id="clResults"></div><nav class="cl-pager" id="clPager" aria-label="Result pages"></nav></div></div>
-        <p class="cl-attrib">Judgments and orders: Supreme Court of India and the High Courts, published on the AWS Open Data registry under CC-BY-4.0. Entries are catalogue records — verify every citation against the official record before relying on it. PDFs open from the public archive; LegalAI does not store them.</p>` }),
+        <p class="cl-attrib">Judgments and orders: Supreme Court of India and the High Courts, published on the AWS Open Data registry under CC-BY-4.0. Entries are catalogue records — verify every citation against the official record before relying on it. PDFs open from the public archive; VakilBuddy does not store them.</p>` }),
     [{ group: 'Case law', tools: [{ id: 'cl-ai', icon: 'spark', name: 'Improve my search', fn: 'AI turns a plain question into search words and statutory provisions.', ai: true }] }]);
 }
 Studio.onAi('cl-ai', 'query-rewrite');

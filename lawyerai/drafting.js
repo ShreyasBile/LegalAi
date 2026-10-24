@@ -276,7 +276,7 @@ const Drafting = (() => {
   ];
 
   const BUILTIN_FORMATS = BUILTIN_SPEC.map(([id, docType, description, sections]) => ({
-    id: `std-${id}`, name: 'LegalAI standard', docType, description, builtin: true, style: normalizeStyle(),
+    id: `std-${id}`, name: 'VakilBuddy standard', docType, description, builtin: true, style: normalizeStyle(),
     sections: sections.map((s, i) => ({ id: `std-${id}-${i}`, ...s }))
   }));
 
@@ -512,7 +512,7 @@ const Drafting = (() => {
       sections: format.sections.map(s => ({ id: makeId('s'), heading: fill(s.heading), layout: s.layout, body: fill(s.body) })),
       versions: [], comments: []
     };
-    pushVersion(draft, `Created from “${format.name}”`, { by: 'LegalAI', at: (extras && extras.today) || '', force: true });
+    pushVersion(draft, `Created from “${format.name}”`, { by: 'VakilBuddy', at: (extras && extras.today) || '', force: true });
     return draft;
   }
 
@@ -557,7 +557,7 @@ const Drafting = (() => {
   }
 
   /* ── court rule profiles ────────────────────────────────────────────────────
-     Courts set their own rules for paper, margins, fonts and required parts, and they change. LegalAI ships
+     Courts set their own rules for paper, margins, fonts and required parts, and they change. VakilBuddy ships
      no court's rules: the two built-in profiles are plain layouts. The user enters their court's rules, from the
      court's current rules and practice directions, and drafts are checked against them. */
   const PAPERS = { A4: 'A4', Legal: 'Legal (8.5 × 14 in)', Letter: 'Letter (8.5 × 11 in)' };

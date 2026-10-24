@@ -28,26 +28,88 @@ export function extractJson(raw) {
 
 /* ── citations: find them, then look them up ─────────────────────────────── */
 const NAME_WORD = "[A-Z][A-Za-z.'&-]*";
-const NAME_TAIL = `(?:\\s+(?:${NAME_WORD}|of|and|the|for|&|ors\\.?|anr\\.?|others)){0,6}`;
+const NAME_TAIL = `(?:\\s+(?:${NAME_WORD}|of|and|the|for|&|ors\\.?|anr\\.?|others|\\((?:Smt|Shri|Dr|Mrs?|Ms|Late|Minor)\\.?\\))){0,6}`;
 const NAME_RE = new RegExp(`(${NAME_WORD}${NAME_TAIL})\\s+(?:v\\.?|vs\\.?|versus)\\s+(${NAME_WORD}${NAME_TAIL})`, 'g');
 const NEUTRAL_RE = /\b((?:19|20)\d{2})\s*INSC\s*(\d{1,5})\b/gi;
 const SCR_RE = /\[((?:19|20)\d{2})\]\s*(SUPP\.?\s*)?(\d{1,2})?\s*S\.?\s*C\.?\s*R\.?\s*(\d{1,4})\b/gi;
 const OTHER_RE = /\(((?:19|20)\d{2})\)\s*(\d{1,3})\s*(SCC|SCALE)\s*(\d{1,4})\b|\bAIR\s*((?:19|20)\d{2})\s*([A-Za-z]{2,6})\s*(\d{1,4})\b/g;
 
 const STOP = new Set(['the', 'of', 'and', 'for', 'state', 'union', 'india', 'ors', 'anr', 'others', 'another', 'versus', 'vs', 'shri', 'smt', 'mr', 'mrs', 'ms', 'dr']);
+/* The archive writes "M.P." where a citation says "Madhya Pradesh", so the common abbreviations are spelled out on both sides. */
+const ABBR = [[/\bm\.\s*p\b\.?/g, ' madhya pradesh '], [/\bu\.\s*p\b\.?/g, ' uttar pradesh '], [/\ba\.\s*p\b\.?/g, ' andhra pradesh '], [/\bh\.\s*p\b\.?/g, ' himachal pradesh '],
+  [/\bt\.\s*n\b\.?/g, ' tamil nadu '], [/\bw\.\s*b\b\.?/g, ' west bengal '], [/\bj\s*&\s*k\b/g, ' jammu kashmir ']];
+const ABBREVIATED = new Set(['madhya', 'pradesh', 'uttar', 'andhra', 'himachal', 'tamil', 'nadu', 'west', 'bengal', 'jammu', 'kashmir']);
+const expand = s => ABBR.reduce((x, [re, to]) => x.replace(re, to), String(s ?? '').toLowerCase());
 /* "State" and "Union of India" appear in thousands of titles, so on their own they say nothing about whether two names are the same case */
-export const partyTokens = s => [...new Set(String(s ?? '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(t => t.length >= 3))];
+export const partyTokens = s => [...new Set(expand(s).replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(t => t.length >= 3))];
 const distinctive = s => partyTokens(s).filter(t => !STOP.has(t));
 
-/* the share of the cited name's distinctive words that the record's title also has */
+/* one letter apart in a long word ("Sudhakar" and "Shudhakar"): a spelling slip in the source, not another case */
+const oneApart = (a, b) => {
+  if (a.length < 6 || b.length < 6 || Math.abs(a.length - b.length) > 1) return false;
+  let i = 0, j = 0, edits = 0;
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) { i++; j++; continue; }
+    if (++edits > 1) return false;
+    if (a.length > b.length) i++; else if (a.length < b.length) j++; else { i++; j++; }
+  }
+  return edits + (a.length - i) + (b.length - j) <= 1;
+};
+
+/* the share of the cited name's distinctive words that the record's title also has.
+   If either party has distinctive words and none of them is in the title, it is a different case, however much else matches
+   ("Verma v. State of Karnataka" is not "S.S. Darshan v. State of Karnataka"). */
 export function nameOverlap(cited, title) {
-  const want = distinctive(cited), have = new Set(partyTokens(title));
+  const have = partyTokens(title);
+  const has = t => have.some(h => h === t || oneApart(h, t));
+  for (const party of String(cited ?? '').split(/\s+(?:v\.?|vs\.?|versus)\s+/i)) {
+    const d = distinctive(party);
+    if (d.length && !d.some(has)) return 0;
+  }
+  const want = distinctive(cited);
   if (!want.length) {                                           // e.g. "State of Maharashtra v. Union of India": fall back to every word
     const all = partyTokens(cited);
-    return all.length ? all.filter(t => have.has(t)).length / all.length : 0;
+    return all.length ? all.filter(has).length / all.length : 0;
   }
-  return want.filter(t => have.has(t)).length / want.length;
+  return want.filter(has).length / want.length;
 }
+
+/* ── what a model attributes to a witness must be in the witness's statement ──── */
+const FILLER = new Set(['that', 'this', 'with', 'from', 'have', 'were', 'been', 'they', 'their', 'there', 'which', 'would', 'could', 'also', 'about', 'says', 'said', 'stated', 'witness']);
+const wordsOf = s => String(s ?? '').toLowerCase().match(/[a-z0-9]+(?:[./:-][a-z0-9]+)*/g) || [];
+/* True if the words of `position`, and every date and number in it, are in `source`. A paraphrase passes; a claim the source never makes does not. */
+export function supportedBy(position, source) {
+  const have = wordsOf(source), seen = new Set(have.flatMap(w => [w, ...w.split(/[./:-]/)])), stems = new Set(have.map(w => w.slice(0, 5)));
+  const want = [...new Set(wordsOf(position).flatMap(w => (/\d/.test(w) ? w.split(/[./:-]/) : [w])).filter(w => (w.length > 3 || /\d/.test(w)) && !FILLER.has(w)))];
+  if (!want.length) return false;
+  if (want.some(w => /\d/.test(w) && !seen.has(w))) return false;
+  return want.filter(w => seen.has(w) || stems.has(w.slice(0, 5))).length / want.length >= 0.6;
+}
+const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+/* does `text` write this YYYY-MM-DD date, as 16.08.2011, 16/08/2011, 16th August 2011 or August 16, 2011? */
+export function dateAppears(iso, text) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso ?? '').trim());
+  if (!m) return false;
+  const y = m[1], mo = Number(m[2]), d = Number(m[3]), mon = MONTHS[mo - 1];
+  if (!mon) return false;
+  const t = String(text ?? '').toLowerCase().replace(/\s+/g, ' '), ab = mon.slice(0, 3);
+  return [
+    new RegExp(`\\b0?${d}\\s*[./-]\\s*0?${mo}\\s*[./-]\\s*(?:${y}|${y.slice(2)})\\b`),
+    new RegExp(`\\b0?${d}(?:st|nd|rd|th)?\\s+(?:of\\s+)?${ab}[a-z]*\\.?,?\\s+${y}\\b`),
+    new RegExp(`\\b${ab}[a-z]*\\.?\\s+0?${d}(?:st|nd|rd|th)?,?\\s+${y}\\b`)
+  ].some(re => re.test(t));
+}
+const witnessKey = s => String(s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+/* "PW-2" and "PW-2 Rajendra" are one witness; "PW-2" and "PW-20" are not */
+export const sameWitness = (given, name) => {
+  const a = witnessKey(given), b = witnessKey(name);
+  if (!a || !b) return false;
+  if (a === b) return true;
+  const [long, short] = a.length > b.length ? [a, b] : [b, a];
+  return long.startsWith(short) && !/^\d/.test(long.slice(short.length));
+};
+const docsOf = p => arr(p.documents, 12).map(d => ({ title: str(d?.title, 200), text: str(d?.text, 6000) })).filter(d => d.text);
+const statementsOf = p => arr(p.statements, 12).map(s => ({ witness: str(s?.witnessName, 120), statement: str(s?.statement, 5000) })).filter(s => s.witness && s.statement);
 
 export function extractCitations(text) {
   const t = clip(text);
@@ -98,6 +160,10 @@ async function findByName(name, lookup, year = 0) {
     tiers.push(...groups);
   }
   if (top.length === 1) tiers.length = 1;
+  /* titles write "M.P." and the search needs every word, so the spelled-out state is also left out of one last search;
+     nameOverlap still compares the state, with the abbreviations expanded */
+  const bare = words.filter(w => !ABBREVIATED.has(w)).slice(0, 3).join(' ');
+  if (bare && bare.split(' ').length < words.length && !tiers.includes(bare)) tiers.push(bare);
   for (const [i, q] of tiers.entries()) {
     const cards = await lookup(q);
     const best = cards.filter(c => !year || !c.year || Math.abs(c.year - year) <= 1).map(c => ({ c, score: nameOverlap(name, c.title) })).sort((a, b) => b.score - a.score)[0];
@@ -200,17 +266,25 @@ In opposingAuthorities list judgments as "Party v. Party (year)". If you are not
   'timeline-depositions': {
     json: true,
     build(p) {
-      const docs = arr(p.documents, 12).map(d => ({ title: str(d?.title, 200), text: str(d?.text, 6000) })).filter(d => d.text);
+      const docs = docsOf(p);
       if (!docs.length) throw new AiError('empty', 'None of this matter\'s documents has readable text yet. Open Evidence and read a document first.');
       return {
         system: `You prepare a chronology and cross-examination questions for an Indian advocate. ${RULES}`,
         user: `${wrap('DOCUMENTS', JSON.stringify(docs, null, 1))}\n\n${J}\n{"timeline":[{"date":"YYYY-MM-DD, or the date as written","event":"what happened","source":"document title","contested":false}],"questions":[{"witness":"who it is put to","question":"a leading question","aim":"what it is meant to show","document":"document to confront the witness with"}]}`
       };
     },
-    clean: o => ({
-      timeline: arr(o.timeline, 60).map(x => ({ date: str(x?.date, 40), event: str(x?.event, 500), source: str(x?.source, 200), contested: !!x?.contested })),
-      questions: arr(o.questions, 30).map(x => ({ witness: str(x?.witness, 120), question: str(x?.question, 600), aim: str(x?.aim, 400), document: str(x?.document, 200) }))
-    })
+    /* A source or a document to confront a witness with must be one of the documents given, and a dated event is kept only if
+       the documents write that date. `left` counts the events that were not kept. */
+    clean(o, p) {
+      const docs = docsOf(p), all = docs.map(d => d.text).join('\n');
+      const titleOf = t => { const k = String(t ?? '').trim().toLowerCase(); return (k && docs.find(d => k.includes(d.title.toLowerCase())))?.title || ''; };
+      const rows = arr(o.timeline, 60).map(x => ({ date: str(x?.date, 40), event: str(x?.event, 500), source: titleOf(x?.source), contested: !!x?.contested }));
+      const timeline = rows.filter(r => (r.date.match(/\d{4}-\d{2}-\d{2}/g) || []).every(d => dateAppears(d, all)));
+      return {
+        timeline, left: rows.length - timeline.length,
+        questions: arr(o.questions, 30).map(x => ({ witness: str(x?.witness, 120), question: str(x?.question, 600), aim: str(x?.aim, 400), document: titleOf(x?.document) }))
+      };
+    }
   },
 
   'pleading-reply': {
@@ -264,7 +338,7 @@ In opposingAuthorities list judgments as "Party v. Party (year)". If you are not
       if (!str(p.query, 400)) throw new AiError('empty', 'Type what you are looking for.');
       return {
         system: `You help an Indian advocate search a database of judgments. ${RULES}`,
-        user: `The advocate typed: "${str(p.query, 400)}"\n\n${J}\n{"keywords":"two or three plain words separated by spaces, no commas (the search needs every word to appear, so fewer is better)","provisions":["statutory provisions the question touches"],"precedents":[],"advice":"one sentence on how to narrow the search"}
+        user: `The advocate typed: "${str(p.query, 400)}"\n\n${J}\n{"keywords":"one to three plain words separated by spaces, no commas. The search matches only the title of a case (the parties' names), and needs every word to appear, so fewer is better; give a party's name if the question names one","provisions":["statutory provisions the question touches"],"precedents":[],"advice":"one sentence on how to narrow the search"}
 In precedents list judgments as "Party v. Party (year)". If you are not certain of any, leave it as an empty list; never write placeholders.`
       };
     },
@@ -281,7 +355,12 @@ In precedents list judgments as "Party v. Party (year)". If you are not certain 
         user: `${wrap('ORDER', p.orderText)}\n\n${J}\n{"direction":"what the court directed","status":"Allowed|Dismissed|Adjourned|Interim relief granted|Other","compliance":["each thing a party must do, with its deadline if stated"],"nextDate":"YYYY-MM-DD or not stated","actions":["what counsel should do now"]}`
       };
     },
-    clean: o => ({ direction: str(o.direction), status: str(o.status, 60), compliance: strs(o.compliance), nextDate: str(o.nextDate, 40), actions: strs(o.actions) })
+    /* "two weeks from today" is not a date the order gives: a date the model reports is kept only if the order itself writes it */
+    clean(o, p) {
+      let next = str(o.nextDate, 40);
+      if (/^\d{4}-\d{2}-\d{2}$/.test(next) && !dateAppears(next, p.orderText)) next = 'not stated in the order';
+      return { direction: str(o.direction), status: str(o.status, 60), compliance: strs(o.compliance), nextDate: next, actions: strs(o.actions) };
+    }
   },
 
   'limitation-classify': {
@@ -378,14 +457,25 @@ In precedents list judgments as "Party v. Party (year)". If you are not certain 
   'contradiction-matrix': {
     json: true,
     build(p) {
-      const list = arr(p.statements, 12).map(s => ({ witness: str(s?.witnessName, 120), statement: str(s?.statement, 5000) })).filter(s => s.witness && s.statement);
+      const list = statementsOf(p);
       if (list.length < 2) throw new AiError('empty', 'Give at least two witness statements, each with a name.');
       return {
         system: `You compare witness statements for an Indian advocate preparing cross-examination. ${RULES}`,
         user: `${wrap('STATEMENTS', JSON.stringify(list, null, 1))}\n\nFind points on which two witnesses say different things. Quote each position as the witness put it. If the statements do not contradict, return an empty list.\n${J}\n{"points":[{"topic":"what they disagree on","a":{"witness":"name","position":"what they say"},"b":{"witness":"name","position":"what they say"},"severity":"Critical|Moderate|Minor","note":"how to use it in cross-examination"}]}`
       };
     },
-    clean: o => ({ points: arr(o.points, 30).map(x => ({ topic: str(x?.topic, 200), a: { witness: str(x?.a?.witness, 120), position: str(x?.a?.position, 600) }, b: { witness: str(x?.b?.witness, 120), position: str(x?.b?.position, 600) }, severity: ['Critical', 'Moderate', 'Minor'].includes(x?.severity) ? x.severity : 'Moderate', note: str(x?.note, 500) })) })
+    /* A model asked to quote a witness can put words in the witness's mouth. A point is kept only if both positions are in the
+       statements of the witnesses they are attributed to; `left` counts the points that were not. */
+    clean(o, p) {
+      const list = statementsOf(p);
+      const side = x => {
+        const w = list.find(s => sameWitness(x?.witness, s.witness));
+        return { witness: w ? w.witness : str(x?.witness, 120), position: str(x?.position, 600), ok: !!w && supportedBy(x?.position, w.statement) };
+      };
+      const all = arr(o.points, 30).map(x => ({ topic: str(x?.topic, 200), a: side(x?.a), b: side(x?.b), severity: ['Critical', 'Moderate', 'Minor'].includes(x?.severity) ? x.severity : 'Moderate', note: str(x?.note, 500) }));
+      const points = all.filter(x => x.a.ok && x.b.ok).map(({ a, b, ...x }) => ({ ...x, a: { witness: a.witness, position: a.position }, b: { witness: b.witness, position: b.position } }));
+      return { points, left: all.length - points.length };
+    }
   }
 };
 

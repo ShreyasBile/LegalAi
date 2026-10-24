@@ -7,7 +7,7 @@ import { createAiHandler } from './ai-server.mjs';
 const root = fileURLToPath(new URL('.', import.meta.url));
 const port = Number(process.env.PORT || 4173);
 const host = process.env.HOST || '127.0.0.1';      // this machine only; set HOST=0.0.0.0 to share it on your network
-const mime = { '.css': 'text/css', '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg' };
+const mime = { '.css': 'text/css', '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.ico': 'image/x-icon' };
 
 const ai = createAiHandler();
 
@@ -28,4 +28,4 @@ createServer(async (request, response) => {
   const stream = createReadStream(path);
   stream.on('error', () => { if (!response.headersSent) response.writeHead(500); response.end(); });
   stream.pipe(response);
-}).listen(port, host, () => console.log(`LegalAI frontend ready at http://localhost:${port}`));
+}).listen(port, host, () => console.log(`VakilBuddy frontend ready at http://localhost:${port}`));

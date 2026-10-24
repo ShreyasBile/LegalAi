@@ -22,9 +22,9 @@ const DraftStudio = (() => {
   const TOOLS = [
     { group: 'Check', tools: [
       { id: 'complete', icon: 'check', name: 'Completeness', fn: 'How complete the draft is, what is missing, and the court rules it is checked against.', needsDraft: true },
-      { id: 'citations', icon: 'shield', name: 'Citation check', fn: 'Looks up every case and citation in the draft in the Supreme Court database. Needs no AI key.', needsDraft: true, ai: 'citation-check' },
-      { id: 'format', icon: 'court', name: 'Filing format check', fn: 'AI lists what the draft lacks for filing in a court: cause title, verification, annexures.', needsDraft: true, ai: 'court-rules' },
-      { id: 'audit', icon: 'alert', name: 'Deemed-admission audit', fn: 'AI reads a reply as a judge would and flags paragraphs that may be treated as admitted.', needsDraft: true, ai: 'vulnerability-audit' }
+      { id: 'citations', icon: 'shield', name: 'Citation check', fn: 'Looks up every case and citation in a draft, or in text you paste, in the Supreme Court database. Needs no AI key.', ai: 'citation-check' },
+      { id: 'format', icon: 'court', name: 'Filing format check', fn: 'AI lists what a draft, or text you paste, lacks for filing in a court: cause title, verification, annexures.', ai: 'court-rules' },
+      { id: 'audit', icon: 'alert', name: 'Deemed-admission audit', fn: 'AI reads a reply as a judge would and flags paragraphs that may be treated as admitted.', ai: 'vulnerability-audit' }
     ] },
     { group: 'Write', tools: [
       { id: 'reply', icon: 'edit', name: 'Reply to one paragraph', fn: 'AI drafts the answer to a single paragraph of the other side\'s pleading.', ai: 'pleading-reply' },

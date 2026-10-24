@@ -201,7 +201,7 @@ test('cloning gives a new, editable, non-built-in format with its own sections',
   const c = D.cloneFormat(src);
   assert.notEqual(c.id, src.id);
   assert.equal(c.builtin, false);
-  assert.equal(c.name, 'LegalAI standard (copy)');
+  assert.equal(c.name, 'VakilBuddy standard (copy)');
   c.sections[0].body = 'changed';
   assert.notEqual(src.sections[0].body, 'changed');
 });

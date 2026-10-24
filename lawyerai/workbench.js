@@ -234,7 +234,7 @@ const wbNotesHtml = m => `<form class="wb-note-form" data-wb-submit="note-add"><
   ${m.notes.length ? m.notes.map((n, i) => `<div class="wb-note-item"><p>${esc(n.text)}</p><div class="wb-note-meta"><span>${esc(n.createdAt)}${n.source === 'ask-ai' ? ' · From Ask AI' : ''}</span><button type="button" data-wb="note-del" data-i="${i}">Remove</button></div></div>`).join('') : Studio.empty('No notes yet.')}`;
 const wbHistoryHtml = m => {
   const threads = CONVERSATIONS.filter(c => c.matterId === m.id), answers = t => t.messages.filter(x => x.role === 'ai').length;
-  return `<div class="ds-list"><a class="list-row" href="#/matters/${m.id}/chat" data-wb-close style="text-decoration:none;color:inherit"><div class="review-icon">${wbIc('plus')}</div><div class="review-text"><strong>New question</strong><small>Ask LegalAI about this matter</small></div></a>
+  return `<div class="ds-list"><a class="list-row" href="#/matters/${m.id}/chat" data-wb-close style="text-decoration:none;color:inherit"><div class="review-icon">${wbIc('plus')}</div><div class="review-text"><strong>New question</strong><small>Ask VakilBuddy about this matter</small></div></a>
     ${threads.map(t => `<a class="list-row" href="#/matters/${m.id}/chat/${t.id}" data-wb-close style="text-decoration:none;color:inherit"><div class="review-icon">${wbIc('spark')}</div><div class="review-text"><strong>${esc(t.title)}</strong><small>${esc(t.updated)} · ${answers(t)} answer${answers(t) === 1 ? '' : 's'}</small></div>${wbIc('chevron')}</a>`).join('')}</div>
     ${threads.length ? '' : Studio.empty('No research yet for this matter.')}`;
 };
@@ -836,7 +836,7 @@ function wbFmtDelete() {
 }
 
 /* ── court rules ─────────────────────────────────────────────────────────────
-   Courts set their own rules for paper, margins, fonts and required parts, and they change. LegalAI ships
+   Courts set their own rules for paper, margins, fonts and required parts, and they change. VakilBuddy ships
    no court's rules (the two built-in sets are plain layouts), so the user enters theirs. A draft that
    follows a set is checked against it, and its Word file gets that paper, those margins and page numbers. */
 const wbProfWork = p => ({ ...JSON.parse(JSON.stringify(p)), requiredText: (p.required || []).join('\n'), useDefault: p.id === wb.defaultProfile });
@@ -862,7 +862,7 @@ function wbPaintProfiles() {
       <p class="wb-fmt-type">Court rules</p>${all.map(p => item(p, !u.isNew && p.id === w.id)).join('')}
     </aside>
     <section class="wb-fmt-pane">
-      <p class="wb-flag">${wbIc('alert')}<span>LegalAI does not include any court’s rules: they differ between courts and benches and they change. Enter the rules from your court’s current rules and practice directions, and keep a note of where each came from.</span></p>
+      <p class="wb-flag">${wbIc('alert')}<span>VakilBuddy does not include any court’s rules: they differ between courts and benches and they change. Enter the rules from your court’s current rules and practice directions, and keep a note of where each came from.</span></p>
       ${ro ? `<div class="wb-pane-head"><div><h3>${esc(w.name)}</h3><p class="hint" style="margin:2px 0 0">${esc(w.notes)}</p></div><div class="wb-pane-actions">${w.id === wb.defaultProfile ? '<span class="chip chip-teal">Used for new drafts</span>' : '<button type="button" class="btn btn-ghost btn-sm" data-pf="use-default">Use for new drafts</button>'}<button type="button" class="btn btn-teal btn-sm" data-pf="duplicate">Duplicate and edit</button></div></div>
         <p class="eyebrow">Layout</p><p style="font-size:13px;color:var(--ink-soft);margin:0 0 6px">${esc(Drafting.PAPERS[w.paper])} · margins ${w.margins.top} / ${w.margins.right} / ${w.margins.bottom} / ${w.margins.left} cm (top, right, bottom, left) · page numbers ${w.pageNumbers ? 'on' : 'off'}.</p><p class="hint">It asks nothing of a draft: no minimum font size or spacing, and no required sections.</p>`
       : `<div class="wb-pane-head"><div><h3>${u.isNew ? 'New court rules' : esc(w.name || 'Court rules')}</h3></div></div>
@@ -948,7 +948,7 @@ function wbProfDelete() {
 }
 
 /* ── para-wise reply ─────────────────────────────────────────────────────────
-   Paste (or load) the other side's plaint or notice. LegalAI splits it into its numbered paragraphs, the lawyer
+   Paste (or load) the other side's plaint or notice. VakilBuddy splits it into its numbered paragraphs, the lawyer
    chooses a stance for each, and the replies are placed in a written statement or reply format. It words the
    stances; it never decides one. A paragraph with no stance becomes a visible blank in the draft. */
 const wbHasReplyField = f => f.sections.some(s => /\{\{\s*para_replies\s*\}\}/i.test(`${s.heading}\n${s.body}`));

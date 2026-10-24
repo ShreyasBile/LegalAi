@@ -98,7 +98,7 @@ const Studio = (() => {
 
   /* the tools every matter page has */
   const matterTools = m => ({ group: 'Matter', tools: [
-    { id: 'matter-ask', icon: 'chat', name: 'Ask about this matter', fn: 'Ask LegalAI a question about this case.', href: `#/matters/${m.id}/chat` },
+    { id: 'matter-ask', icon: 'chat', name: 'Ask about this matter', fn: 'Ask VakilBuddy a question about this case.', href: `#/matters/${m.id}/chat` },
     { id: 'matter-evidence', icon: 'upload', name: 'Add evidence', fn: 'Record a document for this matter. Files are never uploaded.' },
     { id: 'matter-limit', icon: 'calendar', name: 'Limitation dates', fn: 'Work out a last date for this matter.', href: `#/deadlines?matter=${m.id}` }
   ] });

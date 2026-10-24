@@ -114,8 +114,8 @@ test('a draft made from a format starts with a "created" version', () => {
   const f = D.BUILTIN_FORMATS[0];
   const d = D.createDraft(f, { title: 'A v. B', court: 'C', facts: {}, timeline: [], authorities: [], arguments: [], counterArgs: [], documents: [] }, { extras: { today: '11 September 2026' } });
   assert.equal(d.versions.length, 1);
-  assert.equal(d.versions[0].label, 'Created from “LegalAI standard”');
-  assert.equal(d.versions[0].by, 'LegalAI');
+  assert.equal(d.versions[0].label, 'Created from “VakilBuddy standard”');
+  assert.equal(d.versions[0].by, 'VakilBuddy');
   assert.equal(d.versions[0].at, '11 September 2026');
   assert.equal(d.versions[0].sections.length, d.sections.length);
   assert.deepEqual(d.comments, []);

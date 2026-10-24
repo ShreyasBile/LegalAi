@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import {
-  AiError, ACTIONS, extractJson, extractCitations, nameOverlap, verifyCitation, citationReport, checkAuthorities, runAction
+  AiError, ACTIONS, extractJson, extractCitations, nameOverlap, verifyCitation, citationReport, checkAuthorities, runAction, supportedBy, sameWitness, dateAppears
 } from '../ai-core.mjs';
 import { createAiHandler } from '../ai-server.mjs';
 
@@ -117,6 +117,26 @@ test('a name with a year far from the only matching judgment is not that judgmen
 test('"not stated" and its kin are not treated as authorities', async () => {
   assert.deepEqual(await checkAuthorities(['not stated', 'None', 'N/A'], fakeLookup), []);
 });
+test('real-record cases: "M.P." is Madhya Pradesh, a one-letter slip in the source is not another case, and a bracketed honorific is part of the name', async () => {
+  const mp = { title: 'LAKHAN versus STATE OF M.P.', citation: '[2010] 9 S.C.R. 705', neutralCitation: '2010 INSC 489', courtName: 'Supreme Court of India', year: 2010 };
+  const sud = { title: 'SHUDHAKAR versus STATE OF M.P.', citation: '[2012] 7 S.C.R. 128', neutralCitation: '2012 INSC 301', courtName: 'Supreme Court of India', year: 2012 };
+  const pan = { title: 'SMT. PANIBEN versus STATE OF GUJARAT', citation: '[1992] 2 S.C.R. 197', neutralCitation: '1992 INSC 78', courtName: 'Supreme Court of India', year: 1992 };
+  const db = [mp, sud, pan];
+  const lookup = async q => db.filter(c => q === c.citation || q === c.neutralCitation || q.split(' ').every(w => c.title.toLowerCase().includes(w)));
+  assert.equal((await verifyCitation(one('Lakhan v. State of Madhya Pradesh [2010] 9 S.C.R. 705'), lookup)).status, 'verified');
+  assert.equal((await verifyCitation(one('Sudhakar v. State of Madhya Pradesh [2012] 7 S.C.R. 128'), lookup)).status, 'verified');
+  assert.equal(extractCitations('Paniben (Smt.) v. State of Gujarat [1992] 9 S.C.R. 197')[0].name, 'Paniben (Smt.) v. State of Gujarat');
+  const wrong = await verifyCitation(one('Paniben (Smt.) v. State of Gujarat [1992] 9 S.C.R. 197'), lookup);
+  assert.equal(wrong.status, 'wrong-number');                                   // the case is real; the volume is not
+  assert.equal(wrong.match.citation, '[1992] 2 S.C.R. 197');
+});
+test('an invented case is not matched to an unrelated case that shares the same State', async () => {
+  const darshan = { title: 'S.S. DARSHAN ETC. versus STATE OF KARNATAKA', citation: '[2020] 1 S.C.R. 1', neutralCitation: '2020 INSC 1', courtName: 'Supreme Court of India', year: 2020 };
+  const lookup = async q => (q.split(' ').every(w => darshan.title.toLowerCase().includes(w)) ? [darshan] : []);
+  assert.equal((await verifyCitation(one('Verma v. State of Karnataka [2011] 5 S.C.R. 410'), lookup)).status, 'not-found');
+  assert.equal(nameOverlap('Verma v. State of Karnataka', darshan.title), 0);
+  assert.ok(nameOverlap('Darshan v. State of Karnataka', darshan.title) >= 0.5);
+});
 test('an abbreviated party name is still found, by a looser search that has to agree more closely', async () => {
   const adm = { title: 'ADDITIONAL DISTRICT MAGISTRATE, JABALPUR versus S. S. SHUKLA ETC. ETC.', citation: '[1976] SUPP. 1 S.C.R. 172', neutralCitation: '1976 INSC 1', courtName: 'Supreme Court of India', year: 1976 };
   const lookup = async q => (q.split(' ').every(w => adm.title.toLowerCase().includes(w)) ? [adm] : []);
@@ -207,9 +227,58 @@ test('actions refuse empty input with a message the user can act on', () => {
   assert.throws(() => ACTIONS['contradiction-matrix'].build({ statements: [{ witnessName: 'A', statement: 'x' }] }), /at least two/);
   assert.throws(() => ACTIONS['next-stage'].build({ history: [] }), /no hearing history/);
 });
+test('contradiction-matrix drops a position the witness never took, and keeps one the statements support', async () => {
+  const statements = [
+    { witnessName: 'PW-2 Rajendra', statement: 'I reached the hospital at about 11:45 PM. My sister told me that her husband had burnt her on 22.07.2002.' },
+    { witnessName: 'PW-20 Meena', statement: 'The doctor recorded the statement on 23 July 2002. She did not name anyone.' }
+  ];
+  const point = (a, b) => ({ topic: 't', a, b, severity: 'Critical', note: 'n' });
+  const real = point({ witness: 'PW-2', position: 'His sister told him her husband had burnt her' }, { witness: 'PW-20 Meena', position: 'The victim did not name anyone' });
+  const invented = point({ witness: 'PW-2 Rajendra', position: 'Rekha was selected for the police sports competition on 14.07.2022' }, { witness: 'PW-20 Meena', position: 'She did not name anyone' });
+  const stranger = point({ witness: 'PW-9 Nobody', position: 'I reached the hospital at about 11:45 PM' }, { witness: 'PW-20 Meena', position: 'She did not name anyone' });
+  const r = await runAction('contradiction-matrix', { statements }, { call: fakeModel(JSON.stringify({ points: [real, invented, stranger] })).call, lookup: fakeLookup });
+  assert.equal(r.points.length, 1);
+  assert.equal(r.left, 2);
+  assert.equal(r.points[0].a.witness, 'PW-2 Rajendra');          // named as the statements name the witness, not as the model wrote it
+  assert.ok(supportedBy('He reached the hospital around 11:45 PM', statements[0].statement));
+  assert.ok(!supportedBy('He reached the hospital at 10:15 PM', statements[0].statement));          // a changed time is not a paraphrase
+  assert.ok(sameWitness('PW-2', 'PW-2 Rajendra') && !sameWitness('PW-2', 'PW-20 Meena'));
+});
+test('timeline-depositions names only the documents it was given and drops a date they do not contain', async () => {
+  const documents = [{ title: '02_witness_statements.txt', text: 'She was admitted on 22.07.2002 and her statement was recorded on 23 July 2002.' }, { title: '03_orders.txt', text: 'Leave granted on 02.10.2011.' }];
+  const reply = { timeline: [
+    { date: '2002-07-22', event: 'admitted', source: '02_witness_statements.txt, para 2', contested: false },
+    { date: '2002-07-23', event: 'statement recorded', source: 'witness_statements', contested: true },
+    { date: '2003-01-01', event: 'invented', source: '03_orders.txt', contested: false },
+    { date: 'a week later', event: 'as written', source: '', contested: false }],
+  questions: [{ witness: 'PW-2', question: 'q', aim: 'a', document: '01_witness_statements.txt' }, { witness: 'PW-3', question: 'q', aim: 'a', document: '03_orders.txt' }] };
+  const r = await runAction('timeline-depositions', { documents }, { call: fakeModel(JSON.stringify(reply)).call, lookup: fakeLookup });
+  assert.deepEqual(r.timeline.map(t => t.event), ['admitted', 'statement recorded', 'as written']);
+  assert.equal(r.left, 1);
+  assert.deepEqual(r.timeline.map(t => t.source), ['02_witness_statements.txt', '', '']);          // "witness_statements" is not a document it was given
+  assert.deepEqual(r.questions.map(q => q.document), ['', '03_orders.txt']);
+});
+test('a name with a spelled-out state is also searched without it, because the archive writes "M.P."', async () => {
+  const cards = [{ title: 'LAKHAN versus STATE OF M.P.', year: 2010, citation: '[2010] 9 S.C.R. 705' }, { title: 'LAKHAN SINGH versus AMARJEET SINGH', year: 2022 }];
+  const lookup = async q => cards.filter(c => q.toLowerCase().split(/\s+/).every(w => c.title.toLowerCase().includes(w)));          // every word must be in the title
+  const r = await citationReport('See Lakhan v. State of Madhya Pradesh (2010).', lookup);
+  assert.equal(r.items[0].status, 'name-found');
+  assert.equal(r.items[0].match.title, 'LAKHAN versus STATE OF M.P.');
+  const other = await citationReport('See Lakhan v. State of Kerala (2010).', lookup);          // the same first party, another state: not that case
+  assert.equal(other.items[0].status, 'not-found');
+});
+test('order-digest keeps a next date only if the order writes it', async () => {
+  const order = 'Appeal dismissed. Appellant to surrender within two weeks from today. List on 16.08.2024 for compliance.';
+  const digest = nextDate => runAction('order-digest', { orderText: order }, { call: fakeModel(JSON.stringify({ direction: 'd', status: 'Dismissed', compliance: [], nextDate, actions: [] })).call, lookup: fakeLookup });
+  assert.equal((await digest('2024-08-16')).nextDate, '2024-08-16');
+  assert.equal((await digest('2024-05-30')).nextDate, 'not stated in the order');          // worked out by the model, not in the order
+  assert.equal((await digest('not stated')).nextDate, 'not stated');
+  for (const w of ['16.08.2024', '16/08/2024', '16th August 2024', 'August 16, 2024', '16 Aug 2024']) assert.ok(dateAppears('2024-08-16', `listed on ${w}.`), w);
+  assert.ok(!dateAppears('2024-08-16', 'listed on 16.08.2025') && !dateAppears('2024-13-16', '16.13.2024'));
+});
 test('runAction returns cleaned JSON, with unknown fields dropped and sizes capped', async () => {
   const m = fakeModel(JSON.stringify({ direction: 'Stay granted', status: 'Allowed', compliance: ['a', 'b'], nextDate: '2026-10-18', actions: ['x'], secret: 'dropped', extra: 1 }));
-  const r = await runAction('order-digest', { orderText: 'order text' }, { call: m.call, lookup: fakeLookup });
+  const r = await runAction('order-digest', { orderText: 'order text, list on 18.10.2026' }, { call: m.call, lookup: fakeLookup });
   assert.deepEqual(r, { direction: 'Stay granted', status: 'Allowed', compliance: ['a', 'b'], nextDate: '2026-10-18', actions: ['x'] });
   const long = await runAction('order-digest', { orderText: 'o' }, { call: fakeModel(JSON.stringify({ direction: 'x'.repeat(50000) })).call, lookup: fakeLookup });
   assert.ok(long.direction.length <= 20000);

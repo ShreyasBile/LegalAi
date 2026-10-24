@@ -111,7 +111,7 @@ function rmTemplatesHtml() {
     <label class="rm-field">Your WhatsApp number<input data-rm-change="me-phone" maxlength="30" value="${esc(rm.me.phone)}" placeholder="So reminders to you open your own chat" /></label>`;
 }
 
-const RM_BANNER = `<div class="wa-banner section"><div class="wa-banner-icon">${wbIc('whatsapp')}</div><div class="wa-banner-copy"><strong>You tap Send — LegalAI does not send by itself</strong><small>Sending on its own needs the WhatsApp Business platform and a server, which this app does not have. Reminders are prepared and tracked here; the message goes from your own WhatsApp.</small></div></div>`;
+const RM_BANNER = `<div class="wa-banner section"><div class="wa-banner-icon">${wbIc('whatsapp')}</div><div class="wa-banner-copy"><strong>You tap Send — VakilBuddy does not send by itself</strong><small>Sending on its own needs the WhatsApp Business platform and a server, which this app does not have. Reminders are prepared and tracked here; the message goes from your own WhatsApp.</small></div></div>`;
 
 function pageReminders() {
   const list = rmBuild();
@@ -174,7 +174,7 @@ function rmOpenNew() {
     onSubmit: e => {
       const els = e.target.elements, body = els.body.value.trim(), date = els.date.value;
       if (!body || !rmDate(date)) return;
-      if (els.to.value === 'client' && !els.matter.value) { showToast('Pick the matter, so LegalAI knows which client to send to.'); return; }
+      if (els.to.value === 'client' && !els.matter.value) { showToast('Pick the matter, so VakilBuddy knows which client to send to.'); return; }
       rm.custom.push({ id: uid('rm'), matterId: els.matter.value, toKind: els.to.value === 'client' ? 'client' : 'me', date, time: els.time.value, body });
       rmSave(); closeModals(); rmPaint();
     }
