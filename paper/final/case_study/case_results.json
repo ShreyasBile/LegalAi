@@ -1,0 +1,99 @@
+{
+  "case": "Rajendra S/o Ramdas Kolhe v. State of Maharashtra, [2024] 6 S.C.R. 740, 2024 INSC 422",
+  "reading": {
+    "judgment": {
+      "file": "01_judgment_full_text.txt",
+      "words": 8619,
+      "dates": 30,
+      "amounts": 1,
+      "exhibit59": 23
+    },
+    "statements": {
+      "file": "02_witness_statements.txt",
+      "words": 2092,
+      "dates": 10,
+      "amounts": 0,
+      "exhibit59": 3
+    },
+    "orders": {
+      "file": "03_supreme_court_orders.txt",
+      "words": 213,
+      "dates": 8,
+      "amounts": 0,
+      "exhibit59": 0
+    },
+    "inconsistencies": 0
+  },
+  "citations": {
+    "summary": {
+      "found": 8,
+      "verified": 4,
+      "problems": 3,
+      "uncheckable": 1
+    },
+    "items": [
+      {
+        "cited": "Khushal Rao v. State of Bombay",
+        "citation": "[1958] 1 S.C.R. 552 · 1957 INSC 79",
+        "kind": "scr",
+        "status": "verified",
+        "matched": "KHUSHAL RAO versus THE STATE OF BOMBAY"
+      },
+      {
+        "cited": "Ashabai v. State of Maharashtra",
+        "citation": "[2013] 1 S.C.R. 115",
+        "kind": "scr",
+        "status": "verified",
+        "matched": "ASHABAI & ANR. versus STATE OF MAHARASHTRA"
+      },
+      {
+        "cited": "Lakhan v. State of Madhya Pradesh",
+        "citation": "[2010] 9 S.C.R. 705 · 2010 INSC 489",
+        "kind": "scr",
+        "status": "verified",
+        "matched": "LAKHAN versus STATE OF M.P."
+      },
+      {
+        "cited": "Paniben (Smt.) v. State of Gujarat",
+        "citation": "[1992] 9 S.C.R. 197",
+        "kind": "scr",
+        "status": "wrong-number",
+        "matched": "SMT. PANIBEN versus STATE OF GUJARAT"
+      },
+      {
+        "cited": "Sher Singh v. State of Punjab",
+        "citation": "2008 INSC 204",
+        "kind": "neutral",
+        "status": "verified",
+        "matched": "SHER SINGH & ANR. versus STATE OF PUNJAB"
+      },
+      {
+        "cited": "Rajendra Kolhe v. State of Maharashtra",
+        "citation": "[1958] 1 S.C.R. 552",
+        "kind": "scr",
+        "status": "misattributed",
+        "matched": "KHUSHAL RAO versus THE STATE OF BOMBAY"
+      },
+      {
+        "cited": "Verma v. State of Karnataka",
+        "citation": "[2011] 5 S.C.R. 410",
+        "kind": "scr",
+        "status": "not-found",
+        "matched": ""
+      },
+      {
+        "cited": "State v. Rao",
+        "citation": "",
+        "kind": "name",
+        "status": "uncheckable",
+        "matched": ""
+      }
+    ]
+  },
+  "limitation": {
+    "rule": "Review petition in the Supreme Court",
+    "source": "Supreme Court Rules, 2013, Order XLVII Rule 2",
+    "start": "2024-05-15",
+    "lastDate": "2024-06-14"
+  }
+}

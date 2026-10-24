@@ -1,0 +1,27 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+% bars: heights come from the generated numbers (percent of 160 model--question pairs; percent of listed cases verified)
+\def\H{2.4}            % height of 100 percent, in cm
+\pgfmathsetmacro{\k}{\H/100}
+\foreach \p in {0,50,100} {
+  \pgfmathsetmacro{\yy}{\p*\k}
+  \draw[black!25, line width=0.3pt] (0.2,\yy)--(8.3,\yy); \node[font=\tiny, left] at (0.2,\yy) {\p};
+}
+\foreach \i/\lab/\a/\b in {1/{From memory}/\FigPctA/\FigVerA, 2/{After feedback}/\FigPctB/\FigVerB, 3/{Name search}/\FigPctC/\FigVerC, 4/{Subject search}/\FigPctD/\FigVerD, 5/{Subject + prior}/\FigPctE/\FigVerE} {
+  \pgfmathsetmacro{\ha}{\a*\k}
+  \pgfmathsetmacro{\hb}{\b*\k}
+  \pgfmathsetmacro{\cx}{1.55*\i}
+  \node[font=\tiny, align=center, text width=1.4cm] at (\cx, -0.4) {\lab};
+  \fill[navy] (\cx-0.6,0) rectangle (\cx-0.03,\ha);
+  \fill[gold] (\cx+0.03,0) rectangle (\cx+0.6,\hb);
+  \node[font=\tiny\bfseries, above, fill=white, inner sep=0.3pt] at (\cx-0.315,\ha) {\a};
+  \node[font=\tiny\bfseries, above, fill=white, inner sep=0.3pt] at (\cx+0.315,\hb) {\b};
+}
+\draw[black!70] (0.2,0)--(8.3,0);
+\fill[navy] (0.3,3.35) rectangle (0.55,3.6); \node[font=\tiny, anchor=west] at (0.6,3.475) {Deciding judgment named (\% of \FigAll{} pairs)};
+\fill[gold] (4.7,3.35) rectangle (4.95,3.6); \node[font=\tiny, anchor=west] at (5.0,3.475) {Listed cases verified (\%)};
+\end{tikzpicture}
+\caption{What search and the citation graph change for four small open-weight models (\S\ref{sec:results}). Existence checks (feedback, name search) raise the share of verified cases, but only search by subject, ranked with the citation prior, raises the share of questions answered with a deciding judgment.}
+\label{fig:results}
+\end{figure}

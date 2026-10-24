@@ -1,0 +1,21 @@
+% Styles shared by every figure of the paper (flowcharts, architecture, chart). Loaded in the preamble of final.tex.
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit,calc,backgrounds}
+\definecolor{navy}{HTML}{14202F}
+\definecolor{gold}{HTML}{F2B441}
+\definecolor{vblue}{HTML}{2B6A99}
+\tikzset{
+  b/.style={draw=black!70, rounded corners=1.5pt, font=\scriptsize, align=center, inner sep=2pt, minimum height=5.2mm, fill=white, line width=0.4pt},
+  io/.style={b, fill=black!7},                         % input or artefact
+  st/.style={b, fill=white},                           % a step
+  db/.style={b, fill=blue!9},                          % data store
+  ch/.style={b, fill=orange!14},                       % an automatic check
+  ok/.style={b, fill=green!16},                        % a good result
+  wr/.style={b, fill=red!11},                          % a flagged result
+  hu/.style={b, fill=yellow!32, line width=0.8pt},     % a human decision
+  dec/.style={b, fill=yellow!14, rounded corners=5pt, line width=0.7pt},   % a question
+  grp/.style={draw=black!45, dashed, rounded corners=3pt, inner sep=3pt, line width=0.4pt},
+  ar/.style={-{Latex[length=1.4mm,width=1.1mm]}, line width=0.45pt},
+  dar/.style={ar, dashed},
+  lb/.style={font=\tiny, inner sep=1pt, fill=white},
+  ttl/.style={font=\scriptsize\bfseries, inner sep=1pt}
+}

@@ -1,0 +1,83 @@
+\section{VakilBuddy: Architecture}
+\label{sec:system}
+The findings above answer three weaknesses of ordinary legal assistants: single-turn answers, similarity without authority, and no independent check. They give three design principles. \emph{The index, not the model, decides what exists}: every citation is looked up and model text is checked against sources before it is shown. \emph{Authority comes from the record}: a draft may cite only the judgments the advocate pinned, and the citation graph, not text similarity alone, ranks what to pin. \emph{The advocate decides}: work moves through stages with an approval gate, and the workspace files and sends nothing.
+
+VakilBuddy is a prototype litigation workspace organised around a \emph{matter} (a case file); Fig.~\ref{fig:arch} shows its parts. The workspace runs in the advocate's browser and keeps a matter's data in browser storage. A small server serves the page, builds model prompts, applies the source checks and holds the model key, which is never returned to the browser. Model requests go to OpenRouter \cite{openrouter} or any OpenAI-compatible endpoint. A separate case-law API answers searches and exact lookups over the index of \S\ref{sec:corpus}. A court-status service, with a cache, per-customer keys, rate limits and a markup-drift check, answers from saved sample pages in this prototype. The verifier, graph and retriever of \S\ref{sec:verifier}--\S\ref{sec:retrieval} are research code on the same database; the workspace does not call them yet and uses a simpler lookup (\S\ref{sec:checks}). Table~\ref{tab:features} lists what the workspace does today. Features marked ``model'' call a language model and pass its output through the checks of \S\ref{sec:checks}; the others are deterministic.
+
+\input{fig_arch}
+
+\begin{table*}[t]
+\caption{What the workspace does today, and where a language model is involved.}
+\label{tab:features}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.35in}>{\raggedright\arraybackslash}p{3.9in}>{\raggedright\arraybackslash}p{1.35in}>{\raggedright\arraybackslash}p{0.45in}@{}}
+\toprule
+Feature & What it does & Built from & Model \\
+\midrule
+Case-law search & Exact lookup by CNR, neutral or S.C.R. citation; full-text and typo-tolerant search; filters by court, year and outcome & the index (\S\ref{sec:corpus}) & no \\
+Citation check and pinned authorities & Finds the citations and case names in a text and looks each up; pins the judgments a matter relies on, each with a note of what for & the index & no \\
+Evidence reading & Text, Word and PDF text layers; OCR in English, Hindi and Marathi; dates, amounts, search, possible inconsistencies & pdf.js, Tesseract & no \\
+Chronology, cross-examination questions, witness comparison & Dated events and questions from the documents; positions that differ between witnesses & the matter's documents & model \\
+Arguments & Points linked to pinned authorities; the other side's best answer to each & pinned authorities & model \\
+Drafting & \CaseFormats{} formats filled from the record (Manual); sections written by a model that may cite only pinned authorities (Auto) & the record, pinned authorities & Auto \\
+Para-wise reply & Numbers the other side's paragraphs; builds the reply from a stance for each, leaving the substance blank & the plaint or notice & no \\
+Review and export & Versions, word-level redline, comments, approval, Word export with court-rule profiles & drafts & no \\
+Limitation and reminders & \CasePeriods{} periods with their sources; counting by s.\,12 and s.\,4; saved dates; WhatsApp text the advocate sends & the statutes & no \\
+Court status & Case record by CNR; an order digest; preparation for the next listing & the court-status service (sample data) & digest \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{Workflow and the Approval Gate}
+\label{sec:workflow}
+A matter moves through the stages of Fig.~\ref{fig:flow}. Intake turns the advocate's account into a matter, research pins authorities, evidence is read and a chronology built, and arguments link points to authorities. Drafting starts from the matter's own record: pinned authorities, chronology and documents flow into drafts (Fig.~\ref{fig:pair1}a), so a fact or an authority is entered once. A draft is either \emph{Draft} or \emph{Approved} (Fig.~\ref{fig:pair1}b). Approval warns if review comments are open, saves a version and writes an audit-trail entry; an approved draft is locked, and a Word file or a print can be made only from an approved draft. Versions (the latest twelve) are saved when a draft is made, before an AI draft replaces text, when the advocate saves and on approval, and a word-level redline compares any two. This is the duty of care an advocate already owes the court \cite{gummadi}: a flagged citation is corrected by the advocate and never rewritten automatically.
+
+\input{fig_flow}
+
+\input{fig_pair1}
+
+\section{Checks on Citations and on Model Text}
+\label{sec:checks}
+\textbf{The citation check} (Fig.~\ref{fig:checks}A) uses no model. It finds citations and case names by pattern, merges parallel citations, asks the index for each number and, failing that, searches by name with state abbreviations expanded (``M.P.'' and ``Madhya Pradesh'') and a one-letter spelling slip tolerated. It is simpler than the verifier of \S\ref{sec:verifier}, and, like it, confirms existence and not that a judgment supports the proposition.
+
+\textbf{A model action} (Fig.~\ref{fig:checks}B) passes the advocate's text to the model as data and never as instructions. The reply must be valid JSON; a failed call is shown as an error and never replaced by a canned answer, and the percentages a model may offer for risk are not used. The reply is cleaned and then checked against sources. The cases it names are looked up in the index. A position attributed to a witness is kept only if its content words and every date and number in it appear in that witness's statement. A next hearing date is kept only if the order writes it. A chronology's source, and a document a witness is to be confronted with, must be documents that were supplied, and a dated event is kept only if the documents write its date. Items that fail are dropped and counted, the answer carries the model's name, and the advocate decides.
+
+\input{fig_checks}
+
+\section{Evidence, Dates and Drafts}
+\label{sec:evidence}
+\textbf{Evidence} (Fig.~\ref{fig:pair2}a) is read in the browser: text, Word and PDF files with a text layer directly, with pdf.js \cite{pdfjs}, and scans and photographs by Tesseract \cite{smith2007} in English, Hindi and Marathi. The files are not uploaded, and only their text is kept. Dates and rupee amounts, including Devanagari digits and month names, are found by pattern together with the nearest event word, and two documents that give different dates or amounts beside the same word are listed as possible inconsistencies: places to look, never findings. \textbf{Dates} (Fig.~\ref{fig:pair2}b): the calculator holds \CasePeriods{} periods, each naming its source (the Limitation Act, 1963 \cite{limitationact}, the Supreme Court Rules, 2013 \cite{scrules}, the Code of Civil Procedure and others). It leaves out the day of the event (s.\,12(1)) and, where the law allows it, the time taken to get a certified copy (s.\,12(2)), runs a period that ends on a closed day to the day the court reopens (s.\,4), and shows how the date was counted. \textbf{Drafts}: Manual fills one of \CaseFormats{} formats from the record and leaves a visible blank where the record has nothing. Auto (Fig.~\ref{fig:pair2}c) asks a model to write each section from the advocate's account and the record, under a prompt that allows only pinned authorities, only the matter's documents as annexures and a blank for a missing fact; the text is cleaned, every citation in it is looked up, and the earlier text is saved first as a version. A para-wise reply numbers the other side's paragraphs and builds the reply from a stance for each (admit, deny, partly, no knowledge, legal), leaving the substance to the advocate.
+
+\input{fig_pair2}
+
+\section{A Worked Case}
+\label{sec:case}
+We ran the workspace on a real Supreme Court case, \emph{Rajendra S/o Ramdas Kolhe v.\ State of Maharashtra} (Criminal Appeal No.~2281 of 2011, decided 15 May 2024, 2024~INSC~422), a murder appeal that turns on a dying declaration. The judgment, the Court's summaries of the six prosecution witnesses, the orders it recites and a draft written for this test are in \texttt{sample-case/}; the scripts that produce every number below are in \texttt{paper/final/case\_study/}.
+
+\textbf{Reading and dates.} The Evidence tab read the judgment (\CaseJudgWords{} words) and found \CaseJudgDates{} dates and \CaseJudgAmounts{} amount; ``Ex.~59'', the deceased's written dying declaration, occurs \CaseJudgExhibit{} times in it and \CaseStmtExhibit{} in the witness summaries (\CaseStmtWords{} words). The three documents give no conflicting dates or amounts, so the list of possible inconsistencies is empty. For a review petition (Order~XLVII Rule~2, Supreme Court Rules, 2013 \cite{scrules}) the calculator, given \CaseLimitStart, returns \CaseLimitDate{} and shows that the day of the judgment is left out.
+
+\textbf{Checking a draft.} The draft is a few paragraphs of submissions into which we planted errors (Table~\ref{tab:case}). The citation check found \CaseCiteFound{} cases. Of these, \CaseCiteVerified{} were confirmed. One has the right parties and a wrong volume (\emph{Paniben}, cited as [1992] 9 S.C.R.\ 197, reported at [1992] 2 S.C.R.\ 197). One gives the appellant's own case the number of \emph{Khushal Rao v.\ State of Bombay}. One, \emph{Verma v.\ State of Karnataka}, does not exist. One is a High Court case, reported as not checkable. We planted the errors, so this shows that the check catches those kinds of error, not how often they occur. The case also exposed three defects in how the check searches the index (a state written in full where the archive writes ``M.P.'', a party name matched to a different case, and a spelling slip in a title); we fixed them and added regression tests. One limit remains: \emph{Sudhakar v.\ State of Madhya Pradesh}, which the archive spells ``Shudhakar'', is found by its number but not by name, because the index is searched by whole words.
+
+\begin{table}[t]
+\caption{The draft with planted errors and what the citation check reported.}
+\label{tab:case}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\input{tab_case}
+\end{table}
+
+\textbf{Checks on model text.} We sent the real prompts of three model actions that read these documents to \GroundModel, one of the four models of \S\ref{sec:setup}, three times each (temperature 0.2, seeds 1--3, a context of 8{,}192 tokens), kept its raw answers, and counted what the source checks removed. The witness comparison returned \GroundMatrixProposed{} points in \GroundMatrixRuns{} runs (\GroundMatrixEmptyRuns{} run returned none); the checks dropped \GroundMatrixDropped, a point whose second side named no witness, and kept \GroundMatrixKept, which quote the statements faithfully. The checks test fidelity to the source, not whether two statements conflict, and whether a kept point is a contradiction an advocate could use is a legal judgment we do not make. In all \GroundDigestRuns{} runs the order digest gave a next hearing date, \GroundDigestDates, worked out from ``two weeks from today''; the order writes none, and each was replaced by ``not stated in the order''. The chronology proposed \GroundTimelineProposed{} dated events, and \GroundIsoMissing{} of \GroundIsoProposed{} dates were not in the documents, so their events were dropped. The model named \GroundSourcesNamed{} sources and \GroundQDocsNamed{} documents to confront a witness with, and \GroundSuppliedClause. The context had to be 8{,}192 tokens: at Ollama's default of 4{,}096 the chronology prompt, of about 4{,}000 tokens, left room for only 100 tokens of answer. This is one case, one small model and three runs per action; it shows that the checks remove what the documents do not support, not how often a larger or hosted model would produce it.
+
+\section{Limitations and Ethics}
+\label{sec:discussion}
+\textbf{Limitations.} VakilBuddy is a prototype: its matters other than the worked case are sample data, its court-status service answers from sample pages, its citation check is simpler than the evaluated verifier, and the workspace is covered by \CaseTestsWorkspace{} automated tests and its index service by \CaseTestsApi{}, not by a user study, so we make no claim about drafting quality or time saved. On one laptop, exact lookups in the index take a median of \LatExactMedian\,ms and the verifier \VerifyMedianMs\,ms.
+
+\textbf{Ethics.} The workspace is decision support: the advocate remains responsible to the court, nothing is filed or sent by the workspace, every model answer is labelled and every draft needs approval. Evidence files are read in the browser and not uploaded, but the text of the documents an advocate sends to a model action goes to the model provider, which matters for privileged material. An AI assistant was used to build the software and draft this paper, as the acknowledgment states.
+
+\section{Conclusion}
+\label{sec:conclusion}
+Indian courts now treat reliance on fabricated precedents as misconduct \cite{gummadi}, so a model-drafted citation must be checked before it reaches a court. From open data we built an audited index of \CorpusTotal{} judgments and orders, a verifier whose labels were correct in \AuditPct{} of a held-out audit, and an open citation graph of \GraphEdges{} links. Small open models answering from memory fabricate freely; an existence check removes the fabricated cases but not the lack of authority; search by subject over headnotes, ranked with the graph's citation counts, raised the share of questions answered with a deciding judgment from \RefRateClosed{} to \RefRateTopicPrior{} while \VerPctAllTopicPrior{} of the listed cases were verified. VakilBuddy applies these checks and an approval gate in an advocate's workspace, and a worked Supreme Court case shows them catching planted citation errors and unsupported model output. Connecting the evaluated retriever to the workspace, benchmarking the hosted models it calls, and measuring what it saves an advocate remain open.

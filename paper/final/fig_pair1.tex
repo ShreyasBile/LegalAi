@@ -1,0 +1,41 @@
+\begin{figure*}[t]
+\centering
+\begin{minipage}[t]{0.50\textwidth}
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,scale=0.97,transform shape]
+\node[ttl] at (4.0,5.35) {(a) What feeds what};
+\node[ttl, anchor=west] at (0.05,4.85) {You add};
+\node[ttl] at (4.0,4.85) {It becomes};
+\node[ttl, anchor=west] at (6.1,4.85) {It is used in};
+\foreach \i/\y/\l/\m/\r in {1/4.0/{Judgments you pin}/{Authorities of the matter}/{Arguments; the only authorities an AI draft may cite},
+                          2/2.9/{Documents you add}/{Text, dates, amounts}/{Chronology, annexures, witness comparison},
+                          3/1.8/{Dates you confirm}/{Chronology events}/{Facts in drafts (unless marked internal)},
+                          4/0.7/{Event and period}/{Last date and how counted}/{Calendar, Today, reminders},
+                          5/-0.4/{Case number (CNR)}/{Court record}/{Case status, order digest, next-listing prep}} {
+  \node[st, text width=1.9cm] (l\i) at (1.0,\y) {\l};
+  \node[db, text width=1.9cm] (m\i) at (4.0,\y) {\m};
+  \node[ok, text width=2.0cm] (r\i) at (7.05,\y) {\r};
+  \draw[ar] (l\i)--(m\i); \draw[ar] (m\i)--(r\i);
+}
+\end{tikzpicture}
+\end{minipage}%
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,scale=0.97,transform shape]
+\node[ttl] at (4.0,5.35) {(b) The life of a draft};
+\node[st, text width=2.2cm] (m1) at (1.2,4.0) {New draft, Manual: the format filled from the record};
+\node[ch, text width=2.2cm] (m2) at (1.2,2.4) {New draft, Auto: the model writes the sections};
+\node[st, text width=2.6cm] (dr) at (4.6,3.2) {\textbf{Draft}: editable; versions kept (the latest 12)};
+\node[hu, text width=2.6cm] (ap) at (4.6,1.0) {\textbf{Approved}: locked; audit entry written};
+\node[ok, text width=1.7cm] (ex) at (7.5,1.0) {Word file or print};
+\draw[ar] (m1.east) -- ++(0.35,0) |- (dr.west);
+\draw[ar] (m2.east) -- ++(0.35,0) |- (dr.west);
+\draw[ar] ([xshift=0.7cm]dr.south) -- node[lb, right]{approve} ([xshift=0.7cm]ap.north);
+\draw[dar] ([xshift=-0.7cm]ap.north) -- node[lb, left]{reopen} ([xshift=-0.7cm]dr.south);
+\draw[ar] (ap.east) -- node[lb, above]{export} (ex.west);
+\node[font=\tiny, text width=2.0cm, align=left, anchor=west] at (6.0,3.2) {Approval asks first if review comments are still open.};
+\end{tikzpicture}
+\end{minipage}
+\caption{(a) How the matter tabs feed each other: pinned authorities, confirmed dates and read documents flow into arguments and drafts. (b) A draft can be exported only after the advocate approves it; an approved draft is locked until reopened.}
+\label{fig:pair1}
+\end{figure*}

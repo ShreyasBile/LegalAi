@@ -1,0 +1,57 @@
+\begin{figure*}[t]
+\centering
+\begin{minipage}[t]{0.32\textwidth}
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,scale=0.95,transform shape]
+\node[ttl] at (2.6,7.55) {(a) Reading evidence};
+\node[io, text width=3.4cm] (e1) at (2.6,6.7) {Evidence file: text, Word, PDF, scan or photo};
+\node[dec, text width=3.2cm] (e2) at (2.6,5.4) {Text, Word, or PDF with a text layer?};
+\node[st, text width=1.7cm] (e3) at (0.95,3.95) {Read directly (pdf.js)};
+\node[st, text width=1.9cm] (e4) at (4.1,3.95) {OCR in the browser: English, Hindi, Marathi};
+\node[db, text width=3.4cm] (e5) at (2.6,2.55) {Text kept in browser storage; the file is never uploaded};
+\node[ch, text width=3.4cm] (e6) at (2.6,1.25) {Dates, rupee amounts and the nearest event word found by pattern};
+\node[hu, text width=3.4cm] (e7) at (2.6,-0.05) {Advocate checks: search, possible inconsistencies, add a date to the chronology};
+\draw[ar] (e1)--(e2); \draw[ar] (e2.south west)--node[lb,left]{yes}(e3.north); \draw[ar] (e2.south east)--node[lb,right]{no}(e4.north);
+\draw[ar] (e3.south)--++(0,-0.3)-|(e5.north); \draw[ar] (e4.south)--++(0,-0.3)-|(e5.north);
+\draw[ar] (e5)--(e6); \draw[ar] (e6)--(e7);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\textwidth}
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,scale=0.95,transform shape]
+\node[ttl] at (2.6,7.55) {(b) Counting a last date};
+\node[io, text width=2.9cm] (l1) at (1.7,6.7) {A period (one of \CasePeriods{}, or your own) and the date of the event};
+\node[st, text width=2.9cm] (l2) at (1.7,5.5) {Leave out the day of the event (s.\,12(1))};
+\node[dec, text width=2.6cm] (l3) at (1.7,4.35) {Appeal or review, with certified-copy time?};
+\node[st, text width=1.6cm] (l4) at (4.6,4.35) {Also leave that time out (s.\,12(2))};
+\node[st, text width=2.9cm] (l5) at (1.7,3.0) {Add the period in days, months or years; a short month clamps};
+\node[dec, text width=2.6cm] (l6) at (1.7,1.8) {Last day on a Sunday or a court closure?};
+\node[st, text width=1.6cm] (l7) at (4.6,1.8) {Run to the day the court reopens (s.\,4)};
+\node[ok, text width=2.9cm] (l8) at (1.7,0.5) {Last date, and how it was counted};
+\node[db, text width=2.9cm] (l9) at (1.7,-0.65) {Saved: calendar, Today, reminders};
+\draw[ar] (l1)--(l2); \draw[ar] (l2)--(l3);
+\draw[ar] (l3)--node[lb,above]{yes}(l4); \draw[ar] (l3)--node[lb,left]{no}(l5);
+\draw[ar] (l4.south) |- (l5.east);
+\draw[ar] (l5)--(l6);
+\draw[ar] (l6)--node[lb,above]{yes}(l7); \draw[ar] (l6)--node[lb,left]{no}(l8);
+\draw[ar] (l7.south) |- (l8.east);
+\draw[ar] (l8)--(l9);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\textwidth}
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,scale=0.95,transform shape]
+\node[ttl] at (2.6,7.55) {(c) Writing a draft with the model};
+\node[io, text width=3.4cm] (d1) at (2.6,6.7) {Choose the application (\CaseFormats{} formats) and say what happened};
+\node[st, text width=3.4cm] (d2) at (2.6,5.45) {Add the record: pinned authorities, chronology, documents};
+\node[ch, text width=3.4cm] (d3) at (2.6,4.2) {Prompt: cite only pinned authorities; annexures only from the documents; a blank where a fact is missing};
+\node[st, text width=3.4cm] (d4) at (2.6,2.7) {Model through OpenRouter writes each section};
+\node[ch, text width=3.4cm] (d5) at (2.6,1.5) {Clean: strip numbering the page adds; look up every citation in the index};
+\node[db, text width=3.4cm] (d6) at (2.6,0.25) {Earlier text saved as ``Before the AI draft''};
+\node[hu, text width=3.4cm] (d7) at (2.6,-0.85) {Advocate edits, checks and approves};
+\draw[ar] (d1)--(d2); \draw[ar] (d2)--(d3); \draw[ar] (d3)--(d4); \draw[ar] (d4)--(d5); \draw[ar] (d5)--(d6); \draw[ar] (d6)--(d7);
+\end{tikzpicture}
+\end{minipage}
+\caption{Three processes of the workspace. (a) Evidence is read where it lies and only its text is kept. (b) A limitation date is counted by stated rules and shows its steps (\S\ref{sec:system}). (c) An AI draft is bound to the matter's own record and is a draft for the advocate, not a filing.}
+\label{fig:pair2}
+\end{figure*}

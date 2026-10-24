@@ -1,0 +1,23 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[io, text width=3.3cm] (r1) at (1.95,5.5) {Archive metadata: \CorpusTotal{} records};
+\node[db, text width=3.3cm] (r2) at (6.15,5.5) {Key = case number (CNR); a bare file name collides across benches};
+\node[dec, text width=2.5cm] (r3) at (1.95,4.2) {PDF link can be formed from the record?};
+\node[ok, text width=1.9cm] (r4) at (0.95,2.75) {Original link kept; all sampled resolve};
+\node[st, text width=3.2cm] (r5) at (4.9,2.9) {\MobileTotal{} ``mobile'' records: bare file name, no bench};
+\node[st, text width=3.2cm] (r6) at (4.9,1.65) {Bench taken from the S3 key of the metadata file};
+\node[ch, text width=3.2cm] (r7) at (4.9,0.45) {Does the file exist in the archive's listing?};
+\node[ok, text width=2.6cm] (r8) at (2.5,-0.95) {\MobileLinked{} links restored (\MobileLinkedPct)};
+\node[wr, text width=2.6cm] (r9) at (6.6,-0.95) {\MobileUnrecov{} have no PDF in the archive};
+\draw[ar] (r1)--(r3);
+\draw[ar] (r3.south west)--node[lb,left]{yes}(r4.north);
+\draw[ar] (r3.south east)--node[lb,above]{no}(r5.north west);
+\draw[ar] (r5)--(r6); \draw[ar] (r6)--(r7);
+\draw[ar] (r7.south west)--node[lb,left]{yes}(r8.north);
+\draw[ar] (r7.south east)--node[lb,right]{no}(r9.north);
+\draw[dar] (r2.west)--(r1.east);
+\end{tikzpicture}
+\caption{Auditing and repairing the archive's High Court links (\S\ref{sec:corpus}). Records are keyed on the case number, and a link is made only when its file exists in the archive's own listing.}
+\label{fig:repair}
+\end{figure}

@@ -1,0 +1,30 @@
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+% row 1: build the case
+\node[ttl, anchor=west] at (-0.3,3.6) {Build the case};
+\node[st, text width=2.0cm] (a1) at (1.1,2.5) {Intake: facts in plain words become a matter};
+\node[st, text width=2.0cm] (a2) at (3.9,2.5) {Research: search the index, pin authorities};
+\node[st, text width=2.0cm] (a3) at (6.7,2.5) {Evidence: read documents, build the chronology};
+\node[st, text width=2.0cm] (a4) at (9.5,2.5) {Arguments: points with linked authorities};
+\node[hu, text width=4.4cm, anchor=west] (lg) at (12.2,2.5) {Gold: the advocate decides. Orange: an automatic check. The matter record lives in the browser.};
+% row 2: draft, approve, court
+\node[st, text width=1.9cm] (b1) at (1.1,-0.1) {Drafting: Manual or Auto};
+\node[ch, text width=1.9cm] (b2) at (3.6,-0.1) {Checks: citations, completeness, format};
+\node[dec, text width=1.5cm] (b3) at (6.1,-0.1) {Advocate approves?};
+\node[st, text width=1.7cm] (b4) at (8.4,-0.1) {Export: Word or print};
+\node[st, text width=1.7cm] (b5) at (10.6,-0.1) {Hearing prep, client update};
+\node[st, text width=1.7cm] (b6) at (12.8,-0.1) {Case status, order digest};
+\node[st, text width=1.7cm] (b7) at (15.0,-0.1) {Post-judgment, appeal window};
+\node[io, text width=1.8cm] (b8) at (6.1,-1.65) {Audit trail entry};
+\draw[ar] (a1)--(a2); \draw[ar] (a2)--(a3); \draw[ar] (a3)--(a4);
+\draw[ar] (a4.south) -- ++(0,-0.45) -| (b1.north);
+\draw[ar] (b1)--(b2); \draw[ar] (b2)--(b3);
+\draw[ar] (b3)--node[lb,above]{yes}(b4); \draw[ar] (b4)--(b5); \draw[ar] (b5)--(b6); \draw[ar] (b6)--(b7);
+\draw[dar] (b3.south) -- node[lb,right]{no: revise}++(0,-0.95) -| (b1.south);
+\draw[dar] (b3.south) -- (b8.north);
+\draw[dar] (b2.south) -- ++(0,-0.4) -| node[lb, pos=0.25, below]{flagged citations} (b1.south east);
+\end{tikzpicture}
+\caption{The life of a matter in VakilBuddy. Nothing leaves the workspace until the advocate approves a draft, and an approval is recorded in the audit trail. A flagged citation is fixed by the advocate; there is no automatic rewriting loop.}
+\label{fig:flow}
+\end{figure*}

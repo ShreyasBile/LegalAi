@@ -1,0 +1,27 @@
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,scale=0.95,transform shape]
+\node[io, text width=2.0cm] (in) at (0,0) {Cited case: name, year, citation};
+\node[dec, text width=3.2cm] (d1) at (4.1,0) {Parties match a judgment within $\pm$1 year? (name score $\ge$ 0.5)};
+\node[dec, text width=2.7cm] (d3) at (8.7,0) {Citation number resolves to a judgment?};
+\node[dec, text width=3.3cm] (d4) at (13.1,0) {Name identifies exactly one judgment elsewhere? (score $\ge$ 0.8)};
+\node[wr, text width=1.6cm] (nf) at (16.9,0) {NOT\_FOUND};
+\node[dec, text width=2.7cm] (d2) at (4.1,-2.35) {Citation, if given, points to that judgment?};
+\node[ok, text width=1.7cm] (ve) at (0.5,-2.35) {VERIFIED};
+\node[wr, text width=2.4cm] (wc) at (4.1,-4.05) {WRONG\_CITATION\\[-1pt]{\tiny parties real, number wrong}};
+\node[wr, text width=2.4cm] (mi) at (8.7,-2.35) {MISATTRIBUTED\\[-1pt]{\tiny number is another case}};
+\node[wr, text width=2.4cm] (wy) at (13.1,-2.35) {WRONG\_YEAR\\[-1pt]{\tiny real case, wrong year}};
+\draw[ar] (in) -- (d1);
+\draw[ar] (d1) -- node[lb,above]{no} (d3);
+\draw[ar] (d3) -- node[lb,above]{no} (d4);
+\draw[ar] (d4) -- node[lb,above]{no} (nf);
+\draw[ar] (d1) -- node[lb,left]{yes} (d2);
+\draw[ar] (d2) -- node[lb,above]{yes} (ve);
+\draw[ar] (d2) -- node[lb,left]{no} (wc);
+\draw[ar] (d3) -- node[lb,left]{yes} (mi);
+\draw[ar] (d4) -- node[lb,left]{yes} (wy);
+\node[font=\scriptsize, align=left, anchor=north west] at (7.0,-3.5) {Citations to SCC, AIR and other reports cannot be looked up in the index,\\so only the name and year decide. {\bfseries VERIFIED} means the judgment exists,\\not that it supports the point it is cited for.};
+\end{tikzpicture}
+\caption{How the verifier labels a citation (\S\ref{sec:verifier}). Each case a model cites ends in one of five labels; the audit of \S\ref{sec:audit} found \AuditPct{} of them correct.}
+\label{fig:verifier}
+\end{figure*}

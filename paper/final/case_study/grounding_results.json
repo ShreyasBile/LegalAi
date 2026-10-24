@@ -1,0 +1,602 @@
+{
+  "model": "qwen2.5vl:7b",
+  "temperature": 0.2,
+  "numCtx": 8192,
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "runs": {
+    "contradiction-matrix": [
+      {
+        "seed": 1,
+        "seconds": 104,
+        "done": "stop",
+        "proposed": 1,
+        "kept": 1,
+        "dropped": 0,
+        "raw": {
+          "points": [
+            {
+              "topic": "details of Rekha's treatment and statements",
+              "a": {
+                "witness": "PW-2 Rajendra",
+                "position": "Rekha was treated properly for about 15 days. She was selected for the police sports competition on 14.07.2002, but her husband did not allow her to participate in the sports competition. On the day of the incident, she was not allowed to come out of the house for the whole day. Between 08:30 PM to 09:00 PM, her husband and brother-in-law tied her hands with a gamcha and legs with a towel. The brother-in-law brought a bottle of kerosene and a matchbox and gave to the husband. The husband gagged her mouth by one hand and poured kerosene on her person by the other hand. The husband then lighted the matchstick from the matchbox and set her on fire."
+              },
+              "b": {
+                "witness": "PW-3 Kausalyabai",
+                "position": "Rekha was properly treated by her husband and other in-laws for about 15 days. Thereafter, they started ill-treating her on the ground that she did not part with her salary. Her elder daughter Shyamla had telephoned her and told her that Rekha was set on fire by her husband Rajendra and her brother-in-law Suresh. She came to the hospital at Ambajogai along with her son and daughter-in-law and met Rekha. Rekha told PW-3 that her husband and brother-in-law had poured kerosene and set her on fire. At that time, her mother-in-law, father-in-law and sister-in-law were present. Rekha had told her that her neighbours had shifted her to the hospital while her husband and in-laws fled away."
+              },
+              "severity": "Critical",
+              "note": "This discrepancy can be used to challenge the credibility of both witnesses regarding the exact sequence and details of Rekha's treatment and the incident."
+            }
+          ]
+        },
+        "cleaned": {
+          "points": [
+            {
+              "topic": "details of Rekha's treatment and statements",
+              "severity": "Critical",
+              "note": "This discrepancy can be used to challenge the credibility of both witnesses regarding the exact sequence and details of Rekha's treatment and the incident.",
+              "a": {
+                "witness": "PW-2 Rajendra (police constable, neighbour)",
+                "position": "Rekha was treated properly for about 15 days. She was selected for the police sports competition on 14.07.2002, but her husband did not allow her to participate in the sports competition. On the day of the incident, she was not allowed to come out of the house for the whole day. Between 08:30 PM to 09:00 PM, her husband and brother-in-law tied her hands with a gamcha and legs with a towel. The brother-in-law brought a bottle of kerosene and a matchbox and gave to the husband. The husband gagged her mouth by one hand and poured kerosene on her person by the other hand. The husband then lighted "
+              },
+              "b": {
+                "witness": "PW-3 Kausalyabai (mother of the deceased)",
+                "position": "Rekha was properly treated by her husband and other in-laws for about 15 days. Thereafter, they started ill-treating her on the ground that she did not part with her salary. Her elder daughter Shyamla had telephoned her and told her that Rekha was set on fire by her husband Rajendra and her brother-in-law Suresh. She came to the hospital at Ambajogai along with her son and daughter-in-law and met Rekha. Rekha told PW-3 that her husband and brother-in-law had poured kerosene and set her on fire. At that time, her mother-in-law, father-in-law and sister-in-law were present. Rekha had told her th"
+              }
+            }
+          ],
+          "left": 0
+        }
+      },
+      {
+        "seed": 2,
+        "seconds": 1,
+        "done": "stop",
+        "proposed": 0,
+        "kept": 0,
+        "dropped": 0,
+        "raw": {
+          "points": []
+        },
+        "cleaned": {
+          "points": [],
+          "left": 0
+        }
+      },
+      {
+        "seed": 3,
+        "seconds": 63,
+        "done": "stop",
+        "proposed": 3,
+        "kept": 2,
+        "dropped": 1,
+        "raw": {
+          "points": [
+            {
+              "topic": "details of Rekha's treatment and statements",
+              "a": {
+                "witness": "PW-2 Rajendra",
+                "position": "Rekha was taken to the S.R.T.R. Hospital at Ambajogai for treatment. Thereafter PW-2 alongwith Sayyed Aslam went to the hospital and saw Rekha taking treatment in the OPD. Police constable Sayyed Chand was present in the OPD."
+              },
+              "b": {
+                "witness": "PW-7 Sayyed Chand",
+                "position": "He got Dhokne (Rekha) admitted in the hospital. When he enquired with Dhokne (Rekha), she told him that her mother-in-law and father-in-law had told her husband that she was not behaving properly and was not sharing her salary with them. Therefore, her husband and brother-in-law set her on fire."
+              },
+              "severity": "Moderate",
+              "note": "This can be used to question the accuracy of the treatment and the statements made by Rekha."
+            },
+            {
+              "topic": "details of Rekha's treatment and statements",
+              "a": {
+                "witness": "PW-2 Rajendra",
+                "position": "Rekha told that her husband and brother- had set her on fire by pouring kerosene. According to her, she got married about two years ago. She was treated properly for about 15 days."
+              },
+              "b": {
+                "wedness": "PW-3 Kausalyabai",
+                "position": "She stated that after marriage, Rekha was properly treated by her husband and other in-laws for about 15 days. Thereafter, they started ill-treating her on the ground that she did not part with her salary."
+              },
+              "severity": "Moderate",
+              "note": "This can be used to question the accuracy of Rekha's statements and the treatment she received."
+            },
+            {
+              "topic": "details of Rekha's treatment and statements",
+              "a": {
+                "witness": "PW-2 Rajendra",
+                "position": "Rekha told that her husband and brother- had set her on fire by pouring kerosene. According to her, she got married about two years ago. She was treated properly for about 15 days."
+              },
+              "b": {
+                "witness": "PW-4 Milind",
+                "position": "He stated that husband and brother-in-law of Rekha had killed her by setting her on fire. When he came to know about the incident, he alongwith his wife, children and mother came to Ambajogai on the same night i.e. on 22.07.2002 and met Rekha in the hospital. When he made enquiries with her, she told him that her husband and brother-in-law had set her on fire."
+              },
+              "severity": "Moderate",
+              "note": "This can be used to question the accuracy of Rekha's statements and the treatment she received."
+            }
+          ]
+        },
+        "cleaned": {
+          "points": [
+            {
+              "topic": "details of Rekha's treatment and statements",
+              "severity": "Moderate",
+              "note": "This can be used to question the accuracy of the treatment and the statements made by Rekha.",
+              "a": {
+                "witness": "PW-2 Rajendra (police constable, neighbour)",
+                "position": "Rekha was taken to the S.R.T.R. Hospital at Ambajogai for treatment. Thereafter PW-2 alongwith Sayyed Aslam went to the hospital and saw Rekha taking treatment in the OPD. Police constable Sayyed Chand was present in the OPD."
+              },
+              "b": {
+                "witness": "PW-7 Sayyed Chand (police constable, neighbour)",
+                "position": "He got Dhokne (Rekha) admitted in the hospital. When he enquired with Dhokne (Rekha), she told him that her mother-in-law and father-in-law had told her husband that she was not behaving properly and was not sharing her salary with them. Therefore, her husband and brother-in-law set her on fire."
+              }
+            },
+            {
+              "topic": "details of Rekha's treatment and statements",
+              "severity": "Moderate",
+              "note": "This can be used to question the accuracy of Rekha's statements and the treatment she received.",
+              "a": {
+                "witness": "PW-2 Rajendra (police constable, neighbour)",
+                "position": "Rekha told that her husband and brother- had set her on fire by pouring kerosene. According to her, she got married about two years ago. She was treated properly for about 15 days."
+              },
+              "b": {
+                "witness": "PW-4 Milind (brother of the deceased)",
+                "position": "He stated that husband and brother-in-law of Rekha had killed her by setting her on fire. When he came to know about the incident, he alongwith his wife, children and mother came to Ambajogai on the same night i.e. on 22.07.2002 and met Rekha in the hospital. When he made enquiries with her, she told him that her husband and brother-in-law had set her on fire."
+              }
+            }
+          ],
+          "left": 1
+        }
+      }
+    ],
+    "order-digest": [
+      {
+        "seed": 1,
+        "seconds": 15,
+        "done": "stop",
+        "rawNextDate": "2024-05-30",
+        "stated": false,
+        "keptNextDate": "not stated in the order",
+        "raw": {
+          "direction": "The appeal is dismissed. Appellant is directed to surrender before the trial court within a period of two weeks from today to carry out his sentence.",
+          "status": "Dismissed",
+          "compliance": [
+            "Appellant must surrender before the trial court within two weeks from today."
+          ],
+          "nextDate": "2024-05-30",
+          "actions": [
+            "Appellant's counsel should ensure that the appellant surrenders to the trial court as directed."
+          ]
+        },
+        "cleaned": {
+          "direction": "The appeal is dismissed. Appellant is directed to surrender before the trial court within a period of two weeks from today to carry out his sentence.",
+          "status": "Dismissed",
+          "compliance": [
+            "Appellant must surrender before the trial court within two weeks from today."
+          ],
+          "nextDate": "not stated in the order",
+          "actions": [
+            "Appellant's counsel should ensure that the appellant surrenders to the trial court as directed."
+          ]
+        }
+      },
+      {
+        "seed": 2,
+        "seconds": 10,
+        "done": "stop",
+        "rawNextDate": "2024-05-30",
+        "stated": false,
+        "keptNextDate": "not stated in the order",
+        "raw": {
+          "direction": "Appellant is directed to surrender before the trial court within a period of two weeks from today to carry out his sentence.",
+          "status": "Dismissed",
+          "compliance": [
+            "Surrender before the trial court within two weeks from today"
+          ],
+          "nextDate": "2024-05-30",
+          "actions": [
+            "Appellant's counsel should ensure the appellant surrenders before the trial court by 2024-05-30."
+          ]
+        },
+        "cleaned": {
+          "direction": "Appellant is directed to surrender before the trial court within a period of two weeks from today to carry out his sentence.",
+          "status": "Dismissed",
+          "compliance": [
+            "Surrender before the trial court within two weeks from today"
+          ],
+          "nextDate": "not stated in the order",
+          "actions": [
+            "Appellant's counsel should ensure the appellant surrenders before the trial court by 2024-05-30."
+          ]
+        }
+      },
+      {
+        "seed": 3,
+        "seconds": 10,
+        "done": "stop",
+        "rawNextDate": "2024-05-29",
+        "stated": false,
+        "keptNextDate": "not stated in the order",
+        "raw": {
+          "direction": "Appellant is directed to surrender before the trial court within a period of two weeks from today to carry out his sentence.",
+          "status": "Dismissed",
+          "compliance": [
+            "Surrender before the trial court within two weeks from today"
+          ],
+          "nextDate": "2024-05-29",
+          "actions": [
+            "Appellant must surrender to the trial court by 2024-05-29"
+          ]
+        },
+        "cleaned": {
+          "direction": "Appellant is directed to surrender before the trial court within a period of two weeks from today to carry out his sentence.",
+          "status": "Dismissed",
+          "compliance": [
+            "Surrender before the trial court within two weeks from today"
+          ],
+          "nextDate": "not stated in the order",
+          "actions": [
+            "Appellant must surrender to the trial court by 2024-05-29"
+          ]
+        }
+      }
+    ],
+    "timeline-depositions": [
+      {
+        "seed": 1,
+        "seconds": 149,
+        "done": "stop",
+        "proposedEvents": 5,
+        "keptEvents": 4,
+        "droppedEvents": 1,
+        "isoDatesProposed": 5,
+        "isoDatesNotInDocuments": 1,
+        "sourcesNamed": 5,
+        "sourcesNotADocument": 0,
+        "questions": 4,
+        "questionDocsNamed": 4,
+        "questionDocsNotADocument": 0,
+        "raw": {
+          "timeline": [
+            {
+              "date": "2011-11-15, or the date as written",
+              "event": "High Court dismissed Criminal Appeal No. 635 of 2008, Rajendra Ramdas Kolhe Vs. State of Maharashtra, thereby confirming the judgment and order dated 23.07.2008",
+              "source": "01_judgment_full_text.txt",
+              "contested": false
+            },
+            {
+              "date": "2011-08-16, or the date as written",
+              "event": "Issued notice by the Supreme Court",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2011-10-02, or the date as written",
+              "event": "Leave was granted by the Supreme Court",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2016-06-30, or the date as written",
+              "event": "Sentence was suspended and bail was granted to the appellant by the Supreme Court",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2024-05-15, or the date as written",
+              "event": "Appeal dismissed by the Supreme Court, directing the appellant to surrender before the trial court within two weeks",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            }
+          ],
+          "questions": [
+            {
+              "witness": "PW-2 Rajendra",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning in the dying declaration and the trial court's conviction.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-3 Kausalyabai",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning in the dying declaration and the trial court's conviction.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-4 Milind",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning in the dying declaration and the trial court's conviction.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-7 Sayyed Chand",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning in the dying declaration and the trial court's conviction.",
+              "document": "02_witness_statements.txt"
+            }
+          ]
+        },
+        "cleaned": {
+          "timeline": [
+            {
+              "date": "2011-08-16, or the date as written",
+              "event": "Issued notice by the Supreme Court",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2011-10-02, or the date as written",
+              "event": "Leave was granted by the Supreme Court",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2016-06-30, or the date as written",
+              "event": "Sentence was suspended and bail was granted to the appellant by the Supreme Court",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2024-05-15, or the date as written",
+              "event": "Appeal dismissed by the Supreme Court, directing the appellant to surrender before the trial court within two weeks",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            }
+          ],
+          "left": 1,
+          "questions": [
+            {
+              "witness": "PW-2 Rajendra",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning in the dying declaration and the trial court's conviction.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-3 Kausalyabai",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning in the dying declaration and the trial court's conviction.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-4 Milind",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning in the dying declaration and the trial court's conviction.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-7 Sayyed Chand",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning in the dying declaration and the trial court's conviction.",
+              "document": "02_witness_statements.txt"
+            }
+          ]
+        }
+      },
+      {
+        "seed": 2,
+        "seconds": 61,
+        "done": "stop",
+        "proposedEvents": 3,
+        "keptEvents": 2,
+        "droppedEvents": 1,
+        "isoDatesProposed": 3,
+        "isoDatesNotInDocuments": 1,
+        "sourcesNamed": 3,
+        "sourcesNotADocument": 0,
+        "questions": 4,
+        "questionDocsNamed": 4,
+        "questionDocsNotADocument": 0,
+        "raw": {
+          "timeline": [
+            {
+              "date": "2011-11-15, or the date as written",
+              "event": "The High Court dismissed Criminal Appeal No. 635 of 2008, Rajendra Ramdas Kolhe Vs. State of Maharashtra, thereby confirming the judgment and order dated 23.07.2008.",
+              "source": "01_judgment_full_text.txt",
+              "contested": false
+            },
+            {
+              "date": "2016-06-30, or the date as written",
+              "event": "The Supreme Court noted that the appellant had already undergone about nine years of sentence and granted bail.",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2024-05-15, or the date as written",
+              "event": "The Supreme Court dismissed the appeal and directed the appellant to surrender before the trial court within two weeks.",
+              "source": "01_judgment_full_text.txt",
+              "contested": false
+            }
+          ],
+          "questions": [
+            {
+              "witness": "PW-2 Rajendra",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-3 Kausalyabai",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-4 Milind",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-7 Sayyed Chand",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning.",
+              "document": "02_witness_statements.txt"
+            }
+          ]
+        },
+        "cleaned": {
+          "timeline": [
+            {
+              "date": "2016-06-30, or the date as written",
+              "event": "The Supreme Court noted that the appellant had already undergone about nine years of sentence and granted bail.",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2024-05-15, or the date as written",
+              "event": "The Supreme Court dismissed the appeal and directed the appellant to surrender before the trial court within two weeks.",
+              "source": "01_judgment_full_text.txt",
+              "contested": false
+            }
+          ],
+          "left": 1,
+          "questions": [
+            {
+              "witness": "PW-2 Rajendra",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-3 Kausalyabai",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-4 Milind",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning.",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-7 Sayyed Chand",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To confirm the account of Rekha's burning.",
+              "document": "02_witness_statements.txt"
+            }
+          ]
+        }
+      },
+      {
+        "seed": 3,
+        "seconds": 84,
+        "done": "stop",
+        "proposedEvents": 5,
+        "keptEvents": 2,
+        "droppedEvents": 3,
+        "isoDatesProposed": 5,
+        "isoDatesNotInDocuments": 3,
+        "sourcesNamed": 5,
+        "sourcesNotADocument": 0,
+        "questions": 4,
+        "questionDocsNamed": 4,
+        "questionDocsNotADocument": 0,
+        "raw": {
+          "timeline": [
+            {
+              "date": "2011-11-15, or the date as written",
+              "event": "High Court dismissed Criminal Appeal No. 635 of 2008, Rajendra Ramdas Kolhe Vs. State of Maharashtra, thereby confirming the judgment and order dated 23.07.2008",
+              "source": "01_judgment_full_text.txt",
+              "contested": false
+            },
+            {
+              "date": "2014-08-16, or the date as written",
+              "event": "Supreme Court issued notice in Criminal Appeal No. 2281 of 2011",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2014-10-02, or the date as written",
+              "event": "Supreme Court granted leave in Criminal Appeal No. 2281 of 2011",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2016-06-30, or the date as written",
+              "event": "Supreme Court granted bail to the appellant in Criminal Appeal No. 2281 of 2011",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2024-05-15, or the date as written",
+              "event": "Supreme Court dismissed the appeal in Criminal Appeal No. 2281 of 2011 and directed the appellant to surrender before the trial court",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            }
+          ],
+          "questions": [
+            {
+              "witness": "PW-2 Rajendra",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To show that Rekha was set on fire by her husband and brother-in-law",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-3 Kausalyabai",
+              "question": "Did your daughter Rekha tell you that her husband and brother-in-law set her on fire?",
+              "aim": "To show that Rekha was set on fire by her husband and brother-in-law",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-4 Milind",
+              "question": "Did your sister Rekha tell you that her husband and brother-in-law set her on fire?",
+              "aim": "To show that Rekha was set on fire by her husband and brother-in-law",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-7 Sayyed Chand",
+              "question": "Did you hear Rekha screaming when she was set on fire?",
+              "aim": "To show that Rekha was set on fire by her husband and brother-in-law",
+              "document": "02_witness_statements.txt"
+            }
+          ]
+        },
+        "cleaned": {
+          "timeline": [
+            {
+              "date": "2016-06-30, or the date as written",
+              "event": "Supreme Court granted bail to the appellant in Criminal Appeal No. 2281 of 2011",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            },
+            {
+              "date": "2024-05-15, or the date as written",
+              "event": "Supreme Court dismissed the appeal in Criminal Appeal No. 2281 of 2011 and directed the appellant to surrender before the trial court",
+              "source": "03_supreme_court_orders.txt",
+              "contested": false
+            }
+          ],
+          "left": 3,
+          "questions": [
+            {
+              "witness": "PW-2 Rajendra",
+              "question": "Did you see Rekha being set on fire by her husband and brother-in-law?",
+              "aim": "To show that Rekha was set on fire by her husband and brother-in-law",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-3 Kausalyabai",
+              "question": "Did your daughter Rekha tell you that her husband and brother-in-law set her on fire?",
+              "aim": "To show that Rekha was set on fire by her husband and brother-in-law",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-4 Milind",
+              "question": "Did your sister Rekha tell you that her husband and brother-in-law set her on fire?",
+              "aim": "To show that Rekha was set on fire by her husband and brother-in-law",
+              "document": "02_witness_statements.txt"
+            },
+            {
+              "witness": "PW-7 Sayyed Chand",
+              "question": "Did you hear Rekha screaming when she was set on fire?",
+              "aim": "To show that Rekha was set on fire by her husband and brother-in-law",
+              "document": "02_witness_statements.txt"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

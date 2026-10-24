@@ -1,0 +1,33 @@
+\section{A Worked Case}
+\label{sec:case}
+We ran the workspace on a real Supreme Court case, \emph{Rajendra S/o Ramdas Kolhe v.\ State of Maharashtra} (Criminal Appeal No.~2281 of 2011, decided 15 May 2024, 2024~INSC~422), a murder appeal that turns on a dying declaration; the Court dismissed it. The judgment, the Court's own summaries of the six prosecution witnesses, the orders it recites and a short draft written for this test are in \texttt{sample-case/}, and the scripts that produce every number below are in \texttt{paper/final/case\_study/}.
+
+\textbf{Reading the record.} The Evidence tab read the judgment (\CaseJudgWords{} words) and found \CaseJudgDates{} dates and \CaseJudgAmounts{} amount. A search for ``Ex.~59'', the deceased's written dying declaration, finds \CaseJudgExhibit{} places in the judgment and \CaseStmtExhibit{} in the witness summaries (\CaseStmtWords{} words, \CaseStmtDates{} dates). The recited orders (\CaseOrdersWords{} words, \CaseOrdersDates{} dates) give no date or amount that differs from the other documents beside the same event word, so the list of possible inconsistencies is empty (\CaseInconsistencies).
+
+\textbf{Checking a draft.} The draft is a few paragraphs of submissions on the dying declaration, into which we planted errors (Table~\ref{tab:case}). The citation check found \CaseCiteFound{} cases. Of these, \CaseCiteVerified{} were confirmed. One has the right parties and a wrong volume (\emph{Paniben}, cited as [1992] 9 S.C.R.\ 197 and reported at [1992] 2 S.C.R.\ 197). One gives the appellant's own case the number of \emph{Khushal Rao v.\ State of Bombay}, and the check reports that the number belongs to another case. One, \emph{Verma v.\ State of Karnataka}, does not exist and was not found. One is a High Court case, which the check reports as not checkable. We planted the errors, so this shows that the check catches those kinds of error, not how often they occur.
+
+\begin{table}[t]
+\caption{The draft with planted errors and what the workspace's citation check reported.}
+\label{tab:case}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\input{tab_case}
+\end{table}
+
+The case also exposed three defects in how the workspace's own check searches the index: a state written in full where the archive writes ``M.P.'', a party name matched to a different case, and a spelling slip in a title. We fixed them and added regression tests. One limit remains: \emph{Sudhakar v.\ State of Madhya Pradesh}, which the archive spells ``Shudhakar'', is found by its S.C.R.\ number but not by name, because the index is searched by whole words.
+
+\textbf{Dates.} A review petition in the Supreme Court lies within 30 days of the judgment (Order~XLVII Rule~2, Supreme Court Rules, 2013 \cite{scrules}). Given \CaseLimitStart, the limitation calculator returns \CaseLimitDate{} and shows that the day of the judgment is left out of the count.
+
+\textbf{Checks on model text.} We sent the real prompts of three model actions that read these documents to \GroundModel{}, one of the four models of \S\ref{sec:setup}, three times each (temperature 0.2, seeds 1--3, a context of 8{,}192 tokens), kept the model's raw answer, and counted what the checks of \S\ref{sec:system} removed (Table~\ref{tab:ground}).
+
+\begin{table}[t]
+\caption{What the source checks removed from \GroundModel's answers on the worked case, \GroundRuns{} runs per action.}
+\label{tab:ground}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\input{tab_ground}
+\end{table}
+
+The witness comparison returned \GroundMatrixProposed{} points over \GroundMatrixRuns{} runs (\GroundMatrixEmptyRuns{} run returned none). The check dropped \GroundMatrixDropped, a point whose second side named no witness, and kept \GroundMatrixKept, which quote the statements faithfully. The check tests fidelity to the source, not whether two statements conflict, and whether a kept point is a contradiction an advocate could use is a legal judgment we do not make. In all \GroundDigestRuns{} runs the order digest gave a next hearing date, \GroundDigestDates, worked out from ``two weeks from today''; the order writes none, and the check replaced each with ``not stated in the order''. The chronology proposed \GroundTimelineProposed{} dated events; \GroundIsoMissing{} of \GroundIsoProposed{} dates were not in the documents, and their events were dropped. The model named \GroundSourcesNamed{} sources and \GroundQDocsNamed{} documents to confront a witness with, and \GroundSuppliedClause. We needed a context of 8{,}192 tokens: at Ollama's default of 4{,}096 the chronology prompt, of about 4{,}000 tokens, left room for only 100 tokens of answer. This is one case, one small model and three runs per action. It shows that the checks remove what the documents do not support, not how often a larger or hosted model would produce it.

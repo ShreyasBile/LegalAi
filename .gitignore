@@ -48,3 +48,10 @@ Thumbs.db
 
 # local settings, including the saved AI key
 .local/
+
+# --- LaTeX build files of the final paper (the two named PDFs, numbers_*.tex and tab_*.tex ARE kept)
+paper/final/*.aux
+paper/final/*.bbl
+paper/final/*.blg
+paper/final/*.out
+paper/final/final.pdf

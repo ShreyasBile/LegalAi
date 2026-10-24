@@ -1,0 +1,34 @@
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,scale=0.98,transform shape]
+% lane A: the citation check (no model involved)
+\node[ttl, anchor=west] at (-0.2,4.5) {A. The citation check (no model involved)};
+\node[io, text width=1.5cm] (c1) at (0.8,2.6) {Draft or pasted text};
+\node[st, text width=2.7cm] (c2) at (3.5,2.6) {Find citations by pattern: neutral, S.C.R., SCC, AIR, ``X v.\ Y''; merge parallel citations};
+\node[dec, text width=1.9cm] (c3) at (6.9,2.6) {High Court case?};
+\node[st, text width=2.6cm] (c4) at (10.0,2.6) {Look up the number in the index; otherwise search by name (state abbreviations expanded)};
+\node[wr, text width=2.0cm] (o0) at (6.9,0.95) {Not checkable: the index is Supreme Court only};
+\node[ok, text width=3.9cm] (o1) at (14.9,4.0) {Confirmed: number found, parties match};
+\node[wr, text width=3.9cm] (o2) at (14.9,3.3) {Number of another case: number found, other parties};
+\node[wr, text width=3.9cm] (o3) at (14.9,2.6) {Wrong number: parties found, number does not exist};
+\node[io, text width=3.9cm] (o4) at (14.9,1.9) {Parties found: name only, citation not checked};
+\node[wr, text width=3.9cm] (o5) at (14.9,1.2) {Not found: nothing matches};
+\draw[ar] (c1)--(c2); \draw[ar] (c2)--(c3); \draw[ar] (c3)--node[lb,above]{no}(c4); \draw[ar] (c3.south)--node[lb,right]{yes}(o0.north);
+\foreach \o in {o1,o2,o3,o4,o5} { \draw[ar] (c4.east)--++(0.35,0)|-(\o.west); }
+% lane B: a model action with source checks
+\node[ttl, anchor=west] at (-0.2,-0.2) {B. A model action with source checks};
+\node[io, text width=1.9cm] (g1) at (1.1,-1.7) {Advocate's request and documents};
+\node[st, text width=2.0cm] (g2) at (3.8,-1.7) {Prompt: the advocate's text is boxed as data};
+\node[st, text width=1.9cm] (g3) at (6.5,-1.7) {Model through OpenRouter};
+\node[dec, text width=1.4cm] (g4) at (9.0,-1.7) {Valid JSON?};
+\node[ch, text width=2.4cm] (g5) at (11.8,-1.7) {Clean: cap sizes, drop unknown fields; check against sources};
+\node[wr, text width=2.2cm] (g6) at (9.0,-3.35) {Shown as an error; no canned answer};
+\node[st, text width=2.3cm] (g7) at (14.5,-1.7) {Unsupported items dropped and counted; answer labelled with the model};
+\node[hu, text width=1.9cm] (g8) at (17.0,-1.7) {Advocate reviews; nothing is filed or sent};
+\draw[ar] (g1)--(g2); \draw[ar] (g2)--(g3); \draw[ar] (g3)--(g4); \draw[ar] (g4)--node[lb,above]{yes}(g5); \draw[ar] (g4.south)--node[lb,right]{no}(g6.north);
+\draw[ar] (g5)--(g7); \draw[ar] (g7)--(g8);
+\node[font=\tiny, text width=4.6cm, align=left, anchor=north west] at (10.6,-2.7) {Source checks: cases a model names are looked up in the index; a witness position must be in that witness's statement; a date must be written in the documents; a source must be a document supplied.};
+\end{tikzpicture}
+\caption{The two check pipelines of the workspace. (A) The citation check uses patterns and the index, never a model. (B) Every model action passes the advocate's text to the model as data, and what comes back is cleaned and checked against the advocate's own documents and the index before it is shown (\S\ref{sec:checks}).}
+\label{fig:checks}
+\end{figure*}

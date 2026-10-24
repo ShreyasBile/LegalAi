@@ -1,0 +1,105 @@
+\section{Introduction}
+Large language models (LLMs) now draft legal research notes, pleadings and even adjudicatory orders, and they cite authorities that do not exist. In 2023 a United States federal court sanctioned lawyers who had filed a brief citing decisions fabricated by ChatGPT \cite{mata}. The same failure has now reached adjudicators in India. In a ruling reported in October 2025, the Bombay High Court set aside an income-tax assessment of INR~27.91 crore that relied on non-existent, AI-generated case law \cite{kmgwires}. In February 2026 the Supreme Court of India declared that a trial-court decision resting on ``non-existent and fake alleged judgments'' is ``not an error in the decision-making process'' but misconduct \cite{gummadi}, and in September 2026 it set aside a customs penalty of INR~425.27 crore that relied on non-existent judgments and on real ones that did not say what was attributed to them \cite{gadiya}.
+
+Two different checks are needed: whether a cited judgment exists and the citation belongs to it, and whether it is an authority for the point, a judgment that decided the question rather than one that merely exists. For United States case law an open API performs the first check \cite{courtlistenerapi} and the citation network of the Supreme Court has long measured the importance of precedents \cite{fowler2007}. For Indian case law the open sources are the Supreme Court Reports (S.C.R.), published digitally since 2024 \cite{digiscr}, and a public archive of Supreme Court and High Court judgments on the AWS Open Data registry \cite{awssc,awshc}. We are not aware of an open citation checker built on them, of an open citation graph of the Supreme Court (the largest open release of the archive's text leaves it out of scope \cite{openindialaw}), of a citation-level measurement of how LLMs cite Indian judgments \cite{hemrajani2025,juvekar2025}, or of an open workspace that puts such checks in an advocate's hands. This paper provides all four.
+\begin{itemize}
+\item \textbf{Index and verifier.} An audited PostgreSQL index of \CorpusTotal{} judgments and orders, and a verifier for Supreme Court citations (\S\ref{sec:corpus}--\S\ref{sec:verifier}).
+\item \textbf{Citation graph.} \GraphEdges{} links between \GraphTextOK{} Supreme Court judgments, extracted from their text (\S\ref{sec:graph}).
+\item \textbf{Retrieval.} Headnote search ranked with the graph's citation counts (\S\ref{sec:retrieval}).
+\item \textbf{Small-model benchmark.} Four open-weight models, five conditions, \NumItems{} items each (\S\ref{sec:setup}).
+\item \textbf{VakilBuddy.} The architecture of a workspace that applies the index, the checks and an approval gate, shown on a real Supreme Court case (\S\ref{sec:system}--\S\ref{sec:case}).
+\end{itemize}
+
+\input{../ieee/fig_pipeline}
+
+\section{Related Work}
+Dahl et al.\ found hallucination rates of 58\% (ChatGPT~4) to 88\% (Llama~2) on verifiable questions about United States federal cases \cite{dahl2024}, and commercial retrieval-augmented legal tools still hallucinate on 17--33\% of queries \cite{magesh2025}; detector benchmarks \cite{liu2026checks}, LegalCiteBench \cite{legalcitebench} and a study of substituted cases \cite{verma2026} also concern United States law. eyecite extracts United States citations \cite{eyecite} and CourtListener flags invalid ones \cite{courtlistenerapi}; our verifier plays that role for the Supreme Court of India, whose neutral and S.C.R. formats differ. Fowler et al.\ built the citation network of the United States Supreme Court \cite{fowler2007}; prior-case retrieval takes its labels from the citations in judgments \cite{joshi2023ucreat,farber2020}, and retrieval-augmented generation grounds a model in retrieved documents \cite{lewis2020rag}. Recent legal agents audit their citations \cite{lmars,parthenon,maat}. Indian resources include ILDC \cite{ildc}, IL-TUR \cite{iltur}, NyayaRAG \cite{nyayarag} and the Supreme Court's assistive tools SUVAS and SUPACE \cite{suvas,supace}; open-india-law releases text and embeddings for 12.8 million judgments and treats a citation graph as out of scope \cite{openindialaw}.
+
+\section{An Open Index of Indian Judgments}
+\label{sec:corpus}
+The AWS Open Data registry hosts two CC-BY-4.0 datasets published by Dattam Labs: judgments of the Supreme Court from 1950 \cite{awssc} and of 25 High Courts \cite{awshc}, with structured metadata in Parquet and the judgments as PDFs. We load only the metadata into one PostgreSQL 17 table of \CorpusTotal{} records (\CorpusSC{} Supreme Court judgments and \CorpusHC{} High Court judgments and orders, \CorpusCourts{} courts, decided \CorpusYearMin{}--\CorpusYearMax), each with a link to its PDF in the archive, never the PDF.
+
+\textbf{Audit and repair.} Records from the archive's ``mobile'' path store a bare file name where a bench-qualified path is needed, so their PDF link cannot be formed \cite{hcdatasetdoc}: \MobileTotal{} records in four High Courts (\MobilePct{} of the corpus), \MobileRecentPct{} decided in 2024--2026. The file name is no identity either: \CollideStems{} names occur in more than one bench, covering \CollideRows{} records, and in \CollideDiffBothPct{} of these the title and date both differ, so keying on the file name, as our first load did, silently overwrites at least \CollideLost{} records. We key on the case number (CNR), take the bench from the S3 key, and link a record only when its file exists in the archive's listing. This restores \MobileLinked{} links (\MobileLinkedPct); the other \MobileUnrecov{} records have no PDF in the archive. After repair \LinkedPct{} of all records carry a link. All \RecoveredChecked{} sampled restored links, all \NonmobileChecked{} sampled original High Court links (\NonmobileCourts{} courts) and all \SCLinksChecked{} sampled Supreme Court links resolve against the live archive, and for \UnresolvedChecked{} sampled unrecoverable records the expected file does not exist.
+
+\input{fig_repair}
+
+\textbf{Supreme Court metadata.} Every one of the \CorpusSC{} judgments carries an S.C.R. citation and \SCwithNeutral{} a neutral citation \cite{scneutral}. Three properties matter for verification. The year field is the year of the S.C.R. volume, not of the decision, for \SCYearNe{} judgments (\SCYearNePct), so we use the decision date. \SCDupGroups{} neutral citations are attached to more than one record. And for each year from 1950 to 2013 except \INSCIncompleteList{} the index holds every neutral number from 1 to the year's maximum \cite{scneutral2}, so a missing number is unassigned for those \INSCCompleteCount{} years.
+
+\section{Citation Verifier}
+\label{sec:verifier}
+The verifier takes a case name, a year and a citation string, as a model produced them, and decides whether they denote a real Supreme Court judgment in the index (Fig.~\ref{fig:verifier}). Neutral and S.C.R. citations are looked up exactly (a citation without a volume matches any volume of that series, year and page); SCC, AIR and other reports cannot be resolved against the index, so for them the name decides. Names are compared word by word: stop-words are dropped, abbreviations expanded, and each word is weighted by $\log(N/\mathrm{df})$ over the $N$ judgments \cite{sparckjones}. Two words match if they are equal or, for words of five or more letters, if their similarity ratio \cite{difflib} is at least 0.85, which accepts \emph{Keshavananda}/\emph{Kesavananda} but not \emph{Patil}/\emph{Patel}. The name score is the harmonic mean of the share of the cited name's weight that is matched ($p$) and of the judgment's ($r$), set to zero if $p<0.8$ so that an unmatched given name cannot be outweighed by words such as \emph{State}; a candidate must lie within a year of the stated year, and the threshold is $\tau=0.5$. VERIFIED establishes that the judgment exists near that year, not that it supports the proposition it is cited for. We developed the rules on the T4 answers of three models, reviewing a development sample of 56 decisions by hand, and then froze the verifier, recording hashes of its code, before the benchmark and the held-out audit of \S\ref{sec:audit}.
+
+\input{fig_verifier}
+
+\section{Citation Graph}
+\label{sec:graph}
+We downloaded the PDF of every Supreme Court judgment and extracted its text layer with PyMuPDF (the reports carry an embedded OCR layer): \GraphTextOK{} of \CorpusSC{} were extracted. Each judgment opens with the reporter's headnote, which we cut at the jurisdiction line and keep to 3{,}000 characters. We find every reporter citation (S.C.R., neutral, SCC, Supreme Court AIR) and resolve each distinct pair of citing judgment and citation in three tiers (Fig.~\ref{fig:graphretr}A): the number, a parallel number written beside an SCC or AIR citation, and the name and year through the frozen verifier, accepted only if exactly one judgment matches. A pair whose number and name disagree is dropped. We developed the extractor on a pilot of \PilotN{} judgments and ran it once over the corpus.
+
+It found \GraphUnits{} distinct pairs, of which \GraphResolved{} (\GraphResolvedPct) were resolved, giving \GraphEdges{} distinct links between \GraphCiting{} citing and \GraphCited{} cited judgments: \GraphCitedPct{} of reported judgments are cited by a later one. Where a citation carries a number and a name that can both be resolved, the name and year alone reach the number's record in \GraphNameSamePct{} of \GraphNamePrecN{} cases, a label-free estimate of the precision of name-only links; another \GraphNameLoosePct{} reach a different record with matching parties, such as another order in the same case. Only \GraphLater{} links (\GraphLaterPct) point to a later judgment, which is impossible, and all \GraphCheckN{} name-only links we drew for a hand check were correct. The most cited judgments are \emph{Maneka Gandhi v.\ Union of India} (\GraphTopOneN{} citing judgments), \emph{Kesavananda Bharati} (\GraphTopTwoN) and \emph{Sharad Birdhi Chand Sarda} (\GraphTopThreeN), and \GraphLandmarkCited{} of the \GraphLandmarkN{} landmark judgments we chose before the graph existed are cited at least once.
+
+\section{Retrieval}
+\label{sec:retrieval}
+We index the title and headnote of every judgment two ways: BM25 \cite{robertson2009} over unigrams and bigrams, and dense retrieval with the open multilingual model bge-m3 \cite{chen2024m3}. The hybrid retriever takes the union of the top 300 of each and adds their scores after normalising each; a citation prior adds the normalised $\log(1+c)$, where $c$ is the number of judgments in the graph that cite the candidate (Fig.~\ref{fig:graphretr}B). Weights are chosen on a development split. The graph also supplies relevance labels without annotation \cite{farber2020,joshi2023ucreat}: for each of \RecNTest{} held-out judgments that cite at least \RecMinTargets{} earlier ones, the query is its headnote with every citation and case name removed, the targets are the judgments it cites, and only earlier judgments and citations made before its date are used.
+
+The hybrid retriever with the prior places \RecHybridPriorRTenPct{} of the cited judgments in its top ten (hybrid alone \RecHybridRTen, BM25 \RecBmRTen, dense \RecDenseRTen, popularity alone \RecPopRTen), a relative gain of \RecPriorRelGain{} (paired bootstrap 95\% CI of the difference \RecDiffPriorCI). Searched with the question text, it returns a judgment that decided the question among its top three for \QHybridPriorHitThree{} of the \NumTopics{} legal questions (\QHybridHitThree{} without the prior), while no model named such a judgment from memory for more than \RefClosedLlama. The questions were written around landmark judgments, which favours the prior; the recommendation experiment has no such bias.
+
+\input{fig_graphretr}
+
+\section{How Small Models Cite}
+\label{sec:setup}
+The benchmark uses \NumJudgments{} Supreme Court judgments (\NumLandmark{} landmarks identified by name and \NumRandom{} sampled at random, 1950--2023) and five tasks. T1 asks for the judgment reported at a citation (\NumTOne{} items); T2 asks the same for citations that cannot exist (\NumTTwo{} items; declining is correct); T3 asks for the citations of a judgment given its parties and date (\NumTThree{} items); T4 asks for up to three leading authorities on each of \NumTopics{} legal questions, each case labelled by the verifier; T5 gives the model the verifier's findings on its T4 answer and asks it to revise. For T4 we record reference answers, the judgments that decided each question (\NumRefJudgments{} index records, including earlier decisions later overruled), compiled after the closed-book runs and before the search runs and hashed; a question counts as answered if a listed case matches one. We evaluate four open-weight models that fit an 8\,GB laptop GPU, in 4-bit quantisation through Ollama \cite{ollama}: Llama~3.1 8B \cite{llama3}, Qwen3 8B \cite{qwen3}, Gemma~3 4B \cite{gemma3} and Qwen2.5-VL 7B \cite{qwen25vl}, with one system prompt, temperature~0, a fixed seed and a JSON schema. In the name-search condition a model has two tools over the index metadata (search by party names, lookup by citation); in the two topic-search conditions its tool is the retriever, without and with the citation prior. Each condition was run once, after the code and the reference answers were frozen by hash.
+
+\input{fig_conditions}
+
+\section{Results: What Retrieval Changes}
+\label{sec:results}
+\textbf{From memory.} Llama and Gemma answered almost everything and were almost always wrong: Llama identified \TOneCorrectLlama{} of the \TOneN{} real citations, Gemma none, and both named a judgment for nearly every fabricated citation (\TTwoNamedLlama{} and \TTwoNamedGemma{} of 60; Table~\ref{tab:t1t2}). The two Qwen models declined all 262 questions. No model identified more than \BestTOneCorrect{} of \TOneN{} real citations, and given the parties and date they supplied \TThreeCorrectAll{} correct citations of \TThreeAskedAll{} requested. Asked for authorities, the models cited between \TFourCasesMin{} and \TFourCasesMax{} cases each, of which only \TFourVerifiedRange{} could be verified (Table~\ref{tab:t4}); they cited almost only the SCC and AIR reports, which the index cannot resolve, so those labels rest on party names and year. On a fresh stratified sample of \AuditN{} T4 decisions judged by hand the verifier was right in \AuditCorrect{} (\AuditPct) \label{sec:audit}, and of the \AuditNFN{} audited NOT\_FOUND cases \AuditNFFab{} named parties that match no Supreme Court judgment in any year.
+
+\textbf{Feedback and search by name.} Telling a model what the verifier found removed the flagged cases (NOT\_FOUND fell from \TFiveNFBeforeAll{} to \TFiveNFAfterAll; Table~\ref{tab:t5}) but added none: \TFiveRepeatedAll{} of the \TFiveCasesAfterAll{} cases in the revised lists were repeated from the first answers. Name search almost eliminated cases the index cannot find (\NFClosedAll{} to \NFSearchAll), but fewer answers contained a deciding judgment (\RefSearchAll{} of \RefQuestionsAll{} against \RefClosedAll): the models searched with the question's words, the tool matched party names, and the judgments it returned exist but decide nothing, such as \emph{Fair Air Engineers v.\ N.K.\ Modi} for a question \emph{Maneka Gandhi} answers.
+
+\textbf{Search by subject.} With the retriever the models named a deciding judgment in \RefAllTopic{} of \RefQuestionsAll{} pairs, and in \RefAllTopicPrior{} with the citation prior (Fig.~\ref{fig:results}, Table~\ref{tab:conds}); counting each question once, \SignClosedTopicPriorBetter{} questions were answered by more models than from memory and \SignClosedTopicPriorWorse{} by fewer (exact sign test, $p$~\SignClosedTopicPriorP). \VerPctAllTopicPrior{} of the \CasesAllTopicPrior{} cases they listed were verified, against \VerPctAllClosed{} from memory. The gain was largest for the model that knew least: Qwen2.5-VL named a deciding judgment for \RefClosedQwenVL{} questions from memory and \RefTopicPriorQwenVL{} with the retriever. The models listed mostly what the search had shown them, and the retriever's top three alone answer \QHybridPriorHitThree{} questions, about as many as the models do (\RefTopicPriorGemma--\RefTopicPriorLlama): the index guarantees existence, the retriever and the graph supply relevance, and the model at most phrases and orders the result.
+
+\begin{table}[t]
+\caption{Deciding judgments named and cases not found, by model and condition (\S\ref{sec:setup}). Ref.\ is the number of the \NumTopics{} questions for which a case that decided the question was named; N.F.\ is the number of listed cases the verifier could not find.}
+\label{tab:conds}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\resizebox{\columnwidth}{!}{\input{../ieee/tab_t4conds}}
+\end{table}
+
+\textbf{Existence and authority are different checks.} A verifier over names and citations catches fabricated cases, and feedback from it or search over it removed almost all of them, but it did not help the models find the judgment that decides a question, and name search made that rarer. A real but irrelevant judgment passes an existence check, so a system that shows only ``verified'' citations can look more reliable while citing worse authorities. Finding authority needs what the metadata lacks: what each judgment decided, which the headnote supplies, and which judgments the Court itself relies on, which the graph supplies. The prior favours old and frequently cited judgments, including ones later overruled such as \emph{A.D.M.\ Jabalpur}, which a lawyer must cite as overruled.
+
+\textbf{What remains unchecked.} Neither the verifier nor the retriever checks that a judgment supports the proposition it is cited for, which needs its reasoning and is hard even for strong models \cite{verma2026}, and the graph records that one judgment cites another, not whether it follows or overrules it. The graph and verifier cover the Supreme Court only: the High Court records have no citation fields (none of \HCMetaN{} sampled records had one), so extracting their citations needs the judgments themselves, about \HCTotalTB\,TB of PDFs by our sample, which we did not download.
+
+\textbf{Limits of the benchmark.} We evaluated four open-weight models of 4 to 8 billion parameters in 4-bit quantisation with one prompt and greedy decoding; larger and hosted models, including those VakilBuddy calls through OpenRouter, may behave differently and are untested. The benchmark is small (\NumJudgments{} judgments, \NumTopics{} questions), and the audit labels, reference answers and hand checks come from a single annotator, so we cannot report inter-annotator agreement; the reference answers were compiled after the closed-book runs and, being landmarks, favour the citation prior.
+
+\input{fig_results}
+
+\begin{table}[t]
+\caption{Identifying a judgment from its citation. T1: \NumTOne{} real citations. T2: \NumTTwo{} citations that cannot exist. Corr.\ = named the right judgment; Named = named any judgment for a fabricated citation; Decl.\ = declined; Inv.\ = invalid output. ``Qwen3 8B think'' is the same model with reasoning enabled.}
+\label{tab:t1t2}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\input{../ieee/tab_t1t2}
+\end{table}
+
+\begin{table}[t]
+\caption{T5: the T4 answers that contained an unverified case (Q), before and after the model revised them with the verifier's feedback.}
+\label{tab:t5}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\input{../ieee/tab_t5}
+\end{table}
+
+\begin{table}[t]
+\caption{T4: every case cited for \NumTopics{} legal questions, by verifier label. Ver.\ = VERIFIED (with Wilson 95\% interval), W.Yr.\ = WRONG\_YEAR, W.Cit.\ = WRONG\_CITATION, Misatt.\ = MISATTRIBUTED, N.F.\ = NOT\_FOUND.}
+\label{tab:t4}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\input{../ieee/tab_t4}
+\end{table}
+

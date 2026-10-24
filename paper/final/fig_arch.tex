@@ -1,0 +1,31 @@
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,scale=0.95,transform shape]
+% the workspace: browser modules and the small server
+\node[st, text width=5.5cm] (m1) at (3.2,5.4) {Matter tabs: research, evidence, arguments, drafting, hearing, case status};
+\node[st, text width=5.5cm] (m2) at (3.2,4.25) {Evidence reader: pdf.js text layers; Tesseract OCR in English, Hindi and Marathi; dates, amounts, search};
+\node[st, text width=5.5cm] (m3) at (3.2,3.1) {Limitation calculator (\CasePeriods{} periods), calendar, WhatsApp reminders};
+\node[st, text width=5.5cm] (m4) at (3.2,1.95) {Drafting: \CaseFormats{} formats, versions, redline, comments, Word export};
+\node[db, text width=5.5cm] (m5) at (3.2,0.8) {Browser storage: matters, drafts, document text};
+\node[hu, text width=5.5cm] (m6) at (3.2,-0.4) {Small server: builds prompts, applies the source checks, holds the model key};
+\node[grp, fit=(m1)(m2)(m3)(m4)(m5)(m6), label={[ttl, anchor=south west, xshift=-2pt]north west:VakilBuddy workspace}] (ws) {};
+% services
+\node[io, text width=4.0cm] (llm) at (13.4,5.4) {Language model through OpenRouter};
+\node[st, text width=4.0cm] (api) at (13.4,3.85) {Case-law API: search, exact lookup by CNR, neutral or S.C.R. citation};
+\node[db, text width=4.0cm] (pg) at (13.4,2.45) {PostgreSQL 17: \CorpusTotal{} judgments and orders (Supreme Court and 25 High Courts)};
+\node[io, text width=4.0cm] (aws) at (13.4,1.15) {AWS Open Data archive (CC-BY-4.0): metadata and PDF links};
+\node[st, text width=4.0cm] (ec) at (8.6,-1.55) {eCourts service: cache, API keys, rate limits, drift checks};
+\node[io, text width=3.0cm] (portal) at (13.4,-1.55) {Court portal (sample pages in this prototype)};
+\node[ch, text width=3.9cm] (rs) at (9.0,1.05) {Research code: verifier, citation graph (\GraphEdges{} links), headnote retriever (not yet connected to the workspace)};
+\draw[ar] (ws.east |- m1) -- node[lb, above]{prompts, answers} (llm.west |- m1);
+\draw[ar] (ws.east |- api) -- node[lb, above, pos=0.5]{search, lookups} (api.west);
+\draw[ar] (api) -- (pg);
+\draw[ar] (aws) -- node[lb, right]{load, audit, repair} (pg);
+\draw[ar] (ws.south) |- node[lb, above, pos=0.78]{case status} (ec.west);
+\draw[ar] (ec) -- (portal);
+\draw[ar] (pg.west) -| (rs.north);
+\draw[dar] (rs.west) -- (ws.east |- rs.west);
+\end{tikzpicture}
+\caption{Architecture of VakilBuddy as built. The workspace runs in the advocate's browser with a small server; the case-law API serves the index of \S\ref{sec:corpus}; model requests go to OpenRouter; the court-status service answers from sample pages. The verifier, graph and retriever of \S\ref{sec:verifier}--\S\ref{sec:retrieval} are research code that the workspace does not yet call.}
+\label{fig:arch}
+\end{figure*}

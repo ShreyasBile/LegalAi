@@ -1,0 +1,27 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[io, text width=2.3cm] (q) at (0.85,4.55) {A legal question (\NumTopics{} in all)};
+\foreach \i/\y/\n/\u/\c in {1/5.35/{From memory}/{nothing}/{\FigNamedA},
+                            2/4.45/{After feedback}/{the verifier's findings}/{\FigNamedB},
+                            3/3.55/{Name search}/{search by party names}/{\FigNamedC},
+                            4/2.65/{Subject search}/{headnote retrieval}/{\FigNamedD},
+                            5/1.75/{Subject + prior}/{retrieval ranked by citations}/{\FigNamedE}} {
+  \node[st, text width=1.5cm] (c\i) at (3.45,\y) {\n};
+  \node[ch, text width=2.0cm] (u\i) at (5.6,\y) {\u};
+  \node[ok, text width=0.95cm] (o\i) at (7.6,\y) {\c};
+  \draw[ar] (c\i)--(u\i); \draw[ar] (u\i)--(o\i);
+}
+\draw[ar] (q.east) -- ++(0.35,0) |- (c1.west);
+\draw[ar] (q.east) -- ++(0.35,0) |- (c2.west);
+\draw[ar] (q.east) -- ++(0.35,0) |- (c3.west);
+\draw[ar] (q.east) -- ++(0.35,0) |- (c4.west);
+\draw[ar] (q.east) -- ++(0.35,0) |- (c5.west);
+\node[font=\tiny, anchor=north] at (3.45,1.15) {condition};
+\node[font=\tiny, anchor=north] at (5.6,1.15) {what the model is given};
+\node[font=\tiny, anchor=north, text width=1.2cm, align=center] at (7.6,1.15) {deciding judgment named (of \FigAll{})};
+\node[ch, text width=7.4cm] (v) at (4.2,0.0) {Every case a model lists is labelled by the frozen verifier (VERIFIED, WRONG\_YEAR, MISATTRIBUTED, WRONG\_CITATION, NOT\_FOUND)};
+\end{tikzpicture}
+\caption{The five conditions of the benchmark (\S\ref{sec:setup}). Each of four models answered the same questions under each; the right-hand figure is the number of model--question pairs in which a case that decided the question was named.}
+\label{fig:conditions}
+\end{figure}

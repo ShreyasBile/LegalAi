@@ -1,0 +1,37 @@
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+% lane 1: build the graph
+\node[ttl, anchor=west] at (-0.2,4.15) {A. Build the citation graph (once, offline)};
+\node[io, text width=1.85cm] (a1) at (1.0,2.3) {\CorpusSC{} judgment PDFs};
+\node[st, text width=1.85cm] (a2) at (3.5,2.3) {Text layer extracted: \GraphTextOK{}};
+\node[st, text width=2.0cm] (a3) at (6.1,2.3) {Find every reporter citation: \GraphUnits{} pairs};
+\node[ch, text width=2.5cm] (t1) at (9.6,3.4) {1. Number: S.C.R. or neutral citation, \GraphExact{}};
+\node[ch, text width=2.5cm] (t2) at (9.6,2.3) {2. Parallel number beside an SCC or AIR citation, \GraphParallel{}};
+\node[ch, text width=2.5cm] (t3) at (9.6,1.2) {3. Name and year through the verifier, \GraphName{}};
+\node[db, text width=2.3cm] (a5) at (13.5,2.3) {Citation graph: \GraphEdges{} links};
+\node[ok, text width=2.6cm] (a6) at (16.4,2.3) {\GraphNameSamePct{} of name-only links match the number; 60 of 60 by hand};
+\node[font=\tiny, text width=3.4cm, align=left, anchor=north west] at (8.2,0.55) {\GraphConflict{} pairs whose number and name disagree are dropped.};
+\draw[ar] (a1)--(a2); \draw[ar] (a2)--(a3);
+\draw[ar] (a3.east)--++(0.3,0)|-(t1.west); \draw[ar] (a3.east)--(t2.west); \draw[ar] (a3.east)--++(0.3,0)|-(t3.west);
+\draw[ar] (t1.east)--++(0.5,0)|-(a5.west); \draw[ar] (t2.east)--(a5.west); \draw[ar] (t3.east)--++(0.5,0)|-(a5.west);
+\draw[ar] (a5)--(a6);
+% lane 2: answer a question
+\node[ttl, anchor=west] at (-0.2,-0.4) {B. Find the deciding judgments for a question};
+\node[io, text width=1.5cm] (b1) at (0.8,-2.1) {Legal question};
+\node[st, text width=2.2cm] (b2) at (3.2,-1.6) {BM25 over title and headnote};
+\node[st, text width=2.2cm] (b3) at (3.2,-2.6) {bge-m3 dense search of the headnote};
+\node[st, text width=1.9cm] (b4) at (5.9,-2.1) {Union of the top 300 of each};
+\node[ch, text width=3.3cm] (b5) at (8.9,-2.1) {Score = z(BM25) + z(dense) + z($\log(1{+}c)$), $c$ = citations received before the query's date};
+\node[db, text width=2.1cm] (b6) at (12.1,-2.1) {Ranked judgments (top 3 hold a deciding one for \QHybridPriorHitThree{} of \NumTopics{})};
+\node[st, text width=1.9cm] (b7) at (14.6,-2.1) {Model phrases and lists the answer};
+\node[ch, text width=1.9cm] (b8) at (16.9,-2.1) {Verifier checks every case it lists};
+\draw[ar] (b1.east)--++(0.2,0)|-(b2.west); \draw[ar] (b1.east)--++(0.2,0)|-(b3.west);
+\draw[ar] (b2.east)--++(0.2,0)|-(b4.west); \draw[ar] (b3.east)--++(0.2,0)|-(b4.west);
+\draw[ar] (b4)--(b5); \draw[ar] (b5)--(b6); \draw[ar] (b6)--(b7); \draw[ar] (b7)--(b8);
+\draw[dar] (a5.south)--(13.5,-0.05)--(8.9,-0.05)--(b5.north);
+\node[lb] at (11.2,-0.05) {citation counts (the prior)};
+\end{tikzpicture}
+\caption{From judgment text to checked authorities. (A) Every Supreme Court judgment is read for the citations it makes, and each is resolved in three tiers (\S\ref{sec:graph}). (B) A question is searched by subject, re-ranked with the graph's citation counts, and the model's answer is checked (\S\ref{sec:retrieval}).}
+\label{fig:graphretr}
+\end{figure*}
